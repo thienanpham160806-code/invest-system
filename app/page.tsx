@@ -20,6 +20,7 @@ export default function Home() {
   const router = useRouter();
   const [mapPeriod, setMapPeriod] = useState("ret_1m");
   const marketMap = useApi<any>(`/api/py/market-map?period=${mapPeriod}`);
+  const currentMapData = marketMap.data?.period === mapPeriod ? marketMap.data : null;
   return (
     <div className="space-y-5">
       <div className="card bg-gradient-to-r from-[#0b3b6f] to-[#14598f] text-white">
@@ -104,17 +105,17 @@ export default function Home() {
         {opportunities.data?.generated_at && <p className="mt-2 text-xs text-slate-500">Snapshot: {opportunities.data.generated_at} · chỉ gồm mã có BCTC, độ tin cậy trung bình/cao và upside dương.</p>}
       </Card>
 
-      <Card title="Bản đồ toàn thị trường · ngành đến từng mã" right={<AsOf p={marketMap.data?.provenance} />}>
+      <Card title="Bản đồ toàn thị trường · ngành đến từng mã" right={<AsOf p={currentMapData?.provenance} />}>
         <div className="mb-2 flex flex-wrap items-center gap-2 text-sm">
           <label htmlFor="map-period">Màu theo hiệu suất</label>
           <select id="map-period" className="sel" value={mapPeriod} onChange={(e) => setMapPeriod(e.target.value)}>
             <option value="change_1d">1 ngày</option><option value="ret_1m">1 tháng</option><option value="ret_3m">3 tháng</option><option value="ret_ytd">Từ đầu năm</option><option value="ret_1y">1 năm</option>
           </select>
-          <span className="text-xs text-slate-500">{num(marketMap.data?.ticker_count)} mã · diện tích theo vốn hoá</span>
+          <span className="text-xs text-slate-500">{num(currentMapData?.ticker_count)} mã · diện tích theo vốn hoá</span>
         </div>
         {marketMap.loading && <Loading what="bản đồ toàn thị trường" />}
         <ErrorBox error={marketMap.error} />
-        {marketMap.data && <MarketTreemap items={marketMap.data.items} periodLabel={mapPeriod === "change_1d" ? "1 ngày" : mapPeriod === "ret_1m" ? "1 tháng" : mapPeriod === "ret_3m" ? "3 tháng" : mapPeriod === "ret_ytd" ? "từ đầu năm" : "1 năm"}
+        {currentMapData && <MarketTreemap items={currentMapData.items} periodLabel={currentMapData.period === "change_1d" ? "1 ngày" : currentMapData.period === "ret_1m" ? "1 tháng" : currentMapData.period === "ret_3m" ? "3 tháng" : currentMapData.period === "ret_ytd" ? "từ đầu năm" : "1 năm"}
           onClick={(slug) => router.push(slug.startsWith("ticker-") ? `/stock/${slug.slice(7)}` : `/nganh/${slug}`)} />}
       </Card>
 

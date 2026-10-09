@@ -155,35 +155,51 @@ function treemapLevel(items: any[]) {
   }));
 }
 
+function MarketTreemapCell(p: any) {
+  const { x, y, width, height: h, name, performance } = p;
+  if (!name || width <= 0 || h <= 0) return null;
+  const group = Boolean(p.hasChildren);
+  const interactive = width >= 8 && h >= 8;
+  const select = (keyboard = false) => p.onTreemapSelect?.(p, keyboard);
+  return <g className="market-treemap-cell" role="button" tabIndex={interactive ? 0 : -1}
+    aria-label={`${name}${group ? ", mở nhóm" : ", mở hồ sơ"}`}
+    onClick={() => select()} onKeyDown={(event) => {
+      if (event.key === "Enter" || event.key === " ") { event.preventDefault(); select(true); }
+    }} style={{ cursor: "pointer" }}>
+    <rect x={x} y={y} width={width} height={h} fill={heat(performance)} stroke="#fff" strokeWidth={1} />
+    <rect className="market-treemap-focus-outer" x={x + 1} y={y + 1} width={Math.max(0, width - 2)} height={Math.max(0, h - 2)} fill="none" stroke="#fff" strokeWidth={5} pointerEvents="none" />
+    <rect className="market-treemap-focus-inner" x={x + 1} y={y + 1} width={Math.max(0, width - 2)} height={Math.max(0, h - 2)} fill="none" stroke="#0b3b6f" strokeWidth={2} pointerEvents="none" />
+    <title>{`${name}${performance == null ? "" : ` · ${pct(performance, 1, true)}`} · ${bnLabel(p.size)}${p.count ? ` · ${num(p.count)} mã` : ""}`}</title>
+    {width > 58 && h > 25 && <text x={x + width / 2} y={y + (h > 43 ? h / 2 - 7 : h / 2)} textAnchor="middle" dominantBaseline="central" fill={performance == null ? "#0f172a" : "#fff"} fontSize={12} fontWeight={600}>{String(name).slice(0, Math.floor(width / 7))}</text>}
+    {width > 58 && h > 43 && <text x={x + width / 2} y={y + h / 2 + 10} textAnchor="middle" dominantBaseline="central" fill={performance == null ? "#0f172a" : "#fff"} fontSize={11}>{performance == null ? "—" : pct(performance, 1, true)}</text>}
+  </g>;
+}
+
 export function MarketTreemap({ items, height = 440, periodLabel = "1 tháng", onClick }: { items: any[]; height?: number; periodLabel?: string; onClick?: (slug: string) => void }) {
   const [navigation, setNavigation] = useState({ items, periodLabel, path: [] as any[] });
+  const [focusBreadcrumbAfterNav, setFocusBreadcrumbAfterNav] = useState(false);
+  const breadcrumbRootRef = useRef<HTMLButtonElement>(null);
   // Derive the active path during render so a period/data change never paints stale cells.
   const path = navigation.items === items && navigation.periodLabel === periodLabel ? navigation.path : [];
   const updatePath = (next: any[]) => setNavigation({ items, periodLabel, path: next });
   const current = path.length ? path[path.length - 1].drillChildren || [] : items;
   const data = useMemo(() => treemapLevel(current), [current]);
-  const handleSelect = (node: any) => {
-    if (node.hasChildren) updatePath([...path, node]);
+  useEffect(() => {
+    if (focusBreadcrumbAfterNav) {
+      breadcrumbRootRef.current?.focus();
+      setFocusBreadcrumbAfterNav(false);
+    }
+  }, [focusBreadcrumbAfterNav, path]);
+  const handleSelect = (node: any, keyboard = false) => {
+    if (node.hasChildren) {
+      if (keyboard) setFocusBreadcrumbAfterNav(true);
+      updatePath([...path, node]);
+    }
     else if (node.slug) onClick?.(node.slug);
-  };
-  const Cell = (p: any) => {
-    const { x, y, width, height: h, name, performance } = p;
-    if (!name || width <= 0 || h <= 0) return null;
-    const group = Boolean(p.hasChildren);
-    const select = () => handleSelect(p);
-    return <g className="market-treemap-cell" role="button" tabIndex={0} aria-label={`${name}${group ? ", mở nhóm" : ", mở hồ sơ"}`} onClick={select}
-      onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); select(); } }} style={{ cursor: "pointer" }}>
-      <rect x={x} y={y} width={width} height={h} fill={heat(performance)} stroke="#fff" strokeWidth={1} />
-      <rect className="market-treemap-focus-outer" x={x + 1} y={y + 1} width={Math.max(0, width - 2)} height={Math.max(0, h - 2)} fill="none" stroke="#fff" strokeWidth={5} pointerEvents="none" />
-      <rect className="market-treemap-focus-inner" x={x + 1} y={y + 1} width={Math.max(0, width - 2)} height={Math.max(0, h - 2)} fill="none" stroke="#0b3b6f" strokeWidth={2} pointerEvents="none" />
-      <title>{`${name}${performance == null ? "" : ` · ${pct(performance, 1, true)}`} · ${bnLabel(p.size)}${p.count ? ` · ${num(p.count)} mã` : ""}`}</title>
-      {width > 58 && h > 25 && <text x={x + width / 2} y={y + (h > 43 ? h / 2 - 7 : h / 2)} textAnchor="middle" dominantBaseline="central" fill={performance == null ? "#0f172a" : "#fff"} fontSize={12} fontWeight={600}>{String(name).slice(0, Math.floor(width / 7))}</text>}
-      {width > 58 && h > 43 && <text x={x + width / 2} y={y + h / 2 + 10} textAnchor="middle" dominantBaseline="central" fill={performance == null ? "#0f172a" : "#fff"} fontSize={11}>{performance == null ? "—" : pct(performance, 1, true)}</text>}
-    </g>;
   };
   return <div>
     <div className="mb-2 flex flex-wrap items-center gap-2 text-xs text-slate-600" aria-label="Đường dẫn ngành">
-      <button className="link" onClick={() => updatePath([])}>Toàn thị trường</button>
+      <button ref={breadcrumbRootRef} className="link" onClick={() => updatePath([])}>Toàn thị trường</button>
       {path.map((node, i) => <span key={`${node.slug}-${i}`} className="flex items-center gap-2"><span aria-hidden="true">/</span>
         <button className="link" onClick={() => updatePath(path.slice(0, i + 1))}>{node.name}</button></span>)}
       {path.length > 0 && <button className="btn-ghost ml-auto" onClick={() => updatePath(path.slice(0, -1))}>Quay lại</button>}
@@ -194,7 +210,7 @@ export function MarketTreemap({ items, height = 440, periodLabel = "1 tháng", o
       <span>−10%</span><span>0%</span><span>+10% trở lên</span>
     </div>
     <ResponsiveContainer width="100%" height={height}>
-      <Treemap data={data} dataKey="size" isAnimationActive={false} content={<Cell />} />
+      <Treemap data={data} dataKey="size" isAnimationActive={false} content={<MarketTreemapCell onTreemapSelect={handleSelect} />} />
     </ResponsiveContainer>
   </div>;
 }
