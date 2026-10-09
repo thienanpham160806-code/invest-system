@@ -19,7 +19,7 @@ RATIO_LABELS = {
     "gross_margin": ("Biên lợi nhuận gộp", "pct"),
     "operating_margin": ("Biên LN hoạt động", "pct"),
     "net_margin": ("Biên lợi nhuận ròng", "pct"),
-    "roe": ("ROE", "pct"),
+    "roe": ("ROE (LNST CĐ mẹ / VCSH CĐ mẹ bq)", "pct"),
     "roa": ("ROA", "pct"),
     "debt_to_equity": ("Vay nợ/VCSH", "x"),
     "liabilities_to_assets": ("Nợ phải trả/Tổng TS", "pct"),
@@ -69,7 +69,11 @@ def compute_ratios(fin: StandardFinancials, company_type: str) -> pd.DataFrame:
     nip = s("net_income_parent") if not s("net_income_parent").empty else s("net_income")
     equity, assets = s("equity"), s("total_assets")
     if not equity.empty:
-        out["roe"] = _div(nip, _avg(equity))
+        # ROE = LNST CD me / VCSH CD me binh quan (VCSH trong BCTC hop nhat GOM loi ich CD
+        # khong kiem soat -> tru ra de tu so va mau so cung "phan cua CD me")
+        minority = s("minority_interest")
+        eq_parent = equity - minority.reindex(equity.index).fillna(0) if not minority.empty else equity
+        out["roe"] = _div(nip, _avg(eq_parent))
     if not assets.empty:
         out["roa"] = _div(s("net_income") if not s("net_income").empty else nip, _avg(assets))
     if not nip.empty:
