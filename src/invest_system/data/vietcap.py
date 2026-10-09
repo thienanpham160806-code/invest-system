@@ -414,16 +414,18 @@ def _public_headers() -> dict[str, str]:
         from vnstock.core.utils.user_agent import get_headers  # type: ignore
 
         return get_headers(data_source="VCI")
-    except (Exception, SystemExit):  # vnstock la tuy chon (hoac loi khi import vnai)
+    except (Exception, SystemExit):  # vnstock la tuy chon (vd tren Vercel khong cai)
+        # Ban sao bo header vnstock 4.x tra ve cho VCI (da in ra va doi chieu 09/10/2026)
         return {
-            "User-Agent": (
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-                "(KHTML, like Gecko) Chrome/128.0 Safari/537.36"
-            ),
+            "Accept": "application/json, text/plain, */*",
+            "Accept-Language": "en-US,en;q=0.9,vi-VN;q=0.8,vi;q=0.7",
+            "Connection": "keep-alive", "Content-Type": "application/json",
+            "Cache-Control": "no-cache", "Pragma": "no-cache", "DNT": "1",
+            "Sec-Fetch-Dest": "empty", "Sec-Fetch-Mode": "cors", "Sec-Fetch-Site": "same-site",
+            "User-Agent": ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+                           "(KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"),
             "Referer": "https://trading.vietcap.com.vn/",
-            "Origin": "https://trading.vietcap.com.vn",
-            "Accept": "application/json",
-            "Content-Type": "application/json",
+            "Origin": "https://trading.vietcap.com.vn/",
         }
 
 

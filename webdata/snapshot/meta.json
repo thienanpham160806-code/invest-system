@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-10-09 13:43",
+  "built_at": "2026-10-09 13:46",
   "as_of_price": "2026-10-09",
   "as_of_fin_max": "FY2025",
   "sources": {
@@ -28,5 +28,5 @@
       "HNX": 299
     }
   },
-  "elapsed_s": 52.0
+  "elapsed_s": 88.5
 }

@@ -1,0 +1,11 @@
+data/
+logs/
+outputs/
+artifacts/
+.venv/
+**/__pycache__/
+*.pyc
+.pytest_cache/
+.next/
+node_modules/
+tests/

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "regions": ["sin1"],
+  "functions": {
+    "api/index.py": {
+      "maxDuration": 60,
+      "excludeFiles": "{node_modules/**,.next/**,tests/**,outputs/**,data/**,logs/**,artifacts/**,assets/**,app/**,components/**,lib/**,public/**,src/invest_system/charts/**,src/invest_system/report/**,**/__pycache__/**,*.md}"
+    }
+  }
+}

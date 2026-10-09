@@ -3,6 +3,11 @@ name = "invest-system"
 version = "0.1.0"
 description = "Hệ thống phân tích cơ hội đầu tư cổ phiếu Việt Nam: vĩ mô → ngành → doanh nghiệp → định giá → PDF"
 requires-python = ">=3.10"
+# Chi goi can cho backend web (Vercel doc file nay). Chay local day du: requirements-local.txt
+dependencies = [
+    "fastapi>=0.115", "pydantic>=2.7", "pandas>=2.2", "numpy>=1.26", "pyarrow>=16.0",
+    "requests>=2.31", "httpx>=0.27", "pyyaml>=6.0", "python-dotenv>=1.0", "tenacity>=8.2",
+]
 
 [build-system]
 requires = ["setuptools>=68"]

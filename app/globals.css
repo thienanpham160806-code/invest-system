@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+:root { --navy: #0b3b6f; }
+body { background: #f5f7fa; color: #0f172a; }
+.card { @apply bg-white rounded-lg border border-slate-200 p-4 shadow-sm; }
+.card-title { @apply text-base font-semibold text-slate-800; }
+.stat { @apply rounded-md border border-slate-200 bg-white px-3 py-2; }
+.asof { @apply inline-block rounded-full bg-sky-50 border border-sky-200 text-sky-800 text-[11px] px-2 py-0.5; }
+.tbl { @apply w-full text-sm border-collapse; }
+.tbl th { @apply bg-slate-100 text-slate-700 font-semibold text-left px-2 py-1.5 border-b border-slate-200 cursor-pointer select-none whitespace-nowrap; }
+.tbl td { @apply px-2 py-1 border-b border-slate-100 whitespace-nowrap; }
+.tbl tr:hover td { @apply bg-slate-50; }
+.link { @apply text-sky-700 hover:underline font-medium; }
+.tab { @apply px-3 py-2 text-sm whitespace-nowrap text-slate-600 border-b-2 border-transparent hover:text-slate-900; }
+.tab-active { @apply text-[#0b3b6f] border-[#0b3b6f] font-semibold; }
+.btn { @apply inline-flex items-center gap-1 rounded-md bg-[#0b3b6f] text-white text-sm px-3 py-1.5 hover:bg-[#0a3360]; }
+.btn-ghost { @apply inline-flex items-center gap-1 rounded-md border border-slate-300 bg-white text-sm px-3 py-1.5 hover:bg-slate-50; }
+.sel { @apply rounded-md border border-slate-300 bg-white text-sm px-2 py-1.5; }
+.text-up { color: #059669; }
+.text-down { color: #dc2626; }
+.text-ref { color: #b45309; }
+@media print {
+  .no-print { display: none !important; }
+  body { background: white; }
+}
+
+/* ---------------- Bao cao in (A4) ---------------- */
+.report { background: white; max-width: 210mm; margin: 0 auto; padding: 10mm 12mm; font-size: 11px; line-height: 1.45; color: #0f172a; }
+.rp-head { display: flex; justify-content: space-between; align-items: center; background: #0b3b6f; color: white; padding: 10px 14px; border-radius: 4px; }
+.rp-rating { color: white; font-weight: 700; font-size: 18px; padding: 8px 16px; border-radius: 4px; border: 2px solid white; }
+.rp-grid { display: grid; grid-template-columns: 1fr 62mm; gap: 12px; margin-top: 10px; }
+.rp-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-bottom: 6px; }
+.rp-kpis div { border: 1px solid #cbd5e1; border-radius: 4px; padding: 4px 6px; display: flex; flex-direction: column; }
+.rp-kpis span { font-size: 9.5px; color: #64748b; }
+.rp-kpis b { font-size: 15px; }
+.rp-side { background: #f1f5f9; padding: 8px; border-radius: 4px; }
+.rp-h2 { font-size: 14px; font-weight: 700; color: #0b3b6f; border-bottom: 2px solid #0b3b6f; margin: 14px 0 6px; padding-bottom: 2px; }
+.rp-h3 { font-size: 11.5px; font-weight: 700; color: #0b3b6f; margin: 8px 0 3px; }
+.rp-ul { list-style: disc; padding-left: 16px; }
+.rp-ul li { margin: 1px 0; }
+.rp-p { margin: 4px 0; text-align: justify; }
+.rp-tbl { width: 100%; border-collapse: collapse; margin: 4px 0; font-size: 10px; }
+.rp-tbl th { background: #0b3b6f; color: white; padding: 2px 4px; text-align: right; font-weight: 600; }
+.rp-tbl th:first-child { text-align: left; }
+.rp-tbl td { border-bottom: 1px solid #e2e8f0; padding: 2px 4px; text-align: right; font-variant-numeric: tabular-nums; }
+.rp-tbl td:first-child { text-align: left; }
+.rp-tbl-side td { font-size: 10px; }
+.rp-small { font-size: 9px; }
+.rp-src { font-size: 8.5px; color: #64748b; margin-top: 6px; }
+.rp-section { break-inside: auto; }
+.rp-avoid, .rp-tbl tr { break-inside: avoid; }
+.rp-page { break-after: page; }
+@media print {
+  @page { size: A4; margin: 10mm; }
+  header, footer { display: none !important; }
+  main { padding: 0 !important; max-width: none !important; }
+  .report { padding: 0; max-width: none; }
+  .rp-head, .rp-tbl th, .rp-rating { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .rp-side, [class*="bg-"] { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}

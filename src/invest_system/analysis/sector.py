@@ -205,6 +205,8 @@ def _clean_multiples(frame: pd.DataFrame) -> pd.DataFrame:
     f = frame[frame["liquidity_flag"].fillna(False).astype(bool)].copy()
     f.loc[~f["pe"].between(0, 100, inclusive="right"), "pe"] = np.nan
     f.loc[~f["pb"].between(0, 20, inclusive="right"), "pb"] = np.nan
+    if "ev_ebitda" in f.columns:
+        f.loc[~f["ev_ebitda"].between(0, 50, inclusive="right"), "ev_ebitda"] = np.nan
     return f
 
 
@@ -293,7 +295,9 @@ def universe_quantiles(peers: pd.DataFrame) -> dict:
     -> dau vao analysis/valuation.py (cung dinh dang SectorResult.quantiles)."""
     liquid = _clean_multiples(peers)
     out = {}
-    for k in ("pe", "pb", "roe", "net_margin", "ni_growth"):
+    for k in ("pe", "pb", "ev_ebitda", "roe", "net_margin", "ni_growth"):
+        if k not in liquid.columns:
+            continue
         s = pd.to_numeric(liquid[k], errors="coerce").dropna()
         if len(s) >= 3:
             out[k] = tuple(float(s.quantile(q)) for q in (0.25, 0.5, 0.75))

@@ -79,7 +79,8 @@ def fetch_world_bank(code: str) -> pd.Series:
     return frame.set_index("year")["value"]
 
 
-def load_macro(log_: SourceLog | None = None, demo_mode: bool = False) -> MacroData:
+def load_macro(log_: SourceLog | None = None, demo_mode: bool = False,
+               world_bank: bool = True) -> MacroData:
     data = MacroData()
     manual = load_manual()
     if demo_mode:
@@ -88,7 +89,7 @@ def load_macro(log_: SourceLog | None = None, demo_mode: bool = False) -> MacroD
         manual = macro_frame()
 
     # 1) World Bank: chuoi lich su
-    if not demo_mode:
+    if not demo_mode and world_bank:
         for key, (label, _unit, code) in INDICATORS.items():
             if code is None:
                 continue

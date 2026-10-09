@@ -146,6 +146,8 @@ def fin_metrics(symbols: list[str]) -> pd.DataFrame:
             "roe": ni_y / avg_eq if avg_eq and avg_eq > 0 else None,
             "net_margin": ni_y / rev if pd.notna(rev) and rev and rev > 0 else None,
             "ni_growth": (ni_y / ni_prev - 1) if ni_prev and ni_prev > 0 else None,
+            "ebitda": row.get("ebitda") if pd.notna(row.get("ebitda")) and row.get("ebitda") else None,
+            "net_debt": (debt or 0) - sum(v for v in (row.get("cash"), row.get("short_investments")) if pd.notna(v)),
             "debt_to_equity": debt / eq_parent if debt is not None and eq_parent and eq_parent > 0 else None,
         })
     return pd.DataFrame(rows)
@@ -275,6 +277,9 @@ def main() -> None:
     ni = uni["net_income_parent"]
     uni["pe"] = np.where(ni > 0, uni["market_cap"] / ni, np.nan)
     uni["pb"] = np.where(uni["equity_parent"] > 0, uni["market_cap"] / uni["equity_parent"], np.nan)
+    ev = uni["market_cap"] + uni["net_debt"].fillna(0)
+    uni["ev_ebitda"] = np.where((uni["ebitda"] > 0) & (uni["company_type"] == "NON_FINANCIAL"),
+                                ev / uni["ebitda"], np.nan)
     uni["eps"] = np.where(uni["shares"] > 0, ni / uni["shares"], np.nan)
     uni["liquidity_flag"] = uni["avg_value_20d"] >= MIN_LIQUID_VALUE
     uni["has_bctc"] = uni["fin_year"].notna()
