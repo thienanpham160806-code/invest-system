@@ -1,0 +1,12 @@
+indicator,period,value,unit,source,as_of,note
+gdp_growth,2024,7.09,%,"Tổng cục Thống kê (GSO) - Thông cáo báo chí KT-XH 2024",2025-01-06,"Nhóm kiểm tra lại số trước khi nộp"
+cpi,2024,3.63,%,"Tổng cục Thống kê (GSO) - CPI bình quân năm 2024",2025-01-06,"Nhóm kiểm tra lại số trước khi nộp"
+policy_rate,2024,4.50,%,"NHNN - Lãi suất tái cấp vốn (Quyết định 1123/QĐ-NHNN, hiệu lực 19/06/2023)",2023-06-19,"Nhóm kiểm tra lại số trước khi nộp"
+credit_growth,2024,15.08,%,"NHNN - Tăng trưởng tín dụng toàn hệ thống 2024",2025-01-03,"Nhóm kiểm tra lại số trước khi nộp"
+gdp_growth,2025,,%,"CẦN CẬP NHẬT từ GSO",,"Điền số GSO công bố cho năm 2025"
+cpi,2025,,%,"CẦN CẬP NHẬT từ GSO",,
+credit_growth,2025,,%,"CẦN CẬP NHẬT từ NHNN",,
+policy_rate,2026,,%,"CẦN CẬP NHẬT từ NHNN",,"Lãi suất tái cấp vốn hiện hành"
+usd_vnd,2026,,VND,"CẦN CẬP NHẬT - tỷ giá trung tâm NHNN",,"Tỷ giá trung tâm ngày gần nhất"
+gov_bond_10y,2026,,%,"CẦN CẬP NHẬT - HNX/investing.com",,"Dùng làm lãi suất phi rủi ro"
+gdp_growth,2026Q2,,%,"CẦN CẬP NHẬT từ GSO",,"Tăng trưởng GDP lũy kế 6 tháng 2026"

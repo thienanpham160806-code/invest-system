@@ -1,0 +1,37 @@
+# Phan loai doanh nghiep -> phuong phap dinh gia va bo KPI.
+# 1) Uu tien nganh ICB tra ve tu nguon du lieu (vnstock list_by_industry)
+#    khop theo tu khoa duoi day.
+# 2) Neu nguon khong co nganh: dung danh sach ma tham chieu (static_types).
+company_types:
+  BANK:
+    label: "Ngân hàng"
+    icb_keywords: ["ngân hàng", "ngan hang", "bank"]
+  SECURITIES:
+    label: "Chứng khoán"
+    icb_keywords: ["môi giới chứng khoán", "chứng khoán", "dịch vụ tài chính", "securities", "brokerage"]
+  INSURANCE:
+    label: "Bảo hiểm"
+    icb_keywords: ["bảo hiểm", "insurance"]
+  REAL_ESTATE:
+    label: "Bất động sản"
+    icb_keywords: ["bất động sản", "bat dong san", "real estate", "phát triển bất động sản"]
+  NON_FINANCIAL:
+    label: "Doanh nghiệp phi tài chính"
+    icb_keywords: []
+
+# Ma tham chieu khi nguon khong tra nganh (chi dung cho PHAN LOAI phuong phap,
+# khong dung lam du lieu so).
+static_types:
+  BANK: [VCB, BID, CTG, TCB, MBB, ACB, VPB, HDB, STB, SHB, TPB, VIB, LPB, MSB, OCB, EIB, SSB, NAB, BAB, ABB, VAB, BVB, KLB, SGB, PGB, NVB, VBB]
+  SECURITIES: [SSI, VND, HCM, VCI, SHS, MBS, FTS, BSI, CTS, VIX, ORS, AGR, TVS, BVS, VDS, APS, EVS, DSC, VCK, TCX]
+  INSURANCE: [BVH, BMI, PVI, MIG, BIC, PTI, PGI, VNR, ABI]
+  REAL_ESTATE: [VHM, VIC, VRE, NVL, KDH, DXG, NLG, PDR, DIG, KBC, HDG, CEO, IDC, SZC, NTL, HDC, TCH, DXS, AGG, SCR, IJC, KHG, QCG]
+
+# Nhom nganh hien thi + do nhay voi bien vi mo (-1..+1), dung cho buoc
+# "vi mo -> nganh". Gia tri la GIA DINH dinh tinh cua nhom, ghi ro trong bao cao.
+macro_sensitivity:
+  BANK:          {gdp_growth: 0.8, cpi: -0.3, policy_rate: -0.4, credit_growth: 1.0, usd_vnd: -0.3}
+  SECURITIES:    {gdp_growth: 0.6, cpi: -0.3, policy_rate: -1.0, credit_growth: 0.7, usd_vnd: -0.5}
+  INSURANCE:     {gdp_growth: 0.5, cpi: -0.2, policy_rate: 0.4, credit_growth: 0.2, usd_vnd: -0.2}
+  REAL_ESTATE:   {gdp_growth: 0.7, cpi: -0.4, policy_rate: -1.0, credit_growth: 0.9, usd_vnd: -0.3}
+  NON_FINANCIAL: {gdp_growth: 0.8, cpi: -0.4, policy_rate: -0.5, credit_growth: 0.4, usd_vnd: -0.2}

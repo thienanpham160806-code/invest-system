@@ -1,0 +1,20 @@
+# Danh sach ma dung cho CHE DO PHAT TRIEN NHANH (--watchlist-only trong
+# scripts/backfill_data.py va scripts/run_backtest.py, hoac goi truc tiep
+# liquid_universe(use_watchlist=True)) - vai chuc giay thay vi vai phut cho
+# toan san. KHONG phai fallback tu dong khi chua backfill toan san: neu
+# scripts/backfill_data.py chua chay lan nao, liquid_universe() mac dinh tra
+# ve danh sach RONG (kem canh bao trong log), khong tu dung danh sach nay.
+watchlist:
+  - FPT
+  - MBB
+  - HPG
+  - VNM
+  - MWG
+  - SSI
+  - VCB
+  - TCB
+  - VHM
+  - DGC
+  - PNJ
+  - REE
+benchmark: VNINDEX

@@ -1,0 +1,948 @@
+2026-10-09 06:10:25,533 | WARNING | invest_system.data.vietcap   | goi https://trading.vietcap.com.vn/api/price/symbols/getAll loi (HTTPSConnectionPool(host='trading.vietcap.com.vn', port=443): Max retries exceeded with url: /api/price/symbols/getAll (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))), thu lai sau 1s [1/5]
+2026-10-09 06:10:26,805 | WARNING | invest_system.data.vietcap   | goi https://trading.vietcap.com.vn/api/price/symbols/getAll loi (HTTPSConnectionPool(host='trading.vietcap.com.vn', port=443): Max retries exceeded with url: /api/price/symbols/getAll (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))), thu lai sau 2s [2/5]
+2026-10-09 06:10:29,028 | WARNING | invest_system.data.vietcap   | goi https://trading.vietcap.com.vn/api/price/symbols/getAll loi (HTTPSConnectionPool(host='trading.vietcap.com.vn', port=443): Max retries exceeded with url: /api/price/symbols/getAll (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))), thu lai sau 4s [3/5]
+2026-10-09 06:10:33,302 | WARNING | invest_system.data.vietcap   | goi https://trading.vietcap.com.vn/api/price/symbols/getAll loi (HTTPSConnectionPool(host='trading.vietcap.com.vn', port=443): Max retries exceeded with url: /api/price/symbols/getAll (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))), thu lai sau 8s [4/5]
+2026-10-09 06:10:41,603 | WARNING | invest_system.data.router    | listing() that bai o nguon dnse: Thieu DNSE_API_KEY / DNSE_API_SECRET trong .env. Dang ky ung dung tai https://developers.dnse.com.vn
+2026-10-09 06:10:41,603 | WARNING | invest_system.data.router    | listing() that bai o nguon vietcap: Chua cai vnstock (phu thuoc tuy chon - goi bi PyPI cach ly). Cai khi co the: pip install ".[vnstock]"
+2026-10-09 06:10:41,604 | WARNING | invest_system.data.router    | listing() that bai o nguon vietcap: Chua cai vnstock (phu thuoc tuy chon - goi bi PyPI cach ly). Cai khi co the: pip install ".[vnstock]"
+2026-10-09 06:10:41,604 | INFO    | invest_system.data.company   | listing loi: Khong lay duoc danh sach ma tu bat ky nguon nao
+2026-10-09 06:10:41,606 | WARNING | invest_system.data.router    | industry_map() that bai o nguon vietcap: Chua cai vnstock (phu thuoc tuy chon - goi bi PyPI cach ly). Cai khi co the: pip install ".[vnstock]"
+2026-10-09 06:10:41,610 | WARNING | invest_system.data.router    | company_overview() that bai o nguon vietcap cho FPT: Chua cai vnstock (phu thuoc tuy chon - goi bi PyPI cach ly). Cai khi co the: pip install ".[vnstock]"
+2026-10-09 06:10:41,617 | WARNING | invest_system.data.router    | Nguon dnse that bai cho FPT -> Thieu DNSE_API_KEY / DNSE_API_SECRET trong .env. Dang ky ung dung tai https://developers.dnse.com.vn
+2026-10-09 06:10:41,618 | WARNING | invest_system.data.router    | Nguon vietcap that bai cho FPT -> Chua cai vnstock (phu thuoc tuy chon - goi bi PyPI cach ly). Cai khi co the: pip install ".[vnstock]"
+2026-10-09 06:10:41,913 | WARNING | invest_system.data.vietcap   | goi https://trading.vietcap.com.vn/api/chart/OHLCChart/gap-chart loi (HTTPSConnectionPool(host='trading.vietcap.com.vn', port=443): Max retries exceeded with url: /api/chart/OHLCChart/gap-chart (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))), thu lai sau 1s [1/5]
+2026-10-09 06:10:43,184 | WARNING | invest_system.data.vietcap   | goi https://trading.vietcap.com.vn/api/chart/OHLCChart/gap-chart loi (HTTPSConnectionPool(host='trading.vietcap.com.vn', port=443): Max retries exceeded with url: /api/chart/OHLCChart/gap-chart (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))), thu lai sau 2s [2/5]
+2026-10-09 06:10:45,436 | WARNING | invest_system.data.vietcap   | goi https://trading.vietcap.com.vn/api/chart/OHLCChart/gap-chart loi (HTTPSConnectionPool(host='trading.vietcap.com.vn', port=443): Max retries exceeded with url: /api/chart/OHLCChart/gap-chart (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))), thu lai sau 4s [3/5]
+2026-10-09 06:10:49,670 | WARNING | invest_system.data.vietcap   | goi https://trading.vietcap.com.vn/api/chart/OHLCChart/gap-chart loi (HTTPSConnectionPool(host='trading.vietcap.com.vn', port=443): Max retries exceeded with url: /api/chart/OHLCChart/gap-chart (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))), thu lai sau 8s [4/5]
+2026-10-09 06:10:58,271 | WARNING | invest_system.data.vietcap   | goi https://trading.vietcap.com.vn/api/chart/OHLCChart/gap-chart loi (HTTPSConnectionPool(host='trading.vietcap.com.vn', port=443): Max retries exceeded with url: /api/chart/OHLCChart/gap-chart (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))), thu lai sau 1s [1/5]
+2026-10-09 06:10:59,562 | WARNING | invest_system.data.vietcap   | goi https://trading.vietcap.com.vn/api/chart/OHLCChart/gap-chart loi (HTTPSConnectionPool(host='trading.vietcap.com.vn', port=443): Max retries exceeded with url: /api/chart/OHLCChart/gap-chart (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))), thu lai sau 2s [2/5]
+2026-10-09 06:11:01,810 | WARNING | invest_system.data.vietcap   | goi https://trading.vietcap.com.vn/api/chart/OHLCChart/gap-chart loi (HTTPSConnectionPool(host='trading.vietcap.com.vn', port=443): Max retries exceeded with url: /api/chart/OHLCChart/gap-chart (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))), thu lai sau 4s [3/5]
+2026-10-09 06:11:06,078 | WARNING | invest_system.data.vietcap   | goi https://trading.vietcap.com.vn/api/chart/OHLCChart/gap-chart loi (HTTPSConnectionPool(host='trading.vietcap.com.vn', port=443): Max retries exceeded with url: /api/chart/OHLCChart/gap-chart (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))), thu lai sau 8s [4/5]
+2026-10-09 06:11:14,345 | WARNING | invest_system.data.router    | financials() that bai o nguon vietcap cho FPT: Chua cai vnstock (phu thuoc tuy chon - goi bi PyPI cach ly). Cai khi co the: pip install ".[vnstock]"
+2026-10-09 06:11:16,704 | INFO    | invest_system.data.macro     | World Bank NY.GDP.MKTP.KD.ZG loi: HTTPSConnectionPool(host='api.worldbank.org', port=443): Max retries exceeded with url: /v2/country/VNM/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=60 (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))
+2026-10-09 06:11:16,978 | INFO    | invest_system.data.macro     | World Bank FP.CPI.TOTL.ZG loi: HTTPSConnectionPool(host='api.worldbank.org', port=443): Max retries exceeded with url: /v2/country/VNM/indicator/FP.CPI.TOTL.ZG?format=json&per_page=60 (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))
+2026-10-09 06:11:17,221 | INFO    | invest_system.data.macro     | World Bank FR.INR.LEND loi: HTTPSConnectionPool(host='api.worldbank.org', port=443): Max retries exceeded with url: /v2/country/VNM/indicator/FR.INR.LEND?format=json&per_page=60 (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))
+2026-10-09 06:11:17,471 | INFO    | invest_system.data.macro     | World Bank PA.NUS.FCRF loi: HTTPSConnectionPool(host='api.worldbank.org', port=443): Max retries exceeded with url: /v2/country/VNM/indicator/PA.NUS.FCRF?format=json&per_page=60 (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))
+2026-10-09 06:11:17,733 | INFO    | invest_system.data.macro     | World Bank FS.AST.PRVT.GD.ZS loi: HTTPSConnectionPool(host='api.worldbank.org', port=443): Max retries exceeded with url: /v2/country/VNM/indicator/FS.AST.PRVT.GD.ZS?format=json&per_page=60 (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))
+2026-10-09 06:11:17,757 | WARNING | invest_system.data.router    | company_news() that bai o nguon vietcap cho FPT: Chua cai vnstock (phu thuoc tuy chon - goi bi PyPI cach ly). Cai khi co the: pip install ".[vnstock]"
+2026-10-09 06:11:18,058 | WARNING | invest_system.data.macro_news | Loi khi tai RSS CafeF Vĩ mô (https://cafef.vn/vi-mo-dau-tu.rss): <urlopen error Tunnel connection failed: 403 Forbidden>
+2026-10-09 06:11:18,322 | WARNING | invest_system.data.macro_news | Loi khi tai RSS CafeF TTCK (https://cafef.vn/thi-truong-chung-khoan.rss): <urlopen error Tunnel connection failed: 403 Forbidden>
+2026-10-09 06:11:18,609 | WARNING | invest_system.data.macro_news | Loi khi tai RSS CafeF Tài chính (https://cafef.vn/tai-chinh-ngan-hang.rss): <urlopen error Tunnel connection failed: 403 Forbidden>
+2026-10-09 06:11:18,926 | WARNING | invest_system.data.macro_news | Loi khi tai RSS VnExpress (https://vnexpress.net/rss/kinh-doanh.rss): <urlopen error Tunnel connection failed: 403 Forbidden>
+2026-10-09 06:11:19,290 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:11:19,291 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:11:19,293 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:11:19,293 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:11:32,335 | WARNING | invest_system.data.vietcap   | goi https://trading.vietcap.com.vn/api/price/symbols/getAll loi (HTTPSConnectionPool(host='trading.vietcap.com.vn', port=443): Max retries exceeded with url: /api/price/symbols/getAll (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))), thu lai sau 1s [1/5]
+2026-10-09 06:11:33,634 | WARNING | invest_system.data.vietcap   | goi https://trading.vietcap.com.vn/api/price/symbols/getAll loi (HTTPSConnectionPool(host='trading.vietcap.com.vn', port=443): Max retries exceeded with url: /api/price/symbols/getAll (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))), thu lai sau 2s [2/5]
+2026-10-09 06:11:35,883 | WARNING | invest_system.data.vietcap   | goi https://trading.vietcap.com.vn/api/price/symbols/getAll loi (HTTPSConnectionPool(host='trading.vietcap.com.vn', port=443): Max retries exceeded with url: /api/price/symbols/getAll (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))), thu lai sau 4s [3/5]
+2026-10-09 06:11:40,146 | WARNING | invest_system.data.vietcap   | goi https://trading.vietcap.com.vn/api/price/symbols/getAll loi (HTTPSConnectionPool(host='trading.vietcap.com.vn', port=443): Max retries exceeded with url: /api/price/symbols/getAll (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))), thu lai sau 8s [4/5]
+2026-10-09 06:11:48,435 | WARNING | invest_system.data.router    | listing() that bai o nguon dnse: Thieu DNSE_API_KEY / DNSE_API_SECRET trong .env. Dang ky ung dung tai https://developers.dnse.com.vn
+2026-10-09 06:11:48,435 | WARNING | invest_system.data.router    | listing() that bai o nguon vietcap: Chua cai vnstock (phu thuoc tuy chon - goi bi PyPI cach ly). Cai khi co the: pip install ".[vnstock]"
+2026-10-09 06:11:48,436 | WARNING | invest_system.data.router    | listing() that bai o nguon vietcap: Chua cai vnstock (phu thuoc tuy chon - goi bi PyPI cach ly). Cai khi co the: pip install ".[vnstock]"
+2026-10-09 06:11:48,436 | INFO    | invest_system.data.company   | listing loi: Khong lay duoc danh sach ma tu bat ky nguon nao
+2026-10-09 06:11:48,436 | WARNING | invest_system.data.router    | industry_map() that bai o nguon vietcap: Chua cai vnstock (phu thuoc tuy chon - goi bi PyPI cach ly). Cai khi co the: pip install ".[vnstock]"
+2026-10-09 06:11:48,440 | WARNING | invest_system.data.router    | company_overview() that bai o nguon vietcap cho FPT: Chua cai vnstock (phu thuoc tuy chon - goi bi PyPI cach ly). Cai khi co the: pip install ".[vnstock]"
+2026-10-09 06:11:48,454 | WARNING | invest_system.data.router    | Nguon dnse that bai cho FPT -> Thieu DNSE_API_KEY / DNSE_API_SECRET trong .env. Dang ky ung dung tai https://developers.dnse.com.vn
+2026-10-09 06:11:48,455 | WARNING | invest_system.data.router    | Nguon vietcap that bai cho FPT -> Chua cai vnstock (phu thuoc tuy chon - goi bi PyPI cach ly). Cai khi co the: pip install ".[vnstock]"
+2026-10-09 06:11:48,727 | WARNING | invest_system.data.vietcap   | goi https://trading.vietcap.com.vn/api/chart/OHLCChart/gap-chart loi (HTTPSConnectionPool(host='trading.vietcap.com.vn', port=443): Max retries exceeded with url: /api/chart/OHLCChart/gap-chart (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))), thu lai sau 1s [1/5]
+2026-10-09 06:11:49,981 | WARNING | invest_system.data.vietcap   | goi https://trading.vietcap.com.vn/api/chart/OHLCChart/gap-chart loi (HTTPSConnectionPool(host='trading.vietcap.com.vn', port=443): Max retries exceeded with url: /api/chart/OHLCChart/gap-chart (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))), thu lai sau 2s [2/5]
+2026-10-09 06:11:52,218 | WARNING | invest_system.data.vietcap   | goi https://trading.vietcap.com.vn/api/chart/OHLCChart/gap-chart loi (HTTPSConnectionPool(host='trading.vietcap.com.vn', port=443): Max retries exceeded with url: /api/chart/OHLCChart/gap-chart (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))), thu lai sau 4s [3/5]
+2026-10-09 06:11:56,442 | WARNING | invest_system.data.vietcap   | goi https://trading.vietcap.com.vn/api/chart/OHLCChart/gap-chart loi (HTTPSConnectionPool(host='trading.vietcap.com.vn', port=443): Max retries exceeded with url: /api/chart/OHLCChart/gap-chart (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))), thu lai sau 8s [4/5]
+2026-10-09 06:12:04,948 | WARNING | invest_system.data.vietcap   | goi https://trading.vietcap.com.vn/api/chart/OHLCChart/gap-chart loi (HTTPSConnectionPool(host='trading.vietcap.com.vn', port=443): Max retries exceeded with url: /api/chart/OHLCChart/gap-chart (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))), thu lai sau 1s [1/5]
+2026-10-09 06:12:06,187 | WARNING | invest_system.data.vietcap   | goi https://trading.vietcap.com.vn/api/chart/OHLCChart/gap-chart loi (HTTPSConnectionPool(host='trading.vietcap.com.vn', port=443): Max retries exceeded with url: /api/chart/OHLCChart/gap-chart (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))), thu lai sau 2s [2/5]
+2026-10-09 06:12:08,409 | WARNING | invest_system.data.vietcap   | goi https://trading.vietcap.com.vn/api/chart/OHLCChart/gap-chart loi (HTTPSConnectionPool(host='trading.vietcap.com.vn', port=443): Max retries exceeded with url: /api/chart/OHLCChart/gap-chart (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))), thu lai sau 4s [3/5]
+2026-10-09 06:12:12,675 | WARNING | invest_system.data.vietcap   | goi https://trading.vietcap.com.vn/api/chart/OHLCChart/gap-chart loi (HTTPSConnectionPool(host='trading.vietcap.com.vn', port=443): Max retries exceeded with url: /api/chart/OHLCChart/gap-chart (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))), thu lai sau 8s [4/5]
+2026-10-09 06:12:20,900 | WARNING | invest_system.data.router    | financials() that bai o nguon vietcap cho FPT: Chua cai vnstock (phu thuoc tuy chon - goi bi PyPI cach ly). Cai khi co the: pip install ".[vnstock]"
+2026-10-09 06:12:23,147 | INFO    | invest_system.data.macro     | World Bank NY.GDP.MKTP.KD.ZG loi: HTTPSConnectionPool(host='api.worldbank.org', port=443): Max retries exceeded with url: /v2/country/VNM/indicator/NY.GDP.MKTP.KD.ZG?format=json&per_page=60 (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))
+2026-10-09 06:12:23,373 | INFO    | invest_system.data.macro     | World Bank FP.CPI.TOTL.ZG loi: HTTPSConnectionPool(host='api.worldbank.org', port=443): Max retries exceeded with url: /v2/country/VNM/indicator/FP.CPI.TOTL.ZG?format=json&per_page=60 (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))
+2026-10-09 06:12:23,645 | INFO    | invest_system.data.macro     | World Bank FR.INR.LEND loi: HTTPSConnectionPool(host='api.worldbank.org', port=443): Max retries exceeded with url: /v2/country/VNM/indicator/FR.INR.LEND?format=json&per_page=60 (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))
+2026-10-09 06:12:23,908 | INFO    | invest_system.data.macro     | World Bank PA.NUS.FCRF loi: HTTPSConnectionPool(host='api.worldbank.org', port=443): Max retries exceeded with url: /v2/country/VNM/indicator/PA.NUS.FCRF?format=json&per_page=60 (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))
+2026-10-09 06:12:24,182 | INFO    | invest_system.data.macro     | World Bank FS.AST.PRVT.GD.ZS loi: HTTPSConnectionPool(host='api.worldbank.org', port=443): Max retries exceeded with url: /v2/country/VNM/indicator/FS.AST.PRVT.GD.ZS?format=json&per_page=60 (Caused by ProxyError('Unable to connect to proxy', OSError('Tunnel connection failed: 403 Forbidden')))
+2026-10-09 06:12:24,201 | WARNING | invest_system.data.router    | company_news() that bai o nguon vietcap cho FPT: Chua cai vnstock (phu thuoc tuy chon - goi bi PyPI cach ly). Cai khi co the: pip install ".[vnstock]"
+2026-10-09 06:12:24,333 | WARNING | invest_system.data.macro_news | Loi khi tai RSS CafeF Vĩ mô (https://cafef.vn/vi-mo-dau-tu.rss): <urlopen error Tunnel connection failed: 403 Forbidden>
+2026-10-09 06:12:24,593 | WARNING | invest_system.data.macro_news | Loi khi tai RSS CafeF TTCK (https://cafef.vn/thi-truong-chung-khoan.rss): <urlopen error Tunnel connection failed: 403 Forbidden>
+2026-10-09 06:12:24,891 | WARNING | invest_system.data.macro_news | Loi khi tai RSS CafeF Tài chính (https://cafef.vn/tai-chinh-ngan-hang.rss): <urlopen error Tunnel connection failed: 403 Forbidden>
+2026-10-09 06:12:25,166 | WARNING | invest_system.data.macro_news | Loi khi tai RSS VnExpress (https://vnexpress.net/rss/kinh-doanh.rss): <urlopen error Tunnel connection failed: 403 Forbidden>
+2026-10-09 06:12:25,492 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:12:25,492 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:12:25,494 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:12:25,495 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:12:26,051 | INFO    | weasyprint.progress          | Step 2 - Fetching and parsing CSS - CSS string
+2026-10-09 06:12:26,100 | INFO    | weasyprint.progress          | Step 2 - Fetching and parsing CSS - CSS string
+2026-10-09 06:12:26,122 | INFO    | weasyprint.progress          | Step 2 - Fetching and parsing CSS - CSS string
+2026-10-09 06:12:26,224 | INFO    | weasyprint.progress          | Step 1 - Fetching and parsing HTML - HTML string
+2026-10-09 06:12:26,267 | INFO    | weasyprint.progress          | Step 2 - Fetching and parsing CSS - CSS string
+2026-10-09 06:12:26,296 | INFO    | weasyprint.progress          | Step 3 - Applying CSS
+2026-10-09 06:12:26,316 | INFO    | weasyprint.progress          | Step 4 - Creating formatting structure
+2026-10-09 06:12:26,335 | INFO    | weasyprint.progress          | Step 5 - Creating layout - Page 1
+2026-10-09 06:12:26,444 | INFO    | weasyprint.progress          | Step 5 - Creating layout - Page 2
+2026-10-09 06:12:26,494 | INFO    | weasyprint.progress          | Step 5 - Creating layout - Page 3
+2026-10-09 06:12:26,512 | INFO    | weasyprint.progress          | Step 5 - Creating layout - Page 4
+2026-10-09 06:12:26,516 | INFO    | weasyprint.progress          | Step 5 - Creating layout - Page 5
+2026-10-09 06:12:26,527 | INFO    | weasyprint.progress          | Step 5 - Creating layout - Page 6
+2026-10-09 06:12:26,637 | INFO    | weasyprint.progress          | Step 6 - Creating PDF
+2026-10-09 06:12:26,723 | INFO    | weasyprint.progress          | Step 7 - Adding PDF metadata
+2026-10-09 06:12:26,724 | WARNING | weasyprint                   | Using fontTools instead of HarfBuzz-Subset for font "BVP". This will be unsupported in future versions of WeasyPrint. Please install HarfBuzz-Subset >= 4.1.0 with your package manager.
+2026-10-09 06:12:26,725 | INFO    | fontTools.subset             | maxp pruned
+2026-10-09 06:12:26,726 | INFO    | fontTools.subset             | cmap pruned
+2026-10-09 06:12:26,726 | INFO    | fontTools.subset             | fpgm dropped
+2026-10-09 06:12:26,726 | INFO    | fontTools.subset             | prep dropped
+2026-10-09 06:12:26,726 | INFO    | fontTools.subset             | cvt  dropped
+2026-10-09 06:12:26,726 | INFO    | fontTools.subset             | post pruned
+2026-10-09 06:12:26,726 | INFO    | fontTools.subset             | DSIG dropped
+2026-10-09 06:12:26,726 | INFO    | fontTools.subset             | GPOS dropped
+2026-10-09 06:12:26,727 | INFO    | fontTools.subset             | GSUB dropped
+2026-10-09 06:12:26,727 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:12:26,727 | INFO    | fontTools.subset             | Added gid0 to subset
+2026-10-09 06:12:26,727 | INFO    | fontTools.subset             | Closing glyph list over 'glyf': 84 glyphs before
+2026-10-09 06:12:26,727 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'A', 'B', 'C', 'D', 'Dcroat', 'E', 'F', 'H', 'I', 'K', 'L', 'M', 'N', 'P', 'S', 'T', 'U', 'Uhorn', 'V', 'Y', 'a', 'aacute', 'acircumflex', 'agrave', 'ampersand', 'c', 'colon', 'd', 'dcroat', 'ecircumflex', 'emdash', 'four', 'g', 'h', 'i', 'iacute', 'itilde', 'k', 'l', 'm', 'n', 'o', 'oacute', 'ocircumflex', 'one', 'p', 'parenleft', 'parenright', 'period', 'q', 'r', 'six', 'slash', 'space', 't', 'three', 'two', 'u', 'uacute', 'uhorn', 'uni1EA3', 'uni1EA5', 'uni1EAF', 'uni1EBF', 'uni1EC3', 'uni1EC6', 'uni1EC7', 'uni1ECB', 'uni1ED3', 'uni1ED5', 'uni1EDD', 'uni1EE3', 'uni1EE5', 'uni1EE6', 'uni1EE7', 'uni1EE9', 'uni1EEE', 'uni1EEF', 'uni1EF7', 'v', 'x', 'y', 'zero']
+2026-10-09 06:12:26,728 | INFO    | fontTools.subset             | Glyph IDs:   [0, 1, 24, 25, 30, 33, 34, 39, 51, 57, 59, 71, 72, 76, 77, 104, 110, 115, 119, 125, 126, 131, 137, 144, 156, 157, 159, 164, 165, 172, 173, 180, 185, 188, 192, 193, 194, 196, 207, 212, 214, 216, 220, 225, 227, 228, 232, 233, 237, 238, 239, 242, 243, 251, 252, 260, 262, 263, 271, 275, 276, 279, 281, 282, 283, 287, 293, 299, 300, 306, 339, 340, 341, 342, 343, 345, 401, 406, 408, 419, 425, 427, 428, 452]
+2026-10-09 06:12:26,728 | INFO    | fontTools.subset             | Closed glyph list over 'glyf': 84 glyphs after
+2026-10-09 06:12:26,728 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'A', 'B', 'C', 'D', 'Dcroat', 'E', 'F', 'H', 'I', 'K', 'L', 'M', 'N', 'P', 'S', 'T', 'U', 'Uhorn', 'V', 'Y', 'a', 'aacute', 'acircumflex', 'agrave', 'ampersand', 'c', 'colon', 'd', 'dcroat', 'ecircumflex', 'emdash', 'four', 'g', 'h', 'i', 'iacute', 'itilde', 'k', 'l', 'm', 'n', 'o', 'oacute', 'ocircumflex', 'one', 'p', 'parenleft', 'parenright', 'period', 'q', 'r', 'six', 'slash', 'space', 't', 'three', 'two', 'u', 'uacute', 'uhorn', 'uni1EA3', 'uni1EA5', 'uni1EAF', 'uni1EBF', 'uni1EC3', 'uni1EC6', 'uni1EC7', 'uni1ECB', 'uni1ED3', 'uni1ED5', 'uni1EDD', 'uni1EE3', 'uni1EE5', 'uni1EE6', 'uni1EE7', 'uni1EE9', 'uni1EEE', 'uni1EEF', 'uni1EF7', 'v', 'x', 'y', 'zero']
+2026-10-09 06:12:26,728 | INFO    | fontTools.subset             | Glyph IDs:   [0, 1, 24, 25, 30, 33, 34, 39, 51, 57, 59, 71, 72, 76, 77, 104, 110, 115, 119, 125, 126, 131, 137, 144, 156, 157, 159, 164, 165, 172, 173, 180, 185, 188, 192, 193, 194, 196, 207, 212, 214, 216, 220, 225, 227, 228, 232, 233, 237, 238, 239, 242, 243, 251, 252, 260, 262, 263, 271, 275, 276, 279, 281, 282, 283, 287, 293, 299, 300, 306, 339, 340, 341, 342, 343, 345, 401, 406, 408, 419, 425, 427, 428, 452]
+2026-10-09 06:12:26,728 | INFO    | fontTools.subset             | Retaining 84 glyphs
+2026-10-09 06:12:26,728 | INFO    | fontTools.subset             | head subsetting not needed
+2026-10-09 06:12:26,729 | INFO    | fontTools.subset             | hhea subsetting not needed
+2026-10-09 06:12:26,729 | INFO    | fontTools.subset             | maxp subsetting not needed
+2026-10-09 06:12:26,729 | INFO    | fontTools.subset             | OS/2 subsetting not needed
+2026-10-09 06:12:26,729 | INFO    | fontTools.subset             | hmtx subsetted
+2026-10-09 06:12:26,729 | INFO    | fontTools.subset             | cmap subsetted
+2026-10-09 06:12:26,729 | INFO    | fontTools.subset             | loca subsetting not needed
+2026-10-09 06:12:26,729 | INFO    | fontTools.subset             | post subsetted
+2026-10-09 06:12:26,729 | INFO    | fontTools.subset             | gasp subsetting not needed
+2026-10-09 06:12:26,730 | INFO    | fontTools.subset             | GDEF subsetted
+2026-10-09 06:12:26,730 | INFO    | fontTools.subset             | name subsetting not needed
+2026-10-09 06:12:26,730 | INFO    | fontTools.subset             | glyf subsetted
+2026-10-09 06:12:26,730 | INFO    | fontTools.subset             | head pruned
+2026-10-09 06:12:26,731 | INFO    | fontTools.subset             | OS/2 Unicode ranges pruned: [0, 1, 2, 3, 29, 31]
+2026-10-09 06:12:26,731 | INFO    | fontTools.subset             | OS/2 CodePage ranges pruned: [0]
+2026-10-09 06:12:26,731 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:12:26,732 | INFO    | fontTools.subset             | GDEF pruned
+2026-10-09 06:12:26,732 | INFO    | fontTools.subset             | name pruned
+2026-10-09 06:12:26,743 | WARNING | weasyprint                   | Using fontTools instead of HarfBuzz-Subset for font "BVP". This will be unsupported in future versions of WeasyPrint. Please install HarfBuzz-Subset >= 4.1.0 with your package manager.
+2026-10-09 06:12:26,744 | INFO    | fontTools.subset             | maxp pruned
+2026-10-09 06:12:26,744 | INFO    | fontTools.subset             | cmap pruned
+2026-10-09 06:12:26,744 | INFO    | fontTools.subset             | fpgm dropped
+2026-10-09 06:12:26,745 | INFO    | fontTools.subset             | prep dropped
+2026-10-09 06:12:26,745 | INFO    | fontTools.subset             | cvt  dropped
+2026-10-09 06:12:26,745 | INFO    | fontTools.subset             | post pruned
+2026-10-09 06:12:26,745 | INFO    | fontTools.subset             | DSIG dropped
+2026-10-09 06:12:26,745 | INFO    | fontTools.subset             | GPOS dropped
+2026-10-09 06:12:26,745 | INFO    | fontTools.subset             | GSUB dropped
+2026-10-09 06:12:26,745 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:12:26,746 | INFO    | fontTools.subset             | Added gid0 to subset
+2026-10-09 06:12:26,746 | INFO    | fontTools.subset             | Closing glyph list over 'glyf': 153 glyphs before
+2026-10-09 06:12:26,746 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'A', 'Aacute', 'B', 'C', 'D', 'Dcroat', 'E', 'Eacute', 'Ecircumflex', 'F', 'G', 'H', 'I', 'Iacute', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'aacute', 'abreve', 'acircumflex', 'agrave', 'asciitilde', 'atilde', 'b', 'bracketleft', 'bracketright', 'bullet', 'c', 'colon', 'comma', 'd', 'dcroat', 'e', 'ecircumflex', 'eight', 'ellipsis', 'emdash', 'endash', 'equal', 'f', 'f_i.liga', 'five', 'four', 'g', 'greaterequal', 'h', 'hyphen', 'i', 'iacute', 'igrave', 'itilde', 'k', 'l', 'less', 'm', 'minus', 'n', 'nine', 'o', 'oacute', 'ocircumflex', 'ograve', 'ohorn', 'one', 'p', 'parenleft', 'parenright', 'percent', 'period', 'periodcentered', 'plus', 'q', 'quotedbl', 'quotesingle', 'r', 's', 'semicolon', 'seven', 'six', 'slash', 'space', 't', 'three', 'two', 'u', 'uacute', 'ugrave', 'uhorn', 'underscore', 'uni1EA0', 'uni1EA1', 'uni1EA2', 'uni1EA3', 'uni1EA5', 'uni1EA7', 'uni1EAD', 'uni1EAE', 'uni1EB1', 'uni1EB7', 'uni1EBE', 'uni1EBF', 'uni1EC1', 'uni1EC3', 'uni1EC6', 'uni1EC7', 'uni1EC9', 'uni1ECA', 'uni1ECB', 'uni1ECD', 'uni1ECF', 'uni1ED1', 'uni1ED3', 'uni1ED5', 'uni1ED7', 'uni1ED9', 'uni1EDB', 'uni1EDD', 'uni1EDF', 'uni1EE1', 'uni1EE3', 'uni1EE4', 'uni1EE5', 'uni1EE7', 'uni1EE9', 'uni1EEB', 'uni1EED', 'uni1EEE', 'uni1EEF', 'uni1EF1', 'uni1EF7', 'v', 'w', 'x', 'y', 'yacute', 'ygrave', 'z', 'zero']
+2026-10-09 06:12:26,746 | INFO    | fontTools.subset             | Glyph IDs:   [0, 1, 2, 4, 16, 18, 24, 25, 30, 33, 34, 35, 37, 38, 39, 51, 52, 57, 59, 60, 64, 71, 72, 76, 77, 81, 104, 106, 107, 110, 115, 119, 123, 131, 137, 138, 143, 144, 152, 156, 157, 158, 160, 161, 164, 165, 166, 167, 171, 172, 173, 177, 179, 180, 185, 188, 189, 192, 193, 194, 195, 196, 206, 207, 212, 214, 216, 220, 221, 222, 225, 227, 228, 232, 233, 237, 238, 239, 240, 241, 242, 243, 244, 246, 247, 248, 249, 250, 251, 252, 253, 254, 260, 262, 263, 266, 271, 275, 276, 279, 280, 281, 282, 283, 284, 285, 286, 287, 293, 294, 299, 300, 301, 305, 306, 308, 336, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 401, 406, 407, 408, 409, 410, 415, 416, 419, 422, 424, 425, 426, 427, 428, 431, 432, 449, 450, 471, 472, 475, 478, 479, 483, 487]
+2026-10-09 06:12:26,746 | INFO    | fontTools.subset             | Closed glyph list over 'glyf': 153 glyphs after
+2026-10-09 06:12:26,746 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'A', 'Aacute', 'B', 'C', 'D', 'Dcroat', 'E', 'Eacute', 'Ecircumflex', 'F', 'G', 'H', 'I', 'Iacute', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'aacute', 'abreve', 'acircumflex', 'agrave', 'asciitilde', 'atilde', 'b', 'bracketleft', 'bracketright', 'bullet', 'c', 'colon', 'comma', 'd', 'dcroat', 'e', 'ecircumflex', 'eight', 'ellipsis', 'emdash', 'endash', 'equal', 'f', 'f_i.liga', 'five', 'four', 'g', 'greaterequal', 'h', 'hyphen', 'i', 'iacute', 'igrave', 'itilde', 'k', 'l', 'less', 'm', 'minus', 'n', 'nine', 'o', 'oacute', 'ocircumflex', 'ograve', 'ohorn', 'one', 'p', 'parenleft', 'parenright', 'percent', 'period', 'periodcentered', 'plus', 'q', 'quotedbl', 'quotesingle', 'r', 's', 'semicolon', 'seven', 'six', 'slash', 'space', 't', 'three', 'two', 'u', 'uacute', 'ugrave', 'uhorn', 'underscore', 'uni1EA0', 'uni1EA1', 'uni1EA2', 'uni1EA3', 'uni1EA5', 'uni1EA7', 'uni1EAD', 'uni1EAE', 'uni1EB1', 'uni1EB7', 'uni1EBE', 'uni1EBF', 'uni1EC1', 'uni1EC3', 'uni1EC6', 'uni1EC7', 'uni1EC9', 'uni1ECA', 'uni1ECB', 'uni1ECD', 'uni1ECF', 'uni1ED1', 'uni1ED3', 'uni1ED5', 'uni1ED7', 'uni1ED9', 'uni1EDB', 'uni1EDD', 'uni1EDF', 'uni1EE1', 'uni1EE3', 'uni1EE4', 'uni1EE5', 'uni1EE7', 'uni1EE9', 'uni1EEB', 'uni1EED', 'uni1EEE', 'uni1EEF', 'uni1EF1', 'uni1EF7', 'v', 'w', 'x', 'y', 'yacute', 'ygrave', 'z', 'zero']
+2026-10-09 06:12:26,746 | INFO    | fontTools.subset             | Glyph IDs:   [0, 1, 2, 4, 16, 18, 24, 25, 30, 33, 34, 35, 37, 38, 39, 51, 52, 57, 59, 60, 64, 71, 72, 76, 77, 81, 104, 106, 107, 110, 115, 119, 123, 131, 137, 138, 143, 144, 152, 156, 157, 158, 160, 161, 164, 165, 166, 167, 171, 172, 173, 177, 179, 180, 185, 188, 189, 192, 193, 194, 195, 196, 206, 207, 212, 214, 216, 220, 221, 222, 225, 227, 228, 232, 233, 237, 238, 239, 240, 241, 242, 243, 244, 246, 247, 248, 249, 250, 251, 252, 253, 254, 260, 262, 263, 266, 271, 275, 276, 279, 280, 281, 282, 283, 284, 285, 286, 287, 293, 294, 299, 300, 301, 305, 306, 308, 336, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 401, 406, 407, 408, 409, 410, 415, 416, 419, 422, 424, 425, 426, 427, 428, 431, 432, 449, 450, 471, 472, 475, 478, 479, 483, 487]
+2026-10-09 06:12:26,747 | INFO    | fontTools.subset             | Retaining 153 glyphs
+2026-10-09 06:12:26,747 | INFO    | fontTools.subset             | head subsetting not needed
+2026-10-09 06:12:26,747 | INFO    | fontTools.subset             | hhea subsetting not needed
+2026-10-09 06:12:26,747 | INFO    | fontTools.subset             | maxp subsetting not needed
+2026-10-09 06:12:26,747 | INFO    | fontTools.subset             | OS/2 subsetting not needed
+2026-10-09 06:12:26,748 | INFO    | fontTools.subset             | hmtx subsetted
+2026-10-09 06:12:26,748 | INFO    | fontTools.subset             | cmap subsetted
+2026-10-09 06:12:26,748 | INFO    | fontTools.subset             | loca subsetting not needed
+2026-10-09 06:12:26,748 | INFO    | fontTools.subset             | post subsetted
+2026-10-09 06:12:26,748 | INFO    | fontTools.subset             | gasp subsetting not needed
+2026-10-09 06:12:26,748 | INFO    | fontTools.subset             | GDEF subsetted
+2026-10-09 06:12:26,748 | INFO    | fontTools.subset             | name subsetting not needed
+2026-10-09 06:12:26,749 | INFO    | fontTools.subset             | glyf subsetted
+2026-10-09 06:12:26,749 | INFO    | fontTools.subset             | head pruned
+2026-10-09 06:12:26,749 | INFO    | fontTools.subset             | OS/2 Unicode ranges pruned: [0, 1, 2, 3, 29, 31, 38]
+2026-10-09 06:12:26,749 | INFO    | fontTools.subset             | OS/2 CodePage ranges pruned: [0]
+2026-10-09 06:12:26,750 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:12:26,750 | INFO    | fontTools.subset             | GDEF pruned
+2026-10-09 06:12:26,751 | INFO    | fontTools.subset             | name pruned
+2026-10-09 06:12:26,769 | WARNING | weasyprint                   | Using fontTools instead of HarfBuzz-Subset for font "Liberation Sans". This will be unsupported in future versions of WeasyPrint. Please install HarfBuzz-Subset >= 4.1.0 with your package manager.
+2026-10-09 06:12:26,770 | INFO    | fontTools.subset             | maxp pruned
+2026-10-09 06:12:26,772 | INFO    | fontTools.subset             | cmap pruned
+2026-10-09 06:12:26,772 | INFO    | fontTools.subset             | fpgm dropped
+2026-10-09 06:12:26,772 | INFO    | fontTools.subset             | prep dropped
+2026-10-09 06:12:26,772 | INFO    | fontTools.subset             | cvt  dropped
+2026-10-09 06:12:26,772 | INFO    | fontTools.subset             | kern dropped
+2026-10-09 06:12:26,772 | INFO    | fontTools.subset             | post pruned
+2026-10-09 06:12:26,773 | INFO    | fontTools.subset             | GPOS dropped
+2026-10-09 06:12:26,773 | INFO    | fontTools.subset             | GSUB dropped
+2026-10-09 06:12:26,775 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:12:26,775 | INFO    | fontTools.subset             | Added gid0 to subset
+2026-10-09 06:12:26,775 | INFO    | fontTools.subset             | Closing glyph list over 'glyf': 2 glyphs before
+2026-10-09 06:12:26,775 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'arrowright']
+2026-10-09 06:12:26,775 | INFO    | fontTools.subset             | Glyph IDs:   [0, 2118]
+2026-10-09 06:12:26,775 | INFO    | fontTools.subset             | Closed glyph list over 'glyf': 2 glyphs after
+2026-10-09 06:12:26,775 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'arrowright']
+2026-10-09 06:12:26,776 | INFO    | fontTools.subset             | Glyph IDs:   [0, 2118]
+2026-10-09 06:12:26,777 | INFO    | fontTools.subset             | Retaining 2 glyphs
+2026-10-09 06:12:26,777 | INFO    | fontTools.subset             | head subsetting not needed
+2026-10-09 06:12:26,777 | INFO    | fontTools.subset             | hhea subsetting not needed
+2026-10-09 06:12:26,777 | INFO    | fontTools.subset             | maxp subsetting not needed
+2026-10-09 06:12:26,777 | INFO    | fontTools.subset             | OS/2 subsetting not needed
+2026-10-09 06:12:26,779 | INFO    | fontTools.subset             | hmtx subsetted
+2026-10-09 06:12:26,779 | INFO    | fontTools.subset             | cmap subsetted
+2026-10-09 06:12:26,779 | INFO    | fontTools.subset             | loca subsetting not needed
+2026-10-09 06:12:26,779 | INFO    | fontTools.subset             | post subsetted
+2026-10-09 06:12:26,779 | INFO    | fontTools.subset             | gasp subsetting not needed
+2026-10-09 06:12:26,779 | INFO    | fontTools.subset             | FFTM NOT subset; don't know how to subset
+2026-10-09 06:12:26,780 | INFO    | fontTools.subset             | GDEF subsetted
+2026-10-09 06:12:26,780 | INFO    | fontTools.subset             | name subsetting not needed
+2026-10-09 06:12:26,781 | INFO    | fontTools.subset             | glyf subsetted
+2026-10-09 06:12:26,781 | INFO    | fontTools.subset             | head pruned
+2026-10-09 06:12:26,782 | INFO    | fontTools.subset             | OS/2 Unicode ranges pruned: [37]
+2026-10-09 06:12:26,782 | INFO    | fontTools.subset             | OS/2 CodePage ranges pruned: [0]
+2026-10-09 06:12:26,782 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:12:26,782 | INFO    | fontTools.subset             | GDEF pruned
+2026-10-09 06:12:26,782 | INFO    | fontTools.subset             | name pruned
+2026-10-09 06:12:26,786 | WARNING | weasyprint                   | Using fontTools instead of HarfBuzz-Subset for font "BVP". This will be unsupported in future versions of WeasyPrint. Please install HarfBuzz-Subset >= 4.1.0 with your package manager.
+2026-10-09 06:12:26,787 | INFO    | fontTools.subset             | maxp pruned
+2026-10-09 06:12:26,787 | INFO    | fontTools.subset             | cmap pruned
+2026-10-09 06:12:26,787 | INFO    | fontTools.subset             | fpgm dropped
+2026-10-09 06:12:26,787 | INFO    | fontTools.subset             | prep dropped
+2026-10-09 06:12:26,788 | INFO    | fontTools.subset             | cvt  dropped
+2026-10-09 06:12:26,788 | INFO    | fontTools.subset             | post pruned
+2026-10-09 06:12:26,788 | INFO    | fontTools.subset             | DSIG dropped
+2026-10-09 06:12:26,788 | INFO    | fontTools.subset             | GPOS dropped
+2026-10-09 06:12:26,788 | INFO    | fontTools.subset             | GSUB dropped
+2026-10-09 06:12:26,788 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:12:26,788 | INFO    | fontTools.subset             | Added gid0 to subset
+2026-10-09 06:12:26,788 | INFO    | fontTools.subset             | Closing glyph list over 'glyf': 85 glyphs before
+2026-10-09 06:12:26,789 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'A', 'Aacute', 'B', 'C', 'D', 'Dcroat', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'Uhorn', 'V', 'a', 'aacute', 'abreve', 'agrave', 'atilde', 'c', 'colon', 'd', 'dcroat', 'ecircumflex', 'g', 'h', 'hyphen', 'i', 'iacute', 'l', 'm', 'n', 'o', 'oacute', 'ograve', 'one', 'p', 'parenleft', 'parenright', 'plus', 'q', 'r', 's', 'six', 'slash', 'space', 't', 'u', 'uacute', 'uhorn', 'uni1EA1', 'uni1EA3', 'uni1EA5', 'uni1EA7', 'uni1EAD', 'uni1EBF', 'uni1EC1', 'uni1EC3', 'uni1EC6', 'uni1EC7', 'uni1EC9', 'uni1ECB', 'uni1ED1', 'uni1ED3', 'uni1ED5', 'uni1EE3', 'uni1EE6', 'uni1EE7', 'uni1EEE', 'uni1EEF', 'uni1EF7', 'x', 'y', 'ygrave', 'zero']
+2026-10-09 06:12:26,789 | INFO    | fontTools.subset             | Glyph IDs:   [0, 1, 2, 24, 25, 30, 33, 34, 39, 51, 52, 57, 59, 71, 72, 76, 77, 81, 104, 107, 110, 115, 119, 125, 126, 131, 137, 156, 157, 158, 165, 166, 167, 171, 172, 173, 177, 180, 185, 188, 192, 193, 194, 195, 196, 207, 212, 214, 216, 220, 222, 228, 232, 233, 237, 238, 240, 242, 243, 247, 251, 260, 262, 263, 266, 271, 275, 276, 281, 282, 287, 299, 300, 305, 306, 339, 340, 345, 401, 408, 419, 422, 427, 428, 471]
+2026-10-09 06:12:26,789 | INFO    | fontTools.subset             | Closed glyph list over 'glyf': 85 glyphs after
+2026-10-09 06:12:26,789 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'A', 'Aacute', 'B', 'C', 'D', 'Dcroat', 'E', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'Uhorn', 'V', 'a', 'aacute', 'abreve', 'agrave', 'atilde', 'c', 'colon', 'd', 'dcroat', 'ecircumflex', 'g', 'h', 'hyphen', 'i', 'iacute', 'l', 'm', 'n', 'o', 'oacute', 'ograve', 'one', 'p', 'parenleft', 'parenright', 'plus', 'q', 'r', 's', 'six', 'slash', 'space', 't', 'u', 'uacute', 'uhorn', 'uni1EA1', 'uni1EA3', 'uni1EA5', 'uni1EA7', 'uni1EAD', 'uni1EBF', 'uni1EC1', 'uni1EC3', 'uni1EC6', 'uni1EC7', 'uni1EC9', 'uni1ECB', 'uni1ED1', 'uni1ED3', 'uni1ED5', 'uni1EE3', 'uni1EE6', 'uni1EE7', 'uni1EEE', 'uni1EEF', 'uni1EF7', 'x', 'y', 'ygrave', 'zero']
+2026-10-09 06:12:26,789 | INFO    | fontTools.subset             | Glyph IDs:   [0, 1, 2, 24, 25, 30, 33, 34, 39, 51, 52, 57, 59, 71, 72, 76, 77, 81, 104, 107, 110, 115, 119, 125, 126, 131, 137, 156, 157, 158, 165, 166, 167, 171, 172, 173, 177, 180, 185, 188, 192, 193, 194, 195, 196, 207, 212, 214, 216, 220, 222, 228, 232, 233, 237, 238, 240, 242, 243, 247, 251, 260, 262, 263, 266, 271, 275, 276, 281, 282, 287, 299, 300, 305, 306, 339, 340, 345, 401, 408, 419, 422, 427, 428, 471]
+2026-10-09 06:12:26,790 | INFO    | fontTools.subset             | Retaining 85 glyphs
+2026-10-09 06:12:26,790 | INFO    | fontTools.subset             | head subsetting not needed
+2026-10-09 06:12:26,790 | INFO    | fontTools.subset             | hhea subsetting not needed
+2026-10-09 06:12:26,790 | INFO    | fontTools.subset             | maxp subsetting not needed
+2026-10-09 06:12:26,790 | INFO    | fontTools.subset             | OS/2 subsetting not needed
+2026-10-09 06:12:26,790 | INFO    | fontTools.subset             | hmtx subsetted
+2026-10-09 06:12:26,790 | INFO    | fontTools.subset             | cmap subsetted
+2026-10-09 06:12:26,791 | INFO    | fontTools.subset             | loca subsetting not needed
+2026-10-09 06:12:26,791 | INFO    | fontTools.subset             | post subsetted
+2026-10-09 06:12:26,791 | INFO    | fontTools.subset             | gasp subsetting not needed
+2026-10-09 06:12:26,791 | INFO    | fontTools.subset             | GDEF subsetted
+2026-10-09 06:12:26,791 | INFO    | fontTools.subset             | name subsetting not needed
+2026-10-09 06:12:26,791 | INFO    | fontTools.subset             | glyf subsetted
+2026-10-09 06:12:26,791 | INFO    | fontTools.subset             | head pruned
+2026-10-09 06:12:26,792 | INFO    | fontTools.subset             | OS/2 Unicode ranges pruned: [0, 1, 2, 3, 29]
+2026-10-09 06:12:26,792 | INFO    | fontTools.subset             | OS/2 CodePage ranges pruned: [0]
+2026-10-09 06:12:26,792 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:12:26,792 | INFO    | fontTools.subset             | GDEF pruned
+2026-10-09 06:12:26,793 | INFO    | fontTools.subset             | name pruned
+2026-10-09 06:12:26,803 | WARNING | weasyprint                   | Using fontTools instead of HarfBuzz-Subset for font "Inter". This will be unsupported in future versions of WeasyPrint. Please install HarfBuzz-Subset >= 4.1.0 with your package manager.
+2026-10-09 06:12:26,803 | INFO    | fontTools.subset             | maxp pruned
+2026-10-09 06:12:26,808 | INFO    | fontTools.subset             | cmap pruned
+2026-10-09 06:12:26,809 | INFO    | fontTools.subset             | post pruned
+2026-10-09 06:12:26,810 | INFO    | fontTools.subset             | CFF  pruned
+2026-10-09 06:12:26,810 | INFO    | fontTools.subset             | GPOS dropped
+2026-10-09 06:12:26,810 | INFO    | fontTools.subset             | GSUB dropped
+2026-10-09 06:12:26,811 | INFO    | fontTools.subset             | Added .notdef to subset
+2026-10-09 06:12:26,811 | INFO    | fontTools.subset             | Closing glyph list over 'CFF ': 2 glyphs before
+2026-10-09 06:12:26,811 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'uni26A0']
+2026-10-09 06:12:26,811 | INFO    | fontTools.subset             | Glyph IDs:   [0, 1846]
+2026-10-09 06:12:26,812 | INFO    | fontTools.subset             | Closed glyph list over 'CFF ': 2 glyphs after
+2026-10-09 06:12:26,812 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'uni26A0']
+2026-10-09 06:12:26,812 | INFO    | fontTools.subset             | Glyph IDs:   [0, 1846]
+2026-10-09 06:12:26,813 | INFO    | fontTools.subset             | Retaining 2 glyphs
+2026-10-09 06:12:26,813 | INFO    | fontTools.subset             | head subsetting not needed
+2026-10-09 06:12:26,813 | INFO    | fontTools.subset             | hhea subsetting not needed
+2026-10-09 06:12:26,813 | INFO    | fontTools.subset             | maxp subsetting not needed
+2026-10-09 06:12:26,814 | INFO    | fontTools.subset             | OS/2 subsetting not needed
+2026-10-09 06:12:26,814 | INFO    | fontTools.subset             | cmap subsetted
+2026-10-09 06:12:26,814 | INFO    | fontTools.subset             | post subsetted
+2026-10-09 06:12:26,819 | INFO    | fontTools.subset             | CFF  subsetted
+2026-10-09 06:12:26,820 | INFO    | fontTools.subset             | hmtx subsetted
+2026-10-09 06:12:26,821 | INFO    | fontTools.subset             | GDEF subsetted
+2026-10-09 06:12:26,821 | INFO    | fontTools.subset             | name subsetting not needed
+2026-10-09 06:12:26,821 | INFO    | fontTools.subset             | head pruned
+2026-10-09 06:12:26,821 | INFO    | fontTools.subset             | OS/2 Unicode ranges pruned: []
+2026-10-09 06:12:26,822 | INFO    | fontTools.subset             | OS/2 CodePage ranges pruned: [0]
+2026-10-09 06:12:26,850 | INFO    | fontTools.subset             | CFF  pruned
+2026-10-09 06:12:26,851 | INFO    | fontTools.subset             | GDEF pruned to empty; dropped
+2026-10-09 06:12:26,851 | INFO    | fontTools.subset             | name pruned
+2026-10-09 06:12:26,883 | WARNING | weasyprint                   | Using fontTools instead of HarfBuzz-Subset for font "Liberation Sans". This will be unsupported in future versions of WeasyPrint. Please install HarfBuzz-Subset >= 4.1.0 with your package manager.
+2026-10-09 06:12:26,883 | INFO    | fontTools.subset             | maxp pruned
+2026-10-09 06:12:26,885 | INFO    | fontTools.subset             | cmap pruned
+2026-10-09 06:12:26,885 | INFO    | fontTools.subset             | fpgm dropped
+2026-10-09 06:12:26,885 | INFO    | fontTools.subset             | prep dropped
+2026-10-09 06:12:26,885 | INFO    | fontTools.subset             | cvt  dropped
+2026-10-09 06:12:26,885 | INFO    | fontTools.subset             | kern dropped
+2026-10-09 06:12:26,886 | INFO    | fontTools.subset             | post pruned
+2026-10-09 06:12:26,886 | INFO    | fontTools.subset             | GPOS dropped
+2026-10-09 06:12:26,886 | INFO    | fontTools.subset             | GSUB dropped
+2026-10-09 06:12:26,888 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:12:26,888 | INFO    | fontTools.subset             | Added gid0 to subset
+2026-10-09 06:12:26,888 | INFO    | fontTools.subset             | Closing glyph list over 'glyf': 2 glyphs before
+2026-10-09 06:12:26,888 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'arrowboth']
+2026-10-09 06:12:26,888 | INFO    | fontTools.subset             | Glyph IDs:   [0, 2120]
+2026-10-09 06:12:26,888 | INFO    | fontTools.subset             | Closed glyph list over 'glyf': 2 glyphs after
+2026-10-09 06:12:26,888 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'arrowboth']
+2026-10-09 06:12:26,889 | INFO    | fontTools.subset             | Glyph IDs:   [0, 2120]
+2026-10-09 06:12:26,890 | INFO    | fontTools.subset             | Retaining 2 glyphs
+2026-10-09 06:12:26,890 | INFO    | fontTools.subset             | head subsetting not needed
+2026-10-09 06:12:26,890 | INFO    | fontTools.subset             | hhea subsetting not needed
+2026-10-09 06:12:26,890 | INFO    | fontTools.subset             | maxp subsetting not needed
+2026-10-09 06:12:26,890 | INFO    | fontTools.subset             | OS/2 subsetting not needed
+2026-10-09 06:12:26,891 | INFO    | fontTools.subset             | hmtx subsetted
+2026-10-09 06:12:26,892 | INFO    | fontTools.subset             | cmap subsetted
+2026-10-09 06:12:26,892 | INFO    | fontTools.subset             | loca subsetting not needed
+2026-10-09 06:12:26,893 | INFO    | fontTools.subset             | post subsetted
+2026-10-09 06:12:26,893 | INFO    | fontTools.subset             | gasp subsetting not needed
+2026-10-09 06:12:26,893 | INFO    | fontTools.subset             | FFTM NOT subset; don't know how to subset
+2026-10-09 06:12:26,894 | INFO    | fontTools.subset             | GDEF subsetted
+2026-10-09 06:12:26,894 | INFO    | fontTools.subset             | name subsetting not needed
+2026-10-09 06:12:26,895 | INFO    | fontTools.subset             | glyf subsetted
+2026-10-09 06:12:26,895 | INFO    | fontTools.subset             | head pruned
+2026-10-09 06:12:26,895 | INFO    | fontTools.subset             | OS/2 Unicode ranges pruned: [37]
+2026-10-09 06:12:26,896 | INFO    | fontTools.subset             | OS/2 CodePage ranges pruned: [0]
+2026-10-09 06:12:26,896 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:12:26,896 | INFO    | fontTools.subset             | GDEF pruned
+2026-10-09 06:12:26,896 | INFO    | fontTools.subset             | name pruned
+2026-10-09 06:12:26,933 | INFO    | invest_system.report.render  | Da xuat PDF bang weasyprint: outputs/test/FPT_20261009_1312_full.pdf
+2026-10-09 06:14:34,724 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:34,724 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:34,725 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:34,725 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:34,726 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:34,726 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:34,727 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:34,727 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:35,215 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:35,215 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:35,217 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:35,218 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:36,406 | INFO    | weasyprint.progress          | Step 2 - Fetching and parsing CSS - CSS string
+2026-10-09 06:14:36,449 | INFO    | weasyprint.progress          | Step 2 - Fetching and parsing CSS - CSS string
+2026-10-09 06:14:36,465 | INFO    | weasyprint.progress          | Step 2 - Fetching and parsing CSS - CSS string
+2026-10-09 06:14:36,572 | INFO    | weasyprint.progress          | Step 1 - Fetching and parsing HTML - HTML string
+2026-10-09 06:14:36,721 | INFO    | weasyprint.progress          | Step 2 - Fetching and parsing CSS - CSS string
+2026-10-09 06:14:36,767 | INFO    | weasyprint.progress          | Step 3 - Applying CSS
+2026-10-09 06:14:36,884 | INFO    | weasyprint.progress          | Step 4 - Creating formatting structure
+2026-10-09 06:14:36,951 | INFO    | weasyprint.progress          | Step 5 - Creating layout - Page 1
+2026-10-09 06:14:37,165 | INFO    | weasyprint.progress          | Step 5 - Creating layout - Page 2
+2026-10-09 06:14:37,217 | INFO    | weasyprint.progress          | Step 5 - Creating layout - Page 3
+2026-10-09 06:14:37,246 | INFO    | weasyprint.progress          | Step 5 - Creating layout - Page 4
+2026-10-09 06:14:37,301 | INFO    | weasyprint.progress          | Step 5 - Creating layout - Page 5
+2026-10-09 06:14:37,338 | INFO    | weasyprint.progress          | Step 5 - Creating layout - Page 6
+2026-10-09 06:14:37,394 | INFO    | weasyprint.progress          | Step 5 - Creating layout - Page 7
+2026-10-09 06:14:37,478 | INFO    | weasyprint.progress          | Step 5 - Creating layout - Page 8
+2026-10-09 06:14:37,630 | INFO    | weasyprint.progress          | Step 6 - Creating PDF
+2026-10-09 06:14:37,788 | INFO    | weasyprint.progress          | Step 7 - Adding PDF metadata
+2026-10-09 06:14:37,788 | WARNING | weasyprint                   | Using fontTools instead of HarfBuzz-Subset for font "BVP". This will be unsupported in future versions of WeasyPrint. Please install HarfBuzz-Subset >= 4.1.0 with your package manager.
+2026-10-09 06:14:37,790 | INFO    | fontTools.subset             | maxp pruned
+2026-10-09 06:14:37,792 | INFO    | fontTools.subset             | cmap pruned
+2026-10-09 06:14:37,792 | INFO    | fontTools.subset             | fpgm dropped
+2026-10-09 06:14:37,792 | INFO    | fontTools.subset             | prep dropped
+2026-10-09 06:14:37,792 | INFO    | fontTools.subset             | cvt  dropped
+2026-10-09 06:14:37,792 | INFO    | fontTools.subset             | post pruned
+2026-10-09 06:14:37,793 | INFO    | fontTools.subset             | DSIG dropped
+2026-10-09 06:14:37,793 | INFO    | fontTools.subset             | GPOS dropped
+2026-10-09 06:14:37,793 | INFO    | fontTools.subset             | GSUB dropped
+2026-10-09 06:14:37,796 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:37,796 | INFO    | fontTools.subset             | Added gid0 to subset
+2026-10-09 06:14:37,796 | INFO    | fontTools.subset             | Closing glyph list over 'glyf': 104 glyphs before
+2026-10-09 06:14:37,796 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'A', 'B', 'C', 'D', 'Dcroat', 'E', 'Eacute', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'Ocircumflex', 'P', 'Q', 'S', 'T', 'U', 'V', 'Y', 'a', 'aacute', 'acircumflex', 'agrave', 'ampersand', 'b', 'c', 'colon', 'comma', 'd', 'dcroat', 'eacute', 'ecircumflex', 'eight', 'emdash', 'endash', 'five', 'four', 'g', 'h', 'hyphen', 'i', 'iacute', 'igrave', 'itilde', 'k', 'l', 'm', 'n', 'nine', 'o', 'oacute', 'ocircumflex', 'one', 'p', 'parenleft', 'parenright', 'percent', 'period', 'q', 'r', 'seven', 'six', 'slash', 'space', 't', 'three', 'two', 'u', 'uacute', 'uhorn', 'uni1EA2', 'uni1EA3', 'uni1EA5', 'uni1EAA', 'uni1EAB', 'uni1EAC', 'uni1EAD', 'uni1EAF', 'uni1EBF', 'uni1EC1', 'uni1EC3', 'uni1EC6', 'uni1EC7', 'uni1ECB', 'uni1ED0', 'uni1ED3', 'uni1ED5', 'uni1EDD', 'uni1EE3', 'uni1EE5', 'uni1EE9', 'uni1EEE', 'uni1EEF', 'uni1EF7', 'uni1EF9', 'v', 'x', 'y', 'zero']
+2026-10-09 06:14:37,798 | INFO    | fontTools.subset             | Glyph IDs:   [0, 1, 11, 14, 18, 24, 25, 30, 33, 34, 35, 39, 52, 57, 59, 71, 72, 76, 77, 81, 83, 84, 104, 106, 110, 115, 119, 131, 137, 144, 156, 157, 159, 164, 165, 166, 169, 172, 173, 179, 180, 185, 188, 190, 192, 193, 194, 195, 196, 207, 212, 214, 216, 220, 221, 225, 227, 228, 232, 233, 237, 238, 239, 242, 243, 251, 252, 260, 262, 263, 271, 275, 276, 279, 282, 283, 287, 293, 299, 300, 306, 307, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 401, 406, 407, 408, 419, 422, 424, 425, 427, 428, 452, 487]
+2026-10-09 06:14:37,798 | INFO    | fontTools.subset             | Closed glyph list over 'glyf': 104 glyphs after
+2026-10-09 06:14:37,798 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'A', 'B', 'C', 'D', 'Dcroat', 'E', 'Eacute', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'Ocircumflex', 'P', 'Q', 'S', 'T', 'U', 'V', 'Y', 'a', 'aacute', 'acircumflex', 'agrave', 'ampersand', 'b', 'c', 'colon', 'comma', 'd', 'dcroat', 'eacute', 'ecircumflex', 'eight', 'emdash', 'endash', 'five', 'four', 'g', 'h', 'hyphen', 'i', 'iacute', 'igrave', 'itilde', 'k', 'l', 'm', 'n', 'nine', 'o', 'oacute', 'ocircumflex', 'one', 'p', 'parenleft', 'parenright', 'percent', 'period', 'q', 'r', 'seven', 'six', 'slash', 'space', 't', 'three', 'two', 'u', 'uacute', 'uhorn', 'uni1EA2', 'uni1EA3', 'uni1EA5', 'uni1EAA', 'uni1EAB', 'uni1EAC', 'uni1EAD', 'uni1EAF', 'uni1EBF', 'uni1EC1', 'uni1EC3', 'uni1EC6', 'uni1EC7', 'uni1ECB', 'uni1ED0', 'uni1ED3', 'uni1ED5', 'uni1EDD', 'uni1EE3', 'uni1EE5', 'uni1EE9', 'uni1EEE', 'uni1EEF', 'uni1EF7', 'uni1EF9', 'v', 'x', 'y', 'zero']
+2026-10-09 06:14:37,799 | INFO    | fontTools.subset             | Glyph IDs:   [0, 1, 11, 14, 18, 24, 25, 30, 33, 34, 35, 39, 52, 57, 59, 71, 72, 76, 77, 81, 83, 84, 104, 106, 110, 115, 119, 131, 137, 144, 156, 157, 159, 164, 165, 166, 169, 172, 173, 179, 180, 185, 188, 190, 192, 193, 194, 195, 196, 207, 212, 214, 216, 220, 221, 225, 227, 228, 232, 233, 237, 238, 239, 242, 243, 251, 252, 260, 262, 263, 271, 275, 276, 279, 282, 283, 287, 293, 299, 300, 306, 307, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 401, 406, 407, 408, 419, 422, 424, 425, 427, 428, 452, 487]
+2026-10-09 06:14:37,799 | INFO    | fontTools.subset             | Retaining 104 glyphs
+2026-10-09 06:14:37,800 | INFO    | fontTools.subset             | head subsetting not needed
+2026-10-09 06:14:37,800 | INFO    | fontTools.subset             | hhea subsetting not needed
+2026-10-09 06:14:37,800 | INFO    | fontTools.subset             | maxp subsetting not needed
+2026-10-09 06:14:37,800 | INFO    | fontTools.subset             | OS/2 subsetting not needed
+2026-10-09 06:14:37,802 | INFO    | fontTools.subset             | hmtx subsetted
+2026-10-09 06:14:37,802 | INFO    | fontTools.subset             | cmap subsetted
+2026-10-09 06:14:37,802 | INFO    | fontTools.subset             | loca subsetting not needed
+2026-10-09 06:14:37,802 | INFO    | fontTools.subset             | post subsetted
+2026-10-09 06:14:37,802 | INFO    | fontTools.subset             | gasp subsetting not needed
+2026-10-09 06:14:37,803 | INFO    | fontTools.subset             | GDEF subsetted
+2026-10-09 06:14:37,803 | INFO    | fontTools.subset             | name subsetting not needed
+2026-10-09 06:14:37,803 | INFO    | fontTools.subset             | glyf subsetted
+2026-10-09 06:14:37,803 | INFO    | fontTools.subset             | head pruned
+2026-10-09 06:14:37,804 | INFO    | fontTools.subset             | OS/2 Unicode ranges pruned: [0, 1, 2, 3, 29, 31]
+2026-10-09 06:14:37,805 | INFO    | fontTools.subset             | OS/2 CodePage ranges pruned: [0]
+2026-10-09 06:14:37,805 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:37,805 | INFO    | fontTools.subset             | GDEF pruned
+2026-10-09 06:14:37,806 | INFO    | fontTools.subset             | name pruned
+2026-10-09 06:14:37,819 | WARNING | weasyprint                   | Using fontTools instead of HarfBuzz-Subset for font "BVP". This will be unsupported in future versions of WeasyPrint. Please install HarfBuzz-Subset >= 4.1.0 with your package manager.
+2026-10-09 06:14:37,820 | INFO    | fontTools.subset             | maxp pruned
+2026-10-09 06:14:37,820 | INFO    | fontTools.subset             | cmap pruned
+2026-10-09 06:14:37,820 | INFO    | fontTools.subset             | fpgm dropped
+2026-10-09 06:14:37,820 | INFO    | fontTools.subset             | prep dropped
+2026-10-09 06:14:37,820 | INFO    | fontTools.subset             | cvt  dropped
+2026-10-09 06:14:37,820 | INFO    | fontTools.subset             | post pruned
+2026-10-09 06:14:37,820 | INFO    | fontTools.subset             | DSIG dropped
+2026-10-09 06:14:37,821 | INFO    | fontTools.subset             | GPOS dropped
+2026-10-09 06:14:37,821 | INFO    | fontTools.subset             | GSUB dropped
+2026-10-09 06:14:37,823 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:37,823 | INFO    | fontTools.subset             | Added gid0 to subset
+2026-10-09 06:14:37,824 | INFO    | fontTools.subset             | Closing glyph list over 'glyf': 170 glyphs before
+2026-10-09 06:14:37,824 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'A', 'Aacute', 'B', 'C', 'D', 'Dcroat', 'E', 'Eacute', 'Ecircumflex', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'aacute', 'abreve', 'acircumflex', 'agrave', 'ampersand', 'asciitilde', 'atilde', 'b', 'bracketleft', 'bracketright', 'bullet', 'c', 'colon', 'comma', 'd', 'dcroat', 'e', 'eacute', 'ecircumflex', 'eight', 'ellipsis', 'emdash', 'endash', 'equal', 'f', 'f_f.liga', 'f_i.liga', 'five', 'four', 'g', 'greaterequal', 'h', 'hyphen', 'i', 'iacute', 'igrave', 'itilde', 'j', 'k', 'l', 'less', 'lessequal', 'm', 'minus', 'multiply', 'n', 'nine', 'o', 'oacute', 'ocircumflex', 'ograve', 'ohorn', 'one', 'otilde', 'p', 'parenleft', 'parenright', 'percent', 'period', 'periodcentered', 'plus', 'plusminus', 'q', 'quotesingle', 'r', 's', 'semicolon', 'seven', 'six', 'slash', 'space', 't', 'three', 'two', 'u', 'uacute', 'ugrave', 'uhorn', 'underscore', 'uni1EA0', 'uni1EA1', 'uni1EA2', 'uni1EA3', 'uni1EA5', 'uni1EA7', 'uni1EAA', 'uni1EAB', 'uni1EAC', 'uni1EAD', 'uni1EAE', 'uni1EAF', 'uni1EB1', 'uni1EB7', 'uni1EB9', 'uni1EBB', 'uni1EBE', 'uni1EBF', 'uni1EC1', 'uni1EC3', 'uni1EC5', 'uni1EC6', 'uni1EC7', 'uni1EC9', 'uni1ECA', 'uni1ECB', 'uni1ECC', 'uni1ECD', 'uni1ECF', 'uni1ED1', 'uni1ED3', 'uni1ED5', 'uni1ED7', 'uni1ED9', 'uni1EDB', 'uni1EDD', 'uni1EDF', 'uni1EE1', 'uni1EE2', 'uni1EE3', 'uni1EE4', 'uni1EE5', 'uni1EE7', 'uni1EE9', 'uni1EEB', 'uni1EED', 'uni1EEE', 'uni1EEF', 'uni1EF1', 'uni1EF6', 'uni1EF7', 'uni1EF9', 'v', 'w', 'x', 'y', 'yacute', 'ygrave', 'z', 'zero']
+2026-10-09 06:14:37,824 | INFO    | fontTools.subset             | Glyph IDs:   [0, 1, 2, 4, 11, 14, 16, 18, 24, 25, 30, 33, 34, 35, 37, 38, 39, 51, 52, 57, 59, 64, 71, 72, 76, 77, 81, 90, 95, 104, 106, 107, 110, 115, 119, 123, 131, 137, 138, 143, 144, 150, 152, 156, 157, 158, 159, 160, 161, 164, 165, 166, 167, 169, 171, 172, 173, 177, 179, 180, 185, 188, 189, 190, 192, 193, 194, 195, 196, 197, 200, 202, 206, 207, 212, 214, 216, 220, 221, 222, 225, 226, 227, 228, 232, 233, 237, 238, 239, 240, 241, 242, 243, 244, 246, 247, 248, 249, 250, 251, 252, 253, 254, 258, 260, 262, 263, 266, 271, 275, 276, 279, 280, 281, 282, 283, 284, 285, 286, 287, 293, 294, 299, 300, 301, 305, 306, 307, 308, 334, 336, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 401, 406, 407, 408, 409, 410, 415, 416, 419, 422, 424, 425, 426, 427, 428, 431, 432, 450, 452, 471, 472, 473, 475, 478, 479, 480, 481, 483, 487]
+2026-10-09 06:14:37,824 | INFO    | fontTools.subset             | Closed glyph list over 'glyf': 170 glyphs after
+2026-10-09 06:14:37,824 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'A', 'Aacute', 'B', 'C', 'D', 'Dcroat', 'E', 'Eacute', 'Ecircumflex', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'aacute', 'abreve', 'acircumflex', 'agrave', 'ampersand', 'asciitilde', 'atilde', 'b', 'bracketleft', 'bracketright', 'bullet', 'c', 'colon', 'comma', 'd', 'dcroat', 'e', 'eacute', 'ecircumflex', 'eight', 'ellipsis', 'emdash', 'endash', 'equal', 'f', 'f_f.liga', 'f_i.liga', 'five', 'four', 'g', 'greaterequal', 'h', 'hyphen', 'i', 'iacute', 'igrave', 'itilde', 'j', 'k', 'l', 'less', 'lessequal', 'm', 'minus', 'multiply', 'n', 'nine', 'o', 'oacute', 'ocircumflex', 'ograve', 'ohorn', 'one', 'otilde', 'p', 'parenleft', 'parenright', 'percent', 'period', 'periodcentered', 'plus', 'plusminus', 'q', 'quotesingle', 'r', 's', 'semicolon', 'seven', 'six', 'slash', 'space', 't', 'three', 'two', 'u', 'uacute', 'ugrave', 'uhorn', 'underscore', 'uni1EA0', 'uni1EA1', 'uni1EA2', 'uni1EA3', 'uni1EA5', 'uni1EA7', 'uni1EAA', 'uni1EAB', 'uni1EAC', 'uni1EAD', 'uni1EAE', 'uni1EAF', 'uni1EB1', 'uni1EB7', 'uni1EB9', 'uni1EBB', 'uni1EBE', 'uni1EBF', 'uni1EC1', 'uni1EC3', 'uni1EC5', 'uni1EC6', 'uni1EC7', 'uni1EC9', 'uni1ECA', 'uni1ECB', 'uni1ECC', 'uni1ECD', 'uni1ECF', 'uni1ED1', 'uni1ED3', 'uni1ED5', 'uni1ED7', 'uni1ED9', 'uni1EDB', 'uni1EDD', 'uni1EDF', 'uni1EE1', 'uni1EE2', 'uni1EE3', 'uni1EE4', 'uni1EE5', 'uni1EE7', 'uni1EE9', 'uni1EEB', 'uni1EED', 'uni1EEE', 'uni1EEF', 'uni1EF1', 'uni1EF6', 'uni1EF7', 'uni1EF9', 'v', 'w', 'x', 'y', 'yacute', 'ygrave', 'z', 'zero']
+2026-10-09 06:14:37,824 | INFO    | fontTools.subset             | Glyph IDs:   [0, 1, 2, 4, 11, 14, 16, 18, 24, 25, 30, 33, 34, 35, 37, 38, 39, 51, 52, 57, 59, 64, 71, 72, 76, 77, 81, 90, 95, 104, 106, 107, 110, 115, 119, 123, 131, 137, 138, 143, 144, 150, 152, 156, 157, 158, 159, 160, 161, 164, 165, 166, 167, 169, 171, 172, 173, 177, 179, 180, 185, 188, 189, 190, 192, 193, 194, 195, 196, 197, 200, 202, 206, 207, 212, 214, 216, 220, 221, 222, 225, 226, 227, 228, 232, 233, 237, 238, 239, 240, 241, 242, 243, 244, 246, 247, 248, 249, 250, 251, 252, 253, 254, 258, 260, 262, 263, 266, 271, 275, 276, 279, 280, 281, 282, 283, 284, 285, 286, 287, 293, 294, 299, 300, 301, 305, 306, 307, 308, 334, 336, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 401, 406, 407, 408, 409, 410, 415, 416, 419, 422, 424, 425, 426, 427, 428, 431, 432, 450, 452, 471, 472, 473, 475, 478, 479, 480, 481, 483, 487]
+2026-10-09 06:14:37,825 | INFO    | fontTools.subset             | Retaining 170 glyphs
+2026-10-09 06:14:37,825 | INFO    | fontTools.subset             | head subsetting not needed
+2026-10-09 06:14:37,825 | INFO    | fontTools.subset             | hhea subsetting not needed
+2026-10-09 06:14:37,825 | INFO    | fontTools.subset             | maxp subsetting not needed
+2026-10-09 06:14:37,825 | INFO    | fontTools.subset             | OS/2 subsetting not needed
+2026-10-09 06:14:37,826 | INFO    | fontTools.subset             | hmtx subsetted
+2026-10-09 06:14:37,827 | INFO    | fontTools.subset             | cmap subsetted
+2026-10-09 06:14:37,827 | INFO    | fontTools.subset             | loca subsetting not needed
+2026-10-09 06:14:37,827 | INFO    | fontTools.subset             | post subsetted
+2026-10-09 06:14:37,827 | INFO    | fontTools.subset             | gasp subsetting not needed
+2026-10-09 06:14:37,827 | INFO    | fontTools.subset             | GDEF subsetted
+2026-10-09 06:14:37,827 | INFO    | fontTools.subset             | name subsetting not needed
+2026-10-09 06:14:37,827 | INFO    | fontTools.subset             | glyf subsetted
+2026-10-09 06:14:37,828 | INFO    | fontTools.subset             | head pruned
+2026-10-09 06:14:37,828 | INFO    | fontTools.subset             | OS/2 Unicode ranges pruned: [0, 1, 2, 3, 29, 31, 38]
+2026-10-09 06:14:37,828 | INFO    | fontTools.subset             | OS/2 CodePage ranges pruned: [0]
+2026-10-09 06:14:37,829 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:37,830 | INFO    | fontTools.subset             | GDEF pruned
+2026-10-09 06:14:37,830 | INFO    | fontTools.subset             | name pruned
+2026-10-09 06:14:37,848 | WARNING | weasyprint                   | Using fontTools instead of HarfBuzz-Subset for font "BVP". This will be unsupported in future versions of WeasyPrint. Please install HarfBuzz-Subset >= 4.1.0 with your package manager.
+2026-10-09 06:14:37,848 | INFO    | fontTools.subset             | maxp pruned
+2026-10-09 06:14:37,849 | INFO    | fontTools.subset             | cmap pruned
+2026-10-09 06:14:37,849 | INFO    | fontTools.subset             | fpgm dropped
+2026-10-09 06:14:37,849 | INFO    | fontTools.subset             | prep dropped
+2026-10-09 06:14:37,849 | INFO    | fontTools.subset             | cvt  dropped
+2026-10-09 06:14:37,849 | INFO    | fontTools.subset             | post pruned
+2026-10-09 06:14:37,849 | INFO    | fontTools.subset             | DSIG dropped
+2026-10-09 06:14:37,849 | INFO    | fontTools.subset             | GPOS dropped
+2026-10-09 06:14:37,849 | INFO    | fontTools.subset             | GSUB dropped
+2026-10-09 06:14:37,850 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:37,851 | INFO    | fontTools.subset             | Added gid0 to subset
+2026-10-09 06:14:37,851 | INFO    | fontTools.subset             | Closing glyph list over 'glyf': 107 glyphs before
+2026-10-09 06:14:37,851 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'A', 'Aacute', 'B', 'C', 'D', 'Dcroat', 'E', 'Eacute', 'Ecircumflex', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'Y', 'a', 'aacute', 'abreve', 'agrave', 'atilde', 'b', 'c', 'colon', 'comma', 'd', 'dcroat', 'e', 'ecircumflex', 'eight', 'emdash', 'five', 'four', 'g', 'h', 'hyphen', 'i', 'iacute', 'l', 'm', 'n', 'nine', 'o', 'oacute', 'ograve', 'ohorn', 'one', 'p', 'parenleft', 'parenright', 'percent', 'period', 'plus', 'q', 'r', 's', 'seven', 'six', 'slash', 'space', 't', 'three', 'two', 'u', 'uacute', 'uhorn', 'uni1EA0', 'uni1EA1', 'uni1EA2', 'uni1EA3', 'uni1EA5', 'uni1EA7', 'uni1EAC', 'uni1EAD', 'uni1EBF', 'uni1EC1', 'uni1EC3', 'uni1EC6', 'uni1EC7', 'uni1EC9', 'uni1ECB', 'uni1ECD', 'uni1ED1', 'uni1ED3', 'uni1ED5', 'uni1EDF', 'uni1EE3', 'uni1EE5', 'uni1EE7', 'uni1EEC', 'uni1EEE', 'uni1EEF', 'uni1EF7', 'x', 'y', 'ygrave', 'zero']
+2026-10-09 06:14:37,851 | INFO    | fontTools.subset             | Glyph IDs:   [0, 1, 2, 11, 16, 18, 24, 25, 30, 33, 34, 35, 37, 39, 52, 57, 59, 71, 72, 76, 77, 81, 104, 106, 107, 110, 115, 119, 130, 131, 137, 144, 156, 157, 158, 165, 166, 167, 171, 172, 173, 177, 179, 180, 185, 188, 189, 192, 193, 194, 195, 196, 207, 212, 214, 216, 220, 222, 228, 232, 233, 237, 238, 240, 242, 243, 246, 247, 249, 251, 253, 260, 262, 263, 266, 271, 275, 276, 279, 281, 282, 287, 299, 300, 305, 306, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 401, 406, 407, 408, 419, 422, 425, 427, 428, 471, 487]
+2026-10-09 06:14:37,851 | INFO    | fontTools.subset             | Closed glyph list over 'glyf': 107 glyphs after
+2026-10-09 06:14:37,851 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'A', 'Aacute', 'B', 'C', 'D', 'Dcroat', 'E', 'Eacute', 'Ecircumflex', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'Y', 'a', 'aacute', 'abreve', 'agrave', 'atilde', 'b', 'c', 'colon', 'comma', 'd', 'dcroat', 'e', 'ecircumflex', 'eight', 'emdash', 'five', 'four', 'g', 'h', 'hyphen', 'i', 'iacute', 'l', 'm', 'n', 'nine', 'o', 'oacute', 'ograve', 'ohorn', 'one', 'p', 'parenleft', 'parenright', 'percent', 'period', 'plus', 'q', 'r', 's', 'seven', 'six', 'slash', 'space', 't', 'three', 'two', 'u', 'uacute', 'uhorn', 'uni1EA0', 'uni1EA1', 'uni1EA2', 'uni1EA3', 'uni1EA5', 'uni1EA7', 'uni1EAC', 'uni1EAD', 'uni1EBF', 'uni1EC1', 'uni1EC3', 'uni1EC6', 'uni1EC7', 'uni1EC9', 'uni1ECB', 'uni1ECD', 'uni1ED1', 'uni1ED3', 'uni1ED5', 'uni1EDF', 'uni1EE3', 'uni1EE5', 'uni1EE7', 'uni1EEC', 'uni1EEE', 'uni1EEF', 'uni1EF7', 'x', 'y', 'ygrave', 'zero']
+2026-10-09 06:14:37,851 | INFO    | fontTools.subset             | Glyph IDs:   [0, 1, 2, 11, 16, 18, 24, 25, 30, 33, 34, 35, 37, 39, 52, 57, 59, 71, 72, 76, 77, 81, 104, 106, 107, 110, 115, 119, 130, 131, 137, 144, 156, 157, 158, 165, 166, 167, 171, 172, 173, 177, 179, 180, 185, 188, 189, 192, 193, 194, 195, 196, 207, 212, 214, 216, 220, 222, 228, 232, 233, 237, 238, 240, 242, 243, 246, 247, 249, 251, 253, 260, 262, 263, 266, 271, 275, 276, 279, 281, 282, 287, 299, 300, 305, 306, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 401, 406, 407, 408, 419, 422, 425, 427, 428, 471, 487]
+2026-10-09 06:14:37,852 | INFO    | fontTools.subset             | Retaining 107 glyphs
+2026-10-09 06:14:37,852 | INFO    | fontTools.subset             | head subsetting not needed
+2026-10-09 06:14:37,852 | INFO    | fontTools.subset             | hhea subsetting not needed
+2026-10-09 06:14:37,852 | INFO    | fontTools.subset             | maxp subsetting not needed
+2026-10-09 06:14:37,852 | INFO    | fontTools.subset             | OS/2 subsetting not needed
+2026-10-09 06:14:37,852 | INFO    | fontTools.subset             | hmtx subsetted
+2026-10-09 06:14:37,852 | INFO    | fontTools.subset             | cmap subsetted
+2026-10-09 06:14:37,852 | INFO    | fontTools.subset             | loca subsetting not needed
+2026-10-09 06:14:37,852 | INFO    | fontTools.subset             | post subsetted
+2026-10-09 06:14:37,853 | INFO    | fontTools.subset             | gasp subsetting not needed
+2026-10-09 06:14:37,853 | INFO    | fontTools.subset             | GDEF subsetted
+2026-10-09 06:14:37,853 | INFO    | fontTools.subset             | name subsetting not needed
+2026-10-09 06:14:37,853 | INFO    | fontTools.subset             | glyf subsetted
+2026-10-09 06:14:37,853 | INFO    | fontTools.subset             | head pruned
+2026-10-09 06:14:37,854 | INFO    | fontTools.subset             | OS/2 Unicode ranges pruned: [0, 1, 2, 3, 29, 31]
+2026-10-09 06:14:37,854 | INFO    | fontTools.subset             | OS/2 CodePage ranges pruned: [0]
+2026-10-09 06:14:37,854 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:37,854 | INFO    | fontTools.subset             | GDEF pruned
+2026-10-09 06:14:37,855 | INFO    | fontTools.subset             | name pruned
+2026-10-09 06:14:37,866 | WARNING | weasyprint                   | Using fontTools instead of HarfBuzz-Subset for font "Liberation Sans". This will be unsupported in future versions of WeasyPrint. Please install HarfBuzz-Subset >= 4.1.0 with your package manager.
+2026-10-09 06:14:37,867 | INFO    | fontTools.subset             | maxp pruned
+2026-10-09 06:14:37,871 | INFO    | fontTools.subset             | cmap pruned
+2026-10-09 06:14:37,872 | INFO    | fontTools.subset             | fpgm dropped
+2026-10-09 06:14:37,872 | INFO    | fontTools.subset             | prep dropped
+2026-10-09 06:14:37,872 | INFO    | fontTools.subset             | cvt  dropped
+2026-10-09 06:14:37,872 | INFO    | fontTools.subset             | kern dropped
+2026-10-09 06:14:37,872 | INFO    | fontTools.subset             | post pruned
+2026-10-09 06:14:37,872 | INFO    | fontTools.subset             | GPOS dropped
+2026-10-09 06:14:37,872 | INFO    | fontTools.subset             | GSUB dropped
+2026-10-09 06:14:37,877 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:37,878 | INFO    | fontTools.subset             | Added gid0 to subset
+2026-10-09 06:14:37,878 | INFO    | fontTools.subset             | Closing glyph list over 'glyf': 3 glyphs before
+2026-10-09 06:14:37,878 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'arrowright', 'beta']
+2026-10-09 06:14:37,878 | INFO    | fontTools.subset             | Glyph IDs:   [0, 868, 2118]
+2026-10-09 06:14:37,878 | INFO    | fontTools.subset             | Closed glyph list over 'glyf': 3 glyphs after
+2026-10-09 06:14:37,878 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'arrowright', 'beta']
+2026-10-09 06:14:37,878 | INFO    | fontTools.subset             | Glyph IDs:   [0, 868, 2118]
+2026-10-09 06:14:37,881 | INFO    | fontTools.subset             | Retaining 3 glyphs
+2026-10-09 06:14:37,881 | INFO    | fontTools.subset             | head subsetting not needed
+2026-10-09 06:14:37,881 | INFO    | fontTools.subset             | hhea subsetting not needed
+2026-10-09 06:14:37,881 | INFO    | fontTools.subset             | maxp subsetting not needed
+2026-10-09 06:14:37,881 | INFO    | fontTools.subset             | OS/2 subsetting not needed
+2026-10-09 06:14:37,885 | INFO    | fontTools.subset             | hmtx subsetted
+2026-10-09 06:14:37,885 | INFO    | fontTools.subset             | cmap subsetted
+2026-10-09 06:14:37,885 | INFO    | fontTools.subset             | loca subsetting not needed
+2026-10-09 06:14:37,885 | INFO    | fontTools.subset             | post subsetted
+2026-10-09 06:14:37,885 | INFO    | fontTools.subset             | gasp subsetting not needed
+2026-10-09 06:14:37,885 | INFO    | fontTools.subset             | FFTM NOT subset; don't know how to subset
+2026-10-09 06:14:37,886 | INFO    | fontTools.subset             | GDEF subsetted
+2026-10-09 06:14:37,886 | INFO    | fontTools.subset             | name subsetting not needed
+2026-10-09 06:14:37,887 | INFO    | fontTools.subset             | glyf subsetted
+2026-10-09 06:14:37,887 | INFO    | fontTools.subset             | head pruned
+2026-10-09 06:14:37,888 | INFO    | fontTools.subset             | OS/2 Unicode ranges pruned: [7, 37]
+2026-10-09 06:14:37,888 | INFO    | fontTools.subset             | OS/2 CodePage ranges pruned: [0]
+2026-10-09 06:14:37,888 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:37,888 | INFO    | fontTools.subset             | GDEF pruned
+2026-10-09 06:14:37,889 | INFO    | fontTools.subset             | name pruned
+2026-10-09 06:14:37,893 | WARNING | weasyprint                   | Using fontTools instead of HarfBuzz-Subset for font "Liberation Sans". This will be unsupported in future versions of WeasyPrint. Please install HarfBuzz-Subset >= 4.1.0 with your package manager.
+2026-10-09 06:14:37,893 | INFO    | fontTools.subset             | maxp pruned
+2026-10-09 06:14:37,895 | INFO    | fontTools.subset             | cmap pruned
+2026-10-09 06:14:37,895 | INFO    | fontTools.subset             | fpgm dropped
+2026-10-09 06:14:37,895 | INFO    | fontTools.subset             | prep dropped
+2026-10-09 06:14:37,895 | INFO    | fontTools.subset             | cvt  dropped
+2026-10-09 06:14:37,895 | INFO    | fontTools.subset             | kern dropped
+2026-10-09 06:14:37,896 | INFO    | fontTools.subset             | post pruned
+2026-10-09 06:14:37,896 | INFO    | fontTools.subset             | GPOS dropped
+2026-10-09 06:14:37,896 | INFO    | fontTools.subset             | GSUB dropped
+2026-10-09 06:14:37,903 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:37,903 | INFO    | fontTools.subset             | Added gid0 to subset
+2026-10-09 06:14:37,903 | INFO    | fontTools.subset             | Closing glyph list over 'glyf': 2 glyphs before
+2026-10-09 06:14:37,903 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'arrowboth']
+2026-10-09 06:14:37,903 | INFO    | fontTools.subset             | Glyph IDs:   [0, 2120]
+2026-10-09 06:14:37,903 | INFO    | fontTools.subset             | Closed glyph list over 'glyf': 2 glyphs after
+2026-10-09 06:14:37,903 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'arrowboth']
+2026-10-09 06:14:37,903 | INFO    | fontTools.subset             | Glyph IDs:   [0, 2120]
+2026-10-09 06:14:37,904 | INFO    | fontTools.subset             | Retaining 2 glyphs
+2026-10-09 06:14:37,905 | INFO    | fontTools.subset             | head subsetting not needed
+2026-10-09 06:14:37,905 | INFO    | fontTools.subset             | hhea subsetting not needed
+2026-10-09 06:14:37,905 | INFO    | fontTools.subset             | maxp subsetting not needed
+2026-10-09 06:14:37,905 | INFO    | fontTools.subset             | OS/2 subsetting not needed
+2026-10-09 06:14:37,906 | INFO    | fontTools.subset             | hmtx subsetted
+2026-10-09 06:14:37,906 | INFO    | fontTools.subset             | cmap subsetted
+2026-10-09 06:14:37,906 | INFO    | fontTools.subset             | loca subsetting not needed
+2026-10-09 06:14:37,906 | INFO    | fontTools.subset             | post subsetted
+2026-10-09 06:14:37,906 | INFO    | fontTools.subset             | gasp subsetting not needed
+2026-10-09 06:14:37,906 | INFO    | fontTools.subset             | FFTM NOT subset; don't know how to subset
+2026-10-09 06:14:37,907 | INFO    | fontTools.subset             | GDEF subsetted
+2026-10-09 06:14:37,907 | INFO    | fontTools.subset             | name subsetting not needed
+2026-10-09 06:14:38,046 | INFO    | fontTools.subset             | glyf subsetted
+2026-10-09 06:14:38,047 | INFO    | fontTools.subset             | head pruned
+2026-10-09 06:14:38,047 | INFO    | fontTools.subset             | OS/2 Unicode ranges pruned: [37]
+2026-10-09 06:14:38,047 | INFO    | fontTools.subset             | OS/2 CodePage ranges pruned: [0]
+2026-10-09 06:14:38,047 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:38,047 | INFO    | fontTools.subset             | GDEF pruned
+2026-10-09 06:14:38,048 | INFO    | fontTools.subset             | name pruned
+2026-10-09 06:14:38,594 | INFO    | invest_system.report.render  | Da xuat PDF bang weasyprint: outputs/samples/DEMO_20261009_1314_full.pdf
+2026-10-09 06:14:39,442 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:39,443 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:39,444 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:39,444 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:39,445 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:39,445 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:39,446 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:39,446 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:39,910 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:39,910 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:39,913 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:39,913 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:40,703 | INFO    | weasyprint.progress          | Step 1 - Fetching and parsing HTML - HTML string
+2026-10-09 06:14:40,804 | INFO    | weasyprint.progress          | Step 2 - Fetching and parsing CSS - CSS string
+2026-10-09 06:14:40,829 | INFO    | weasyprint.progress          | Step 3 - Applying CSS
+2026-10-09 06:14:40,876 | INFO    | weasyprint.progress          | Step 4 - Creating formatting structure
+2026-10-09 06:14:40,925 | INFO    | weasyprint.progress          | Step 5 - Creating layout - Page 1
+2026-10-09 06:14:41,101 | INFO    | weasyprint.progress          | Step 5 - Creating layout - Page 2
+2026-10-09 06:14:41,154 | INFO    | weasyprint.progress          | Step 5 - Creating layout - Page 3
+2026-10-09 06:14:41,176 | INFO    | weasyprint.progress          | Step 5 - Creating layout - Page 4
+2026-10-09 06:14:41,200 | INFO    | weasyprint.progress          | Step 5 - Creating layout - Page 5
+2026-10-09 06:14:41,225 | INFO    | weasyprint.progress          | Step 5 - Creating layout - Page 6
+2026-10-09 06:14:41,269 | INFO    | weasyprint.progress          | Step 5 - Creating layout - Page 7
+2026-10-09 06:14:41,363 | INFO    | weasyprint.progress          | Step 5 - Creating layout - Page 8
+2026-10-09 06:14:41,471 | INFO    | weasyprint.progress          | Step 6 - Creating PDF
+2026-10-09 06:14:41,574 | INFO    | weasyprint.progress          | Step 7 - Adding PDF metadata
+2026-10-09 06:14:41,574 | WARNING | weasyprint                   | Using fontTools instead of HarfBuzz-Subset for font "BVP". This will be unsupported in future versions of WeasyPrint. Please install HarfBuzz-Subset >= 4.1.0 with your package manager.
+2026-10-09 06:14:41,575 | INFO    | fontTools.subset             | maxp pruned
+2026-10-09 06:14:41,576 | INFO    | fontTools.subset             | cmap pruned
+2026-10-09 06:14:41,576 | INFO    | fontTools.subset             | fpgm dropped
+2026-10-09 06:14:41,576 | INFO    | fontTools.subset             | prep dropped
+2026-10-09 06:14:41,576 | INFO    | fontTools.subset             | cvt  dropped
+2026-10-09 06:14:41,576 | INFO    | fontTools.subset             | post pruned
+2026-10-09 06:14:41,576 | INFO    | fontTools.subset             | DSIG dropped
+2026-10-09 06:14:41,576 | INFO    | fontTools.subset             | GPOS dropped
+2026-10-09 06:14:41,576 | INFO    | fontTools.subset             | GSUB dropped
+2026-10-09 06:14:41,577 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:41,577 | INFO    | fontTools.subset             | Added gid0 to subset
+2026-10-09 06:14:41,577 | INFO    | fontTools.subset             | Closing glyph list over 'glyf': 101 glyphs before
+2026-10-09 06:14:41,577 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'A', 'B', 'C', 'D', 'Dcroat', 'E', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'Ocircumflex', 'P', 'S', 'T', 'U', 'V', 'Y', 'a', 'aacute', 'acircumflex', 'agrave', 'ampersand', 'b', 'c', 'colon', 'comma', 'd', 'dcroat', 'ecircumflex', 'eight', 'emdash', 'endash', 'five', 'four', 'g', 'h', 'i', 'iacute', 'igrave', 'itilde', 'k', 'l', 'm', 'n', 'nine', 'o', 'oacute', 'ocircumflex', 'one', 'p', 'parenleft', 'parenright', 'percent', 'period', 'plus', 'q', 'r', 'seven', 'six', 'slash', 'space', 't', 'three', 'two', 'u', 'uacute', 'uhorn', 'uni1EA2', 'uni1EA3', 'uni1EA5', 'uni1EAA', 'uni1EAB', 'uni1EAC', 'uni1EAD', 'uni1EAF', 'uni1EBF', 'uni1EC1', 'uni1EC3', 'uni1EC6', 'uni1EC7', 'uni1ECB', 'uni1ED0', 'uni1ED3', 'uni1ED5', 'uni1EDD', 'uni1EE3', 'uni1EE5', 'uni1EE9', 'uni1EEE', 'uni1EEF', 'uni1EF7', 'uni1EF9', 'v', 'x', 'y', 'zero']
+2026-10-09 06:14:41,577 | INFO    | fontTools.subset             | Glyph IDs:   [0, 1, 11, 14, 18, 24, 25, 30, 33, 34, 39, 52, 57, 59, 71, 72, 76, 77, 81, 83, 84, 104, 110, 115, 119, 131, 137, 144, 156, 157, 159, 164, 165, 166, 169, 172, 173, 179, 180, 185, 188, 192, 193, 194, 195, 196, 207, 212, 214, 216, 220, 221, 225, 227, 228, 232, 233, 237, 238, 239, 242, 243, 251, 252, 260, 262, 263, 271, 275, 276, 279, 282, 283, 287, 293, 299, 300, 306, 307, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 401, 406, 407, 408, 419, 424, 425, 427, 428, 452, 471, 487]
+2026-10-09 06:14:41,577 | INFO    | fontTools.subset             | Closed glyph list over 'glyf': 101 glyphs after
+2026-10-09 06:14:41,578 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'A', 'B', 'C', 'D', 'Dcroat', 'E', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'Ocircumflex', 'P', 'S', 'T', 'U', 'V', 'Y', 'a', 'aacute', 'acircumflex', 'agrave', 'ampersand', 'b', 'c', 'colon', 'comma', 'd', 'dcroat', 'ecircumflex', 'eight', 'emdash', 'endash', 'five', 'four', 'g', 'h', 'i', 'iacute', 'igrave', 'itilde', 'k', 'l', 'm', 'n', 'nine', 'o', 'oacute', 'ocircumflex', 'one', 'p', 'parenleft', 'parenright', 'percent', 'period', 'plus', 'q', 'r', 'seven', 'six', 'slash', 'space', 't', 'three', 'two', 'u', 'uacute', 'uhorn', 'uni1EA2', 'uni1EA3', 'uni1EA5', 'uni1EAA', 'uni1EAB', 'uni1EAC', 'uni1EAD', 'uni1EAF', 'uni1EBF', 'uni1EC1', 'uni1EC3', 'uni1EC6', 'uni1EC7', 'uni1ECB', 'uni1ED0', 'uni1ED3', 'uni1ED5', 'uni1EDD', 'uni1EE3', 'uni1EE5', 'uni1EE9', 'uni1EEE', 'uni1EEF', 'uni1EF7', 'uni1EF9', 'v', 'x', 'y', 'zero']
+2026-10-09 06:14:41,578 | INFO    | fontTools.subset             | Glyph IDs:   [0, 1, 11, 14, 18, 24, 25, 30, 33, 34, 39, 52, 57, 59, 71, 72, 76, 77, 81, 83, 84, 104, 110, 115, 119, 131, 137, 144, 156, 157, 159, 164, 165, 166, 169, 172, 173, 179, 180, 185, 188, 192, 193, 194, 195, 196, 207, 212, 214, 216, 220, 221, 225, 227, 228, 232, 233, 237, 238, 239, 242, 243, 251, 252, 260, 262, 263, 271, 275, 276, 279, 282, 283, 287, 293, 299, 300, 306, 307, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 401, 406, 407, 408, 419, 424, 425, 427, 428, 452, 471, 487]
+2026-10-09 06:14:41,578 | INFO    | fontTools.subset             | Retaining 101 glyphs
+2026-10-09 06:14:41,578 | INFO    | fontTools.subset             | head subsetting not needed
+2026-10-09 06:14:41,578 | INFO    | fontTools.subset             | hhea subsetting not needed
+2026-10-09 06:14:41,578 | INFO    | fontTools.subset             | maxp subsetting not needed
+2026-10-09 06:14:41,578 | INFO    | fontTools.subset             | OS/2 subsetting not needed
+2026-10-09 06:14:41,579 | INFO    | fontTools.subset             | hmtx subsetted
+2026-10-09 06:14:41,579 | INFO    | fontTools.subset             | cmap subsetted
+2026-10-09 06:14:41,579 | INFO    | fontTools.subset             | loca subsetting not needed
+2026-10-09 06:14:41,579 | INFO    | fontTools.subset             | post subsetted
+2026-10-09 06:14:41,579 | INFO    | fontTools.subset             | gasp subsetting not needed
+2026-10-09 06:14:41,579 | INFO    | fontTools.subset             | GDEF subsetted
+2026-10-09 06:14:41,579 | INFO    | fontTools.subset             | name subsetting not needed
+2026-10-09 06:14:41,580 | INFO    | fontTools.subset             | glyf subsetted
+2026-10-09 06:14:41,580 | INFO    | fontTools.subset             | head pruned
+2026-10-09 06:14:41,580 | INFO    | fontTools.subset             | OS/2 Unicode ranges pruned: [0, 1, 2, 3, 29, 31]
+2026-10-09 06:14:41,580 | INFO    | fontTools.subset             | OS/2 CodePage ranges pruned: [0]
+2026-10-09 06:14:41,581 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:41,581 | INFO    | fontTools.subset             | GDEF pruned
+2026-10-09 06:14:41,581 | INFO    | fontTools.subset             | name pruned
+2026-10-09 06:14:41,593 | WARNING | weasyprint                   | Using fontTools instead of HarfBuzz-Subset for font "BVP". This will be unsupported in future versions of WeasyPrint. Please install HarfBuzz-Subset >= 4.1.0 with your package manager.
+2026-10-09 06:14:41,594 | INFO    | fontTools.subset             | maxp pruned
+2026-10-09 06:14:41,594 | INFO    | fontTools.subset             | cmap pruned
+2026-10-09 06:14:41,594 | INFO    | fontTools.subset             | fpgm dropped
+2026-10-09 06:14:41,594 | INFO    | fontTools.subset             | prep dropped
+2026-10-09 06:14:41,594 | INFO    | fontTools.subset             | cvt  dropped
+2026-10-09 06:14:41,595 | INFO    | fontTools.subset             | post pruned
+2026-10-09 06:14:41,595 | INFO    | fontTools.subset             | DSIG dropped
+2026-10-09 06:14:41,595 | INFO    | fontTools.subset             | GPOS dropped
+2026-10-09 06:14:41,595 | INFO    | fontTools.subset             | GSUB dropped
+2026-10-09 06:14:41,595 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:41,595 | INFO    | fontTools.subset             | Added gid0 to subset
+2026-10-09 06:14:41,595 | INFO    | fontTools.subset             | Closing glyph list over 'glyf': 165 glyphs before
+2026-10-09 06:14:41,595 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'A', 'Aacute', 'B', 'C', 'D', 'Dcroat', 'E', 'Eacute', 'Ecircumflex', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'Otilde', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'X', 'Y', 'Z', 'a', 'aacute', 'abreve', 'acircumflex', 'agrave', 'asciitilde', 'atilde', 'b', 'bracketleft', 'bracketright', 'bullet', 'c', 'colon', 'comma', 'd', 'dcroat', 'e', 'ecircumflex', 'eight', 'ellipsis', 'emdash', 'endash', 'equal', 'f', 'f_i.liga', 'five', 'four', 'g', 'greaterequal', 'h', 'hyphen', 'i', 'iacute', 'igrave', 'itilde', 'j', 'k', 'l', 'less', 'lessequal', 'm', 'minus', 'multiply', 'n', 'nine', 'o', 'oacute', 'ocircumflex', 'ograve', 'ohorn', 'one', 'otilde', 'p', 'parenleft', 'parenright', 'percent', 'period', 'periodcentered', 'plus', 'plusminus', 'q', 'quotesingle', 'r', 's', 'semicolon', 'seven', 'six', 'slash', 'space', 't', 'three', 'two', 'u', 'uacute', 'ugrave', 'uhorn', 'underscore', 'uni1EA0', 'uni1EA1', 'uni1EA2', 'uni1EA3', 'uni1EA5', 'uni1EA7', 'uni1EAA', 'uni1EAB', 'uni1EAC', 'uni1EAD', 'uni1EAE', 'uni1EAF', 'uni1EB1', 'uni1EB7', 'uni1EB9', 'uni1EBB', 'uni1EBE', 'uni1EBF', 'uni1EC1', 'uni1EC3', 'uni1EC5', 'uni1EC6', 'uni1EC7', 'uni1EC9', 'uni1ECA', 'uni1ECB', 'uni1ECD', 'uni1ECF', 'uni1ED1', 'uni1ED3', 'uni1ED5', 'uni1ED7', 'uni1ED9', 'uni1EDB', 'uni1EDD', 'uni1EDF', 'uni1EE1', 'uni1EE2', 'uni1EE3', 'uni1EE4', 'uni1EE5', 'uni1EE7', 'uni1EE9', 'uni1EEB', 'uni1EED', 'uni1EEE', 'uni1EEF', 'uni1EF1', 'uni1EF7', 'uni1EF9', 'v', 'w', 'x', 'y', 'yacute', 'ygrave', 'z', 'zero']
+2026-10-09 06:14:41,596 | INFO    | fontTools.subset             | Glyph IDs:   [0, 1, 2, 4, 11, 14, 16, 18, 24, 25, 30, 33, 34, 35, 37, 38, 39, 51, 52, 57, 59, 64, 71, 72, 76, 77, 81, 95, 102, 104, 106, 107, 110, 115, 119, 123, 131, 137, 143, 144, 152, 156, 157, 158, 159, 160, 161, 164, 165, 166, 167, 169, 171, 172, 173, 177, 179, 180, 185, 188, 189, 192, 193, 194, 195, 196, 197, 200, 202, 206, 207, 212, 214, 216, 220, 221, 222, 225, 226, 227, 228, 232, 233, 237, 238, 239, 240, 241, 242, 243, 244, 246, 247, 248, 249, 250, 251, 252, 253, 254, 258, 260, 262, 263, 266, 271, 275, 276, 279, 280, 281, 282, 283, 284, 285, 286, 287, 293, 294, 299, 300, 301, 305, 306, 307, 308, 336, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 401, 406, 407, 408, 409, 410, 415, 416, 419, 422, 424, 425, 426, 427, 428, 431, 432, 450, 471, 472, 473, 475, 478, 479, 480, 481, 483, 487]
+2026-10-09 06:14:41,596 | INFO    | fontTools.subset             | Closed glyph list over 'glyf': 165 glyphs after
+2026-10-09 06:14:41,596 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'A', 'Aacute', 'B', 'C', 'D', 'Dcroat', 'E', 'Eacute', 'Ecircumflex', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'Otilde', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'X', 'Y', 'Z', 'a', 'aacute', 'abreve', 'acircumflex', 'agrave', 'asciitilde', 'atilde', 'b', 'bracketleft', 'bracketright', 'bullet', 'c', 'colon', 'comma', 'd', 'dcroat', 'e', 'ecircumflex', 'eight', 'ellipsis', 'emdash', 'endash', 'equal', 'f', 'f_i.liga', 'five', 'four', 'g', 'greaterequal', 'h', 'hyphen', 'i', 'iacute', 'igrave', 'itilde', 'j', 'k', 'l', 'less', 'lessequal', 'm', 'minus', 'multiply', 'n', 'nine', 'o', 'oacute', 'ocircumflex', 'ograve', 'ohorn', 'one', 'otilde', 'p', 'parenleft', 'parenright', 'percent', 'period', 'periodcentered', 'plus', 'plusminus', 'q', 'quotesingle', 'r', 's', 'semicolon', 'seven', 'six', 'slash', 'space', 't', 'three', 'two', 'u', 'uacute', 'ugrave', 'uhorn', 'underscore', 'uni1EA0', 'uni1EA1', 'uni1EA2', 'uni1EA3', 'uni1EA5', 'uni1EA7', 'uni1EAA', 'uni1EAB', 'uni1EAC', 'uni1EAD', 'uni1EAE', 'uni1EAF', 'uni1EB1', 'uni1EB7', 'uni1EB9', 'uni1EBB', 'uni1EBE', 'uni1EBF', 'uni1EC1', 'uni1EC3', 'uni1EC5', 'uni1EC6', 'uni1EC7', 'uni1EC9', 'uni1ECA', 'uni1ECB', 'uni1ECD', 'uni1ECF', 'uni1ED1', 'uni1ED3', 'uni1ED5', 'uni1ED7', 'uni1ED9', 'uni1EDB', 'uni1EDD', 'uni1EDF', 'uni1EE1', 'uni1EE2', 'uni1EE3', 'uni1EE4', 'uni1EE5', 'uni1EE7', 'uni1EE9', 'uni1EEB', 'uni1EED', 'uni1EEE', 'uni1EEF', 'uni1EF1', 'uni1EF7', 'uni1EF9', 'v', 'w', 'x', 'y', 'yacute', 'ygrave', 'z', 'zero']
+2026-10-09 06:14:41,596 | INFO    | fontTools.subset             | Glyph IDs:   [0, 1, 2, 4, 11, 14, 16, 18, 24, 25, 30, 33, 34, 35, 37, 38, 39, 51, 52, 57, 59, 64, 71, 72, 76, 77, 81, 95, 102, 104, 106, 107, 110, 115, 119, 123, 131, 137, 143, 144, 152, 156, 157, 158, 159, 160, 161, 164, 165, 166, 167, 169, 171, 172, 173, 177, 179, 180, 185, 188, 189, 192, 193, 194, 195, 196, 197, 200, 202, 206, 207, 212, 214, 216, 220, 221, 222, 225, 226, 227, 228, 232, 233, 237, 238, 239, 240, 241, 242, 243, 244, 246, 247, 248, 249, 250, 251, 252, 253, 254, 258, 260, 262, 263, 266, 271, 275, 276, 279, 280, 281, 282, 283, 284, 285, 286, 287, 293, 294, 299, 300, 301, 305, 306, 307, 308, 336, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 401, 406, 407, 408, 409, 410, 415, 416, 419, 422, 424, 425, 426, 427, 428, 431, 432, 450, 471, 472, 473, 475, 478, 479, 480, 481, 483, 487]
+2026-10-09 06:14:41,596 | INFO    | fontTools.subset             | Retaining 165 glyphs
+2026-10-09 06:14:41,596 | INFO    | fontTools.subset             | head subsetting not needed
+2026-10-09 06:14:41,596 | INFO    | fontTools.subset             | hhea subsetting not needed
+2026-10-09 06:14:41,597 | INFO    | fontTools.subset             | maxp subsetting not needed
+2026-10-09 06:14:41,597 | INFO    | fontTools.subset             | OS/2 subsetting not needed
+2026-10-09 06:14:41,597 | INFO    | fontTools.subset             | hmtx subsetted
+2026-10-09 06:14:41,597 | INFO    | fontTools.subset             | cmap subsetted
+2026-10-09 06:14:41,597 | INFO    | fontTools.subset             | loca subsetting not needed
+2026-10-09 06:14:41,597 | INFO    | fontTools.subset             | post subsetted
+2026-10-09 06:14:41,597 | INFO    | fontTools.subset             | gasp subsetting not needed
+2026-10-09 06:14:41,598 | INFO    | fontTools.subset             | GDEF subsetted
+2026-10-09 06:14:41,598 | INFO    | fontTools.subset             | name subsetting not needed
+2026-10-09 06:14:41,598 | INFO    | fontTools.subset             | glyf subsetted
+2026-10-09 06:14:41,598 | INFO    | fontTools.subset             | head pruned
+2026-10-09 06:14:41,598 | INFO    | fontTools.subset             | OS/2 Unicode ranges pruned: [0, 1, 2, 3, 29, 31, 38]
+2026-10-09 06:14:41,599 | INFO    | fontTools.subset             | OS/2 CodePage ranges pruned: [0]
+2026-10-09 06:14:41,600 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:41,600 | INFO    | fontTools.subset             | GDEF pruned
+2026-10-09 06:14:41,600 | INFO    | fontTools.subset             | name pruned
+2026-10-09 06:14:41,618 | WARNING | weasyprint                   | Using fontTools instead of HarfBuzz-Subset for font "BVP". This will be unsupported in future versions of WeasyPrint. Please install HarfBuzz-Subset >= 4.1.0 with your package manager.
+2026-10-09 06:14:41,618 | INFO    | fontTools.subset             | maxp pruned
+2026-10-09 06:14:41,619 | INFO    | fontTools.subset             | cmap pruned
+2026-10-09 06:14:41,619 | INFO    | fontTools.subset             | fpgm dropped
+2026-10-09 06:14:41,619 | INFO    | fontTools.subset             | prep dropped
+2026-10-09 06:14:41,619 | INFO    | fontTools.subset             | cvt  dropped
+2026-10-09 06:14:41,619 | INFO    | fontTools.subset             | post pruned
+2026-10-09 06:14:41,619 | INFO    | fontTools.subset             | DSIG dropped
+2026-10-09 06:14:41,620 | INFO    | fontTools.subset             | GPOS dropped
+2026-10-09 06:14:41,620 | INFO    | fontTools.subset             | GSUB dropped
+2026-10-09 06:14:41,620 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:41,620 | INFO    | fontTools.subset             | Added gid0 to subset
+2026-10-09 06:14:41,621 | INFO    | fontTools.subset             | Closing glyph list over 'glyf': 105 glyphs before
+2026-10-09 06:14:41,621 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'A', 'Aacute', 'B', 'C', 'D', 'Dcroat', 'E', 'Ecircumflex', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'V', 'Y', 'a', 'aacute', 'abreve', 'agrave', 'atilde', 'b', 'c', 'colon', 'comma', 'd', 'dcroat', 'e', 'ecircumflex', 'eight', 'emdash', 'five', 'four', 'g', 'h', 'hyphen', 'i', 'iacute', 'l', 'm', 'n', 'nine', 'o', 'oacute', 'ograve', 'ohorn', 'one', 'p', 'parenleft', 'parenright', 'percent', 'period', 'plus', 'q', 'r', 's', 'seven', 'six', 'slash', 'space', 't', 'three', 'two', 'u', 'uacute', 'uhorn', 'uni1EA0', 'uni1EA1', 'uni1EA2', 'uni1EA3', 'uni1EA5', 'uni1EA7', 'uni1EAC', 'uni1EAD', 'uni1EBF', 'uni1EC1', 'uni1EC3', 'uni1EC6', 'uni1EC7', 'uni1EC9', 'uni1ECB', 'uni1ECD', 'uni1ED1', 'uni1ED3', 'uni1ED5', 'uni1EDF', 'uni1EE3', 'uni1EE5', 'uni1EE7', 'uni1EEC', 'uni1EEE', 'uni1EEF', 'uni1EF7', 'x', 'y', 'ygrave', 'zero']
+2026-10-09 06:14:41,621 | INFO    | fontTools.subset             | Glyph IDs:   [0, 1, 2, 11, 16, 18, 24, 25, 30, 33, 34, 37, 39, 52, 57, 59, 71, 72, 76, 77, 81, 104, 107, 110, 115, 119, 130, 131, 137, 144, 156, 157, 158, 165, 166, 167, 171, 172, 173, 177, 179, 180, 185, 188, 189, 192, 193, 194, 195, 196, 207, 212, 214, 216, 220, 222, 228, 232, 233, 237, 238, 240, 242, 243, 246, 247, 249, 251, 253, 260, 262, 263, 266, 271, 275, 276, 279, 281, 282, 287, 299, 300, 305, 306, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 401, 406, 407, 408, 419, 422, 425, 427, 428, 471, 487]
+2026-10-09 06:14:41,621 | INFO    | fontTools.subset             | Closed glyph list over 'glyf': 105 glyphs after
+2026-10-09 06:14:41,621 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'A', 'Aacute', 'B', 'C', 'D', 'Dcroat', 'E', 'Ecircumflex', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'P', 'R', 'S', 'T', 'U', 'V', 'Y', 'a', 'aacute', 'abreve', 'agrave', 'atilde', 'b', 'c', 'colon', 'comma', 'd', 'dcroat', 'e', 'ecircumflex', 'eight', 'emdash', 'five', 'four', 'g', 'h', 'hyphen', 'i', 'iacute', 'l', 'm', 'n', 'nine', 'o', 'oacute', 'ograve', 'ohorn', 'one', 'p', 'parenleft', 'parenright', 'percent', 'period', 'plus', 'q', 'r', 's', 'seven', 'six', 'slash', 'space', 't', 'three', 'two', 'u', 'uacute', 'uhorn', 'uni1EA0', 'uni1EA1', 'uni1EA2', 'uni1EA3', 'uni1EA5', 'uni1EA7', 'uni1EAC', 'uni1EAD', 'uni1EBF', 'uni1EC1', 'uni1EC3', 'uni1EC6', 'uni1EC7', 'uni1EC9', 'uni1ECB', 'uni1ECD', 'uni1ED1', 'uni1ED3', 'uni1ED5', 'uni1EDF', 'uni1EE3', 'uni1EE5', 'uni1EE7', 'uni1EEC', 'uni1EEE', 'uni1EEF', 'uni1EF7', 'x', 'y', 'ygrave', 'zero']
+2026-10-09 06:14:41,621 | INFO    | fontTools.subset             | Glyph IDs:   [0, 1, 2, 11, 16, 18, 24, 25, 30, 33, 34, 37, 39, 52, 57, 59, 71, 72, 76, 77, 81, 104, 107, 110, 115, 119, 130, 131, 137, 144, 156, 157, 158, 165, 166, 167, 171, 172, 173, 177, 179, 180, 185, 188, 189, 192, 193, 194, 195, 196, 207, 212, 214, 216, 220, 222, 228, 232, 233, 237, 238, 240, 242, 243, 246, 247, 249, 251, 253, 260, 262, 263, 266, 271, 275, 276, 279, 281, 282, 287, 299, 300, 305, 306, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 401, 406, 407, 408, 419, 422, 425, 427, 428, 471, 487]
+2026-10-09 06:14:41,621 | INFO    | fontTools.subset             | Retaining 105 glyphs
+2026-10-09 06:14:41,622 | INFO    | fontTools.subset             | head subsetting not needed
+2026-10-09 06:14:41,622 | INFO    | fontTools.subset             | hhea subsetting not needed
+2026-10-09 06:14:41,622 | INFO    | fontTools.subset             | maxp subsetting not needed
+2026-10-09 06:14:41,622 | INFO    | fontTools.subset             | OS/2 subsetting not needed
+2026-10-09 06:14:41,622 | INFO    | fontTools.subset             | hmtx subsetted
+2026-10-09 06:14:41,622 | INFO    | fontTools.subset             | cmap subsetted
+2026-10-09 06:14:41,623 | INFO    | fontTools.subset             | loca subsetting not needed
+2026-10-09 06:14:41,623 | INFO    | fontTools.subset             | post subsetted
+2026-10-09 06:14:41,623 | INFO    | fontTools.subset             | gasp subsetting not needed
+2026-10-09 06:14:41,623 | INFO    | fontTools.subset             | GDEF subsetted
+2026-10-09 06:14:41,623 | INFO    | fontTools.subset             | name subsetting not needed
+2026-10-09 06:14:41,623 | INFO    | fontTools.subset             | glyf subsetted
+2026-10-09 06:14:41,623 | INFO    | fontTools.subset             | head pruned
+2026-10-09 06:14:41,624 | INFO    | fontTools.subset             | OS/2 Unicode ranges pruned: [0, 1, 2, 3, 29, 31]
+2026-10-09 06:14:41,624 | INFO    | fontTools.subset             | OS/2 CodePage ranges pruned: [0]
+2026-10-09 06:14:41,625 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:41,625 | INFO    | fontTools.subset             | GDEF pruned
+2026-10-09 06:14:41,625 | INFO    | fontTools.subset             | name pruned
+2026-10-09 06:14:41,637 | WARNING | weasyprint                   | Using fontTools instead of HarfBuzz-Subset for font "Liberation Sans". This will be unsupported in future versions of WeasyPrint. Please install HarfBuzz-Subset >= 4.1.0 with your package manager.
+2026-10-09 06:14:41,637 | INFO    | fontTools.subset             | maxp pruned
+2026-10-09 06:14:41,640 | INFO    | fontTools.subset             | cmap pruned
+2026-10-09 06:14:41,640 | INFO    | fontTools.subset             | fpgm dropped
+2026-10-09 06:14:41,640 | INFO    | fontTools.subset             | prep dropped
+2026-10-09 06:14:41,640 | INFO    | fontTools.subset             | cvt  dropped
+2026-10-09 06:14:41,640 | INFO    | fontTools.subset             | kern dropped
+2026-10-09 06:14:41,640 | INFO    | fontTools.subset             | post pruned
+2026-10-09 06:14:41,640 | INFO    | fontTools.subset             | GPOS dropped
+2026-10-09 06:14:41,640 | INFO    | fontTools.subset             | GSUB dropped
+2026-10-09 06:14:41,642 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:41,642 | INFO    | fontTools.subset             | Added gid0 to subset
+2026-10-09 06:14:41,642 | INFO    | fontTools.subset             | Closing glyph list over 'glyf': 3 glyphs before
+2026-10-09 06:14:41,642 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'arrowright', 'beta']
+2026-10-09 06:14:41,643 | INFO    | fontTools.subset             | Glyph IDs:   [0, 868, 2118]
+2026-10-09 06:14:41,643 | INFO    | fontTools.subset             | Closed glyph list over 'glyf': 3 glyphs after
+2026-10-09 06:14:41,643 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'arrowright', 'beta']
+2026-10-09 06:14:41,643 | INFO    | fontTools.subset             | Glyph IDs:   [0, 868, 2118]
+2026-10-09 06:14:41,644 | INFO    | fontTools.subset             | Retaining 3 glyphs
+2026-10-09 06:14:41,644 | INFO    | fontTools.subset             | head subsetting not needed
+2026-10-09 06:14:41,644 | INFO    | fontTools.subset             | hhea subsetting not needed
+2026-10-09 06:14:41,644 | INFO    | fontTools.subset             | maxp subsetting not needed
+2026-10-09 06:14:41,644 | INFO    | fontTools.subset             | OS/2 subsetting not needed
+2026-10-09 06:14:41,646 | INFO    | fontTools.subset             | hmtx subsetted
+2026-10-09 06:14:41,646 | INFO    | fontTools.subset             | cmap subsetted
+2026-10-09 06:14:41,646 | INFO    | fontTools.subset             | loca subsetting not needed
+2026-10-09 06:14:41,646 | INFO    | fontTools.subset             | post subsetted
+2026-10-09 06:14:41,646 | INFO    | fontTools.subset             | gasp subsetting not needed
+2026-10-09 06:14:41,646 | INFO    | fontTools.subset             | FFTM NOT subset; don't know how to subset
+2026-10-09 06:14:41,647 | INFO    | fontTools.subset             | GDEF subsetted
+2026-10-09 06:14:41,647 | INFO    | fontTools.subset             | name subsetting not needed
+2026-10-09 06:14:41,655 | INFO    | fontTools.subset             | glyf subsetted
+2026-10-09 06:14:41,655 | INFO    | fontTools.subset             | head pruned
+2026-10-09 06:14:41,655 | INFO    | fontTools.subset             | OS/2 Unicode ranges pruned: [7, 37]
+2026-10-09 06:14:41,655 | INFO    | fontTools.subset             | OS/2 CodePage ranges pruned: [0]
+2026-10-09 06:14:41,656 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:41,656 | INFO    | fontTools.subset             | GDEF pruned
+2026-10-09 06:14:41,657 | INFO    | fontTools.subset             | name pruned
+2026-10-09 06:14:41,665 | WARNING | weasyprint                   | Using fontTools instead of HarfBuzz-Subset for font "Liberation Sans". This will be unsupported in future versions of WeasyPrint. Please install HarfBuzz-Subset >= 4.1.0 with your package manager.
+2026-10-09 06:14:41,665 | INFO    | fontTools.subset             | maxp pruned
+2026-10-09 06:14:41,669 | INFO    | fontTools.subset             | cmap pruned
+2026-10-09 06:14:41,669 | INFO    | fontTools.subset             | fpgm dropped
+2026-10-09 06:14:41,669 | INFO    | fontTools.subset             | prep dropped
+2026-10-09 06:14:41,669 | INFO    | fontTools.subset             | cvt  dropped
+2026-10-09 06:14:41,669 | INFO    | fontTools.subset             | kern dropped
+2026-10-09 06:14:41,670 | INFO    | fontTools.subset             | post pruned
+2026-10-09 06:14:41,670 | INFO    | fontTools.subset             | GPOS dropped
+2026-10-09 06:14:41,670 | INFO    | fontTools.subset             | GSUB dropped
+2026-10-09 06:14:41,672 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:41,672 | INFO    | fontTools.subset             | Added gid0 to subset
+2026-10-09 06:14:41,672 | INFO    | fontTools.subset             | Closing glyph list over 'glyf': 2 glyphs before
+2026-10-09 06:14:41,672 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'arrowboth']
+2026-10-09 06:14:41,672 | INFO    | fontTools.subset             | Glyph IDs:   [0, 2120]
+2026-10-09 06:14:41,673 | INFO    | fontTools.subset             | Closed glyph list over 'glyf': 2 glyphs after
+2026-10-09 06:14:41,673 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'arrowboth']
+2026-10-09 06:14:41,673 | INFO    | fontTools.subset             | Glyph IDs:   [0, 2120]
+2026-10-09 06:14:41,674 | INFO    | fontTools.subset             | Retaining 2 glyphs
+2026-10-09 06:14:41,674 | INFO    | fontTools.subset             | head subsetting not needed
+2026-10-09 06:14:41,674 | INFO    | fontTools.subset             | hhea subsetting not needed
+2026-10-09 06:14:41,674 | INFO    | fontTools.subset             | maxp subsetting not needed
+2026-10-09 06:14:41,674 | INFO    | fontTools.subset             | OS/2 subsetting not needed
+2026-10-09 06:14:41,675 | INFO    | fontTools.subset             | hmtx subsetted
+2026-10-09 06:14:41,676 | INFO    | fontTools.subset             | cmap subsetted
+2026-10-09 06:14:41,676 | INFO    | fontTools.subset             | loca subsetting not needed
+2026-10-09 06:14:41,676 | INFO    | fontTools.subset             | post subsetted
+2026-10-09 06:14:41,676 | INFO    | fontTools.subset             | gasp subsetting not needed
+2026-10-09 06:14:41,676 | INFO    | fontTools.subset             | FFTM NOT subset; don't know how to subset
+2026-10-09 06:14:41,677 | INFO    | fontTools.subset             | GDEF subsetted
+2026-10-09 06:14:41,677 | INFO    | fontTools.subset             | name subsetting not needed
+2026-10-09 06:14:41,678 | INFO    | fontTools.subset             | glyf subsetted
+2026-10-09 06:14:41,678 | INFO    | fontTools.subset             | head pruned
+2026-10-09 06:14:41,679 | INFO    | fontTools.subset             | OS/2 Unicode ranges pruned: [37]
+2026-10-09 06:14:41,679 | INFO    | fontTools.subset             | OS/2 CodePage ranges pruned: [0]
+2026-10-09 06:14:41,679 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:41,679 | INFO    | fontTools.subset             | GDEF pruned
+2026-10-09 06:14:41,679 | INFO    | fontTools.subset             | name pruned
+2026-10-09 06:14:42,257 | INFO    | invest_system.report.render  | Da xuat PDF bang weasyprint: outputs/samples/DEMOB_20261009_1314_full.pdf
+2026-10-09 06:14:44,590 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:44,591 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:44,592 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:44,592 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:44,593 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:44,593 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:44,593 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:44,594 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:45,134 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:45,134 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:45,136 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:45,137 | INFO    | matplotlib.category          | Using categorical units to plot a list of strings that are all parsable as floats or dates. If these strings should be plotted as numbers, cast to the appropriate data type before plotting.
+2026-10-09 06:14:45,641 | INFO    | weasyprint.progress          | Step 2 - Fetching and parsing CSS - CSS string
+2026-10-09 06:14:45,698 | INFO    | weasyprint.progress          | Step 2 - Fetching and parsing CSS - CSS string
+2026-10-09 06:14:45,718 | INFO    | weasyprint.progress          | Step 2 - Fetching and parsing CSS - CSS string
+2026-10-09 06:14:45,833 | INFO    | weasyprint.progress          | Step 1 - Fetching and parsing HTML - HTML string
+2026-10-09 06:14:45,898 | INFO    | weasyprint.progress          | Step 2 - Fetching and parsing CSS - CSS string
+2026-10-09 06:14:45,933 | INFO    | weasyprint.progress          | Step 3 - Applying CSS
+2026-10-09 06:14:45,965 | INFO    | weasyprint.progress          | Step 4 - Creating formatting structure
+2026-10-09 06:14:45,999 | INFO    | weasyprint.progress          | Step 5 - Creating layout - Page 1
+2026-10-09 06:14:46,199 | INFO    | weasyprint.progress          | Step 5 - Creating layout - Page 2
+2026-10-09 06:14:46,240 | INFO    | weasyprint.progress          | Step 5 - Creating layout - Page 3
+2026-10-09 06:14:46,304 | INFO    | weasyprint.progress          | Step 5 - Creating layout - Page 4
+2026-10-09 06:14:46,415 | INFO    | weasyprint.progress          | Step 6 - Creating PDF
+2026-10-09 06:14:46,503 | INFO    | weasyprint.progress          | Step 7 - Adding PDF metadata
+2026-10-09 06:14:46,504 | WARNING | weasyprint                   | Using fontTools instead of HarfBuzz-Subset for font "BVP". This will be unsupported in future versions of WeasyPrint. Please install HarfBuzz-Subset >= 4.1.0 with your package manager.
+2026-10-09 06:14:46,505 | INFO    | fontTools.subset             | maxp pruned
+2026-10-09 06:14:46,507 | INFO    | fontTools.subset             | cmap pruned
+2026-10-09 06:14:46,507 | INFO    | fontTools.subset             | fpgm dropped
+2026-10-09 06:14:46,507 | INFO    | fontTools.subset             | prep dropped
+2026-10-09 06:14:46,507 | INFO    | fontTools.subset             | cvt  dropped
+2026-10-09 06:14:46,507 | INFO    | fontTools.subset             | post pruned
+2026-10-09 06:14:46,507 | INFO    | fontTools.subset             | DSIG dropped
+2026-10-09 06:14:46,508 | INFO    | fontTools.subset             | GPOS dropped
+2026-10-09 06:14:46,508 | INFO    | fontTools.subset             | GSUB dropped
+2026-10-09 06:14:46,509 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:46,509 | INFO    | fontTools.subset             | Added gid0 to subset
+2026-10-09 06:14:46,509 | INFO    | fontTools.subset             | Closing glyph list over 'glyf': 91 glyphs before
+2026-10-09 06:14:46,509 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'A', 'B', 'C', 'D', 'Dcroat', 'E', 'Eacute', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'Ocircumflex', 'P', 'Q', 'S', 'T', 'U', 'V', 'Y', 'a', 'aacute', 'acircumflex', 'agrave', 'ampersand', 'b', 'c', 'colon', 'comma', 'd', 'dcroat', 'eacute', 'ecircumflex', 'eight', 'emdash', 'endash', 'four', 'g', 'h', 'hyphen', 'i', 'iacute', 'igrave', 'k', 'l', 'm', 'n', 'o', 'oacute', 'one', 'p', 'parenleft', 'parenright', 'percent', 'period', 'q', 'r', 'seven', 'six', 'slash', 'space', 't', 'three', 'two', 'u', 'uhorn', 'uni1EA2', 'uni1EA3', 'uni1EA5', 'uni1EAA', 'uni1EAC', 'uni1EAF', 'uni1EBF', 'uni1EC1', 'uni1EC3', 'uni1EC6', 'uni1EC7', 'uni1ECB', 'uni1ED0', 'uni1ED3', 'uni1EE3', 'uni1EE5', 'uni1EEE', 'uni1EEF', 'uni1EF7', 'y', 'zero']
+2026-10-09 06:14:46,509 | INFO    | fontTools.subset             | Glyph IDs:   [0, 1, 11, 14, 18, 24, 25, 30, 33, 34, 35, 39, 52, 57, 59, 71, 72, 76, 77, 81, 83, 84, 104, 106, 110, 115, 119, 131, 137, 144, 156, 157, 159, 164, 165, 172, 173, 179, 180, 185, 188, 190, 192, 193, 194, 195, 196, 207, 212, 214, 216, 220, 221, 227, 228, 232, 233, 237, 238, 242, 251, 260, 262, 263, 271, 275, 279, 282, 287, 300, 306, 339, 340, 341, 342, 343, 345, 346, 347, 401, 406, 407, 408, 419, 422, 424, 425, 427, 428, 452, 487]
+2026-10-09 06:14:46,510 | INFO    | fontTools.subset             | Closed glyph list over 'glyf': 91 glyphs after
+2026-10-09 06:14:46,510 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'A', 'B', 'C', 'D', 'Dcroat', 'E', 'Eacute', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'Ocircumflex', 'P', 'Q', 'S', 'T', 'U', 'V', 'Y', 'a', 'aacute', 'acircumflex', 'agrave', 'ampersand', 'b', 'c', 'colon', 'comma', 'd', 'dcroat', 'eacute', 'ecircumflex', 'eight', 'emdash', 'endash', 'four', 'g', 'h', 'hyphen', 'i', 'iacute', 'igrave', 'k', 'l', 'm', 'n', 'o', 'oacute', 'one', 'p', 'parenleft', 'parenright', 'percent', 'period', 'q', 'r', 'seven', 'six', 'slash', 'space', 't', 'three', 'two', 'u', 'uhorn', 'uni1EA2', 'uni1EA3', 'uni1EA5', 'uni1EAA', 'uni1EAC', 'uni1EAF', 'uni1EBF', 'uni1EC1', 'uni1EC3', 'uni1EC6', 'uni1EC7', 'uni1ECB', 'uni1ED0', 'uni1ED3', 'uni1EE3', 'uni1EE5', 'uni1EEE', 'uni1EEF', 'uni1EF7', 'y', 'zero']
+2026-10-09 06:14:46,510 | INFO    | fontTools.subset             | Glyph IDs:   [0, 1, 11, 14, 18, 24, 25, 30, 33, 34, 35, 39, 52, 57, 59, 71, 72, 76, 77, 81, 83, 84, 104, 106, 110, 115, 119, 131, 137, 144, 156, 157, 159, 164, 165, 172, 173, 179, 180, 185, 188, 190, 192, 193, 194, 195, 196, 207, 212, 214, 216, 220, 221, 227, 228, 232, 233, 237, 238, 242, 251, 260, 262, 263, 271, 275, 279, 282, 287, 300, 306, 339, 340, 341, 342, 343, 345, 346, 347, 401, 406, 407, 408, 419, 422, 424, 425, 427, 428, 452, 487]
+2026-10-09 06:14:46,510 | INFO    | fontTools.subset             | Retaining 91 glyphs
+2026-10-09 06:14:46,510 | INFO    | fontTools.subset             | head subsetting not needed
+2026-10-09 06:14:46,510 | INFO    | fontTools.subset             | hhea subsetting not needed
+2026-10-09 06:14:46,510 | INFO    | fontTools.subset             | maxp subsetting not needed
+2026-10-09 06:14:46,511 | INFO    | fontTools.subset             | OS/2 subsetting not needed
+2026-10-09 06:14:46,511 | INFO    | fontTools.subset             | hmtx subsetted
+2026-10-09 06:14:46,511 | INFO    | fontTools.subset             | cmap subsetted
+2026-10-09 06:14:46,511 | INFO    | fontTools.subset             | loca subsetting not needed
+2026-10-09 06:14:46,511 | INFO    | fontTools.subset             | post subsetted
+2026-10-09 06:14:46,512 | INFO    | fontTools.subset             | gasp subsetting not needed
+2026-10-09 06:14:46,512 | INFO    | fontTools.subset             | GDEF subsetted
+2026-10-09 06:14:46,512 | INFO    | fontTools.subset             | name subsetting not needed
+2026-10-09 06:14:46,512 | INFO    | fontTools.subset             | glyf subsetted
+2026-10-09 06:14:46,513 | INFO    | fontTools.subset             | head pruned
+2026-10-09 06:14:46,513 | INFO    | fontTools.subset             | OS/2 Unicode ranges pruned: [0, 1, 2, 3, 29, 31]
+2026-10-09 06:14:46,513 | INFO    | fontTools.subset             | OS/2 CodePage ranges pruned: [0]
+2026-10-09 06:14:46,514 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:46,514 | INFO    | fontTools.subset             | GDEF pruned
+2026-10-09 06:14:46,515 | INFO    | fontTools.subset             | name pruned
+2026-10-09 06:14:46,528 | WARNING | weasyprint                   | Using fontTools instead of HarfBuzz-Subset for font "BVP". This will be unsupported in future versions of WeasyPrint. Please install HarfBuzz-Subset >= 4.1.0 with your package manager.
+2026-10-09 06:14:46,528 | INFO    | fontTools.subset             | maxp pruned
+2026-10-09 06:14:46,529 | INFO    | fontTools.subset             | cmap pruned
+2026-10-09 06:14:46,529 | INFO    | fontTools.subset             | fpgm dropped
+2026-10-09 06:14:46,529 | INFO    | fontTools.subset             | prep dropped
+2026-10-09 06:14:46,529 | INFO    | fontTools.subset             | cvt  dropped
+2026-10-09 06:14:46,529 | INFO    | fontTools.subset             | post pruned
+2026-10-09 06:14:46,529 | INFO    | fontTools.subset             | DSIG dropped
+2026-10-09 06:14:46,529 | INFO    | fontTools.subset             | GPOS dropped
+2026-10-09 06:14:46,530 | INFO    | fontTools.subset             | GSUB dropped
+2026-10-09 06:14:46,530 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:46,530 | INFO    | fontTools.subset             | Added gid0 to subset
+2026-10-09 06:14:46,530 | INFO    | fontTools.subset             | Closing glyph list over 'glyf': 152 glyphs before
+2026-10-09 06:14:46,530 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'A', 'Aacute', 'B', 'C', 'D', 'Dcroat', 'E', 'Eacute', 'Ecircumflex', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'aacute', 'abreve', 'acircumflex', 'agrave', 'ampersand', 'atilde', 'b', 'bullet', 'c', 'colon', 'comma', 'd', 'dcroat', 'e', 'eacute', 'ecircumflex', 'eight', 'endash', 'equal', 'f', 'f_f.liga', 'f_i.liga', 'five', 'four', 'g', 'greaterequal', 'h', 'hyphen', 'i', 'iacute', 'itilde', 'k', 'l', 'less', 'lessequal', 'm', 'minus', 'multiply', 'n', 'nine', 'o', 'oacute', 'ocircumflex', 'ograve', 'ohorn', 'one', 'otilde', 'p', 'parenleft', 'parenright', 'percent', 'period', 'periodcentered', 'plus', 'plusminus', 'q', 'r', 's', 'semicolon', 'seven', 'six', 'slash', 'space', 't', 'three', 'two', 'u', 'ugrave', 'uhorn', 'underscore', 'uni1EA0', 'uni1EA1', 'uni1EA2', 'uni1EA3', 'uni1EA5', 'uni1EA7', 'uni1EAA', 'uni1EAB', 'uni1EAD', 'uni1EAE', 'uni1EAF', 'uni1EB7', 'uni1EB9', 'uni1EBE', 'uni1EBF', 'uni1EC1', 'uni1EC3', 'uni1EC5', 'uni1EC6', 'uni1EC7', 'uni1EC9', 'uni1ECA', 'uni1ECB', 'uni1ECD', 'uni1ED1', 'uni1ED3', 'uni1ED5', 'uni1ED7', 'uni1ED9', 'uni1EDB', 'uni1EDD', 'uni1EDF', 'uni1EE3', 'uni1EE4', 'uni1EE5', 'uni1EE7', 'uni1EE9', 'uni1EEB', 'uni1EED', 'uni1EEE', 'uni1EEF', 'uni1EF1', 'uni1EF7', 'uni1EF9', 'v', 'w', 'x', 'y', 'yacute', 'z', 'zero']
+2026-10-09 06:14:46,531 | INFO    | fontTools.subset             | Glyph IDs:   [0, 1, 2, 4, 14, 16, 18, 24, 25, 30, 33, 34, 35, 37, 38, 39, 51, 52, 57, 59, 64, 71, 72, 76, 77, 81, 104, 106, 107, 110, 115, 119, 123, 131, 137, 138, 143, 144, 152, 156, 157, 158, 159, 160, 164, 165, 166, 167, 169, 171, 172, 173, 177, 179, 180, 185, 188, 189, 190, 192, 193, 194, 195, 196, 197, 200, 206, 207, 212, 214, 216, 220, 222, 225, 227, 228, 232, 233, 237, 238, 239, 240, 241, 242, 243, 244, 246, 247, 249, 250, 251, 252, 253, 258, 260, 262, 263, 266, 271, 275, 279, 280, 281, 282, 283, 284, 285, 286, 287, 293, 294, 299, 300, 301, 306, 307, 308, 334, 336, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 401, 406, 407, 408, 409, 415, 416, 419, 422, 424, 426, 427, 428, 452, 471, 472, 473, 475, 478, 479, 480, 481, 487]
+2026-10-09 06:14:46,531 | INFO    | fontTools.subset             | Closed glyph list over 'glyf': 152 glyphs after
+2026-10-09 06:14:46,531 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'A', 'Aacute', 'B', 'C', 'D', 'Dcroat', 'E', 'Eacute', 'Ecircumflex', 'F', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'aacute', 'abreve', 'acircumflex', 'agrave', 'ampersand', 'atilde', 'b', 'bullet', 'c', 'colon', 'comma', 'd', 'dcroat', 'e', 'eacute', 'ecircumflex', 'eight', 'endash', 'equal', 'f', 'f_f.liga', 'f_i.liga', 'five', 'four', 'g', 'greaterequal', 'h', 'hyphen', 'i', 'iacute', 'itilde', 'k', 'l', 'less', 'lessequal', 'm', 'minus', 'multiply', 'n', 'nine', 'o', 'oacute', 'ocircumflex', 'ograve', 'ohorn', 'one', 'otilde', 'p', 'parenleft', 'parenright', 'percent', 'period', 'periodcentered', 'plus', 'plusminus', 'q', 'r', 's', 'semicolon', 'seven', 'six', 'slash', 'space', 't', 'three', 'two', 'u', 'ugrave', 'uhorn', 'underscore', 'uni1EA0', 'uni1EA1', 'uni1EA2', 'uni1EA3', 'uni1EA5', 'uni1EA7', 'uni1EAA', 'uni1EAB', 'uni1EAD', 'uni1EAE', 'uni1EAF', 'uni1EB7', 'uni1EB9', 'uni1EBE', 'uni1EBF', 'uni1EC1', 'uni1EC3', 'uni1EC5', 'uni1EC6', 'uni1EC7', 'uni1EC9', 'uni1ECA', 'uni1ECB', 'uni1ECD', 'uni1ED1', 'uni1ED3', 'uni1ED5', 'uni1ED7', 'uni1ED9', 'uni1EDB', 'uni1EDD', 'uni1EDF', 'uni1EE3', 'uni1EE4', 'uni1EE5', 'uni1EE7', 'uni1EE9', 'uni1EEB', 'uni1EED', 'uni1EEE', 'uni1EEF', 'uni1EF1', 'uni1EF7', 'uni1EF9', 'v', 'w', 'x', 'y', 'yacute', 'z', 'zero']
+2026-10-09 06:14:46,531 | INFO    | fontTools.subset             | Glyph IDs:   [0, 1, 2, 4, 14, 16, 18, 24, 25, 30, 33, 34, 35, 37, 38, 39, 51, 52, 57, 59, 64, 71, 72, 76, 77, 81, 104, 106, 107, 110, 115, 119, 123, 131, 137, 138, 143, 144, 152, 156, 157, 158, 159, 160, 164, 165, 166, 167, 169, 171, 172, 173, 177, 179, 180, 185, 188, 189, 190, 192, 193, 194, 195, 196, 197, 200, 206, 207, 212, 214, 216, 220, 222, 225, 227, 228, 232, 233, 237, 238, 239, 240, 241, 242, 243, 244, 246, 247, 249, 250, 251, 252, 253, 258, 260, 262, 263, 266, 271, 275, 279, 280, 281, 282, 283, 284, 285, 286, 287, 293, 294, 299, 300, 301, 306, 307, 308, 334, 336, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 401, 406, 407, 408, 409, 415, 416, 419, 422, 424, 426, 427, 428, 452, 471, 472, 473, 475, 478, 479, 480, 481, 487]
+2026-10-09 06:14:46,531 | INFO    | fontTools.subset             | Retaining 152 glyphs
+2026-10-09 06:14:46,531 | INFO    | fontTools.subset             | head subsetting not needed
+2026-10-09 06:14:46,531 | INFO    | fontTools.subset             | hhea subsetting not needed
+2026-10-09 06:14:46,531 | INFO    | fontTools.subset             | maxp subsetting not needed
+2026-10-09 06:14:46,532 | INFO    | fontTools.subset             | OS/2 subsetting not needed
+2026-10-09 06:14:46,532 | INFO    | fontTools.subset             | hmtx subsetted
+2026-10-09 06:14:46,532 | INFO    | fontTools.subset             | cmap subsetted
+2026-10-09 06:14:46,532 | INFO    | fontTools.subset             | loca subsetting not needed
+2026-10-09 06:14:46,532 | INFO    | fontTools.subset             | post subsetted
+2026-10-09 06:14:46,532 | INFO    | fontTools.subset             | gasp subsetting not needed
+2026-10-09 06:14:46,533 | INFO    | fontTools.subset             | GDEF subsetted
+2026-10-09 06:14:46,533 | INFO    | fontTools.subset             | name subsetting not needed
+2026-10-09 06:14:46,533 | INFO    | fontTools.subset             | glyf subsetted
+2026-10-09 06:14:46,533 | INFO    | fontTools.subset             | head pruned
+2026-10-09 06:14:46,533 | INFO    | fontTools.subset             | OS/2 Unicode ranges pruned: [0, 1, 2, 3, 29, 31, 38]
+2026-10-09 06:14:46,533 | INFO    | fontTools.subset             | OS/2 CodePage ranges pruned: [0]
+2026-10-09 06:14:46,534 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:46,535 | INFO    | fontTools.subset             | GDEF pruned
+2026-10-09 06:14:46,535 | INFO    | fontTools.subset             | name pruned
+2026-10-09 06:14:46,552 | WARNING | weasyprint                   | Using fontTools instead of HarfBuzz-Subset for font "BVP". This will be unsupported in future versions of WeasyPrint. Please install HarfBuzz-Subset >= 4.1.0 with your package manager.
+2026-10-09 06:14:46,552 | INFO    | fontTools.subset             | maxp pruned
+2026-10-09 06:14:46,553 | INFO    | fontTools.subset             | cmap pruned
+2026-10-09 06:14:46,553 | INFO    | fontTools.subset             | fpgm dropped
+2026-10-09 06:14:46,553 | INFO    | fontTools.subset             | prep dropped
+2026-10-09 06:14:46,553 | INFO    | fontTools.subset             | cvt  dropped
+2026-10-09 06:14:46,553 | INFO    | fontTools.subset             | post pruned
+2026-10-09 06:14:46,553 | INFO    | fontTools.subset             | DSIG dropped
+2026-10-09 06:14:46,553 | INFO    | fontTools.subset             | GPOS dropped
+2026-10-09 06:14:46,553 | INFO    | fontTools.subset             | GSUB dropped
+2026-10-09 06:14:46,554 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:46,554 | INFO    | fontTools.subset             | Added gid0 to subset
+2026-10-09 06:14:46,554 | INFO    | fontTools.subset             | Closing glyph list over 'glyf': 99 glyphs before
+2026-10-09 06:14:46,554 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'A', 'Aacute', 'B', 'C', 'D', 'Dcroat', 'Eacute', 'Ecircumflex', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'Y', 'a', 'aacute', 'b', 'c', 'colon', 'comma', 'd', 'dcroat', 'e', 'ecircumflex', 'eight', 'emdash', 'five', 'four', 'g', 'h', 'hyphen', 'i', 'iacute', 'l', 'm', 'n', 'nine', 'o', 'ograve', 'ohorn', 'one', 'p', 'parenleft', 'parenright', 'percent', 'period', 'plus', 'q', 'r', 's', 'seven', 'six', 'slash', 'space', 't', 'three', 'two', 'u', 'uacute', 'uhorn', 'uni1EA0', 'uni1EA1', 'uni1EA2', 'uni1EA3', 'uni1EA5', 'uni1EA7', 'uni1EAC', 'uni1EAD', 'uni1EBF', 'uni1EC3', 'uni1EC6', 'uni1EC7', 'uni1EC9', 'uni1ECB', 'uni1ECD', 'uni1ED1', 'uni1ED3', 'uni1ED5', 'uni1EDF', 'uni1EE3', 'uni1EE5', 'uni1EE7', 'uni1EEC', 'uni1EEE', 'uni1EEF', 'uni1EF7', 'x', 'y', 'zero']
+2026-10-09 06:14:46,555 | INFO    | fontTools.subset             | Glyph IDs:   [0, 1, 2, 11, 16, 18, 24, 25, 30, 33, 35, 37, 39, 52, 57, 59, 71, 72, 76, 77, 81, 104, 106, 107, 110, 115, 119, 130, 131, 144, 156, 157, 165, 166, 167, 171, 173, 179, 180, 185, 188, 189, 192, 193, 194, 196, 207, 212, 214, 216, 220, 222, 228, 232, 233, 237, 240, 242, 243, 246, 247, 249, 251, 253, 260, 262, 263, 266, 271, 275, 276, 279, 281, 282, 287, 299, 300, 306, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 401, 406, 407, 408, 419, 422, 425, 427, 428, 471, 487]
+2026-10-09 06:14:46,555 | INFO    | fontTools.subset             | Closed glyph list over 'glyf': 99 glyphs after
+2026-10-09 06:14:46,555 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'A', 'Aacute', 'B', 'C', 'D', 'Dcroat', 'Eacute', 'Ecircumflex', 'G', 'H', 'I', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'Y', 'a', 'aacute', 'b', 'c', 'colon', 'comma', 'd', 'dcroat', 'e', 'ecircumflex', 'eight', 'emdash', 'five', 'four', 'g', 'h', 'hyphen', 'i', 'iacute', 'l', 'm', 'n', 'nine', 'o', 'ograve', 'ohorn', 'one', 'p', 'parenleft', 'parenright', 'percent', 'period', 'plus', 'q', 'r', 's', 'seven', 'six', 'slash', 'space', 't', 'three', 'two', 'u', 'uacute', 'uhorn', 'uni1EA0', 'uni1EA1', 'uni1EA2', 'uni1EA3', 'uni1EA5', 'uni1EA7', 'uni1EAC', 'uni1EAD', 'uni1EBF', 'uni1EC3', 'uni1EC6', 'uni1EC7', 'uni1EC9', 'uni1ECB', 'uni1ECD', 'uni1ED1', 'uni1ED3', 'uni1ED5', 'uni1EDF', 'uni1EE3', 'uni1EE5', 'uni1EE7', 'uni1EEC', 'uni1EEE', 'uni1EEF', 'uni1EF7', 'x', 'y', 'zero']
+2026-10-09 06:14:46,555 | INFO    | fontTools.subset             | Glyph IDs:   [0, 1, 2, 11, 16, 18, 24, 25, 30, 33, 35, 37, 39, 52, 57, 59, 71, 72, 76, 77, 81, 104, 106, 107, 110, 115, 119, 130, 131, 144, 156, 157, 165, 166, 167, 171, 173, 179, 180, 185, 188, 189, 192, 193, 194, 196, 207, 212, 214, 216, 220, 222, 228, 232, 233, 237, 240, 242, 243, 246, 247, 249, 251, 253, 260, 262, 263, 266, 271, 275, 276, 279, 281, 282, 287, 299, 300, 306, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 401, 406, 407, 408, 419, 422, 425, 427, 428, 471, 487]
+2026-10-09 06:14:46,555 | INFO    | fontTools.subset             | Retaining 99 glyphs
+2026-10-09 06:14:46,555 | INFO    | fontTools.subset             | head subsetting not needed
+2026-10-09 06:14:46,555 | INFO    | fontTools.subset             | hhea subsetting not needed
+2026-10-09 06:14:46,556 | INFO    | fontTools.subset             | maxp subsetting not needed
+2026-10-09 06:14:46,556 | INFO    | fontTools.subset             | OS/2 subsetting not needed
+2026-10-09 06:14:46,556 | INFO    | fontTools.subset             | hmtx subsetted
+2026-10-09 06:14:46,556 | INFO    | fontTools.subset             | cmap subsetted
+2026-10-09 06:14:46,556 | INFO    | fontTools.subset             | loca subsetting not needed
+2026-10-09 06:14:46,556 | INFO    | fontTools.subset             | post subsetted
+2026-10-09 06:14:46,556 | INFO    | fontTools.subset             | gasp subsetting not needed
+2026-10-09 06:14:46,557 | INFO    | fontTools.subset             | GDEF subsetted
+2026-10-09 06:14:46,557 | INFO    | fontTools.subset             | name subsetting not needed
+2026-10-09 06:14:46,557 | INFO    | fontTools.subset             | glyf subsetted
+2026-10-09 06:14:46,557 | INFO    | fontTools.subset             | head pruned
+2026-10-09 06:14:46,558 | INFO    | fontTools.subset             | OS/2 Unicode ranges pruned: [0, 1, 2, 3, 29, 31]
+2026-10-09 06:14:46,558 | INFO    | fontTools.subset             | OS/2 CodePage ranges pruned: [0]
+2026-10-09 06:14:46,558 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:46,558 | INFO    | fontTools.subset             | GDEF pruned
+2026-10-09 06:14:46,559 | INFO    | fontTools.subset             | name pruned
+2026-10-09 06:14:46,570 | WARNING | weasyprint                   | Using fontTools instead of HarfBuzz-Subset for font "Liberation Sans". This will be unsupported in future versions of WeasyPrint. Please install HarfBuzz-Subset >= 4.1.0 with your package manager.
+2026-10-09 06:14:46,571 | INFO    | fontTools.subset             | maxp pruned
+2026-10-09 06:14:46,573 | INFO    | fontTools.subset             | cmap pruned
+2026-10-09 06:14:46,573 | INFO    | fontTools.subset             | fpgm dropped
+2026-10-09 06:14:46,573 | INFO    | fontTools.subset             | prep dropped
+2026-10-09 06:14:46,573 | INFO    | fontTools.subset             | cvt  dropped
+2026-10-09 06:14:46,573 | INFO    | fontTools.subset             | kern dropped
+2026-10-09 06:14:46,573 | INFO    | fontTools.subset             | post pruned
+2026-10-09 06:14:46,574 | INFO    | fontTools.subset             | GPOS dropped
+2026-10-09 06:14:46,574 | INFO    | fontTools.subset             | GSUB dropped
+2026-10-09 06:14:46,575 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:46,576 | INFO    | fontTools.subset             | Added gid0 to subset
+2026-10-09 06:14:46,576 | INFO    | fontTools.subset             | Closing glyph list over 'glyf': 3 glyphs before
+2026-10-09 06:14:46,576 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'arrowright', 'beta']
+2026-10-09 06:14:46,576 | INFO    | fontTools.subset             | Glyph IDs:   [0, 868, 2118]
+2026-10-09 06:14:46,576 | INFO    | fontTools.subset             | Closed glyph list over 'glyf': 3 glyphs after
+2026-10-09 06:14:46,576 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'arrowright', 'beta']
+2026-10-09 06:14:46,577 | INFO    | fontTools.subset             | Glyph IDs:   [0, 868, 2118]
+2026-10-09 06:14:46,578 | INFO    | fontTools.subset             | Retaining 3 glyphs
+2026-10-09 06:14:46,578 | INFO    | fontTools.subset             | head subsetting not needed
+2026-10-09 06:14:46,578 | INFO    | fontTools.subset             | hhea subsetting not needed
+2026-10-09 06:14:46,578 | INFO    | fontTools.subset             | maxp subsetting not needed
+2026-10-09 06:14:46,578 | INFO    | fontTools.subset             | OS/2 subsetting not needed
+2026-10-09 06:14:46,580 | INFO    | fontTools.subset             | hmtx subsetted
+2026-10-09 06:14:46,580 | INFO    | fontTools.subset             | cmap subsetted
+2026-10-09 06:14:46,580 | INFO    | fontTools.subset             | loca subsetting not needed
+2026-10-09 06:14:46,580 | INFO    | fontTools.subset             | post subsetted
+2026-10-09 06:14:46,580 | INFO    | fontTools.subset             | gasp subsetting not needed
+2026-10-09 06:14:46,580 | INFO    | fontTools.subset             | FFTM NOT subset; don't know how to subset
+2026-10-09 06:14:46,581 | INFO    | fontTools.subset             | GDEF subsetted
+2026-10-09 06:14:46,582 | INFO    | fontTools.subset             | name subsetting not needed
+2026-10-09 06:14:46,582 | INFO    | fontTools.subset             | glyf subsetted
+2026-10-09 06:14:46,583 | INFO    | fontTools.subset             | head pruned
+2026-10-09 06:14:46,583 | INFO    | fontTools.subset             | OS/2 Unicode ranges pruned: [7, 37]
+2026-10-09 06:14:46,583 | INFO    | fontTools.subset             | OS/2 CodePage ranges pruned: [0]
+2026-10-09 06:14:46,583 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:46,583 | INFO    | fontTools.subset             | GDEF pruned
+2026-10-09 06:14:46,584 | INFO    | fontTools.subset             | name pruned
+2026-10-09 06:14:46,588 | WARNING | weasyprint                   | Using fontTools instead of HarfBuzz-Subset for font "Liberation Sans". This will be unsupported in future versions of WeasyPrint. Please install HarfBuzz-Subset >= 4.1.0 with your package manager.
+2026-10-09 06:14:46,589 | INFO    | fontTools.subset             | maxp pruned
+2026-10-09 06:14:46,591 | INFO    | fontTools.subset             | cmap pruned
+2026-10-09 06:14:46,591 | INFO    | fontTools.subset             | fpgm dropped
+2026-10-09 06:14:46,591 | INFO    | fontTools.subset             | prep dropped
+2026-10-09 06:14:46,591 | INFO    | fontTools.subset             | cvt  dropped
+2026-10-09 06:14:46,591 | INFO    | fontTools.subset             | kern dropped
+2026-10-09 06:14:46,591 | INFO    | fontTools.subset             | post pruned
+2026-10-09 06:14:46,592 | INFO    | fontTools.subset             | GPOS dropped
+2026-10-09 06:14:46,592 | INFO    | fontTools.subset             | GSUB dropped
+2026-10-09 06:14:46,593 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:46,594 | INFO    | fontTools.subset             | Added gid0 to subset
+2026-10-09 06:14:46,594 | INFO    | fontTools.subset             | Closing glyph list over 'glyf': 2 glyphs before
+2026-10-09 06:14:46,594 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'arrowboth']
+2026-10-09 06:14:46,594 | INFO    | fontTools.subset             | Glyph IDs:   [0, 2120]
+2026-10-09 06:14:46,594 | INFO    | fontTools.subset             | Closed glyph list over 'glyf': 2 glyphs after
+2026-10-09 06:14:46,594 | INFO    | fontTools.subset             | Glyph names: ['.notdef', 'arrowboth']
+2026-10-09 06:14:46,594 | INFO    | fontTools.subset             | Glyph IDs:   [0, 2120]
+2026-10-09 06:14:46,595 | INFO    | fontTools.subset             | Retaining 2 glyphs
+2026-10-09 06:14:46,596 | INFO    | fontTools.subset             | head subsetting not needed
+2026-10-09 06:14:46,596 | INFO    | fontTools.subset             | hhea subsetting not needed
+2026-10-09 06:14:46,596 | INFO    | fontTools.subset             | maxp subsetting not needed
+2026-10-09 06:14:46,596 | INFO    | fontTools.subset             | OS/2 subsetting not needed
+2026-10-09 06:14:46,597 | INFO    | fontTools.subset             | hmtx subsetted
+2026-10-09 06:14:46,597 | INFO    | fontTools.subset             | cmap subsetted
+2026-10-09 06:14:46,597 | INFO    | fontTools.subset             | loca subsetting not needed
+2026-10-09 06:14:46,597 | INFO    | fontTools.subset             | post subsetted
+2026-10-09 06:14:46,598 | INFO    | fontTools.subset             | gasp subsetting not needed
+2026-10-09 06:14:46,598 | INFO    | fontTools.subset             | FFTM NOT subset; don't know how to subset
+2026-10-09 06:14:46,598 | INFO    | fontTools.subset             | GDEF subsetted
+2026-10-09 06:14:46,598 | INFO    | fontTools.subset             | name subsetting not needed
+2026-10-09 06:14:46,599 | INFO    | fontTools.subset             | glyf subsetted
+2026-10-09 06:14:46,600 | INFO    | fontTools.subset             | head pruned
+2026-10-09 06:14:46,600 | INFO    | fontTools.subset             | OS/2 Unicode ranges pruned: [37]
+2026-10-09 06:14:46,600 | INFO    | fontTools.subset             | OS/2 CodePage ranges pruned: [0]
+2026-10-09 06:14:46,600 | INFO    | fontTools.subset             | glyf pruned
+2026-10-09 06:14:46,600 | INFO    | fontTools.subset             | GDEF pruned
+2026-10-09 06:14:46,601 | INFO    | fontTools.subset             | name pruned
+2026-10-09 06:14:46,704 | INFO    | invest_system.report.render  | Da xuat PDF bang weasyprint: outputs/samples/DEMO_20261009_1314_summary.pdf

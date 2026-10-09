@@ -1,0 +1,182 @@
+# Cau hinh he thong. Moi nguong o day la GIA TRI KHOI DIEM de bat dau kiem thu,
+# khong phai gia tri toi uu. Phai hieu chinh lai tren du lieu that.
+
+data:
+  # Thu tu uu tien nguon. Router se lan luot thu tu tren xuong duoi.
+  price_sources: [dnse, vietcap]
+  fundamental_sources: [vietcap]
+  cache_ttl_seconds:
+    intraday: 900        # 15 phut
+    daily: 43200         # 12 gio
+    fundamental: 86400   # 24 gio
+  retry:
+    max_attempts: 5
+    base_delay: 1.0
+    max_delay: 30.0
+
+universe:
+  exchanges: [HOSE, HNX, UPCOM]
+  min_avg_volume_20d: 100000      # co phieu/phien
+  min_price: 5000                 # dong
+  max_price: 300000
+  min_listed_days: 250
+  # 0 = khong gioi han. Khac 0: chi giu N ma thanh khoan nhat (theo khoi
+  # luong TB 20 phien) - de vua may chu nho. Ghi de: bien UNIVERSE_MAX_SYMBOLS.
+  max_symbols: 0
+
+snapshot:
+  # So luong tinh snapshot (analysis/snapshot.py). 1 = tuan tu - du nhanh
+  # (~15 ms/ma) va chi mot ban sao kho trong RAM. Khong dung da tien trinh.
+  max_workers: 1
+
+market_store:
+  # So phien tai cho moi ma. 500 phien (~2 nam) van du cho moi chi bao
+  # (Ichimoku can 52+26, RSI thich ung can 252) ma kho nho hon ~1/3 so voi
+  # 750. Ghi de count_back_bootstrap: bien MARKET_COUNT_BACK.
+  count_back_bootstrap: 500   # lan nap dau / khi kho rong
+  count_back_refresh: 10      # cap nhat tang dan hang ngay
+
+signals:
+  # He so ATR dung cho diem dung lo / muc tieu, xem analysis/scoring.py va
+  # risk/stops.py. Trung voi cong thuc trong docs/cong-thuc.md.
+  stop_loss_atr: 1.5
+  take_profit_atr: 3.0
+
+indicators:
+  # Bo tham so Ichimoku: "goc_nhat_6ngay" = (9,26,52) - ban goc tu thi truong
+  # Nhat, tinh theo tuan lam viec 6 ngay. "hieu_chinh_5ngay" = (7,22,44) - quy
+  # doi ty le cho tuan lam viec 5 ngay hien nay. Xem indicators/ichimoku.py.
+  ichimoku_preset: goc_nhat_6ngay
+
+scoring:
+  # Trong so gop diem hop luu ba he chi bao, xem analysis/scoring.py.
+  # Ichimoku nang nhat vi la he thong xu huong hoan chinh; MACD/RSI la
+  # chi bao dong luc don le.
+  weights:
+    macd: 0.30
+    rsi: 0.25
+    ichimoku: 0.45
+  divergence_penalty: 25.0       # phan ky am -> tru thang diem tong
+  low_volume_ratio: 0.5          # duoi muc nay so voi TB20 -> ha do tin cay
+  thresholds:
+    buy: 60
+    accumulate: 20
+    watch: -20
+    reduce: -60
+
+risk:
+  risk_per_trade: 0.01
+  max_weight_per_symbol: 0.15
+  max_weight_per_sector: 0.35
+  chandelier_atr_mult: 3.0
+  partial_take_profit_r: 2.0
+
+costs:
+  fee_rate: 0.0025      # phi hai chieu
+  sell_tax_rate: 0.001  # thue thu nhap ca nhan khi ban
+  settlement_days: 2    # T+2
+
+price_band:
+  HOSE: 0.07
+  HNX: 0.10
+  UPCOM: 0.15
+
+bot:
+  scan_cron: "5 15 * * 1-5"    # 15h05 cac ngay lam viec
+  # Cap nhat kho gia + snapshot sau phien sang (11h30) - /loc, /tinhieu co gia
+  # phien sang, kem ghi chu "tam tinh". De "" de tat.
+  midday_cron: "35 11 * * 1-5"
+  max_signals_per_message: 10
+  timezone: Asia/Ho_Chi_Minh
+
+screener:
+  # /loc CHI DOC data/market/snapshot.parquet (xem analysis/snapshot.py),
+  # khong con tinh lai/goi mang nen khong can timeout nua.
+  max_results: 15
+  breakout:
+    max_kumo_break_bars: 3     # gia moi vuot may trong toi da N phien
+    max_macd_bars_since: 3     # MACD moi giao cat trong toi da N phien
+    min_volume_ratio: 1.5
+  accumulate:
+    max_kumo_thickness: 1.0    # do day may / ATR14 - duoi nguong nay coi la "mong"
+    max_volume_ratio: 0.8
+  warning:
+    max_kumo_break_bars: 3     # gia moi thung xuong duoi may trong toi da N phien
+
+fundamentals:
+  # scripts/backfill_fundamentals.py (data/fundamentals_store.py). Ratios
+  # (P/E, P/B, ROE) doi cham theo quy/nam nen khong can nap lai moi ngay.
+  cache_days: 7
+  request_delay_seconds: 3.0   # gian cach giua cac ma, tranh cham rate limit nguon
+
+realtime:
+  # Chua co API key tai thoi diem viet (xem README.md, muc "Cau hinh nguon
+  # du lieu"). Khi enabled la false, data/realtime.py.get_realtime_provider()
+  # luon tra NullRealtimeProvider va toan bo bot chay binh thuong bang du
+  # lieu cuoi phien qua data/router.py.
+  enabled: false
+  provider: dnse
+  fallback: vietcap
+  reconnect_seconds: 5
+
+# =====================================================================
+# PHAN MO RONG CHO HE THONG PHAN TICH CO HOI DAU TU (invest_system)
+# Moi tham so la GIA TRI KHOI DIEM, ghi ro trong bao cao (muc "Gia dinh").
+# =====================================================================
+
+analysis:
+  default_years: 5              # so nam BCTC dua vao phan tich
+  price_history_days: 730       # ~2 nam gia de tinh beta, hieu suat, ky thuat
+  max_peers: 6                  # so ma cung nganh lay chi so (gioi han rate limit vnstock)
+  demo_tickers: [DEMO, DEMOB]   # ma GIA LAP de chay thu offline - bao cao co dau "DU LIEU MAU"
+
+valuation:
+  risk_free_rate: 0.030         # loi suat TPCP 10 nam - CAP NHAT tu config/macro_vn.csv neu co
+  equity_risk_premium: 0.080    # phan bu rui ro thi truong VN (gia dinh)
+  beta_floor: 0.6
+  beta_ceiling: 1.8
+  default_beta: 1.0
+  terminal_growth: 0.030
+  growth_floor: -0.10
+  growth_cap: 0.20
+  default_cost_of_debt: 0.08
+  tax_rate: 0.20
+  dcf_years: 5
+  # Trong so phuong phap theo loai DN (chuan hoa lai tren cac phuong phap tinh duoc)
+  method_weights:
+    NON_FINANCIAL: {pe_relative: 0.35, pb_relative: 0.15, ev_ebitda: 0.15, dcf_fcff: 0.35}
+    BANK:          {justified_pb: 0.50, pb_relative: 0.30, pe_relative: 0.20}
+    SECURITIES:    {pb_relative: 0.60, pe_relative: 0.40}
+    INSURANCE:     {pb_relative: 0.60, pe_relative: 0.40}
+    REAL_ESTATE:   {pb_relative: 0.60, pe_relative: 0.40}
+
+composite:
+  # Diem tong hop 0-100 (top-down: vi mo -> nganh -> doanh nghiep)
+  weights:
+    macro: 0.10
+    sector: 0.15
+    quality: 0.20
+    growth: 0.10
+    valuation: 0.25
+    technical: 0.10
+    sentiment: 0.10
+  # Khuyen nghi theo upside cua gia muc tieu (kieu CTCK), diem tong hop dieu chinh 1 bac
+  rating_bands:          # upside toi thieu (tu tren xuong)
+    MUA: 0.20
+    KHẢ QUAN: 0.10
+    NẮM GIỮ: -0.05
+    KÉM KHẢ QUAN: -0.15
+    BÁN: -1.0
+  upgrade_score: 70      # diem >= nguong -> nang 1 bac
+  downgrade_score: 40    # diem < nguong -> ha 1 bac
+
+report:
+  author: "Nhóm phân tích – Khoa Tài chính – Ngân hàng, UEL"
+  organization: "INVEST SYSTEM"
+  output_dir: outputs/reports
+  pdf_engine: auto       # auto | weasyprint | playwright | html
+
+llm:
+  enabled: false         # bat bang bien moi truong ANTHROPIC_API_KEY + LLM_ENABLED=1
+  model: claude-sonnet-5-5
+  max_tokens: 1200
