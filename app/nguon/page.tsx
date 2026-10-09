@@ -19,6 +19,11 @@ export default function Sources() {
             { key: "detail", label: "Chi tiết", render: (r) => <span className="whitespace-normal text-xs">{String(r.detail)}</span> }]} />
         <p className="text-xs text-slate-500 mt-2">Nguồn nào lỗi trên máy chủ (vd Vietcap chặn IP ngoài VN) thì hệ thống tự dùng bản chụp đóng gói và ghi rõ trên từng số.</p>
         <p className="text-xs text-slate-500">Độ trễ là thời gian máy chủ gọi tới nguồn và nhận phản hồi.</p>
+        {live.data?.results?.["DNSE OHLC VNINDEX"] && <div className="mt-3 rounded-md border border-slate-200 bg-slate-50 p-3 text-sm">
+          <b>Trạng thái máy chủ: {live.data.results["DNSE OHLC VNINDEX"].status}</b>
+          <p className="mt-1 text-slate-600">`.env` trên máy cá nhân không tự đồng bộ lên Vercel. Nếu máy chủ báo chưa cấu hình, thêm `DNSE_API_KEY` và `DNSE_API_SECRET` trong Project Settings → Environment Variables rồi redeploy. Nếu báo lỗi xác thực, kiểm tra đúng cặp key/secret và quyền API. Nếu không kết nối được từ region Vercel, dùng luồng chạy local có DNSE; router sẽ bỏ qua DNSE và dùng nguồn kế tiếp.</p>
+          <p className="mt-1 text-xs text-slate-500">Không dán key vào chat, mã nguồn hoặc trang này.</p>
+        </div>}
       </Card>
       <Card title="Nguồn tin đang dùng">
         <p className="mb-2 text-sm">Audit {live.data?.news_quality?.audit_as_of || "—"}: {live.data?.news_quality?.sample_symbols ?? 0} mã mẫu; precision thủ công {live.data?.news_quality?.manual_precision == null ? "chưa đo" : `${(live.data.news_quality.manual_precision * 100).toFixed(0)}%`} ({live.data?.news_quality?.reviewed_titles ?? 0} tiêu đề đã đọc), mục tiêu ≥{((live.data?.news_quality?.precision_target ?? 0.9) * 100).toFixed(0)}%. {live.data?.news_quality?.coverage_note}</p>
@@ -38,16 +43,16 @@ export default function Sources() {
         <ErrorBox error={bctc.error} />
         {bctc.loading && <Loading what="độ phủ BCTC" />}
         {bctc.data?.by_exchange && <>
-          <div className="overflow-x-auto"><table className="tbl"><thead><tr>{["Sàn", "Mã niêm yết", "Có BCTC", "Độ phủ", "Có FY2025", "FY2024 trở về trước", "Thiếu"].map((x) => <th key={x}>{x}</th>)}</tr></thead>
-            <tbody>{Object.entries(bctc.data.by_exchange).map(([ex, r]: any) => <tr key={ex}><td>{ex}</td><td>{r.listed}</td><td>{r.with_bctc}</td><td>{r.coverage_pct}%</td><td>{r.with_fy2025}</td><td>{r.only_fy2024_or_older}</td><td>{r.missing_count}</td></tr>)}</tbody></table></div>
-          <p className="mt-2 text-xs text-slate-500">Nguồn {bctc.data.source}; cập nhật {bctc.data.generated_at}. UPCOM không được nguồn này bao phủ.</p>
+          <div className="overflow-x-auto"><table className="tbl"><thead><tr>{["Sàn", "Mã niêm yết", "Có BCTC", "Độ phủ mã", "Độ phủ vốn hoá", "Có FY2025", "FY2024 trở về trước", "Thiếu"].map((x) => <th key={x}>{x}</th>)}</tr></thead>
+            <tbody>{Object.entries(bctc.data.by_exchange).map(([ex, r]: any) => <tr key={ex}><td>{ex}</td><td>{r.listed}</td><td>{r.with_bctc}</td><td>{r.coverage_pct}%</td><td>{r.market_cap_coverage_pct}%</td><td>{r.with_fy2025}</td><td>{r.only_fy2024_or_older}</td><td>{r.missing_count}</td></tr>)}</tbody></table></div>
+          <p className="mt-2 text-xs text-slate-500">Nguồn {bctc.data.source}; cập nhật {bctc.data.generated_at}. UPCOM dùng nguồn bổ sung vnstock VCI sau khi vượt kiểm tra dữ liệu.</p>
           {(["HOSE", "HNX", "UPCOM"] as const).map((ex) => <details key={ex} className="mt-2 text-sm"><summary className="cursor-pointer font-medium">Mã {ex} thiếu BCTC ({bctc.data.by_exchange[ex].missing_count})</summary><p className="mt-1 break-words text-xs text-slate-600">{(bctc.data.missing[ex] || []).join(", ")}</p></details>)}
           <details className="mt-2 text-sm"><summary className="cursor-pointer font-medium">Mã có trong nguồn nhưng không còn niêm yết ({bctc.data.delisted_count})</summary><p className="mt-1 break-words text-xs text-slate-600">{(bctc.data.delisted || []).join(", ")}</p></details>
         </>}
       </Card>
       <Card title="Quy ước">
         <ul className="list-disc pl-5 text-sm space-y-1">
-          <li>BCTC năm: vn-annual-report-miner (Tumiqa, MIT) – HSX 409 mã, HNX 307 mã, FY2009–FY2025; không có UPCOM, không có quý → P/E theo FY gần nhất.</li>
+          <li>BCTC năm: vn-annual-report-miner (Tumiqa, MIT) cho HOSE/HNX; nguồn bổ sung vnstock VCI cho UPCOM và mã HOSE/HNX còn thiếu. TTM lấy từ bốn quý liên tiếp khi dữ liệu đã được nạp.</li>
           <li>Số CP: listedShare từ Vietcap getList; nếu thiếu, xấp xỉ = vốn góp / 10.000đ (gắn nhãn).</li>
           <li>Ngành: vnstock list_by_industry (ICB 1–4), bù fiinpro_icb_companies.csv; không có ở cả hai → “Chưa phân loại”.</li>
           <li>Thiếu số → “–” kèm lý do; không dùng dữ liệu giả lập cho mã thật.</li>

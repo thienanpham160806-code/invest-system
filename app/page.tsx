@@ -1,11 +1,12 @@
 "use client";
+import { useState } from "react";
 import Link from "next/link";
 import Search from "@/components/Search";
 import { AsOf, Card, ErrorBox, Loading, SortTable, Stat } from "@/components/ui";
 import { CompareLine, MarketTreemap } from "@/components/Charts";
 import { useRouter } from "next/navigation";
 import { useApi } from "@/lib/api";
-import { bnLabel, cls, dmy, num, pct, times } from "@/lib/fmt";
+import { bnLabel, cls, dmy, num, pct, price, times } from "@/lib/fmt";
 
 const urlOf = (s: string) => (s.match(/https?:[^)\s]+/) || [])[0];
 const industryView = (items: any[] = []) => [...items].filter((r) => r.score != null).sort((a, b) => b.score - a.score);
@@ -14,9 +15,11 @@ export default function Home() {
   const m = useApi<any>("/api/py/market");
   const mac = useApi<any>("/api/py/macro?world_bank=false");
   const sec = useApi<any>("/api/py/sectors?level=1");
+  const opportunities = useApi<any>("/api/py/opportunities?limit=10");
   const vn = m.data?.vnindex;
   const router = useRouter();
-  const sec2 = useApi<any>("/api/py/sectors?level=2");
+  const [mapPeriod, setMapPeriod] = useState("ret_1m");
+  const marketMap = useApi<any>(`/api/py/market-map?period=${mapPeriod}`);
   return (
     <div className="space-y-5">
       <div className="card bg-gradient-to-r from-[#0b3b6f] to-[#14598f] text-white">
@@ -89,14 +92,30 @@ export default function Home() {
           return <div className="grid gap-4 md:grid-cols-2"><div><h3 className="font-semibold text-emerald-700">Top 5 ưu tiên</h3>{priority.map((r: any) => row(r, "ƯU TIÊN"))}</div><div><h3 className="font-semibold text-amber-700">3 ngành cần thận trọng</h3>{cautious.map((r: any) => row(r, "THẬN TRỌNG"))}</div></div>;
         })()}
       </Card>}
-      <Card title="Cơ hội đầu tư">
-        <p className="text-sm text-slate-600">Bảng universe hiện chưa có upside tính sẵn nên không xếp hạng 10 mã tại trang chủ. Mở hồ sơ từng mã để xem định giá, kịch bản và upside đã tính.</p>
-        <Link className="link mt-2 inline-block" href="/thi-truong">Mở toàn bộ mã cổ phiếu →</Link>
+      <Card title="Cơ hội đầu tư" right={<Link className="link text-sm" href="/co-hoi">Bảng xếp hạng đầy đủ →</Link>}>
+        <ErrorBox error={opportunities.error} />
+        {opportunities.loading && <Loading what="xếp hạng cơ hội" />}
+        {opportunities.data?.items?.length ? <div className="overflow-x-auto"><table className="w-full text-sm">
+          <thead><tr className="border-b text-left text-slate-500"><th className="py-2">Hạng</th><th>Mã / doanh nghiệp</th><th>Ngành</th><th className="text-right">Giá snapshot</th><th className="text-right">Mục tiêu</th><th className="text-right">Upside</th><th>Đánh giá · tin cậy</th><th className="text-right">Điểm</th><th>Lý do chính</th></tr></thead>
+          <tbody>{opportunities.data.items.slice(0, 10).map((r: any) => <tr key={r.symbol} className="border-b last:border-0 hover:bg-slate-50">
+            <td className="py-2">{r.rank}</td><td><Link className="link font-semibold" href={`/stock/${r.symbol}`}>{r.symbol}</Link><div className="text-xs text-slate-500">{r.name}</div></td><td>{r.industry || "—"}</td>
+            <td className="text-right">{price(r.price)}</td><td className="text-right">{price(r.target_price)}</td><td className={`text-right font-semibold ${cls(r.upside)}`}>{pct(r.upside, 1, true)}</td><td>{r.rating} · {r.confidence}</td><td className="text-right">{num(r.score, 0)}</td><td className="max-w-56 truncate" title={r.reason}>{r.reason}</td>
+          </tr>)}</tbody></table></div> : opportunities.data?.ready ? <p className="text-sm text-slate-600">Chưa có mã đạt điều kiện trong snapshot.</p> : !opportunities.loading && <p className="text-sm text-slate-600">Chưa có snapshot xếp hạng. Hãy chạy script tạo ranking sau khi cập nhật dữ liệu.</p>}
+        {opportunities.data?.generated_at && <p className="mt-2 text-xs text-slate-500">Snapshot: {opportunities.data.generated_at} · chỉ gồm mã có BCTC, độ tin cậy trung bình/cao và upside dương.</p>}
       </Card>
 
-      <Card title="Bản đồ thị trường theo ngành cấp 2 (ô = vốn hoá, màu = hiệu suất 1 tháng)" right={<AsOf p={sec2.data?.provenance} />}>
-        {sec2.loading && <Loading what="bản đồ ngành" />}
-        {sec2.data && <MarketTreemap items={sec2.data.items} onClick={(slug) => router.push(`/nganh/${slug}`)} />}
+      <Card title="Bản đồ toàn thị trường · ngành đến từng mã" right={<AsOf p={marketMap.data?.provenance} />}>
+        <div className="mb-2 flex flex-wrap items-center gap-2 text-sm">
+          <label htmlFor="map-period">Màu theo hiệu suất</label>
+          <select id="map-period" className="sel" value={mapPeriod} onChange={(e) => setMapPeriod(e.target.value)}>
+            <option value="change_1d">1 ngày</option><option value="ret_1m">1 tháng</option><option value="ret_3m">3 tháng</option><option value="ret_ytd">Từ đầu năm</option><option value="ret_1y">1 năm</option>
+          </select>
+          <span className="text-xs text-slate-500">{num(marketMap.data?.ticker_count)} mã · diện tích theo vốn hoá</span>
+        </div>
+        {marketMap.loading && <Loading what="bản đồ toàn thị trường" />}
+        <ErrorBox error={marketMap.error} />
+        {marketMap.data && <MarketTreemap items={marketMap.data.items} periodLabel={mapPeriod === "change_1d" ? "1 ngày" : mapPeriod === "ret_1m" ? "1 tháng" : mapPeriod === "ret_3m" ? "3 tháng" : mapPeriod === "ret_ytd" ? "từ đầu năm" : "1 năm"}
+          onClick={(slug) => router.push(slug.startsWith("ticker-") ? `/stock/${slug.slice(7)}` : `/nganh/${slug}`)} />}
       </Card>
 
       <Card title="Ngành cấp 1 (ICB) – toàn thị trường" right={<span><AsOf p={sec.data?.provenance} /> <Link className="link text-sm ml-2" href="/nganh">Xem tất cả cấp →</Link></span>}>

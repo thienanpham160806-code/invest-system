@@ -12,6 +12,7 @@ import re
 import time
 from concurrent.futures import ThreadPoolExecutor, wait
 from datetime import date, datetime
+from functools import lru_cache
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
@@ -24,6 +25,7 @@ from ..analysis.macro import analyze_macro
 from ..analysis.ratios import BANK_KEYS, NONFIN_KEYS, RATIO_LABELS, compute_ratios, growth_summary
 from ..analysis.sentiment import analyze_news
 from ..analysis.valuation import value_company
+from ..config import get_settings
 from ..data import arminer_bctc
 from ..data.fundamentals import FIELD_LABELS_VI, StandardFinancials, _fill_derived
 from ..data.macro import INDICATORS, load_macro
@@ -119,6 +121,7 @@ def universe_prov(meta: dict) -> dict:
                 as_of_fin=meta.get("as_of_fin_max"))
 
 
+@lru_cache(maxsize=1)
 def _uni() -> tuple[pd.DataFrame, dict]:
     uni, meta = load_universe()
     return uni, meta
@@ -177,6 +180,83 @@ def universe_table(exchange: str | None = None, icb: str | None = None, sort: st
             "provenance": universe_prov(meta)}
 
 
+def opportunities(exchange: str | None = None, min_value: float | None = None,
+                  eligible_only: bool = True, limit: int = 100, q: str | None = None,
+                  industry: str | None = None, rating: str | None = None,
+                  confidence: str | None = None, min_upside: float | None = None,
+                  min_market_cap: float | None = None) -> dict:
+    """Read the last precomputed, auditable full-universe opportunity ranking."""
+    path = Path(__file__).resolve().parents[3] / "webdata" / "snapshot" / "opportunities.json"
+    if not path.exists():
+        return {"items": [], "total": 0, "ready": False,
+                "note": "Chưa có snapshot xếp hạng. Chạy scripts/build_opportunities.py --resume.",
+                "provenance": prov("Chưa tạo snapshot")}
+    data = json.loads(path.read_text(encoding="utf-8"))
+    rows = data.get("items", [])
+    if eligible_only:
+        rows = [r for r in rows if r.get("eligible")]
+    if exchange:
+        exchanges = {x.strip().upper() for x in exchange.split(",")}
+        rows = [r for r in rows if str(r.get("exchange", "")).upper() in exchanges]
+    if min_value is not None:
+        rows = [r for r in rows if (r.get("avg_value_20d") or 0) >= min_value]
+    if q:
+        term = q.casefold()
+        rows = [r for r in rows if term in str(r.get("symbol", "")).casefold()
+                or term in str(r.get("name", "")).casefold()]
+    if industry:
+        rows = [r for r in rows if industry.casefold() in str(r.get("industry", "")).casefold()]
+    if rating:
+        rows = [r for r in rows if str(r.get("rating", "")).upper() == rating.upper()]
+    if confidence:
+        rows = [r for r in rows if str(r.get("confidence", "")).upper() == confidence.upper()]
+    if min_upside is not None:
+        rows = [r for r in rows if isinstance(r.get("upside"), (int, float))
+                and r["upside"] >= min_upside]
+    if min_market_cap is not None:
+        rows = [r for r in rows if (r.get("market_cap") or 0) >= min_market_cap]
+    rows.sort(key=lambda r: (r.get("score") or -1, r.get("upside") or -10,
+                             r.get("avg_value_20d") or 0), reverse=True)
+    total = len(rows)
+    rows = [dict(row, rank=index + 1) for index, row in enumerate(rows)]
+    return {"items": rows[:max(1, min(limit, 2000))], "total": total, "ready": True,
+            "universe_count": data.get("universe_count"), "analyzed_count": data.get("analyzed_count"),
+            "generated_at": data.get("generated_at"), "errors": data.get("errors", 0),
+            "upside_distribution": data.get("upside_distribution", {}),
+            "outlier_upside_count": data.get("outlier_upside_count"),
+            "provenance": prov("Snapshot định giá theo pipeline cổ phiếu", data.get("generated_at"),
+                                note="Định giá theo dữ liệu snapshot; kiểm tra độ tin cậy và ngày dữ liệu trước khi dùng.")}
+
+
+def market_map(period: str = "ret_1m") -> dict:
+    """Full ICB1→ICB4→ticker hierarchy with market-cap area and return color."""
+    allowed = {"change_1d", "ret_1m", "ret_3m", "ret_ytd", "ret_1y"}
+    if period not in allowed:
+        raise ValueError(f"period phải thuộc {', '.join(sorted(allowed))}")
+    uni, meta = _uni()
+    rows = uni.copy()
+
+    def make_node(group: pd.DataFrame, level: int) -> list[dict]:
+        if level > 4:
+            return [{"name": str(r.symbol), "slug": f"ticker-{r.symbol}", "symbol": str(r.symbol),
+                     "size": float(r.market_cap) if pd.notna(r.market_cap) else 0.0,
+                     "value": getattr(r, period, None), "children": []}
+                    for r in group.itertuples(index=False)]
+        col = f"icb{level}"
+        out = []
+        for name, members in group.groupby(col, dropna=False, sort=True):
+            label = str(name) if pd.notna(name) else "Chưa phân loại"
+            children = make_node(members, level + 1)
+            out.append({"name": label, "slug": node_key(level, label), "size": float(members["market_cap"].fillna(0).sum()),
+                        "value": float(members[period].median()) if members[period].notna().any() else None,
+                        "count": int(len(members)), "children": children})
+        return out
+
+    return jsonable({"period": period, "items": make_node(rows, 1), "ticker_count": int(rows["symbol"].nunique()),
+                     "market_cap_available": int(rows["market_cap"].notna().sum()),
+                     "provenance": universe_prov(meta)})
+
+
 # ------------------------------------------------------------------ thi truong
 _VNI_CACHE: dict = {}
 _LIVE_CACHE: dict[str, tuple[float, dict]] = {}
@@ -222,6 +302,8 @@ def _gap_chart(symbol: str, count_back: int) -> pd.DataFrame | None:
             "time": pd.to_datetime(pd.Series(item["t"], dtype="int64"), unit="s"),
             "open": item.get("o"), "high": item.get("h"), "low": item.get("l"),
             "close": item.get("c"), "volume": item.get("v"),
+            "accumulated_volume": item.get("accumulatedVolume"),
+            "accumulated_value": item.get("accumulatedValue"),
         })
         frame["time"] = frame["time"].dt.tz_localize("UTC").dt.tz_convert(TZ).dt.tz_localize(None).dt.normalize()
         return frame.dropna(subset=["close"]).sort_values("time").reset_index(drop=True)
@@ -353,7 +435,7 @@ def market_live() -> dict:
     session = _market_session()
     indices = (("VNINDEX", "VN-Index"), ("HNXIndex", "HNX-Index"), ("HNXUpcomIndex", "UPCOM-Index"))
     with ThreadPoolExecutor(max_workers=3) as pool:
-        quotes = list(pool.map(lambda pair: _live_quote(pair[0], is_index=True), indices))
+        quotes = list(pool.map(lambda pair: _index_live_quote(pair[0]), indices))
     rows, unavailable = [], []
     vn_price = next((q.get("price") for (s, _), q in zip(indices, quotes, strict=True) if s == "VNINDEX"), None)
     for (symbol, label), quote in zip(indices, quotes, strict=True):
@@ -365,6 +447,69 @@ def market_live() -> dict:
                                 "nguồn trả cùng giá trị với VN-Index; đã ẩn để tránh nhầm dữ liệu"})
     return {"session": session, "is_open": session in {"ATO", "Liên tục", "ATC"},
             "updated_at": now_str(), "indices": rows, "unavailable_indices": unavailable}
+
+
+def _index_live_quote(symbol: str) -> dict:
+    """Fetch a canonical, case-sensitive index symbol and preserve stale data."""
+    cache_key = symbol.upper()
+    cached = _LIVE_CACHE.get(cache_key)
+    try:
+        frame = _gap_chart(symbol, 260)
+        if frame is None or frame.empty:
+            raise RuntimeError("Vietcap gap-chart returned no index history")
+        frame = frame.dropna(subset=["close"]).sort_values("time")
+        close = pd.to_numeric(frame["close"], errors="coerce").dropna()
+        price = float(close.iloc[-1])
+        history = close.tail(250)
+        if price <= 0 or history.empty or not 0.5 * float(history.min()) <= price <= 2.0 * float(history.max()):
+            raise RuntimeError("Index close is outside its own historical validation range")
+        previous = float(close.iloc[-2]) if len(close) > 1 else None
+        volume = pd.to_numeric(frame.iloc[-1].get("accumulated_volume"), errors="coerce")
+        value = pd.to_numeric(frame.iloc[-1].get("accumulated_value"), errors="coerce")
+        quote = {
+            "symbol": cache_key, "price": price,
+            "change": price - previous if previous else None,
+            "change_pct": price / previous - 1 if previous else None,
+            "volume": float(volume) if pd.notna(volume) else None,
+            "turnover": _index_turnover_vnd(value, volume),
+            "as_of": _iso(frame.iloc[-1]["time"]), "stale": False,
+            "source": "Vietcap gap-chart live",
+        }
+        _LIVE_CACHE[cache_key] = (time.time(), quote)
+        return quote
+    except Exception as exc:  # noqa: BLE001
+        if cached:
+            return {**cached[1], "stale": True, "error": str(exc)}
+        try:
+            from ..web.universe import load_ohlcv_snapshot
+
+            fallback = load_ohlcv_snapshot(cache_key)
+            if not fallback.empty:
+                fallback = fallback.dropna(subset=["close"]).sort_values("time")
+                last = fallback.iloc[-1]
+                prev = fallback.iloc[-2] if len(fallback) > 1 else None
+                price = float(last["close"])
+                return {"symbol": cache_key, "price": price,
+                        "change": price - float(prev["close"]) if prev is not None else None,
+                        "change_pct": price / float(prev["close"]) - 1 if prev is not None else None,
+                        "volume": None, "turnover": None, "as_of": _iso(last["time"]),
+                        "stale": True, "source": "Packaged snapshot", "error": str(exc)}
+        except Exception:  # noqa: BLE001
+            pass
+        return {"symbol": cache_key, "price": None, "change": None, "change_pct": None,
+                "volume": None, "turnover": None, "as_of": None, "stale": True,
+                "source": "Vietcap gap-chart", "error": str(exc)}
+
+
+def _index_turnover_vnd(value, volume) -> float | None:
+    """Normalize accumulatedValue to VND from its implied traded share price."""
+    value = pd.to_numeric(value, errors="coerce")
+    volume = pd.to_numeric(volume, errors="coerce")
+    if pd.isna(value) or pd.isna(volume) or value <= 0 or volume <= 0:
+        return None
+    candidates = [float(value) * scale for scale in (1, 1_000, 1_000_000)]
+    plausible = [amount for amount in candidates if 1_000 <= amount / float(volume) <= 1_000_000]
+    return min(plausible) if plausible else None
 
 
 def stock_live(symbol: str) -> dict:
@@ -612,7 +757,8 @@ def price(symbol: str, days: int = 365) -> dict:
 
 
 def financials_std(symbol: str, years: int = 10) -> StandardFinancials:
-    std = arminer_bctc.from_arminer(symbol)
+    row = _row(symbol)
+    std = arminer_bctc.from_arminer(symbol, exchange=row["exchange"])
     if std is None:
         return StandardFinancials(symbol.upper(), pd.DataFrame(), "—",
                                   notes=["Chưa có nguồn BCTC cho mã này (arminer chỉ phủ HSX/HNX)"])
@@ -642,9 +788,9 @@ def _key_rank(std: StandardFinancials, statement: str) -> dict[str, tuple[int, s
 
 
 def financials(symbol: str, statement: str = "is", years: int = 5) -> dict:
-    _row(symbol)
+    row = _row(symbol)
     statement = statement if statement in ("bs", "is", "cf") else "is"
-    raw = arminer_bctc.raw_statement(symbol, statement, years)
+    raw = arminer_bctc.raw_statement(symbol, statement, years, exchange=row["exchange"])
     if raw.empty:
         return {"symbol": symbol.upper(), "statement": statement, "rows": [], "years": [],
                 "note": "Chưa có nguồn BCTC cho mã này", "provenance": prov("—")}
@@ -679,7 +825,7 @@ def financials(symbol: str, statement: str = "is", years: int = 5) -> dict:
         "symbol": symbol.upper(), "statement": statement, "years": [int(y) for y in year_cols],
         "rows": rows, "common_size_base": None if base is None else base["item_name"],
         "unit": "VND", "mapping": std.mapping, "notes": std.notes,
-        "provenance": prov(arminer_bctc.SOURCE_NAME, f"FY{max(year_cols)}",
+        "provenance": prov(std.source, f"FY{max(year_cols)}",
                            note="BCTC năm hợp nhất; tên chỉ tiêu tiếng Việt gốc từ nguồn"),
     })
 
@@ -864,9 +1010,7 @@ class _SectorView:
 
 
 def _pb_roe_adjust(peers: pd.DataFrame, roe_own, quant: dict) -> tuple[dict, dict | None]:
-    """P/B muc tieu theo hoi quy P/B = a + b*ROE tren toan nhom peers du thanh khoan
-    (DN sinh loi cao xung dang P/B cao hon trung vi). Chi ap dung khi >= 8 diem, he so
-    goc duong; ket qua cat trong [P10, P90] P/B cua nganh. Dich ca bo ba kich ban."""
+    """Adjust the peer P/B median only when a liquid-peer ROE fit is credible."""
     if roe_own is None or pd.isna(roe_own) or "pb" not in quant:
         return quant, None
     liq = sector_mod._clean_multiples(peers)[["pb", "roe"]].dropna()
@@ -875,12 +1019,11 @@ def _pb_roe_adjust(peers: pd.DataFrame, roe_own, quant: dict) -> tuple[dict, dic
         return quant, None
     b, a = np.polyfit(liq["roe"], liq["pb"], 1)
     r2 = float(np.corrcoef(liq["roe"], liq["pb"])[0, 1] ** 2)
-    if b <= 0 or r2 < 0.05:
+    if not np.isfinite(b) or not np.isfinite(r2) or b <= 0 or r2 < 0.10:
         return quant, None
-    pred = float(np.clip(a + b * roe_own, liq["pb"].quantile(0.1), liq["pb"].quantile(0.9)))
-    delta = pred - quant["pb"][1]
+    pred = float(np.clip(a + b * roe_own, liq["pb"].quantile(0.25), liq["pb"].quantile(0.9)))
     adj = dict(quant)
-    adj["pb"] = tuple(max(x + delta, 0.1) for x in quant["pb"])
+    adj["pb"] = (quant["pb"][0], pred, max(pred, quant["pb"][2]))
     return adj, {"a": float(a), "b": float(b), "r2": r2, "n": int(len(liq)), "roe": float(roe_own),
                  "pb_median": quant["pb"][1], "pb_target": pred}
 
@@ -930,6 +1073,12 @@ def analysis(symbol: str, years: int = 5, with_news: bool = True) -> dict:
     rf = rf / 100 if rf else None
     beta = _beta(ohlcv, bench) if not bench.empty and not ohlcv.empty else None
     quant_val, comparison = sector_mod.valuation_comparison(peers, sym, row.get("market_cap"))
+    special_cases = get_settings().get("valuation.special_cases", {}) or {}
+    if sym.upper() in special_cases:
+        pb_regression = None
+    else:
+        regression_peers = peers[peers["symbol"].astype(str).str.upper() != sym.upper()]
+        quant_val, pb_regression = _pb_roe_adjust(regression_peers, row.get("roe"), quant_val)
     historical = _historical_multiples(fin, ohlcv, shares)
     ni_ttm = row.get("ni_ttm")
     ni_ttm = float(ni_ttm) if ni_ttm is not None and pd.notna(ni_ttm) else None
@@ -1012,7 +1161,7 @@ def analysis(symbol: str, years: int = 5, with_news: bool = True) -> dict:
             "multiples_source": (f"{comparison['source']} tại ICB cấp {lvl} '{node_name}' "
                                  f"({comparison['peer_count']} mã so sánh; đủ thanh khoản)"),
             "comparison": comparison,
-            "pb_roe_regression": None,
+            "pb_roe_regression": pb_regression,
         },
         "sector": {
             "level": lvl, "name": node_name, "slug": node_key(lvl, node_name) if lvl else None,
@@ -1078,7 +1227,17 @@ def sources_live() -> dict:
             status = "ĐÓNG GÓI–CACHE" if cached else "TRỄ" if elapsed > 3000 else "LIVE"
             tests[name] = {"ok": True, "status": status, "ms": None if cached else elapsed, "detail": detail}
         except Exception as exc:  # noqa: BLE001
-            tests[name] = {"ok": False, "status": "LỖI", "ms": int((time.time() - t0) * 1000),
+            status = "L\u1ed6I"
+            if name == "DNSE OHLC VNINDEX":
+                detail = str(exc).lower()
+                if "dnse_api_key" in detail or "dnse_api_secret" in detail:
+                    status = "CH\u01afA C\u1ea4U H\u00ccNH"
+                elif any(token in detail for token in ("http 401", "http 403", "oa-400", "authorization")):
+                    status = "L\u1ed6I X\u00c1C TH\u1ef0C"
+                elif any(token in detail for token in ("connection", "timeout", "dns", "k???t n???i",
+                                                       "khong ket noi", "không kết nối", "could not connect")):
+                    status = "KH\u00d4NG K\u1ebeT N\u1ed0I \u0110\u01af\u1ee2C T\u1eea M\u00c1Y CH\u1ee6"
+            tests[name] = {"ok": False, "status": status, "ms": int((time.time() - t0) * 1000),
                            "detail": f"{type(exc).__name__}: {exc}"}
 
     def vietcap():

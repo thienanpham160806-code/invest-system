@@ -1,10 +1,10 @@
 "use client";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis, ZAxis,
   BarChart, Bar, Cell, ReferenceLine, Treemap,
 } from "recharts";
-import { num, pct } from "@/lib/fmt";
+import { bnLabel, num, pct } from "@/lib/fmt";
 
 export function CompareLine({ data, lines, height = 260 }: { data: any[]; lines: { key: string; name: string; color: string }[]; height?: number }) {
   return (
@@ -83,13 +83,38 @@ export function ScoreBars({ scores, labels }: { scores: Record<string, number | 
 
 export function Candles({ bars, height = 380 }: { bars: any[]; height?: number }) {
   const ref = useRef<HTMLDivElement>(null);
+  const chartRef = useRef<any>(null);
+  useEffect(() => {
+    const update = () => {
+      const dark = document.documentElement.dataset.theme === "dark";
+      chartRef.current?.applyOptions({
+        layout: {
+          textColor: dark ? "#cbd5e1" : "#334155",
+          background: { color: dark ? "#111c2e" : "#ffffff" },
+        },
+        grid: { vertLines: { color: dark ? "#26354a" : "#f1f5f9" }, horzLines: { color: dark ? "#26354a" : "#f1f5f9" } },
+        timeScale: { borderColor: dark ? "#475569" : "#cbd5e1" },
+        rightPriceScale: { borderColor: dark ? "#475569" : "#cbd5e1" },
+      });
+    };
+    window.addEventListener("invest-system-theme-change", update);
+    return () => window.removeEventListener("invest-system-theme-change", update);
+  }, []);
   useEffect(() => {
     if (!ref.current || !bars?.length) return;
     let chart: any;
     let cancelled = false;
     import("lightweight-charts").then((lw: any) => {
       if (cancelled || !ref.current) return;
-      chart = lw.createChart(ref.current, { height, layout: { textColor: "#334155", background: { color: "#ffffff" } }, grid: { vertLines: { color: "#f1f5f9" }, horzLines: { color: "#f1f5f9" } }, timeScale: { borderColor: "#cbd5e1" }, rightPriceScale: { borderColor: "#cbd5e1" } });
+      const dark = document.documentElement.dataset.theme === "dark";
+      chart = lw.createChart(ref.current, {
+        height,
+        layout: { textColor: dark ? "#cbd5e1" : "#334155", background: { color: dark ? "#111c2e" : "#ffffff" } },
+        grid: { vertLines: { color: dark ? "#26354a" : "#f1f5f9" }, horzLines: { color: dark ? "#26354a" : "#f1f5f9" } },
+        timeScale: { borderColor: dark ? "#475569" : "#cbd5e1" },
+        rightPriceScale: { borderColor: dark ? "#475569" : "#cbd5e1" },
+      });
+      chartRef.current = chart;
       const opts = { upColor: "#16a34a", downColor: "#dc2626", borderVisible: false, wickUpColor: "#16a34a", wickDownColor: "#dc2626" };
       const series = lw.CandlestickSeries ? chart.addSeries(lw.CandlestickSeries, opts) : chart.addCandlestickSeries(opts);
       const seen = new Set<string>();
@@ -103,7 +128,7 @@ export function Candles({ bars, height = 380 }: { bars: any[]; height?: number }
       vol.setData(bars.map((b) => ({ time: String(b.time).slice(0, 10), value: b.volume || 0, color: b.close >= b.open ? "#86efac" : "#fca5a5" })).filter((b) => !vs.has(b.time) && vs.add(b.time)));
       chart.timeScale().fitContent();
     });
-    return () => { cancelled = true; chart?.remove(); };
+    return () => { cancelled = true; chart?.remove(); if (chartRef.current === chart) chartRef.current = null; };
   }, [bars, height]);
   return <div ref={ref} className="w-full" />;
 }
@@ -113,25 +138,47 @@ export function pctTick(v: number) { return pct(v, 0); }
 function heat(v: number | null | undefined) {
   if (v === null || v === undefined || !Number.isFinite(v)) return "#94a3b8";
   const x = Math.max(-0.1, Math.min(0.1, v)) / 0.1;
-  return x >= 0 ? `rgba(5,150,105,${0.35 + 0.65 * x})` : `rgba(220,38,38,${0.35 + 0.65 * -x})`;
+  const from = [100, 116, 139];
+  const to = x < 0 ? [185, 28, 28] : [4, 120, 87];
+  const amount = Math.abs(x);
+  return `rgb(${from.map((channel, i) => Math.round(channel + (to[i] - channel) * amount)).join(",")})`;
 }
 
-export function MarketTreemap({ items, height = 360, onClick }: { items: any[]; height?: number; onClick?: (slug: string) => void }) {
-  const data = items.filter((i) => i.market_cap > 0).map((i) => ({ name: i.name, size: i.market_cap, ret: i.ret_1m, slug: i.slug }));
-  const Cell = (p: any) => {
-    const { x, y, width, height: h, name, ret, slug } = p;
-    if (!name) return null;
-    return (
-      <g onClick={() => slug && onClick?.(slug)} style={{ cursor: "pointer" }}>
-        <rect x={x} y={y} width={width} height={h} fill={heat(ret)} stroke="#fff" strokeWidth={2} />
-        {width > 70 && h > 30 && <text x={x + 6} y={y + 18} fill="#fff" fontSize={12} fontWeight={600}>{String(name).slice(0, Math.floor(width / 7))}</text>}
-        {width > 70 && h > 46 && <text x={x + 6} y={y + 34} fill="#fff" fontSize={11}>{ret === null || ret === undefined ? "–" : pct(ret, 1, true)}</text>}
-      </g>
-    );
+export function MarketTreemap({ items, height = 440, periodLabel = "1 tháng", onClick }: { items: any[]; height?: number; periodLabel?: string; onClick?: (slug: string) => void }) {
+  const [path, setPath] = useState<any[]>([]);
+  const current = path.length ? path[path.length - 1].children || [] : items;
+  const handleSelect = (node: any) => {
+    if (node.children?.length) setPath((prev) => [...prev, node]);
+    else if (node.slug) onClick?.(node.slug);
   };
-  return (
+  const Cell = (p: any) => {
+    const node = p.payload || p;
+    const { x, y, width, height: h, name, value, children } = p;
+    if (!name) return null;
+    const group = Boolean(node.children?.length || children?.length);
+    const select = () => handleSelect(node);
+    return <g role="button" tabIndex={0} aria-label={`${name}${group ? ", mở nhóm" : ", mở hồ sơ"}`} onClick={select}
+      onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); select(); } }} style={{ cursor: "pointer" }}>
+      <rect x={x} y={y} width={width} height={h} fill={heat(value)} stroke="#fff" strokeWidth={1} />
+      <title>{`${name}${value == null ? "" : ` · ${pct(value, 1, true)}`} · ${bnLabel(node.size)}${node.count ? ` · ${num(node.count)} mã` : ""}`}</title>
+      {width > 58 && h > 25 && <text x={x + 6} y={y + 17} fill="#fff" fontSize={12} fontWeight={600}>{String(name).slice(0, Math.floor(width / 7))}</text>}
+      {width > 58 && h > 43 && <text x={x + 6} y={y + 34} fill="#fff" fontSize={11}>{value == null ? "—" : pct(value, 1, true)}</text>}
+    </g>;
+  };
+  return <div>
+    <div className="mb-2 flex flex-wrap items-center gap-2 text-xs text-slate-600" aria-label="Đường dẫn ngành">
+      <button className="link" onClick={() => setPath([])}>Toàn thị trường</button>
+      {path.map((node, i) => <span key={`${node.slug}-${i}`} className="flex items-center gap-2"><span aria-hidden="true">/</span>
+        <button className="link" onClick={() => setPath(path.slice(0, i + 1))}>{node.name}</button></span>)}
+      {path.length > 0 && <button className="btn-ghost ml-auto" onClick={() => setPath(path.slice(0, -1))}>Quay lại</button>}
+      <span className="ml-auto">Diện tích = vốn hóa · màu = hiệu suất {periodLabel} · chọn ô để đi sâu</span>
+    </div>
+    <div className="mb-2 flex items-center gap-2 text-xs text-slate-600" aria-label={`Chú giải hiệu suất ${periodLabel}`}>
+      <span>Giảm</span><span className="h-2 w-24 rounded" style={{ background: "linear-gradient(90deg, #b91c1c, #64748b, #047857)" }} />
+      <span>−10%</span><span>0%</span><span>+10% trở lên</span>
+    </div>
     <ResponsiveContainer width="100%" height={height}>
-      <Treemap data={data} dataKey="size" isAnimationActive={false} content={<Cell />} />
+      <Treemap data={current} dataKey="size" isAnimationActive={false} content={<Cell />} />
     </ResponsiveContainer>
-  );
+  </div>;
 }

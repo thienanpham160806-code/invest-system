@@ -1,6 +1,6 @@
 {
-  "source": "vn-annual-report-miner (parquet đóng gói; HSX/HNX; báo cáo năm FY2009–FY2025)",
-  "generated_at": "2026-10-09T14:58:49+07:00",
+  "source": "vn-annual-report-miner (HOSE/HNX) + vnstock VCI supplement (when available)",
+  "generated_at": "2026-10-09T18:35:34+07:00",
   "listed_total": 1522,
   "source_total": 716,
   "by_exchange": {
@@ -8,6 +8,9 @@
       "listed": 406,
       "with_bctc": 401,
       "coverage_pct": 98.77,
+      "market_cap_covered": 8082764815716600.0,
+      "market_cap_total": 8220661812565200.0,
+      "market_cap_coverage_pct": 98.32,
       "with_fy2025": 401,
       "only_fy2024_or_older": 0,
       "missing_count": 5
@@ -16,6 +19,9 @@
       "listed": 299,
       "with_bctc": 298,
       "coverage_pct": 99.67,
+      "market_cap_covered": 460964199370675.1,
+      "market_cap_total": 461360584663475.1,
+      "market_cap_coverage_pct": 99.91,
       "with_fy2025": 297,
       "only_fy2024_or_older": 1,
       "missing_count": 1
@@ -24,6 +30,9 @@
       "listed": 817,
       "with_bctc": 0,
       "coverage_pct": 0.0,
+      "market_cap_covered": 0.0,
+      "market_cap_total": 1309900980335700.0,
+      "market_cap_coverage_pct": 0.0,
       "with_fy2025": 0,
       "only_fy2024_or_older": 0,
       "missing_count": 817

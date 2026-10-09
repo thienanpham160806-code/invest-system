@@ -53,6 +53,7 @@ AGENTS.md
 # du lieu web dong goi (snapshot toan thi truong, BCTC arminer da repack) - CO commit
 !webdata/
 !webdata/**
+webdata/snapshot/opportunities-work.json
 # web
 node_modules/
 .next/

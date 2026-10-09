@@ -62,6 +62,51 @@ def test_sectors_cover_all_symbols(client):
             assert j["coverage"]["n_symbols"] == 1522
 
 
+def test_market_map_covers_full_hierarchy_and_all_symbols(client):
+    response = client.get("/api/py/market-map?period=ret_3m")
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["ticker_count"] == 1522
+    assert payload["period"] == "ret_3m"
+    assert all(node["children"] for node in payload["items"])
+    first_sector = payload["items"][0]
+    assert first_sector["slug"].startswith("1-")
+    assert first_sector["children"][0]["slug"].startswith("2-")
+    assert first_sector["children"][0]["children"][0]["slug"].startswith("3-")
+
+
+def test_opportunities_endpoint_reads_full_precomputed_ranking(client):
+    result = client.get("/api/py/opportunities?limit=10")
+    assert result.status_code == 200
+    payload = result.json()
+    assert payload["ready"] is True
+    assert payload["universe_count"] == 1522
+    assert payload["analyzed_count"] == 1522
+    assert payload["items"] and all(
+        r["eligible"] and r["rating"] == "MUA" and r["confidence"] in {"CAO", "TRUNG BÌNH"}
+        and r["avg_value_20d"] >= 5e9 and not r["quality_failures"] and r["rank"] > 0
+        for r in payload["items"]
+    )
+    tracking = client.get("/api/py/opportunities?eligible_only=false&limit=2000").json()
+    assert any(not row["eligible"] and row["tracking_reasons"] for row in tracking["items"])
+
+
+def test_pb_roe_adjustment_requires_eight_positive_fit_and_caps_target():
+    import pandas as pd
+
+    roe = pd.Series([0.05, 0.08, 0.1, 0.14, 0.18, 0.22, 0.26, 0.30, 0.34, 0.38])
+    peers = pd.DataFrame({"pe": None, "pb": 1 + 8 * roe, "roe": roe, "liquidity_flag": True})
+    quant = {"pb": (1.5, 2.0, 2.5), "pb_p90": 4.0}
+    adjusted, fit = service._pb_roe_adjust(peers, 0.9, quant)
+    assert fit and fit["n"] == 10 and fit["r2"] >= 0.1
+    assert 1 + 8 * roe.quantile(0.25) <= fit["pb_target"] <= 1 + 8 * roe.quantile(0.9)
+    assert adjusted["pb"][0] == quant["pb"][0]
+    assert adjusted["pb"][0] <= adjusted["pb"][1] <= quant["pb_p90"]
+
+    rejected, no_fit = service._pb_roe_adjust(peers.head(7), 0.2, quant)
+    assert rejected is quant and no_fit is None
+
+
 def test_symbols_picker_has_exchange_company_and_financial_coverage(client):
     response = client.get("/api/py/symbols?exchange=HOSE")
     assert response.status_code == 200
@@ -92,18 +137,45 @@ def test_search_ranks_tickers_before_names_and_filters_exchange_first():
 
 
 def test_live_endpoints_use_short_cache_and_return_session(client, monkeypatch):
-    monkeypatch.setattr(service, "_live_quote", lambda symbol, is_index=False: {
-        "symbol": symbol, "price": 100.0, "change": 1.0, "change_pct": 0.01,
-        "volume": 10.0, "turnover": None, "as_of": "2026-10-09", "stale": False,
+    monkeypatch.setattr(service, "_index_live_quote", lambda symbol: {
+        "symbol": symbol.upper(), "price": {"VNINDEX": 100.0, "HNXINDEX": 50.0,
+        "HNXUPCOMINDEX": 25.0}[symbol.upper()], "change": 1.0, "change_pct": 0.01,
+        "volume": 10.0, "turnover": 1_000_000_000.0, "as_of": "2026-10-09", "stale": False,
     })
     market = client.get("/api/py/market/live")
     assert market.status_code == 200 and "s-maxage=10" in market.headers["cache-control"]
     assert market.json()["session"] and market.json()["indices"][0]["symbol"] == "VNINDEX"
-    assert all(x["symbol"] != "HNXIndex" and x["symbol"] != "HNXUpcomIndex" for x in market.json()["indices"])
-    assert len(market.json()["unavailable_indices"]) == 2
+    assert [x["symbol"] for x in market.json()["indices"]] == ["VNINDEX", "HNXINDEX", "HNXUPCOMINDEX"]
+    assert all(x["turnover"] == 1_000_000_000.0 for x in market.json()["indices"])
+    assert market.json()["unavailable_indices"] == []
     quote = client.get("/api/py/stock/FPT/live")
     assert quote.status_code == 200 and quote.json()["symbol"] == "FPT"
     assert "s-maxage=10" in quote.headers["cache-control"]
+
+
+def test_index_quote_preserves_vietcap_symbol_case_and_uses_own_history(monkeypatch):
+    import pandas as pd
+
+    seen = []
+    frame = pd.DataFrame({
+        "time": pd.date_range("2026-01-01", periods=3),
+        "close": [120.0, 121.0, 124.0],
+        "accumulated_volume": [100_000_000] * 3,
+        "accumulated_value": [2_000_000_000_000] * 3,
+    })
+    monkeypatch.setattr(service, "_gap_chart", lambda symbol, count: (seen.append((symbol, count)) or frame))
+    monkeypatch.setattr(service, "_LIVE_CACHE", {})
+    quote = service._index_live_quote("HNXUpcomIndex")
+    assert seen == [("HNXUpcomIndex", 260)]
+    assert quote["price"] == 124.0
+    assert quote["turnover"] == 2_000_000_000_000.0
+    assert quote["change"] == 3.0
+
+
+def test_index_turnover_normalizes_million_vnd_and_rejects_bad_data():
+    assert service._index_turnover_vnd(2_000_000, 100_000_000) == 2_000_000_000_000
+    assert service._index_turnover_vnd(2_000_000_000_000, 100_000_000) == 2_000_000_000_000
+    assert service._index_turnover_vnd(0, 100_000_000) is None
 
 
 def test_bctc_coverage_api_reports_market_exchanges(client):

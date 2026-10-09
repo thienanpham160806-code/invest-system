@@ -1,45 +1,24 @@
-"""Nguon du lieu DNSE qua SDK chinh thuc.
+"""DNSE OpenAPI data source using a small signed httpx client.
 
-`pip install openapi-sdk` (theo README cua DNSE) KHONG cai duoc - ten goi do
-chi la vi du trong docs, KHONG phai ten that tren PyPI. Ten goi PyPI THAT su
-la `dnse-sdk-openapi` (da xac nhan tren PyPI 22/09/2026 - xem requirements.txt),
-cai binh thuong bang `pip install -r requirements.txt`, khong can vendor nua.
-Import trong code van la `from dnse import DNSEClient` (khong doi ten module).
-
-Cac chi tiet duoi day DA XAC NHAN truc tiep tu tai lieu API chinh thuc cua DNSE
-(https://developers.dnse.com.vn) va tu doc source cua SDK (dnse/api/client.py):
-
-  - Moi phuong thuc cua DNSEClient tra ve tuple (status_code, body_text),
-    body_text la CHUOI JSON THO - phai tu json.loads(), SDK khong tu parse.
-  - GET /price/ohlc: bat buoc symbol, resolution (1,3,5,15,30,1h,1D,1W), from,
-    to (epoch giay). SDK: client.get_ohlc(bar_type, query={...}) - bar_type
-    la LOAI THI TRUONG (STOCK/DERIVATIVE/INDEX), KHONG PHAI khung thoi gian;
-    symbol/resolution/from/to nam trong `query`. Tra ve {t,o,h,l,c,v,nextTime}.
-  - GET /market/instruments: tra ve {data: [...], total, page, pageSize}.
-    Moi ban ghi co symbol, marketId (STO=HOSE, STX=HNX, UPX=UPCOM), name
-    (ten day du), shortName, listedDate. KHONG co von dieu le / so CP luu
-    hanh / mo ta hoat dong - de None, khong bia (xem company_overview()).
-
-Repo con lai: https://github.com/dnse-tech/openapi-sdk . Tai lieu API:
-https://developers.dnse.com.vn
-
-KHONG KET NOI DUOC (vd Render dat o Singapore: connect timeout toi
-openapi.dnse.com.vn, trong khi tu may ca nhan o VN goi binh thuong): SDK mac
-dinh cho ket noi 30s va urllib3 tu thu lai 3 lan -> ~2 phut/lan goi, nhan
-them 5 lan thu cua _call_ohlc thanh >10 phut treo cho MOI ma truoc khi router
-chuyen sang Vietcap. Vi vay: cho ket noi toi da _CONNECT_TIMEOUT giay, loi
-ket noi KHONG thu lai, va "ngat mach" _DOWN_COOLDOWN giay - trong thoi gian
-do moi lan goi bao loi ngay de router dung nguon ke tiep.
+The signature, request fields, and endpoint paths follow DNSE's published
+OpenAPI and official SDK implementation. A 5-second connect timeout and a
+5-minute connection-failure circuit breaker keep a blocked server region from
+stalling analysis; normal provider routing may then use its configured source.
 """
 from __future__ import annotations
 
 import json
+import base64
+import hashlib
+import hmac
 import threading
 import time
 from datetime import date, datetime, timezone
+from urllib.parse import quote, urlencode
+from uuid import uuid4
 
+import httpx
 import pandas as pd
-import urllib3
 from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential_jitter
 
 from ..config import get_secrets
@@ -62,7 +41,7 @@ _INSTRUMENTS_PAGE_SIZE = 100
 
 _CONNECT_TIMEOUT = 5.0
 _READ_TIMEOUT = 30.0
-_DOWN_COOLDOWN = 15 * 60  # giay bo qua DNSE sau mot lan khong ket noi duoc
+_DOWN_COOLDOWN = 5 * 60  # seconds to skip DNSE after a connection failure
 
 _down_lock = threading.Lock()
 _down_until = 0.0  # time.monotonic(); > hien tai = dang ngat mach
@@ -80,9 +59,49 @@ class DnseRequestError(ProviderError):
 
 
 def _is_connection_error(exc: BaseException) -> bool:
-    reason = exc.reason if isinstance(exc, urllib3.exceptions.MaxRetryError) else exc
-    # NewConnectionError (tu choi ket noi, loi DNS) la lop con cua ConnectTimeoutError.
-    return isinstance(reason, urllib3.exceptions.ConnectTimeoutError)
+    return isinstance(exc, (httpx.ConnectError, httpx.ConnectTimeout, httpx.ReadTimeout,
+                            httpx.NetworkError, httpx.PoolTimeout))
+
+
+class _DnseRestClient:
+    """Small signed HTTP client for the two DNSE market-data endpoints used here."""
+
+    def __init__(self, api_key: str, api_secret: str, base_url: str, api_version: str):
+        self.api_key = api_key
+        self.api_secret = api_secret
+        self.base_url = base_url.rstrip("/")
+        self.api_version = api_version
+        self.http = httpx.Client(timeout=httpx.Timeout(
+            connect=_CONNECT_TIMEOUT, read=_READ_TIMEOUT, write=5, pool=5,
+        ))
+
+    def _request(self, method: str, path: str, query: dict | None = None):
+        url = f"{self.base_url}{path}"
+        if query:
+            url = f"{url}?{urlencode(query)}"
+        date_value = datetime.now(timezone.utc).strftime("%a, %d %b %Y %H:%M:%S +0000")
+        nonce = uuid4().hex
+        # Matches DNSE's official SDK signing input: path (not query), Date,
+        # then a fresh nonce on every request.
+        signing = f"(request-target): {method.lower()} {path}\ndate: {date_value}\nnonce: {nonce}"
+        digest = hmac.new(self.api_secret.encode("utf-8"), signing.encode("utf-8"), hashlib.sha256).digest()
+        signature = quote(base64.b64encode(digest).decode("ascii"), safe="")
+        headers = {
+            "X-Api-Key": self.api_key,
+            "X-Signature": (f'Signature keyId="{self.api_key}",algorithm="hmac-sha256",'
+                            f'headers="(request-target) date",signature="{signature}",nonce="{nonce}"'),
+            "Date": date_value,
+            "version": self.api_version,
+        }
+        response = self.http.request(method, url, headers=headers)
+        return response.status_code, response.text
+
+    def get_ohlc(self, bar_type: str, query: dict):
+        return self._request("GET", "/price/ohlc", {**query, "type": bar_type})
+
+    def get_instruments(self, *, market_id=None, limit=None, page=None, symbol=None):
+        query = {"marketId": market_id, "limit": limit, "page": page, "symbol": symbol}
+        return self._request("GET", "/market/instruments", {k: v for k, v in query.items() if v is not None})
 
 
 def _mark_down(exc: BaseException) -> None:
@@ -134,36 +153,18 @@ class DnseProvider(PriceProvider):
                     "Thieu DNSE_API_KEY / DNSE_API_SECRET trong .env. "
                     "Dang ky ung dung tai https://developers.dnse.com.vn"
                 )
-            try:
-                from dnse import DNSEClient  # type: ignore
-            except ImportError as exc:  # pragma: no cover
-                raise ProviderError(
-                    "Chua cai SDK cua DNSE. Chay: pip install -r requirements.txt "
-                    "(goi PyPI: dnse-sdk-openapi)"
-                ) from exc
-
-            client = DNSEClient(
+            client = _DnseRestClient(
                 api_key=secrets.dnse_api_key,
                 api_secret=secrets.dnse_api_secret,
                 base_url=secrets.dnse_base_url,
                 api_version=secrets.dnse_api_version,
             )
-            # SDK khong cho truyen timeout/retry: thay PoolManager noi bo (cung
-            # tham so nhu SDK, chi doi timeout va bo thu lai khi loi ket noi).
-            # Neu ban SDK sau doi ten thuoc tinh thi giu nguyen mac dinh cua SDK.
-            if hasattr(client, "_http"):
-                client._http = urllib3.PoolManager(
-                    num_pools=10, maxsize=10, block=False,
-                    timeout=urllib3.Timeout(connect=_CONNECT_TIMEOUT, read=_READ_TIMEOUT),
-                    retries=urllib3.Retry(total=2, connect=0, read=0),
-                    assert_hostname=False,
-                )
             self._client = client
             log.info("Da khoi tao DNSE client (%s)", secrets.dnse_base_url)
         return self._client
 
     def _get(self, what: str, call):
-        """Goi SDK qua ngat mach: dang ngat thi bao loi ngay; loi ket noi thi
+        """Goi REST qua ngat mach: dang ngat thi bao loi ngay; loi ket noi thi
         bat ngat mach va nem DnseUnreachable (khong retry)."""
         _raise_if_down()
         try:
@@ -179,7 +180,7 @@ class DnseProvider(PriceProvider):
 
     @staticmethod
     def _parse_response(status: int | None, body: str | None, what: str) -> dict:
-        """Kiem tra status va json.loads() body_text - DNSEClient khong tu parse."""
+        """Validate HTTP status and parse the raw JSON response body."""
         if status is not None and 400 <= status < 500 and status != 429:
             raise DnseRequestError(f"DNSE {what} tra ve HTTP {status}: {body}")
         if status is None or status >= 300:

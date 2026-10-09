@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import Script from "next/script";
 import Link from "next/link";
 import Search from "@/components/Search";
 import LiveRibbon from "@/components/LiveRibbon";
+import ThemeToggle from "@/components/ThemeToggle";
 import "./globals.css";
 
 const beVietnam = localFont({
@@ -24,7 +26,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="vi" className={beVietnam.variable}>
+    <html lang="vi" className={beVietnam.variable} suppressHydrationWarning>
+      <Script id="theme-init" strategy="beforeInteractive">
+        {'try { document.documentElement.dataset.theme = localStorage.getItem("invest-system-theme") === "dark" ? "dark" : "light"; } catch { document.documentElement.dataset.theme = "light"; }'}
+      </Script>
       <body style={{ fontFamily: "var(--font-bvp), system-ui, sans-serif" }}>
         <header className="no-print sticky top-0 z-40 bg-[#0b3b6f] text-white shadow-sm">
           <div className="mx-auto max-w-7xl px-4 py-2.5 flex flex-wrap items-center gap-x-6 gap-y-1">
@@ -32,9 +37,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <nav className="flex gap-4 text-sm">
               <Link href="/" className="hover:text-sky-200">Tổng quan</Link>
               <Link href="/nganh" className="hover:text-sky-200">Ngành</Link>
+              <Link href="/co-hoi" className="hover:text-sky-200">Cơ hội</Link>
               <Link href="/thi-truong" className="hover:text-sky-200">Toàn thị trường</Link>
               <Link href="/nguon" className="hover:text-sky-200">Dữ liệu & nguồn</Link>
             </nav>
+            <ThemeToggle />
             <div className="ml-auto hidden w-64 md:block"><Search globalHotkeys /></div>
           </div>
           <LiveRibbon />

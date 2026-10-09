@@ -12,7 +12,7 @@ export default function LiveRibbon() {
       const old = previous.current[x.symbol], flash = old !== undefined && old !== x.price ? x.price > old ? "price-up" : "price-down" : "";
       previous.current[x.symbol] = x.price;
       return <span key={x.symbol} className={`tabular-nums ${flash}`} title={`${x.source} · nến ${x.as_of || "—"}${x.stale ? " · dữ liệu cũ" : ""}`}>
-        {x.name} <b>{x.price == null ? "—" : num(x.price, 2)}</b> <span className={cls(x.change)}>{x.change == null ? "" : `${x.change > 0 ? "+" : ""}${num(x.change, 2)} (${pct(x.change_pct, 2, true)})`}</span> · GTGD {x.turnover == null ? "—" : `${bn(x.turnover, 0)} tỷ`}
+        {x.name} <b>{x.price == null ? "—" : num(x.price, 2)}</b> <span className={cls(x.change)}>{x.change == null ? "" : `${x.change > 0 ? "+" : ""}${num(x.change, 2)} (${pct(x.change_pct, 2, true)})`}</span> · GTGD {x.turnover == null ? "—" : `${bn(x.turnover, 0)} tỷ`}{x.stale && <b className="ml-1 text-amber-200">· trễ</b>}
       </span>;
     })}
     {(data?.unavailable_indices || []).map((x: any) => <span key={x.name} className="text-amber-200" title={x.reason}>{x.name} chưa lấy được</span>)}

@@ -192,7 +192,15 @@ def value_company(fin: StandardFinancials, company_type: str, price: float | Non
             pb_trip = (history_pb[0], history_pb[1], history_pb[2], "lịch sử 5 năm của chính doanh nghiệp")
             res.skipped.append("P/B: không đủ nhóm so sánh; dùng lịch sử 5 năm của chính doanh nghiệp.")
     if pb_trip and bvps is not None and bvps > 0:
-        vals = {sc: bvps * pb_trip[scen_mult[sc]] for sc in SCENARIOS}
+        pb_p25 = pb_trip[0]
+        pb_p90 = sector_quantiles.get("pb_p90", pb_trip[2])
+        pb_p90 = max(pb_p25, float(pb_p90)) if pb_p90 is not None else pb_trip[2]
+        pb_targets = {
+            "bear": max(pb_p25, pb_trip[0]),
+            "base": min(pb_p90, max(pb_p25, pb_trip[1])),
+            "bull": min(pb_p90, max(pb_p25, pb_p90)),
+        }
+        vals = {sc: bvps * pb_targets[sc] for sc in SCENARIOS}
         methods.append(MethodResult("pb_relative", METHOD_LABELS["pb_relative"], vals,
                                     inputs={"BVPS": bvps, "P/B mục tiêu": pb_trip[1],
                                             "Nguồn bội số": pb_trip[3], "P/B hiện tại": current_pb,

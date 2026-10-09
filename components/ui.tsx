@@ -66,8 +66,10 @@ export function SortTable<T extends Record<string, any>>({ rows, cols, initialSo
       <table className="tbl">
         <thead>
           <tr>{cols.map((c) => (
-            <th key={c.key} title={c.title} className={c.num ? "text-right" : ""} onClick={() => setSort((s) => ({ key: c.key, desc: s.key === c.key ? !s.desc : true }))}>
-              {c.label}{sort.key === c.key ? (sort.desc ? " ▼" : " ▲") : ""}
+            <th key={c.key} title={c.title} aria-sort={sort.key === c.key ? (sort.desc ? "descending" : "ascending") : undefined} className={c.num ? "text-right" : ""}>
+              <button type="button" className={`w-full text-inherit ${c.num ? "text-right" : "text-left"}`} onClick={() => setSort((s) => ({ key: c.key, desc: s.key === c.key ? !s.desc : true }))} aria-label={`Sắp xếp theo ${c.label}`}>
+                {c.label}{sort.key === c.key ? (sort.desc ? " ▼" : " ▲") : ""}
+              </button>
             </th>))}
           </tr>
         </thead>
@@ -75,7 +77,7 @@ export function SortTable<T extends Record<string, any>>({ rows, cols, initialSo
           {shown.map((r) => {
             const href = onRow?.(r);
             return (
-              <tr key={rowKey(r)} className={`${highlight?.(r) ? "bg-amber-50 font-semibold" : ""}${href ? " cursor-pointer" : ""}`} onClick={href ? () => router.push(href) : undefined} onKeyDown={href ? (e) => { if (e.key === "Enter") router.push(href); } : undefined} tabIndex={href ? 0 : undefined}>
+              <tr key={rowKey(r)} className={`${highlight?.(r) ? "bg-amber-50 font-semibold" : ""}${href ? " cursor-pointer" : ""}`} onClick={href ? () => router.push(href) : undefined}>
                 {cols.map((c, i) => (
                   <td key={c.key} className={c.num ? "text-right tabular-nums" : ""}>
                     {i === 0 && href ? <Link className="link" href={href} onClick={(e) => e.stopPropagation()}>{c.render ? c.render(r) : r[c.key]}</Link> : c.render ? c.render(r) : r[c.key]}

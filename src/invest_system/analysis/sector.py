@@ -345,6 +345,8 @@ def valuation_comparison(peers: pd.DataFrame, symbol: str, target_market_cap: fl
             multiples = multiples[multiples <= 20]
         if len(multiples) >= 2:
             out[key] = tuple(float(multiples.quantile(q)) for q in (0.25, 0.50, 0.75))
+            if key == "pb":
+                out["pb_p90"] = float(multiples.quantile(0.90))
         agg_valid = (den > 0) & (cap > 0)
         if key == "pe":
             # A gross P/E is not meaningful when loss-making peers dominate NI.
@@ -356,12 +358,6 @@ def valuation_comparison(peers: pd.DataFrame, symbol: str, target_market_cap: fl
 
     cap_cut = float(all_liquid["market_cap"].quantile(0.90)) if len(all_liquid) else None
     is_top_decile = bool(target_market_cap and cap_cut and target_market_cap >= cap_cut)
-    if is_top_decile:
-        for key in ("pe", "pb"):
-            agg = aggregates.get(key)
-            if agg is not None and (key != "pe" or agg < 60):
-                out[key] = (agg, agg, agg)
-
     audit = {
         "peer_symbols": selected["symbol"].astype(str).tolist(),
         "peer_count": int(len(selected)),
@@ -369,7 +365,7 @@ def valuation_comparison(peers: pd.DataFrame, symbol: str, target_market_cap: fl
         "cap_threshold": threshold_used,
         "target_top_decile": is_top_decile,
         "gross_multiples": aggregates,
-        "source": "bội số gộp theo vốn hóa" if is_top_decile else "trung vị nhóm so sánh",
+        "source": "trung vị nhóm so sánh thanh khoản; loại chính mã mục tiêu",
     }
     return out, audit
 

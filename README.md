@@ -16,10 +16,13 @@ Báo cáo mẫu (dữ liệu giả lập, chạy offline): [`outputs/samples/`](
 | Trang | Nội dung |
 |---|---|
 | `/` | Tìm mã (tên/thương hiệu), VN-Index live, thống kê toàn thị trường, vĩ mô mới nhất kèm link nguồn, ngành cấp 1 |
+| `/co-hoi` | Xếp hạng snapshot định giá toàn universe; lọc sàn, thanh khoản, mã/tên và xuất CSV |
 | `/nganh` | Mọi nút ICB cấp 1–4 tính từ **toàn bộ 1.522 mã**: số mã, vốn hoá & tỷ trọng, GTGD, hiệu suất 1T/3T/YTD/1N so VN-Index, P/E–P/B–ROE trung vị (P25/P75), P/E gộp, điểm & hạng ngành, tỷ lệ phủ |
 | `/nganh/[slug]` | Chỉ số ngành cap-weighted (=100) vs VN-Index, phân phối P/E–P/B, scatter P/B–ROE, **bảng tất cả mã** (lọc, sắp xếp, CSV) |
 | `/stock/[mã]` | 10 tab: Tổng quan (khuyến nghị, giá mục tiêu, 7 nhóm điểm, luận điểm/rủi ro) · Vĩ mô · Ngành (phân vị trong toàn ngành) · BCTC (CĐKT/KQKD/LCTT, tên gốc, % quy mô, YoY, CSV) · Chỉ số (hover xem công thức) · Định giá (3 kịch bản + giả định) · Kỹ thuật (nến) · Tin tức · Tài liệu BCTN · Dữ liệu & nguồn |
 | `/report/[mã]?sections=&years=&template=` | Báo cáo in A4 kiểu SSI/VCSC; nút "Xuất PDF" (in trình duyệt) và "Tải PDF từ máy chủ" (`/api/pdf`, Chromium headless) |
+
+Bản đồ thị trường trên trang chủ đi sâu ICB cấp 1 → cấp 4 → ticker; diện tích biểu thị vốn hoá, màu biểu thị hiệu suất theo kỳ chọn.
 
 ### Kiến trúc
 
@@ -51,10 +54,12 @@ Chạy web local: `pip install -r requirements.txt && npm install`, rồi `npm r
 **Nguồn, giấy phép, đối chiếu với CafeF/Vietstock, lỗi nguồn đã phát hiện:** [`docs/data-sources.md`](docs/data-sources.md).
 
 ### Giới hạn của bản web
-- BCTC năm (arminer) chỉ phủ HSX/HNX đến FY2025; mã UPCOM có giá + ngành, phần BCTC/định giá ghi rõ "chưa có nguồn BCTC".
-- P/E/định giá dùng FY2025 để nhất quán với bội số ngành; P/E TTM (vnstock quý) chỉ có cho mã thanh khoản cao.
+- BCTC arminer phủ phần lớn HOSE/HNX đến FY2025. UPCOM và mã HOSE/HNX còn thiếu được bổ sung qua workflow vnstock; chỉ hiện là có BCTC sau khi dữ liệu vượt kiểm tra và được nạp lên Blob.
+- P/E ưu tiên LNST cổ đông mẹ TTM khi có bốn quý liên tiếp; nếu chưa có thì dùng FY gần nhất và ghi rõ kỳ.
 - Số CP = `listedShare` (niêm yết) → có thể thấp hơn số lưu hành khi DN vừa phát hành CP chưa niêm yết (vd FPT).
 - Vĩ mô nhập tay có URL nguồn (tra cứu 09/10/2026); cần cập nhật `config/macro_vn.csv` khi GSO/NHNN công bố số mới.
+- OpenAI/Gemini chỉ được gọi khi chọn `LLM_PROVIDER`, có key tương ứng và bật `LLM_ENABLED=1`; mặc định tắt để tránh phát sinh chi phí. Narrative không tự sửa điểm số hay khuyến nghị định lượng.
+- Tạo ranking đầy đủ bằng `python scripts/build_opportunities.py --resume`; kiểm tra số liệu bằng `python scripts/audit_report_numbers.py`.
 
 ## Đáp ứng yêu cầu đề bài
 

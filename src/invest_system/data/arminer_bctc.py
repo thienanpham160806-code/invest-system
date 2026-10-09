@@ -17,6 +17,7 @@ ghi vao `mapping` -> tab "Du lieu & nguon" / phu luc PDF.
 """
 from __future__ import annotations
 
+import io
 import os
 import re
 from functools import lru_cache
@@ -34,6 +35,7 @@ SOURCE_NAME = "BCTC năm – vn-annual-report-miner (Tumiqa, MIT)"
 REF_DIR = Path(os.getenv("REFERENCE_DIR", str(PROJECT_ROOT / "data" / "reference")))
 RAW_DIR = REF_DIR / "arminer" / "bctc_data"
 PACKED = Path(os.getenv("WEBDATA_DIR", str(PROJECT_ROOT / "webdata"))) / "bctc_long.parquet"
+VNSTOCK_PACKED = REF_DIR / "bctc_vnstock.parquet"
 STATEMENTS = {"bs": "balance_sheet", "is": "income_statement", "cf": "cash_flow"}
 
 _H = r"[0-9a-f]{8}"  # hau to hash cua item_code trung ten
@@ -131,10 +133,16 @@ def _source_path() -> Path | None:
 @lru_cache(maxsize=1)
 def coverage() -> pd.DataFrame:
     """(ticker, exchange, first_year, last_year) cho moi ma co BCTC."""
+    frames = []
     path = _source_path()
-    if path is None:
+    if path is not None:
+        frames.append(pd.read_parquet(path, columns=["ticker", "exchange", "year"]))
+    supplement = _vnstock_supplement()
+    if not supplement.empty:
+        frames.append(supplement[["ticker", "exchange", "year"]])
+    if not frames:
         return pd.DataFrame(columns=["ticker", "exchange", "first_year", "last_year"])
-    frame = pd.read_parquet(path, columns=["ticker", "exchange", "year"])
+    frame = pd.concat(frames, ignore_index=True).drop_duplicates()
     return (frame.groupby("ticker").agg(exchange=("exchange", "first"),
                                         first_year=("year", "min"), last_year=("year", "max"))
             .reset_index())
@@ -145,22 +153,61 @@ def has_symbol(symbol: str) -> bool:
     return not cov.empty and symbol.upper() in set(cov["ticker"])
 
 
-@lru_cache(maxsize=64)
-def raw_long(symbol: str) -> pd.DataFrame:
-    """Toan bo dong BCTC goc cua mot ma (dang dai)."""
-    path = _source_path()
-    if path is None:
+@lru_cache(maxsize=128)
+def _vnstock_supplement() -> pd.DataFrame:
+    if VNSTOCK_PACKED.exists():
+        return pd.read_parquet(VNSTOCK_PACKED)
+    base = os.getenv("BLOB_BASE_URL", "").rstrip("/")
+    if not base:
         return pd.DataFrame()
-    frame = pd.read_parquet(path, filters=[("ticker", "==", symbol.upper())])
+    try:
+        import requests
+
+        response = requests.get(f"{base}/universe/bctc_vnstock.parquet", timeout=8)
+        response.raise_for_status()
+        return pd.read_parquet(io.BytesIO(response.content))
+    except Exception as exc:  # noqa: BLE001
+        log.warning("Khong tai duoc BCTC vnstock tu Blob: %s", exc)
+        return pd.DataFrame()
+
+
+@lru_cache(maxsize=128)
+def raw_long(symbol: str, exchange: str | None = None) -> pd.DataFrame:
+    """Toan bo dong BCTC goc cua mot ma (dang dai)."""
+    symbol = symbol.upper()
+    exchange = exchange.upper() if exchange else None
+    parts = []
+    if exchange != "UPCOM":
+        path = _source_path()
+        if path is not None:
+            parts.append(pd.read_parquet(path, filters=[("ticker", "==", symbol)]))
+    supplement = _vnstock_supplement()
+    if not supplement.empty:
+        extra = supplement[supplement["ticker"].astype(str).str.upper() == symbol]
+        if exchange:
+            extra = extra[extra["exchange"].astype(str).str.upper() == exchange]
+        if not extra.empty:
+            parts.append(extra)
+    if not parts:
+        return pd.DataFrame()
+    frame = pd.concat(parts, ignore_index=True)
+    if "source" in frame.columns:
+        # Keep the packaged source first; VCI only fills missing report rows.
+        frame["_source_priority"] = frame["source"].isna().astype(int)
+        frame = frame.sort_values("_source_priority").drop_duplicates(
+            subset=["ticker", "year", "statement", "item_code"], keep="last"
+        ).drop(columns="_source_priority")
+    else:
+        frame = frame.drop_duplicates(subset=["ticker", "year", "statement", "item_code"], keep="last")
     frame["year"] = frame["year"].astype(int)
     return frame
 
 
-def raw_statement(symbol: str, statement: str, years: int = 5) -> pd.DataFrame:
+def raw_statement(symbol: str, statement: str, years: int = 5, exchange: str | None = None) -> pd.DataFrame:
     """Bao cao goc dang rong: hang = (item_code, item_name), cot = nam. Giu thu tu dong goc.
     Bo dong toan 0/NaN (mau bieu chung cua arminer gom ca chi tieu nganh khac)."""
     st = STATEMENTS.get(statement, statement)
-    long = raw_long(symbol)
+    long = raw_long(symbol.upper(), exchange)
     if long.empty:
         return pd.DataFrame()
     part = long[long["statement"] == st]
@@ -235,13 +282,17 @@ def standardize(symbol: str, long: pd.DataFrame) -> StandardFinancials:
     return StandardFinancials(symbol.upper(), frame, SOURCE_NAME, mapping, notes=notes)
 
 
-def from_arminer(symbol: str) -> StandardFinancials | None:
+def from_arminer(symbol: str, exchange: str | None = None) -> StandardFinancials | None:
     try:
-        long = raw_long(symbol)
+        long = raw_long(symbol.upper(), exchange)
     except Exception as exc:  # noqa: BLE001
         log.warning("arminer %s loi: %s", symbol, exc)
         return None
     if long.empty:
         return None
     std = standardize(symbol, long)
+    if "source" in long.columns:
+        sources = sorted(set(long["source"].dropna().astype(str)))
+        if sources:
+            std.source = " + ".join(sources)
     return None if std.empty else std

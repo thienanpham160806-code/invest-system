@@ -93,6 +93,11 @@ def sectors(level: int = Query(1, ge=1, le=4), exchange: str | None = None):
     return _call(service.sectors, level, exchange)
 
 
+@app.get("/api/py/market-map")
+def market_map(period: Literal["change_1d", "ret_1m", "ret_3m", "ret_ytd", "ret_1y"] = "ret_1m"):
+    return _call(service.market_map, period)
+
+
 @app.get("/api/py/sectors/{slug}")
 def sector_detail(slug: str):
     return _call(service.sector_detail, slug)
@@ -103,6 +108,16 @@ def universe(exchange: str | None = None, icb: str | None = None, sort: str = "m
              order: str = "desc", min_value: float | None = None, page: int = 1,
              page_size: int = 50, q: str | None = None):
     return _call(service.universe_table, exchange, icb, sort, order, min_value, page, page_size, q)
+
+
+@app.get("/api/py/opportunities")
+def opportunities(exchange: str | None = None, min_value: float | None = None,
+                   eligible_only: bool = True, limit: int = Query(100, ge=1, le=2000), q: str | None = None,
+                   industry: str | None = None, rating: str | None = None,
+                   confidence: str | None = None, min_upside: float | None = None,
+                   min_market_cap: float | None = None):
+    return _call(service.opportunities, exchange, min_value, eligible_only, limit, q,
+                 industry, rating, confidence, min_upside, min_market_cap)
 
 
 @app.get("/api/py/stock/{ticker}/profile")

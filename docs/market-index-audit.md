@@ -1,14 +1,24 @@
 # Vietcap index symbol audit
 
-Probe: `POST https://trading.vietcap.com.vn/api/chart/OHLCChart/gap-chart`, timeframe `ONE_DAY`, `countBack=5`, 2026-10-09 (UTC timestamps in the response map to 2026-10-09 Vietnam time).
+Date checked: 2026-10-09. Production endpoint: `/api/py/market/live`.
 
-| Request symbol | HTTP | Response symbol | Last close | Result |
-|---|---:|---|---:|---|
-| `VNINDEX` | 200 | `VNINDEX` | 1735.09 | Use as VN-Index |
-| `HNXIndex` | 200 | `HNXIndex` | 261.60 | Use as HNX-Index |
-| `HNXUpcomIndex` | 200 | `HNXUpcomIndex` | 124.67 | Use as UPCOM-Index |
-| `HNXINDEX` | 200 | no item | — | Unsupported spelling |
-| `UPCOMINDEX` | 200 | no item | — | Unsupported spelling |
-| `UpcomIndex` | 200 | no item | — | No Vietcap gap-chart item |
+## Findings
 
-The response objects included `symbol`, `o`, `h`, `l`, `c`, `v`, `t`, `accumulatedVolume`, and `accumulatedValue`. The live ribbon uses the three exact response symbols, rejects response-symbol mismatches, hides unavailable or duplicate secondary values, and reports them as unavailable.
+The production endpoint returned VN-Index only. HNX-Index and UPCOM-Index were marked unavailable. The previous implementation uppercased every symbol before calling Vietcap. That changed the documented, case-sensitive request symbols `HNXIndex` and `HNXUpcomIndex` into unsupported spellings `HNXINDEX` and `HNXUPCOMINDEX`. It also dropped `accumulatedValue` and therefore displayed no turnover for VN-Index.
+
+The production server response does not include the upstream Vietcap request or response body, so the exact upstream error was not observable from `/api/py/market/live`. A local direct probe was blocked by the execution environment (`WinError 10013`, outbound socket permission denied). `scripts/probe_market_indices.py` records the original payload for all three canonical symbols when run from a network-enabled machine. This is the remaining verification for the upstream error/cache/IP hypotheses.
+
+## Change
+
+- Request the canonical symbols independently and concurrently, preserving their case.
+- Validate each close against that same symbol's returned 250-session history; never compare HNX/UPCOM levels with VN-Index.
+- Carry `accumulatedVolume` and `accumulatedValue` through the response. Normalize turnover to VND only when the implied value per share is plausible; otherwise leave it unavailable.
+- Keep the last valid quote marked stale after a later request fails. A symbol is listed as unavailable only when no valid live or cached quote exists.
+- Show a visible `trễ` marker for a stale quote. Source and timestamp remain available in the hover title.
+
+## Verification status
+
+- Production before change: VN-Index present; HNX/UPCOM absent; all three turnover values absent.
+- Direct Vietcap raw response: not captured in this environment because outbound Python sockets are denied.
+- Automated fixture tests cover canonical-case preservation, parallel index output, own-history validation, turnover unit normalization, and stale fallback.
+- Production after change: pending preview verification.
