@@ -27,6 +27,7 @@ from functools import lru_cache
 import numpy as np
 import pandas as pd
 
+from ..analysis.ttm import compute_ttm
 from ..data import arminer_bctc
 from ..data.fundamentals import StandardFinancials, _fill_derived
 from ..logging_conf import get_logger
@@ -111,6 +112,32 @@ def annual_metrics(std: StandardFinancials) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def ttm_history(quarterly: pd.DataFrame) -> pd.DataFrame:
+    """LNST cong ty me TTM tai MOI quy co du 4 quy lien tiep (analysis/ttm.compute_ttm),
+    dung duoc tu ngay sau khi quy MUON nhat trong 4 quy cong bo (published_at + 1;
+    thieu ngay that -> quy tac tre chuan cua backtest/pit.py)."""
+    if quarterly is None or quarterly.empty:
+        return pd.DataFrame(columns=["symbol", "available_from", "ni_ttm", "ttm_label", "ttm_periods"])
+    rows = []
+    for sym, g in quarterly.groupby("symbol", sort=False):
+        g = g.sort_values(["year", "quarter"])
+        if "net_income_parent" not in g.columns or g["net_income_parent"].isna().all():
+            continue
+        for k in range(3, len(g)):
+            end = g.iloc[k]
+            res = compute_ttm(g.iloc[: k + 1], end=(int(end["year"]), int(end["quarter"])))
+            ni = res.get("net_income_parent")
+            if not res.ok or ni is None:
+                continue
+            window = g[(g["year"] * 4 + g["quarter"]).between(
+                (end["year"] * 4 + end["quarter"]) - 3, end["year"] * 4 + end["quarter"])]
+            dates = [pit.available_from(int(r.year), int(r.quarter), r.published_at)[0]
+                     for r in window.itertuples()]
+            rows.append({"symbol": sym, "available_from": max(dates), "ni_ttm": ni, "ttm_label": res.label,
+                         "ttm_periods": ",".join(res.periods)})
+    return pd.DataFrame(rows)
+
+
 def financials_as_of(symbol: str, as_of, years: int = 10) -> StandardFinancials:
     std = _annual(symbol)
     if std is None or std.empty:
@@ -132,7 +159,7 @@ class History:
     """Du lieu da chuan bi de dung universe va cham diem tai nhieu ngay."""
 
     def __init__(self, base_universe: pd.DataFrame, ohlcv: pd.DataFrame, vnindex: pd.DataFrame,
-                 symbols_with_annual: list[str] | None = None):
+                 symbols_with_annual: list[str] | None = None, quarterly: pd.DataFrame | None = None):
         self.base = base_universe[[c for c in STATIC_COLS if c in base_universe.columns]].copy()
         self.ohlcv = ohlcv.sort_values(["symbol", "time"]).reset_index(drop=True)
         self._by_symbol = {s: g.reset_index(drop=True) for s, g in self.ohlcv.groupby("symbol", sort=False)}
@@ -151,13 +178,16 @@ class History:
                 parts.append(metrics.assign(symbol=sym))
         self.fin = (pd.concat(parts, ignore_index=True).sort_values("available_from")
                     if parts else pd.DataFrame(columns=["symbol", "available_from"]))
+        self.ttm = ttm_history(quarterly).sort_values("available_from") if quarterly is not None             else ttm_history(None)
 
     def universe_as_of(self, as_of) -> pd.DataFrame:
         cutoff = pd.Timestamp(as_of)
         prices = prices_as_of(self.panel, cutoff)
         fin = self.fin[self.fin["available_from"] <= cutoff].groupby("symbol").tail(1)
+        ttm = self.ttm[self.ttm["available_from"] <= cutoff].groupby("symbol").tail(1)
         uni = (self.base.merge(prices, on="symbol", how="inner")
-                        .merge(fin.drop(columns=["available_from"]), on="symbol", how="left"))
+                        .merge(fin.drop(columns=["available_from"]), on="symbol", how="left")
+                        .merge(ttm.drop(columns=["available_from"]), on="symbol", how="left"))
         uni["market_cap"] = uni["price"] * uni["shares"]
         ni = uni["net_income_parent"]
         uni["pe"] = np.where(ni > 0, uni["market_cap"] / ni, np.nan)
@@ -166,6 +196,8 @@ class History:
         uni["ev_ebitda"] = np.where((uni["ebitda"] > 0) & (uni["company_type"] == "NON_FINANCIAL"),
                                     ev / uni["ebitda"], np.nan)
         uni["eps"] = np.where(uni["shares"] > 0, ni / uni["shares"], np.nan)
+        uni["pe_ttm"] = np.where(uni["ni_ttm"] > 0, uni["market_cap"] / uni["ni_ttm"], np.nan)
+        uni["eps_ttm"] = np.where(uni["shares"] > 0, uni["ni_ttm"] / uni["shares"], np.nan)
         uni["liquidity_flag"] = uni["avg_value_20d"] >= MIN_LIQUID_VALUE
         uni["has_bctc"] = uni["fin_year"].notna()
         uni["ret_ytd"] = np.nan
