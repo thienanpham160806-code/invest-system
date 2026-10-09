@@ -126,9 +126,15 @@ def test_default_store_reads_annual_and_quarterly(monkeypatch, tmp_path):
     quarterly.to_parquet(qpath)
     monkeypatch.setattr(pit, "_annual_rows", lambda s: annual if s == "DDD" else pd.DataFrame())
     monkeypatch.setattr(pit, "_quarterly_path", lambda: qpath)
-    pit._default_store.cache_clear()
+    pit.reset_default_store()
     try:
         assert available_financials("DDD", "2026-03-31").empty
         assert _periods(available_financials("DDD", "2026-05-15")) == {(2025, ANNUAL), (2026, 1)}
+        # cap nhat file quy: chi thay sau reset_default_store()
+        pd.concat([quarterly, pd.DataFrame([{"symbol": "DDD", "year": 2026, "quarter": 2,
+                                             "net_income": 4.0}])]).to_parquet(qpath)
+        assert (2026, 2) not in _periods(available_financials("DDD", "2026-12-31"))
+        pit.reset_default_store()
+        assert (2026, 2) in _periods(available_financials("DDD", "2026-12-31"))
     finally:
         pit._default_store.cache_clear()

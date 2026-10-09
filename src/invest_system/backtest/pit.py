@@ -175,6 +175,12 @@ def _default_store(symbol: str) -> PointInTimeStore:
     return PointInTimeStore(pd.concat(parts, ignore_index=True) if parts else pd.DataFrame())
 
 
+def reset_default_store() -> None:
+    """Xoa cache kho mac dinh - goi sau khi cap nhat BCTC (arminer / bctc_quarterly)
+    trong cung tien trinh, neu khong se doc mai ban da nap lan dau."""
+    _default_store.cache_clear()
+
+
 def available_financials(symbol: str, as_of, freq: str = "all",
                          store: PointInTimeStore | None = None) -> pd.DataFrame:
     """BCTC cua `symbol` da cong bo tai `as_of`.
