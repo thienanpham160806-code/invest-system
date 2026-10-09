@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import Link from "next/link";
+import Search from "@/components/Search";
+import LiveRibbon from "@/components/LiveRibbon";
 import "./globals.css";
 
 const beVietnam = localFont({
@@ -24,7 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="vi" className={beVietnam.variable}>
       <body style={{ fontFamily: "var(--font-bvp), system-ui, sans-serif" }}>
-        <header className="no-print bg-[#0b3b6f] text-white">
+        <header className="no-print sticky top-0 z-40 bg-[#0b3b6f] text-white shadow-sm">
           <div className="mx-auto max-w-7xl px-4 py-2.5 flex flex-wrap items-center gap-x-6 gap-y-1">
             <Link href="/" className="font-bold tracking-tight text-lg">INVEST<span className="text-sky-300">SYSTEM</span></Link>
             <nav className="flex gap-4 text-sm">
@@ -33,7 +35,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link href="/thi-truong" className="hover:text-sky-200">Toàn thị trường</Link>
               <Link href="/nguon" className="hover:text-sky-200">Dữ liệu & nguồn</Link>
             </nav>
+            <div className="ml-auto hidden w-64 md:block"><Search globalHotkeys /></div>
           </div>
+          <LiveRibbon />
         </header>
         <main className="mx-auto max-w-7xl px-4 py-5">{children}</main>
         <footer className="no-print mx-auto max-w-7xl px-4 py-6 text-xs text-slate-500">

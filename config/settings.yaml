@@ -177,6 +177,6 @@ report:
   pdf_engine: auto       # auto | weasyprint | playwright | html
 
 llm:
-  enabled: false         # bat bang bien moi truong ANTHROPIC_API_KEY + LLM_ENABLED=1
-  model: claude-sonnet-5-5
-  max_tokens: 1200
+  enabled: false         # bat bang LLM_ENABLED=1 + key cua LLM_PROVIDER
+  model: gpt-6-luna      # model OpenAI mac dinh, chi phi thap
+  max_tokens: 500        # gioi han dau ra cho moi lan goi

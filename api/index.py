@@ -8,6 +8,7 @@ from __future__ import annotations
 import os
 import sys
 from pathlib import Path
+from typing import Literal
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
@@ -31,7 +32,9 @@ app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["GET"], a
 async def cache_headers(request: Request, call_next):
     response = await call_next(request)
     if request.method == "GET" and response.status_code == 200 and not request.url.path.endswith(("/health", "/sources")):
-        response.headers["Cache-Control"] = "public, s-maxage=300, stale-while-revalidate=600"
+        age, stale = ((3600, 7200) if request.url.path.endswith("/symbols") else
+                      (10, 20) if request.url.path.endswith("/live") else (300, 600))
+        response.headers["Cache-Control"] = f"public, s-maxage={age}, stale-while-revalidate={stale}"
     return response
 
 
@@ -55,14 +58,29 @@ def sources():
     return _call(service.sources_live)
 
 
+@app.get("/api/py/bctc-coverage")
+def bctc_coverage():
+    return _call(service.bctc_coverage)
+
+
 @app.get("/api/py/search")
 def search(q: str = "", limit: int = 12):
     return _call(service.search, q, limit)
 
 
+@app.get("/api/py/symbols")
+def symbols(exchange: Literal["ALL", "HOSE", "HNX", "UPCOM"] = "ALL"):
+    return _call(service.symbols, exchange)
+
+
 @app.get("/api/py/market")
 def market():
     return _call(service.market)
+
+
+@app.get("/api/py/market/live")
+def market_live():
+    return _call(service.market_live)
 
 
 @app.get("/api/py/macro")
@@ -95,6 +113,11 @@ def stock_profile(ticker: str):
 @app.get("/api/py/stock/{ticker}/price")
 def stock_price(ticker: str, days: int = Query(365, ge=5, le=1500)):
     return _call(service.price, ticker, days)
+
+
+@app.get("/api/py/stock/{ticker}/live")
+def stock_live(ticker: str):
+    return _call(service.stock_live, ticker)
 
 
 @app.get("/api/py/stock/{ticker}/financials")

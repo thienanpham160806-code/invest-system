@@ -5,17 +5,22 @@ import { useApi } from "@/lib/api";
 import { bnLabel, cls, num, pct, times } from "@/lib/fmt";
 
 export default function Nganh() {
-  const [level, setLevel] = useState(2);
-  const [minSymbols, setMinSymbols] = useState(0);
-  const [minCap, setMinCap] = useState(0);
-  const [minLiquid, setMinLiquid] = useState(0);
-  const [parent, setParent] = useState("");
+  const [level, setLevel] = useState(1);
+  const [draft, setDraft] = useState({ minSymbols: 0, minCap: 0, minLiquid: 0, parent: "" });
+  const [filters, setFilters] = useState(draft);
   const [exch, setExch] = useState("");
   const { data, error, loading } = useApi<any>(`/api/py/sectors?level=${level}${exch ? `&exchange=${exch}` : ""}`);
   const rows = useMemo(() => (data?.items || []).filter((r: any) =>
-    r.n_symbols >= minSymbols && r.market_cap >= minCap * 1e12 && r.n_liquid >= minLiquid && (!parent || r.icb1 === parent)), [data, minSymbols, minCap, minLiquid, parent]);
+    r.n_symbols >= filters.minSymbols && r.market_cap >= filters.minCap * 1e9 &&
+    r.n_liquid >= filters.minLiquid && (!filters.parent || r.icb1 === filters.parent)), [data, filters]);
   const parents = useMemo(() => Array.from(new Set((data?.items || []).map((r: any) => r.icb1).filter(Boolean))) as string[], [data]);
   const b = data?.benchmark || {};
+  const apply = () => setFilters({ ...draft });
+  const clear = () => {
+    const empty = { minSymbols: 0, minCap: 0, minLiquid: 0, parent: "" };
+    setDraft(empty);
+    setFilters(empty);
+  };
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-end justify-between gap-2">
@@ -39,15 +44,17 @@ export default function Nganh() {
           </label>
           {level > 1 && (
             <label>Thuộc ngành cấp 1{" "}
-              <select className="sel" value={parent} onChange={(e) => setParent(e.target.value)}>
+              <select className="sel" value={draft.parent} onChange={(e) => setDraft({ ...draft, parent: e.target.value })} onBlur={apply}>
                 <option value="">Tất cả</option>
                 {parents.map((p) => <option key={p}>{p}</option>)}
               </select>
             </label>
           )}
-          <label>Số mã ≥ <input className="sel w-16" type="number" value={minSymbols} onChange={(e) => setMinSymbols(+e.target.value)} /></label>
-          <label>Vốn hoá ≥ <input className="sel w-20" type="number" value={minCap} onChange={(e) => setMinCap(+e.target.value)} /> nghìn tỷ</label>
-          <label>Mã đủ thanh khoản ≥ <input className="sel w-16" type="number" value={minLiquid} onChange={(e) => setMinLiquid(+e.target.value)} /></label>
+          <label>Số mã tối thiểu{" "}<input className="sel w-20" type="number" value={draft.minSymbols} onChange={(e) => setDraft({ ...draft, minSymbols: +e.target.value })} onBlur={apply} onKeyDown={(e) => e.key === "Enter" && apply()} /></label>
+          <label>Vốn hoá tối thiểu (tỷ đồng){" "}<input className="sel w-28" type="number" value={draft.minCap} onChange={(e) => setDraft({ ...draft, minCap: +e.target.value })} onBlur={apply} onKeyDown={(e) => e.key === "Enter" && apply()} /></label>
+          <label>Mã đủ thanh khoản tối thiểu{" "}<input className="sel w-20" type="number" value={draft.minLiquid} onChange={(e) => setDraft({ ...draft, minLiquid: +e.target.value })} onBlur={apply} onKeyDown={(e) => e.key === "Enter" && apply()} /></label>
+          <button className="btn" onClick={apply}>Áp dụng</button>
+          <button className="btn-ghost" onClick={clear}>Xoá lọc</button>
         </div>
         {data && (
           <div className="mt-3 text-xs text-slate-600 space-y-0.5">
@@ -60,28 +67,29 @@ export default function Nganh() {
           </div>
         )}
       </Card>
-      <Card title={`${rows.length} ngành cấp ${level}`}>
+      <Card title={`Đang hiển thị ${rows.length}/${data?.items?.length ?? 0} ngành cấp ${level}`}>
         <ErrorBox error={error} />
         {loading && <Loading what="ngành" />}
-        {data && (
+        {data && rows.length === 0 && <p className="py-5 text-sm text-slate-600">Không có ngành phù hợp. Hãy nới điều kiện lọc hoặc bấm “Xoá lọc”.</p>}
+        {data && rows.length > 0 && (
           <SortTable rows={rows} rowKey={(r) => r.slug} initialSort="market_cap" onRow={(r) => `/nganh/${r.slug}`}
             cols={[
-              { key: "name", label: "Ngành" },
-              ...(level > 1 ? [{ key: "icb1", label: "Cấp 1" }] : []),
-              { key: "n_symbols", label: "Số mã", num: true },
-              { key: "n_liquid", label: "Đủ TK", num: true, title: "GTGD TB 20 phiên ≥ 1 tỷ" },
-              { key: "market_cap", label: "Vốn hoá", num: true, render: (r: any) => bnLabel(r.market_cap) },
-              { key: "market_weight", label: "Tỷ trọng", num: true, render: (r: any) => pct(r.market_weight, 2) },
-              { key: "avg_value_20d", label: "GTGD TB20", num: true, render: (r: any) => num(r.avg_value_20d / 1e9, 0) + " tỷ" },
-              { key: "ret_1m", label: "1T", num: true, render: (r: any) => <span className={cls(r.ret_1m)}>{pct(r.ret_1m)}</span> },
-              { key: "ret_3m", label: "3T", num: true, render: (r: any) => <span className={cls(r.ret_3m)}>{pct(r.ret_3m)}</span> },
-              { key: "ret_ytd", label: "YTD", num: true, render: (r: any) => <span className={cls(r.ret_ytd)}>{pct(r.ret_ytd)}</span> },
-              { key: "ret_1y", label: "1N", num: true, render: (r: any) => <span className={cls(r.ret_1y)}>{pct(r.ret_1y)}</span> },
-              { key: "ret_3m_vs_index", label: "3T vs VNI", num: true, render: (r: any) => <span className={cls(r.ret_3m_vs_index)}>{pct(r.ret_3m_vs_index, 1, true)}</span> },
-              { key: "pe", label: "P/E TV", num: true, sortValue: (r: any) => r.pe?.median, render: (r: any) => times(r.pe?.median) },
-              { key: "pe_aggregate", label: "P/E gộp", num: true, render: (r: any) => times(r.pe_aggregate) },
-              { key: "pb", label: "P/B TV", num: true, sortValue: (r: any) => r.pb?.median, render: (r: any) => times(r.pb?.median, 2) },
-              { key: "roe", label: "ROE TV", num: true, sortValue: (r: any) => r.roe?.median, render: (r: any) => pct(r.roe?.median) },
+              { key: "name", label: "Ngành", title: "Ngành kinh tế theo phân loại ICB" },
+              ...(level > 1 ? [{ key: "icb1", label: "Ngành cấp 1", title: "Ngành ICB cấp cao nhất" }] : []),
+              { key: "n_symbols", label: "Tổng số mã", num: true, title: "Số mã trong ngành" },
+              { key: "n_liquid", label: "Mã đủ thanh khoản", num: true, title: "Số mã có giá trị giao dịch trung bình 20 phiên từ 1 tỷ đồng" },
+              { key: "market_cap", label: "Tổng vốn hoá", num: true, title: "Tổng vốn hoá thị trường của các mã trong ngành", render: (r: any) => bnLabel(r.market_cap) },
+              { key: "market_weight", label: "Tỷ trọng vốn hoá", num: true, title: "Tỷ trọng vốn hoá ngành trên toàn thị trường", render: (r: any) => pct(r.market_weight, 2) },
+              { key: "avg_value_20d", label: "GTGD bình quân 20 phiên", num: true, title: "Giá trị giao dịch trung bình mỗi phiên trong 20 phiên gần nhất", render: (r: any) => num(r.avg_value_20d / 1e9, 0) + " tỷ" },
+              { key: "ret_1m", label: "Hiệu suất 1 tháng", num: true, title: "Biến động giá trong khoảng 1 tháng", render: (r: any) => <span className={cls(r.ret_1m)}>{pct(r.ret_1m)}</span> },
+              { key: "ret_3m", label: "Hiệu suất 3 tháng", num: true, title: "Biến động giá trong khoảng 3 tháng", render: (r: any) => <span className={cls(r.ret_3m)}>{pct(r.ret_3m)}</span> },
+              { key: "ret_ytd", label: "Hiệu suất từ đầu năm", num: true, title: "Biến động giá từ đầu năm", render: (r: any) => <span className={cls(r.ret_ytd)}>{pct(r.ret_ytd)}</span> },
+              { key: "ret_1y", label: "Hiệu suất 1 năm", num: true, title: "Biến động giá trong 1 năm", render: (r: any) => <span className={cls(r.ret_1y)}>{pct(r.ret_1y)}</span> },
+              { key: "ret_3m_vs_index", label: "3 tháng so với VN-Index", num: true, title: "Hiệu suất 3 tháng của ngành trừ hiệu suất VN-Index", render: (r: any) => <span className={cls(r.ret_3m_vs_index)}>{pct(r.ret_3m_vs_index, 1, true)}</span> },
+              { key: "pe", label: "P/E trung vị", num: true, title: "Trung vị P/E của các mã đủ thanh khoản", sortValue: (r: any) => r.pe?.median, render: (r: any) => times(r.pe?.median) },
+              { key: "pe_aggregate", label: "P/E tổng hợp", num: true, title: "Tổng vốn hoá chia tổng lợi nhuận sau thuế cổ đông công ty mẹ", render: (r: any) => times(r.pe_aggregate) },
+              { key: "pb", label: "P/B trung vị", num: true, title: "Trung vị P/B của các mã đủ thanh khoản", sortValue: (r: any) => r.pb?.median, render: (r: any) => times(r.pb?.median, 2) },
+              { key: "roe", label: "ROE trung vị", num: true, title: "Trung vị ROE của các mã đủ thanh khoản", sortValue: (r: any) => r.roe?.median, render: (r: any) => pct(r.roe?.median) },
               { key: "score", label: "Điểm", num: true, render: (r: any) => num(r.score, 0) },
               { key: "rank_score", label: "Hạng", num: true },
             ]} />

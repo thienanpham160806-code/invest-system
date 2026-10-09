@@ -5,6 +5,8 @@ import { Fragment, useState } from "react";
 import { Candles, CompareLine, Histogram, PbRoeScatter, ScoreBars } from "@/components/Charts";
 import { AsOf, Card, ErrorBox, Loading, SortTable, Stat, Tabs } from "@/components/ui";
 import Sensitivity from "@/components/Sensitivity";
+import Search from "@/components/Search";
+import { useLive } from "@/lib/useLive";
 import { downloadCSV, toCSV, useApi } from "@/lib/api";
 import { bnLabel, cls, dmy, fmtKind, num, pct, price, RATING_COLOR, times } from "@/lib/fmt";
 
@@ -24,9 +26,11 @@ export default function StockPage() {
   const t = String(ticker).toUpperCase();
   const [tab, setTab] = useState("overview");
   const a = useApi<any>(`/api/py/stock/${t}/analysis?news=false`);
+  const live = useLive<any>(`/api/py/stock/${t}/live`);
   const d = a.data;
   return (
     <div className="space-y-4">
+      <Search current={t} />
       <ErrorBox error={a.error} />
       {a.loading && <Loading what={`phân tích ${t}`} />}
       {d && (
@@ -39,12 +43,13 @@ export default function StockPage() {
                   {d.exchange} · {d.company_type_label} · ICB:{" "}
                   {[1, 2, 3, 4].map((l) => <span key={l}>{l > 1 && " › "}<Link className="link" href={`/nganh/${d.icb_slugs["icb" + l]}`}>{d.icb["icb" + l]}</Link></span>)}
                 </div>
-                <div className="mt-1"><AsOf p={d.sources?.[1]} label="Giá đến" /> {d.bctc_available ? <AsOf p={d.sources?.[3]} label="BCTC" /> : <span className="asof !bg-amber-50 !border-amber-200 !text-amber-800">BCTC: chưa có nguồn cho mã này (arminer chỉ phủ HSX/HNX)</span>}</div>
+                <div className="mt-1"><AsOf p={d.sources?.[1]} label="Giá đến" /> {d.bctc_available ? <AsOf p={d.sources?.[3]} label="BCTC" /> : <span className="asof !bg-amber-50 !border-amber-200 !text-amber-800">{d.bctc_note}</span>}</div>
               </div>
               <div className="flex items-center gap-3">
                 <div className="text-right">
-                  <div className="text-3xl font-bold tabular-nums">{price(d.price)}</div>
-                  <div className={`text-sm ${cls(d.metrics.ret_1m)}`}>1T {pct(d.metrics.ret_1m, 1, true)} · YTD {pct(d.metrics.ret_ytd, 1, true)}</div>
+                  <div className="text-3xl font-bold tabular-nums">{price(live.data?.price ?? d.price)}</div>
+                  <div className={`text-sm ${cls(live.data?.change_pct)}`}>{live.data ? `${live.data.change > 0 ? "+" : ""}${num(live.data.change, 0)} (${pct(live.data.change_pct, 2, true)}) · ` : ""}1T {pct(d.metrics.ret_1m, 1, true)} · YTD {pct(d.metrics.ret_ytd, 1, true)}</div>
+                  <div className="text-xs text-slate-500">{live.data?.as_of ? `KL ${num(live.data.volume)} · cập nhật ${new Date(live.data.as_of).toLocaleTimeString("vi-VN")}` : "Giá theo dữ liệu gần nhất"}{d.recommendation.target_price && live.data?.price ? ` · Upside ${pct(d.recommendation.target_price / live.data.price - 1, 1, true)}` : ""}</div>
                 </div>
                 {d.recommendation.rating && (
                   <div className={`rounded-md text-white px-4 py-2 text-center ${RATING_COLOR[d.recommendation.rating] || "bg-slate-500"}`}>

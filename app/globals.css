@@ -8,6 +8,7 @@ body { background: #f5f7fa; color: #0f172a; }
 .asof { @apply inline-block rounded-full bg-sky-50 border border-sky-200 text-sky-800 text-[11px] px-2 py-0.5; }
 .tbl { @apply w-full text-sm border-collapse; }
 .tbl th { @apply bg-slate-100 text-slate-700 font-semibold text-left px-2 py-1.5 border-b border-slate-200 cursor-pointer select-none whitespace-nowrap; }
+.tbl thead { position: sticky; top: 0; z-index: 2; }
 .tbl td { @apply px-2 py-1 border-b border-slate-100 whitespace-nowrap; }
 .tbl tr:hover td { @apply bg-slate-50; }
 .link { @apply text-sky-700 hover:underline font-medium; }
@@ -19,6 +20,11 @@ body { background: #f5f7fa; color: #0f172a; }
 .text-up { color: #059669; }
 .text-down { color: #dc2626; }
 .text-ref { color: #b45309; }
+.price-up { animation: flash-green 700ms ease-out; }
+.price-down { animation: flash-red 700ms ease-out; }
+@keyframes flash-green { from { background: #bbf7d0; } to { background: transparent; } }
+@keyframes flash-red { from { background: #fecaca; } to { background: transparent; } }
+@media (prefers-reduced-motion: reduce) { .price-up, .price-down { animation: none; } }
 @media print {
   .no-print { display: none !important; }
   body { background: white; }
@@ -50,11 +56,25 @@ body { background: #f5f7fa; color: #0f172a; }
 .rp-section { break-inside: auto; }
 .rp-avoid, .rp-tbl tr { break-inside: avoid; }
 .rp-page { break-after: page; }
+.rp-conclusion { margin: 4px 0 7px; padding: 6px 8px; border-left: 3px solid #0b3b6f; background: #eff6ff; font-size: 9.5pt; line-height: 1.35; break-inside: avoid; }
 @media print {
-  @page { size: A4; margin: 10mm; }
+  @page { size: A4; margin: 16mm; @bottom-right { content: "Trang " counter(page) "/" counter(pages); font: 8.5pt var(--font-bvp), sans-serif; color: #64748b; } }
   header, footer { display: none !important; }
   main { padding: 0 !important; max-width: none !important; }
-  .report { padding: 0; max-width: none; }
+  .report { padding: 0; max-width: none; font-size: 10.5pt; line-height: 1.5; }
+  .rp-head .text-2xl { font-size: 20pt; }
+  .rp-h2 { font-size: 14pt; }
+  .rp-h3 { font-size: 11.5pt; }
+  .rp-p { text-align: left; }
+  .rp-src, .rp-small { font-size: 8.5pt; }
+  .rp-tbl { font-size: 9.5pt; }
+  .rp-tbl td, .rp-tbl th { font-size: 9.5pt; }
+  .rp-tbl.rp-small td, .rp-tbl.rp-small th { font-size: 9pt; }
+  .rp-tbl thead { display: table-header-group; }
+  .rp-tbl tbody tr:nth-child(even) { background: #f8fafc; }
+  .rp-tbl tr { break-inside: avoid; }
+  .rp-grid { grid-template-columns: minmax(0, 1fr) 62mm; }
+  .rp-conclusion { font-size: 9.5pt; }
   .rp-head, .rp-tbl th, .rp-rating { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .rp-side, [class*="bg-"] { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }

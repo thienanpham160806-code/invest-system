@@ -70,7 +70,7 @@ Chạy web local: `pip install -r requirements.txt && npm install`, rồi `npm r
 | PDF theo nhu cầu | Chọn mã, mục, số năm, mẫu Đầy đủ / Tóm tắt (CLI hoặc giao diện web) |
 | **Chính xác dữ liệu** | Nhật ký nguồn cho **mọi** số liệu (Phụ lục C), ánh xạ chỉ tiêu ↔ dòng gốc (Phụ lục A), 15+ kiểm tra tự động: TS = Nợ + VCSH, đơn vị, độ mới của giá, biên độ, đối chiếu ROE/P/E với nguồn thứ hai (Phụ lục B). Thiếu số → `N/A`, không bịa. |
 | **Đánh giá thích hợp** | Ngân hàng không dùng DCF/EV-EBITDA; phương pháp lệch > 2,5× trung vị bị loại khỏi bình quân; không có dữ liệu ngành → so với lịch sử 5 năm của chính DN |
-| **Sáng tạo** | Radar 7 nhóm điểm, football-field định giá, text mining BCTC PDF (ý kiến kiểm toán, từ khoá rủi ro), cảm xúc tin tức, nhận định bằng Claude API có kiểm tra "không thêm số" |
+| **Sáng tạo** | Radar 7 nhóm điểm, football-field định giá, text mining BCTC PDF (ý kiến kiểm toán, từ khoá rủi ro), cảm xúc tin tức, nhận định bằng OpenAI/Gemini có kiểm tra số liệu |
 
 ## Chạy nhanh (Windows)
 
@@ -141,7 +141,7 @@ src/invest_system/
 │   ├── fintext.py           ← text mining BCTC PDF (tái sử dụng)
 │   ├── sentiment.py         # cảm xúc tin tức
 │   └── composite.py         # điểm tổng hợp, khuyến nghị, luận điểm & rủi ro
-├── narrative/               # nhận định: quy tắc (mặc định) + Claude API (tuỳ chọn)
+├── narrative/               # nhận định: quy tắc (mặc định) + OpenAI/Gemini (tuỳ chọn)
 ├── charts/                  # biểu đồ PDF (+ chart kỹ thuật của bot)
 ├── report/                  # Jinja2 template kiểu CTCK → PDF
 ├── provenance.py            # nhật ký nguồn của từng số liệu
@@ -162,6 +162,12 @@ app.py   cli.py   config/   scripts/   tests/
 - Khuyến nghị theo upside: MUA ≥ 20%, KHẢ QUAN 10–20%, NẮM GIỮ −5…10%, KÉM KHẢ QUAN −15…−5%, BÁN < −15%.
   Điểm tổng hợp ≥ 70 nâng 1 bậc, < 40 hạ 1 bậc.
 - Mọi tham số nằm trong `config/settings.yaml` và được in trong Phụ lục C của PDF.
+
+## Nhận định bằng OpenAI hoặc Gemini (tuỳ chọn)
+
+Báo cáo vẫn tính điểm, định giá và khuyến nghị bằng các quy tắc có thể kiểm tra. Có thể chọn **một** provider bằng `LLM_PROVIDER=openai` hoặc `LLM_PROVIDER=gemini`; ứng dụng không gọi cả hai trong cùng một lần phân tích. Mặc định `LLM_ENABLED=0` nên chỉ lưu API key chưa gọi mô hình. Khi bật, mô hình tổng hợp đánh giá vĩ mô từ chỉ tiêu, nguồn và điểm đã tính; phần ngành và doanh nghiệp được biên tập thành nhận định liền mạch hơn. Mô hình không tra cứu hoặc tự thêm dữ kiện; nhận định bị loại nếu chứa số ngoài đầu vào. Khi API lỗi, báo cáo dùng nhận định theo quy tắc.
+
+Trong file `.env`, đặt key tương ứng với provider đã chọn (`OPENAI_API_KEY` hoặc `GEMINI_API_KEY`), rồi chủ động bật `LLM_ENABLED=1`. Model mặc định OpenAI là `gpt-6-luna`; Gemini là `gemini-3.5-flash-lite`; giới hạn đầu ra mặc định 500 token mỗi lần gọi. Khi deploy Vercel, khai báo các biến trong **Project → Settings → Environment Variables**; không dùng tiền tố `NEXT_PUBLIC_` và không đưa key vào mã nguồn hoặc commit lên Git. Có thể đặt giới hạn chi tiêu cứng trong OpenAI API project; hệ thống áp dụng hạn mức có thể trễ một chút.
 
 ## Kiểm thử
 

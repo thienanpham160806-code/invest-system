@@ -119,7 +119,7 @@ def build_context(ctx: dict, template: str = "full") -> dict:
                           "ret_1y": fmt.pct(r.get("ret_1y"), sign=True)})
     med = {k: sector.medians.get(k) for k in ("pe", "pb", "ev_ebitda", "roe", "ni_cagr", "net_margin", "nim")}
     narratives = {
-        "macro": llm.polish("Vĩ mô", ctx["macro"].commentary),
+        "macro": llm.analyze_macro(ctx),
         "sector": llm.polish("Ngành", nt.sector_paragraphs(ctx)),
         "company": llm.polish("Doanh nghiệp", nt.company_paragraphs(ctx)),
         "valuation": nt.valuation_paragraphs(ctx),

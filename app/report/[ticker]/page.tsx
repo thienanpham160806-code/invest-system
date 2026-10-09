@@ -178,6 +178,7 @@ function ReportBody({ d, sections, template, years }: { d: any; sections: string
       {has("macro") && d.mac && (
         <section className="rp-section">
           <H>1. Tổng quan vĩ mô</H>
+          <div className="rp-conclusion"><b>Kết luận.</b> {a.macro.commentary.slice(0, 2).join(" ")}</div>
           <table className="rp-tbl"><thead><tr><th>Chỉ tiêu</th><th>Kỳ</th><th>Giá trị</th><th>Nguồn</th></tr></thead>
             <tbody>{d.mac.table.filter((x: any) => full || String(x.period).startsWith("2026")).map((x: any) => (
               <tr key={x.key + x.period}><td>{x.label}</td><td>{x.period}</td><td>{x.unit === "VND" ? num(x.value) : num(x.value, 2) + x.unit}</td><td className="rp-small">{String(x.source).replace(/\(https?:[^)]+\)/, "")} ({dmy(x.as_of)})</td></tr>))}</tbody></table>
@@ -188,6 +189,7 @@ function ReportBody({ d, sections, template, years }: { d: any; sections: string
       {has("sector") && (
         <section className="rp-section">
           <H>2. Phân tích ngành</H>
+          <div className="rp-conclusion"><b>Kết luận.</b> {a.sector.note}</div>
           <p className="rp-p">So sánh ở <b>ICB cấp {a.sector.level} – {a.sector.name}</b>: {a.sector.n_peers} mã, {a.sector.n_liquid} mã đủ thanh khoản; dữ liệu lúc {dmy(d.a.sources?.[0]?.built_at || d.a.sources?.[0]?.as_of)}.
             Hiệu suất ngành 3T {pct(a.sector.stats.ret_3m)} (VN-Index {pct(a.sector.stats.ret_3m - (a.sector.stats.ret_3m_vs_index ?? 0))}), 1 năm {pct(a.sector.stats.ret_1y)}.
             Trung vị P/E {times(a.sector.quantiles?.pe?.[1])} (P25–P75 {times(a.sector.quantiles?.pe?.[0])}–{times(a.sector.quantiles?.pe?.[2])}), P/B {times(a.sector.quantiles?.pb?.[1], 2)}, ROE {pct(a.sector.quantiles?.roe?.[1])}. Điểm ngành {num(a.sector.score?.score, 0)}/100.</p>
@@ -201,6 +203,7 @@ function ReportBody({ d, sections, template, years }: { d: any; sections: string
       {has("company") && (
         <section className="rp-section">
           <H>3. Phân tích doanh nghiệp</H>
+          <div className="rp-conclusion"><b>Kết luận.</b> {a.thesis?.[0] || "Chưa đủ dữ liệu để kết luận về doanh nghiệp."}</div>
           <h3 className="rp-h3">Kết quả kinh doanh</h3>
           <FinTable fin={d.is} keys={KEY_IS} years={years} />
           {full && <><h3 className="rp-h3">Cân đối kế toán</h3><FinTable fin={d.bs} keys={KEY_BS} years={years} /></>}
@@ -213,6 +216,7 @@ function ReportBody({ d, sections, template, years }: { d: any; sections: string
       {has("valuation") && (
         <section className="rp-section">
           <H>4. Định giá</H>
+          <div className="rp-conclusion"><b>Kết luận.</b> {r.reason || `Giá mục tiêu cơ sở ${price(r.target_price)}; upside ${pct(r.upside, 1, true)}.`}</div>
           <table className="rp-tbl"><thead><tr><th>Phương pháp</th><th>Bi quan</th><th>Cơ sở</th><th>Lạc quan</th><th>Trọng số</th></tr></thead>
             <tbody>{a.valuation.methods.map((m: any) => <tr key={m.key}><td>{m.label}{m.note ? ` (${m.note})` : ""}</td><td>{price(m.values.bear)}</td><td>{price(m.values.base)}</td><td>{price(m.values.bull)}</td><td>{pct(m.weight, 0)}</td></tr>)}
               <tr className="font-bold"><td>Giá mục tiêu</td><td>{price(r.targets?.bear)}</td><td>{price(r.targets?.base)}</td><td>{price(r.targets?.bull)}</td><td>100%</td></tr></tbody></table>
@@ -223,6 +227,7 @@ function ReportBody({ d, sections, template, years }: { d: any; sections: string
       {has("technical") && a.technical && (
         <section className="rp-section">
           <H>5. Phân tích kỹ thuật</H>
+          <div className="rp-conclusion"><b>Kết luận.</b> {a.technical.reasons.slice(0, 2).join(" ")}</div>
           <p className="rp-p">Tín hiệu <b>{a.technical.action}</b> (điểm hợp lưu {num(a.technical.total_score, 0)}, độ tin cậy {a.technical.confidence}). Vùng mua {price(a.technical.entry[0])}–{price(a.technical.entry[1])}, cắt lỗ {price(a.technical.stop_loss)}, mục tiêu {price(a.technical.target)}.</p>
           <ul className="rp-ul">{a.technical.reasons.map((x: string, i: number) => <li key={i}>{x}</li>)}</ul>
         </section>
@@ -231,6 +236,7 @@ function ReportBody({ d, sections, template, years }: { d: any; sections: string
       {has("news") && a.news && (
         <section className="rp-section">
           <H>6. Tin tức & cảm xúc</H>
+          <div className="rp-conclusion"><b>Kết luận.</b> Điểm cảm xúc {num(a.news.sentiment.score_100, 0)}/100 ({a.news.sentiment.n_pos} tích cực, {a.news.sentiment.n_neg} tiêu cực).</div>
           <p className="rp-p">Điểm cảm xúc {num(a.news.sentiment.score_100, 0)}/100 ({a.news.sentiment.n_pos} tích cực, {a.news.sentiment.n_neg} tiêu cực). Nguồn: {a.news.provenance.source}, lấy lúc {dmy(a.news.provenance.fetched_at)}.</p>
           <ul className="rp-ul rp-small">{a.news.items.slice(0, full ? 12 : 5).map((n: any) => <li key={n.link}>{n.published_at ? dmy(n.published_at) + " – " : ""}{n.title} <i>({n.source})</i></li>)}</ul>
         </section>

@@ -6,11 +6,13 @@ thieu so -> None + ly do (khong bia, khong dung du lieu demo cho ma that).
 from __future__ import annotations
 
 import dataclasses
+import json
 import math
 import re
 import time
 from concurrent.futures import ThreadPoolExecutor, wait
 from datetime import date, datetime
+from pathlib import Path
 from zoneinfo import ZoneInfo
 
 import numpy as np
@@ -25,6 +27,7 @@ from ..analysis.valuation import value_company
 from ..data import arminer_bctc
 from ..data.fundamentals import FIELD_LABELS_VI, StandardFinancials, _fill_derived
 from ..data.macro import INDICATORS, load_macro
+
 try:  # nhan dinh vi mo bang LLM (tuy chon); ban llm.py chua co ham nay -> dung nhan dinh theo quy tac
     from ..narrative.llm import analyze_macro as analyze_macro_narrative
 except ImportError:
@@ -139,6 +142,18 @@ def search(q: str, limit: int = 12) -> dict:
     return {"items": jsonable(hits[cols]), "provenance": universe_prov(meta)}
 
 
+def symbols(exchange: str = "ALL") -> dict:
+    """Small symbol directory for the client-side exchange/name picker."""
+    uni, meta = _uni()
+    exchange = exchange.strip().upper()
+    if exchange not in {"ALL", "HOSE", "HNX", "UPCOM"}:
+        raise ValueError("exchange phải là ALL, HOSE, HNX hoặc UPCOM")
+    rows = uni if exchange == "ALL" else uni[uni["exchange"] == exchange]
+    cols = [c for c in ("symbol", "name", "brand", "exchange", "icb1", "has_bctc") if c in rows.columns]
+    return {"items": jsonable(rows[cols].sort_values("symbol")),
+            "counts": uni["exchange"].value_counts().to_dict(), "provenance": universe_prov(meta)}
+
+
 def universe_table(exchange: str | None = None, icb: str | None = None, sort: str = "market_cap",
                    order: str = "desc", min_value: float | None = None, page: int = 1,
                    page_size: int = 50, q: str | None = None) -> dict:
@@ -168,6 +183,7 @@ def universe_table(exchange: str | None = None, icb: str | None = None, sort: st
 
 # ------------------------------------------------------------------ thi truong
 _VNI_CACHE: dict = {}
+_LIVE_CACHE: dict[str, tuple[float, dict]] = {}
 
 
 def _vnindex_live(days: int = 400) -> tuple[pd.DataFrame, dict]:
@@ -245,6 +261,112 @@ def market() -> dict:
     }
     return jsonable({"vnindex": vn, "vnindex_provenance": vprov, "stats": stats,
                      "checks": meta.get("checks"), "provenance": universe_prov(meta)})
+
+
+def _market_session(now: datetime | None = None) -> str:
+    now = now or datetime.now(TZ)
+    if now.weekday() >= 5:
+        return "Ngày nghỉ"
+    t = now.time()
+    if t < datetime.strptime("09:00", "%H:%M").time():
+        return "Chưa mở cửa"
+    if t < datetime.strptime("09:15", "%H:%M").time():
+        return "ATO"
+    if t < datetime.strptime("11:30", "%H:%M").time():
+        return "Liên tục"
+    if t < datetime.strptime("13:00", "%H:%M").time():
+        return "Nghỉ trưa"
+    if t < datetime.strptime("14:30", "%H:%M").time():
+        return "Liên tục"
+    if t < datetime.strptime("14:45", "%H:%M").time():
+        return "ATC"
+    return "Đóng cửa"
+
+
+def _live_quote(symbol: str, is_index: bool = False) -> dict:
+    sym = symbol.upper()
+    cached = _LIVE_CACHE.get(sym)
+    if cached and time.time() - cached[0] < 10:
+        return cached[1]
+    try:
+        if not is_index:
+            from ..data.vietcap import fetch_price_board
+
+            board = fetch_price_board([sym], delay=0)
+            if not board.empty:
+                row = board.iloc[0]
+                current = pd.to_numeric(row.get("matchPrice.matchPrice"), errors="coerce")
+                reference = pd.to_numeric(row.get("matchPrice.referencePrice"), errors="coerce")
+                if pd.notna(current) and current > 0:
+                    volume = pd.to_numeric(row.get("matchPrice.accumulatedVolume"), errors="coerce")
+                    value_million = pd.to_numeric(row.get("matchPrice.accumulatedValue"), errors="coerce")
+                    quote = {"symbol": sym, "price": float(current),
+                             "change": float(current - reference) if pd.notna(reference) and reference else None,
+                             "change_pct": float(current / reference - 1) if pd.notna(reference) and reference else None,
+                             "volume": float(volume) if pd.notna(volume) else None,
+                             "turnover": float(value_million * 1e6) if pd.notna(value_million) else None,
+                             "as_of": _iso(row.get("matchPrice.time")), "stale": False,
+                             "source": "Vietcap price board live"}
+                    _LIVE_CACHE[sym] = (time.time(), quote)
+                    return quote
+        from ..data.vietcap import fetch_daily_bars
+        frame = fetch_daily_bars(sym, count_back=3)
+        frame = frame.dropna(subset=["close"]).sort_values("time") if not frame.empty else frame
+        if frame.empty:
+            raise RuntimeError("Nguồn live chưa trả nến")
+        last = frame.iloc[-1]
+        prev = frame.iloc[-2] if len(frame) > 1 else None
+        close = float(last["close"])
+        previous = float(prev["close"]) if prev is not None else None
+        volume = float(last["volume"]) if pd.notna(last.get("volume")) else None
+        row = {"symbol": sym, "price": close, "change": close - previous if previous else None,
+               "change_pct": close / previous - 1 if previous else None, "volume": volume,
+               "turnover": close * volume if volume is not None and not is_index else None,
+               "as_of": _iso(last["time"]), "stale": False, "source": "Vietcap gap-chart (nến live)"}
+        _LIVE_CACHE[sym] = (time.time(), row)
+        return row
+    except Exception as exc:  # noqa: BLE001
+        if cached:
+            return {**cached[1], "stale": True, "error": str(exc)}
+        try:
+            from ..web.universe import load_ohlcv_snapshot, load_vnindex_snapshot
+            fallback = load_vnindex_snapshot() if sym == "VNINDEX" else load_ohlcv_snapshot(sym)
+            if not fallback.empty:
+                fallback = fallback.dropna(subset=["close"]).sort_values("time")
+                last = fallback.iloc[-1]
+                prev = fallback.iloc[-2] if len(fallback) > 1 else None
+                close = float(last["close"])
+                previous = float(prev["close"]) if prev is not None else None
+                volume = float(last["volume"]) if pd.notna(last.get("volume")) else None
+                return {"symbol": sym, "price": close, "change": close - previous if previous else None,
+                        "change_pct": close / previous - 1 if previous else None, "volume": volume,
+                        "turnover": close * volume if volume is not None and not is_index else None,
+                        "as_of": _iso(last["time"]), "stale": True,
+                        "source": "Bản chụp đóng gói", "error": str(exc)}
+        except Exception:  # noqa: BLE001
+            pass
+        return {"symbol": sym, "price": None, "change": None, "change_pct": None,
+                "volume": None, "turnover": None, "as_of": None, "stale": True,
+                "source": "Vietcap gap-chart", "error": str(exc)}
+
+
+def market_live() -> dict:
+    session = _market_session()
+    indices = (("VNINDEX", "VN-Index"), ("HNXINDEX", "HNX-Index"), ("UPCOMINDEX", "UPCOM-Index"))
+    with ThreadPoolExecutor(max_workers=3) as pool:
+        quotes = list(pool.map(lambda pair: _live_quote(pair[0], is_index=True), indices))
+    rows = []
+    for (symbol, label), quote in zip(indices, quotes, strict=True):
+        if symbol == "VNINDEX" or quote["price"] is not None:
+            rows.append({"name": label, **quote})
+    return {"session": session, "is_open": session in {"ATO", "Liên tục", "ATC"},
+            "updated_at": now_str(), "indices": rows}
+
+
+def stock_live(symbol: str) -> dict:
+    _row(symbol)
+    return {**_live_quote(symbol), "session": _market_session(),
+            "is_open": _market_session() in {"ATO", "Liên tục", "ATC"}}
 
 
 def _agg_pe(f: pd.DataFrame) -> float | None:
@@ -875,6 +997,7 @@ def analysis(symbol: str, years: int = 5, with_news: bool = True) -> dict:
         "checks": [c.to_dict() for c in vchecks], "checks_summary": checks.summarize(vchecks),
         "financial_mapping": fin.mapping, "financial_notes": fin.notes,
         "bctc_available": not fin.empty,
+        "bctc_note": None if not fin.empty else f"Chưa có BCTC từ nguồn {arminer_bctc.SOURCE_NAME}; kỳ gần nhất: chưa có.",
         "sources": sources,
         "generated_at": now_str(),
         "provenance": prov("Tổng hợp – xem 'sources'", _iso(ohlcv["time"].iloc[-1]) if not ohlcv.empty else None),
@@ -968,6 +1091,13 @@ def sources_live() -> dict:
         futs = [ex.submit(t, n, f) for n, f in jobs.items()]
         wait(futs, timeout=15)
     return jsonable({"tested_at": now_str(), "results": tests})
+
+
+def bctc_coverage() -> dict:
+    path = Path(__file__).resolve().parents[3] / "webdata" / "bctc_coverage.json"
+    if not path.exists():
+        return {"error": "Chưa tạo báo cáo độ phủ. Chạy scripts/check_bctc_coverage.py."}
+    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def label_fields() -> dict:

@@ -57,6 +57,53 @@ def test_sectors_cover_all_symbols(client):
         j = client.get(f"/api/py/sectors?level={level}").json()
         assert j["coverage"]["sum_nodes"] == j["coverage"]["n_symbols"]
         assert all("provenance" in j for _ in [0])
+        if level == 1:
+            assert len(j["items"]) == 11
+            assert j["coverage"]["n_symbols"] == 1522
+
+
+def test_symbols_picker_has_exchange_company_and_financial_coverage(client):
+    response = client.get("/api/py/symbols?exchange=HOSE")
+    assert response.status_code == 200
+    assert "s-maxage=3600" in response.headers["cache-control"]
+    items = response.json()["items"]
+    assert items and all(x["exchange"] == "HOSE" for x in items)
+    fpt = next(x for x in items if x["symbol"] == "FPT")
+    assert fpt["name"] and fpt["icb1"] and fpt["has_bctc"] is True
+
+
+def test_live_endpoints_use_short_cache_and_return_session(client, monkeypatch):
+    monkeypatch.setattr(service, "_live_quote", lambda symbol, is_index=False: {
+        "symbol": symbol, "price": 100.0, "change": 1.0, "change_pct": 0.01,
+        "volume": 10.0, "turnover": None, "as_of": "2026-10-09", "stale": False,
+    })
+    market = client.get("/api/py/market/live")
+    assert market.status_code == 200 and "s-maxage=10" in market.headers["cache-control"]
+    assert market.json()["session"] and market.json()["indices"][0]["symbol"] == "VNINDEX"
+    quote = client.get("/api/py/stock/FPT/live")
+    assert quote.status_code == 200 and quote.json()["symbol"] == "FPT"
+    assert "s-maxage=10" in quote.headers["cache-control"]
+
+
+def test_bctc_coverage_api_reports_market_exchanges(client):
+    data = client.get("/api/py/bctc-coverage").json()
+    assert data["listed_total"] == 1522
+    assert data["by_exchange"]["UPCOM"]["missing_count"] == data["by_exchange"]["UPCOM"]["listed"]
+    assert data["by_exchange"]["HOSE"]["missing_count"] == len(data["missing"]["HOSE"])
+
+
+def test_missing_secondary_index_live_data_never_reuses_vnindex_snapshot(monkeypatch):
+    import pandas as pd
+
+    import invest_system.data.vietcap as vietcap
+    import invest_system.web.universe as web_universe
+
+    service._LIVE_CACHE.pop("HNXINDEX", None)
+    monkeypatch.setattr(vietcap, "fetch_daily_bars", lambda *a, **k: pd.DataFrame())
+    monkeypatch.setattr(web_universe, "load_ohlcv_snapshot", lambda symbol: pd.DataFrame())
+    monkeypatch.setattr(web_universe, "load_vnindex_snapshot", lambda: pytest.fail("must not reuse VN-Index snapshot"))
+    quote = service._live_quote("HNXINDEX", is_index=True)
+    assert quote["price"] is None and quote["stale"] is True
 
 
 def test_sector_detail_lists_all_members(client):
@@ -64,6 +111,13 @@ def test_sector_detail_lists_all_members(client):
     node = j["items"][0]
     d = client.get(f"/api/py/sectors/{node['slug']}").json()
     assert len(d["members"]) == node["n_symbols"]
+
+
+def test_macro_api_returns_openai_narrative_when_configured(client, monkeypatch):
+    monkeypatch.setattr(service, "analyze_macro_narrative", lambda ctx: ["Tóm tắt vĩ mô từ OpenAI."])
+    response = client.get("/api/py/macro?world_bank=false")
+    assert response.status_code == 200
+    assert response.json()["commentary"] == ["Tóm tắt vĩ mô từ OpenAI."]
 
 
 def test_stock_analysis_bank_and_nonfin(client):

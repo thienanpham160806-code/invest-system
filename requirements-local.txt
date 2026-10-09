@@ -37,8 +37,9 @@ weasyprint>=62      # Windows: cần GTK runtime, hoặc dùng Playwright (dòng
 # --- giao diện ---
 streamlit>=1.46
 
-# --- tuỳ chọn: nhận định bằng Claude API (LLM_ENABLED=1) ---
+# --- tuỳ chọn: nhận định bằng OpenAI hoặc Gemini (LLM_ENABLED=1) ---
 openai>=1.66.0
+google-genai>=1.0.0
 
 # --- kiểm thử ---
 pytest>=8.0

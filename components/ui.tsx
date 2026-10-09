@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useMemo, useState, type ReactNode } from "react";
 import type { Prov } from "@/lib/api";
 import { dmy } from "@/lib/fmt";
@@ -45,6 +46,7 @@ export type Col<T> = { key: string; label: string; render?: (r: T) => ReactNode;
 export function SortTable<T extends Record<string, any>>({ rows, cols, initialSort, desc = true, rowKey, highlight, maxRows, onRow }: {
   rows: T[]; cols: Col<T>[]; initialSort?: string; desc?: boolean; rowKey: (r: T) => string; highlight?: (r: T) => boolean; maxRows?: number; onRow?: (r: T) => string | undefined;
 }) {
+  const router = useRouter();
   const [sort, setSort] = useState<{ key?: string; desc: boolean }>({ key: initialSort, desc });
   const sorted = useMemo(() => {
     if (!sort.key) return rows;
@@ -73,10 +75,10 @@ export function SortTable<T extends Record<string, any>>({ rows, cols, initialSo
           {shown.map((r) => {
             const href = onRow?.(r);
             return (
-              <tr key={rowKey(r)} className={highlight?.(r) ? "bg-amber-50 font-semibold" : ""}>
+              <tr key={rowKey(r)} className={`${highlight?.(r) ? "bg-amber-50 font-semibold" : ""}${href ? " cursor-pointer" : ""}`} onClick={href ? () => router.push(href) : undefined} onKeyDown={href ? (e) => { if (e.key === "Enter") router.push(href); } : undefined} tabIndex={href ? 0 : undefined}>
                 {cols.map((c, i) => (
                   <td key={c.key} className={c.num ? "text-right tabular-nums" : ""}>
-                    {i === 0 && href ? <Link className="link" href={href}>{c.render ? c.render(r) : r[c.key]}</Link> : c.render ? c.render(r) : r[c.key]}
+                    {i === 0 && href ? <Link className="link" href={href} onClick={(e) => e.stopPropagation()}>{c.render ? c.render(r) : r[c.key]}</Link> : c.render ? c.render(r) : r[c.key]}
                   </td>))}
               </tr>);
           })}

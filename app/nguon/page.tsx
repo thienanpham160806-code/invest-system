@@ -5,6 +5,7 @@ import { useApi } from "@/lib/api";
 export default function Sources() {
   const live = useApi<any>("/api/py/sources");
   const m = useApi<any>("/api/py/market");
+  const bctc = useApi<any>("/api/py/bctc-coverage");
   const rows = live.data ? Object.entries(live.data.results).map(([k, v]: any) => ({ name: k, ...v })) : [];
   return (
     <div className="space-y-4">
@@ -25,6 +26,17 @@ export default function Sources() {
             <div className="text-xs text-slate-500 mt-2">{m.data.provenance.source}</div>
           </div>
         )}
+      </Card>
+      <Card title="Độ phủ BCTC năm · vn-annual-report-miner" right={<span className="asof">{bctc.data?.listed_total?.toLocaleString("vi-VN")} mã toàn thị trường</span>}>
+        <ErrorBox error={bctc.error} />
+        {bctc.loading && <Loading what="độ phủ BCTC" />}
+        {bctc.data?.by_exchange && <>
+          <div className="overflow-x-auto"><table className="tbl"><thead><tr>{["Sàn", "Mã niêm yết", "Có BCTC", "Độ phủ", "Có FY2025", "FY2024 trở về trước", "Thiếu"].map((x) => <th key={x}>{x}</th>)}</tr></thead>
+            <tbody>{Object.entries(bctc.data.by_exchange).map(([ex, r]: any) => <tr key={ex}><td>{ex}</td><td>{r.listed}</td><td>{r.with_bctc}</td><td>{r.coverage_pct}%</td><td>{r.with_fy2025}</td><td>{r.only_fy2024_or_older}</td><td>{r.missing_count}</td></tr>)}</tbody></table></div>
+          <p className="mt-2 text-xs text-slate-500">Nguồn {bctc.data.source}; cập nhật {bctc.data.generated_at}. UPCOM không được nguồn này bao phủ.</p>
+          {(["HOSE", "HNX", "UPCOM"] as const).map((ex) => <details key={ex} className="mt-2 text-sm"><summary className="cursor-pointer font-medium">Mã {ex} thiếu BCTC ({bctc.data.by_exchange[ex].missing_count})</summary><p className="mt-1 break-words text-xs text-slate-600">{(bctc.data.missing[ex] || []).join(", ")}</p></details>)}
+          <details className="mt-2 text-sm"><summary className="cursor-pointer font-medium">Mã có trong nguồn nhưng không còn niêm yết ({bctc.data.delisted_count})</summary><p className="mt-1 break-words text-xs text-slate-600">{(bctc.data.delisted || []).join(", ")}</p></details>
+        </>}
       </Card>
       <Card title="Quy ước">
         <ul className="list-disc pl-5 text-sm space-y-1">
