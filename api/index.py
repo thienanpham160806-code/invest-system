@@ -71,8 +71,8 @@ def macro(company_type: str = "NON_FINANCIAL", world_bank: bool = True):
 
 
 @app.get("/api/py/sectors")
-def sectors(level: int = Query(1, ge=1, le=4)):
-    return _call(service.sectors, level)
+def sectors(level: int = Query(1, ge=1, le=4), exchange: str | None = None):
+    return _call(service.sectors, level, exchange)
 
 
 @app.get("/api/py/sectors/{slug}")

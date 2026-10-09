@@ -10,7 +10,8 @@ export default function Nganh() {
   const [minCap, setMinCap] = useState(0);
   const [minLiquid, setMinLiquid] = useState(0);
   const [parent, setParent] = useState("");
-  const { data, error, loading } = useApi<any>(`/api/py/sectors?level=${level}`);
+  const [exch, setExch] = useState("");
+  const { data, error, loading } = useApi<any>(`/api/py/sectors?level=${level}${exch ? `&exchange=${exch}` : ""}`);
   const rows = useMemo(() => (data?.items || []).filter((r: any) =>
     r.n_symbols >= minSymbols && r.market_cap >= minCap * 1e12 && r.n_liquid >= minLiquid && (!parent || r.icb1 === parent)), [data, minSymbols, minCap, minLiquid, parent]);
   const parents = useMemo(() => Array.from(new Set((data?.items || []).map((r: any) => r.icb1).filter(Boolean))) as string[], [data]);
@@ -29,6 +30,11 @@ export default function Nganh() {
           <label>Cấp ICB{" "}
             <select className="sel" value={level} onChange={(e) => setLevel(+e.target.value)}>
               {[1, 2, 3, 4].map((l) => <option key={l} value={l}>Cấp {l}</option>)}
+            </select>
+          </label>
+          <label>Sàn{" "}
+            <select className="sel" value={exch} onChange={(e) => setExch(e.target.value)}>
+              <option value="">Toàn thị trường</option><option>HOSE</option><option>HNX</option><option>UPCOM</option><option value="HOSE,HNX">HOSE + HNX</option>
             </select>
           </label>
           {level > 1 && (

@@ -373,8 +373,21 @@ function DocsTab({ t }: { t: string }) {
 }
 
 function DataTab({ d }: { d: any }) {
+  const m = useApi<any>("/api/py/market");
+  const st = m.data?.stats;
   return (
     <div className="space-y-4">
+      <Card title="Tỷ lệ phủ dữ liệu toàn thị trường" right={<AsOf p={m.data?.provenance} />}>
+        {st && (
+          <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+            <Stat label="Mã đã phân ngành ICB" value={`${num(st.n_symbols - st.n_unclassified)}/${num(st.n_symbols)}`} sub={pct(st.industry_coverage, 1)} />
+            <Stat label="Nguồn ngành" value={Object.entries(st.industry_source).map(([k, v]: any) => `${k} ${v}`).join(" · ")} />
+            <Stat label="Mã có BCTC năm" value={`${num(st.n_with_bctc)}/${num(st.n_symbols)}`} sub="HSX/HNX – arminer" />
+            <Stat label="Mã đủ thanh khoản" value={num(st.n_liquid)} sub="GTGD TB20 ≥ 1 tỷ" />
+            <Stat label="Mã này" value={d.bctc_available ? "Có BCTC" : "Chưa có BCTC"} sub={`Ngành từ ${d.sources?.[0]?.origin || "universe"}`} />
+          </div>
+        )}
+      </Card>
       <Card title={`Kiểm tra dữ liệu (${Object.entries(d.checks_summary || {}).map(([k, v]) => `${k} ${v}`).join(", ")})`}>
         <SortTable rows={d.checks} rowKey={(r) => r.name}
           cols={[{ key: "status", label: "KQ", render: (r) => <span className={r.status === "PASS" ? "text-up font-semibold" : r.status === "FAIL" ? "text-down font-semibold" : "text-ref font-semibold"}>{r.status}</span> },

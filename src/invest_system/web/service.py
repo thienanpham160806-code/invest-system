@@ -315,10 +315,12 @@ def _bench_returns() -> dict:
 _SECTOR_CACHE: dict = {}
 
 
-def sectors(level: int = 1) -> dict:
+def sectors(level: int = 1, exchange: str | None = None) -> dict:
     level = int(min(max(level, 1), 4))
     uni, meta = _uni()
-    ck = (level, meta.get("built_at"))
+    if exchange:  # tinh lai chi so nganh chi tren cac ma cua san da chon
+        uni = uni[uni["exchange"].isin([e.strip().upper() for e in exchange.split(",")])]
+    ck = (level, exchange, meta.get("built_at"))
     hit = _SECTOR_CACHE.get(ck)
     if hit and time.time() - hit[0] < 600:
         return hit[1]
@@ -342,7 +344,7 @@ def sectors(level: int = 1) -> dict:
             i[f"rank_{k}"] = vals.index(i[k]) + 1 if i.get(k) is not None else None
     items.sort(key=lambda i: i["market_cap"], reverse=True)
     out = jsonable({
-        "level": level, "items": items, "benchmark": {"name": "VN-Index", **bench},
+        "level": level, "exchange": exchange, "items": items, "benchmark": {"name": "VN-Index", **bench},
         "coverage": {"n_symbols": int(len(uni)), "n_classified": int((uni[col] != UNCLASSIFIED).sum()),
                      "sum_nodes": int(sum(i["n_symbols"] for i in items)),
                      "industry_source": uni["industry_source"].value_counts().to_dict()},
