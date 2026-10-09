@@ -112,8 +112,8 @@ export default function Home() {
               { key: "market_weight", label: "Tỷ trọng", num: true, render: (r) => pct(r.market_weight) },
               { key: "ret_1m", label: "1T", num: true, render: (r) => <span className={cls(r.ret_1m)}>{pct(r.ret_1m)}</span> },
               { key: "ret_ytd", label: "YTD", num: true, render: (r) => <span className={cls(r.ret_ytd)}>{pct(r.ret_ytd)}</span> },
-              { key: "pe", label: "P/E TV", num: true, sortValue: (r) => r.pe?.median, render: (r) => times(r.pe?.median) },
-              { key: "pb", label: "P/B TV", num: true, sortValue: (r) => r.pb?.median, render: (r) => times(r.pb?.median, 2) },
+              { key: "pe", label: "P/E trung vị ngành", num: true, sortValue: (r) => r.pe?.median, render: (r) => times(r.pe?.median) },
+              { key: "pb", label: "P/B trung vị ngành", num: true, sortValue: (r) => r.pb?.median, render: (r) => times(r.pb?.median, 2) },
               { key: "roe", label: "ROE TV", num: true, sortValue: (r) => r.roe?.median, render: (r) => pct(r.roe?.median) },
               { key: "score", label: "Điểm", num: true, render: (r) => num(r.score, 0) },
             ]} />

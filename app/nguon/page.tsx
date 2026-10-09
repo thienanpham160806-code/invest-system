@@ -14,10 +14,17 @@ export default function Sources() {
         <ErrorBox error={live.error} />
         {live.loading && <Loading what="kiểm tra nguồn" />}
         <SortTable rows={rows} rowKey={(r) => r.name}
-          cols={[{ key: "ok", label: "KQ", render: (r) => <span className={r.ok ? "text-up font-semibold" : "text-down font-semibold"}>{r.ok ? "LIVE" : "LỖI"}</span> },
-            { key: "name", label: "Nguồn" }, { key: "ms", label: "ms", num: true },
+          cols={[{ key: "status", label: "KQ", render: (r) => <span className={r.ok ? "text-up font-semibold" : "text-down font-semibold"}>{r.status}</span> },
+            { key: "name", label: "Nguồn" }, { key: "ms", label: "Độ trễ (ms)", num: true, render: (r) => r.ms == null ? "—" : r.ms },
             { key: "detail", label: "Chi tiết", render: (r) => <span className="whitespace-normal text-xs">{String(r.detail)}</span> }]} />
         <p className="text-xs text-slate-500 mt-2">Nguồn nào lỗi trên máy chủ (vd Vietcap chặn IP ngoài VN) thì hệ thống tự dùng bản chụp đóng gói và ghi rõ trên từng số.</p>
+        <p className="text-xs text-slate-500">Độ trễ là thời gian máy chủ gọi tới nguồn và nhận phản hồi.</p>
+      </Card>
+      <Card title="Nguồn tin đang dùng">
+        <p className="mb-2 text-sm">Audit {live.data?.news_quality?.audit_as_of || "—"}: {live.data?.news_quality?.sample_symbols ?? 0} mã mẫu; precision thủ công {live.data?.news_quality?.manual_precision == null ? "chưa đo" : `${(live.data.news_quality.manual_precision * 100).toFixed(0)}%`} ({live.data?.news_quality?.reviewed_titles ?? 0} tiêu đề đã đọc), mục tiêu ≥{((live.data?.news_quality?.precision_target ?? 0.9) * 100).toFixed(0)}%. {live.data?.news_quality?.coverage_note}</p>
+        <div className="overflow-x-auto"><table className="tbl"><thead><tr><th>Nguồn</th><th>URL</th><th>Loại</th><th>Số tin mẫu</th></tr></thead>
+          <tbody>{(live.data?.news_sources || []).map((s: any) => <tr key={s.name}><td>{s.name}</td><td><a className="link" href={s.url} target="_blank" rel="noreferrer">{s.url}</a></td><td>{s.type}</td><td>{s.count ?? "—"}{s.note ? ` · ${s.note}` : ""}</td></tr>)}</tbody></table></div>
+        <p className="mt-2 text-xs text-slate-500">Số tin là số bài nhận được trong lần kiểm tra nguồn; riêng CafeF trang mã dùng FPT làm mã đại diện.</p>
       </Card>
       <Card title="Bảng toàn thị trường (tính sẵn bằng scripts/build_market_universe.py)" right={<AsOf p={m.data?.provenance} />}>
         {m.data && (

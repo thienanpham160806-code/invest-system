@@ -133,7 +133,7 @@ function ReportBody({ d, sections, template, years }: { d: any; sections: string
           <div>
             <div className="text-[10px] uppercase tracking-wider opacity-80">Báo cáo phân tích cổ phiếu · {dmy(a.generated_at)}</div>
             <div className="text-2xl font-bold">{a.symbol} – {a.name}</div>
-            <div className="text-xs opacity-90">{a.exchange} · {a.icb.icb1} › {a.icb.icb2} › {a.icb.icb4} · {a.company_type_label}</div>
+            <div className="text-xs opacity-90">{a.exchange} · {[a.icb.icb1, a.icb.icb2, a.icb.icb3, a.icb.icb4].filter((name: string, i: number, levels: string[]) => i === 0 || name !== levels[i - 1]).join(" › ")} · {a.company_type_label}</div>
           </div>
           {r.rating && <div className={`rp-rating ${RATING_COLOR[r.rating]}`}>{r.rating}</div>}
         </div>
@@ -145,6 +145,7 @@ function ReportBody({ d, sections, template, years }: { d: any; sections: string
               <div><span>Upside</span><b className={cls(r.upside)}>{pct(r.upside, 1, true)}</b></div>
               <div><span>Điểm tổng hợp</span><b>{num(r.total_score, 0)}/100</b></div>
             </div>
+            <div className="rp-conclusion"><b>Độ tin cậy định giá: {a.valuation.confidence || "—"}.</b> {a.valuation.confidence_reason || "Chưa có đánh giá độ tin cậy."}</div>
             <h3 className="rp-h3">Luận điểm đầu tư</h3>
             <ul className="rp-ul">{a.thesis.map((x: string, i: number) => <li key={i}>{x}</li>)}</ul>
             <h3 className="rp-h3">Rủi ro</h3>
@@ -162,11 +163,11 @@ function ReportBody({ d, sections, template, years }: { d: any; sections: string
               <tr><td>EV/EBITDA</td><td>{times(a.metrics.ev_ebitda)}</td></tr>
               <tr><td>ROE</td><td>{pct(a.metrics.roe)}</td></tr>
               <tr><td>Biên ròng</td><td>{pct(a.metrics.net_margin)}</td></tr>
-              <tr><td>Tăng trưởng LN</td><td>{pct(a.metrics.ni_growth)}</td></tr>
-              <tr><td>GTGD TB20</td><td>{num(a.metrics.avg_value_20d / 1e9, 1)} tỷ</td></tr>
+              <tr><td>Tăng trưởng LNST YoY FY{a.metrics.fin_year ?? "—"}</td><td>{pct(a.metrics.ni_growth, 1, true)}</td></tr>
+              <tr><td>GTGD TB 20 phiên</td><td>{num(a.metrics.avg_value_20d / 1e9, 1)} tỷ</td></tr>
               <tr><td>Giá 1 năm</td><td>{pct(a.metrics.ret_1y)}</td></tr>
-              <tr><td>P/E TV ngành</td><td>{times(a.sector.quantiles?.pe?.[1])}</td></tr>
-              <tr><td>P/B TV ngành</td><td>{times(a.sector.quantiles?.pb?.[1], 2)}</td></tr>
+              <tr><td>P/E trung vị ngành</td><td>{times(a.sector.quantiles?.pe?.[1])}</td></tr>
+              <tr><td>P/B trung vị ngành</td><td>{times(a.sector.quantiles?.pb?.[1], 2)}</td></tr>
             </tbody></table>
             <h3 className="rp-h3">Điểm 7 nhóm</h3>
             <ScoreBars scores={r.scores} labels={SCORE_LABELS} />

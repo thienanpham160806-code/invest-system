@@ -1,0 +1,1625 @@
+{
+  "generated_at": "2026-10-09T16:02:24.062720",
+  "data_source": "production protected API",
+  "symbols": [
+    {
+      "symbol": "FPT",
+      "exchange": "HOSE",
+      "sources": {
+        "CafeF (trang chủ đề mã)": {
+          "30d": 12,
+          "180d": 12,
+          "returned": 12,
+          "capped_at_30": false
+        },
+        "CafeF TTCK": {
+          "30d": 1,
+          "180d": 1,
+          "returned": 1,
+          "capped_at_30": false
+        }
+      },
+      "news_count": 13,
+      "no_news": false,
+      "coverage_ok": true,
+      "manual_review": null,
+      "relevant_count": null,
+      "sample": [
+        {
+          "title": "FPT vừa chấm dứt chuỗi ngày giảm điểm",
+          "source": "CafeF TTCK",
+          "published_at": "2026-10-08 16:22:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/fpt-vua-cham-dut-chuoi-ngay-giam-diem-188261008155658978.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Cổ phiếu FPT bất ngờ giảm 10 phiên liên tiếp, vốn hóa \"bốc hơi\" gần 12.000 tỷ đồng chỉ sau 2 tuần",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-10-06 07:00:00",
+          "match_reason": "mã được nêu kèm ngữ cảnh chứng khoán",
+          "link": "https://cafef.vn/co-phieu-fpt-bat-ngo-giam-10-phien-lien-tiep-von-hoa-boc-hoi-gan-12000-ty-dong-chi-sau-2-tuan-188261006223053904.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Từ thực tập sinh không lương, Chủ tịch FPT Retail Nguyễn Bạch Điệp vào Top 100 Phụ nữ quyền lực nhất châu Á 2026 của Fortune",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-10-06 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/tu-thuc-tap-sinh-khong-luong-chu-tich-fpt-retail-nguyen-bach-diep-vao-top-100-phu-nu-quyen-luc-nhat-chau-a-2026-cua-fortune-18826100615414524.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Sau màn hát “Tái sinh” của ông Trương Gia Bình, mỗi tháng FPT có thêm 6.000 cổ đông mới, sân vận động lớn nhất thế giới và Mỹ Đình cộng lại không đủ sức chứa",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-28 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/sau-man-hat-tai-sinh-cua-ong-truong-gia-binh-moi-thang-fpt-co-them-6000-co-dong-moi-san-van-dong-lon-nhat-the-gioi-va-my-dinh-cong-lai-khong-du-suc-chua-188260928184735504.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Quỹ ngoại tỷ USD: Chẳng ai ngờ Hòa Phát, FPT, Thế Giới Di Động,… lại rơi xuống mức định giá thấp như vậy",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-28 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/quy-ngoai-ty-usd-chang-ai-ngo-hoa-phat-fpt-the-gioi-di-dong-lai-roi-xuong-muc-dinh-gia-thap-nhu-vay-188260928190015347.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "TCBS: FPT viết code bằng AI nhanh hơn 30% nhưng năng suất dự án chỉ tăng 10%",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-27 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/tcbs-fpt-viet-code-bang-ai-nhanh-hon-30-nhung-nang-suat-du-an-chi-tang-10-188260927211625866.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "FPT đề xuất lộ trình AI-First cho ngành Tài chính đến năm 2030",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-25 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/fpt-de-xuat-lo-trinh-ai-first-cho-nganh-tai-chinh-den-nam-2030-188260925193125268.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "CAIXO Nguyễn Xuân Phong của FPT: Doanh nghiệp không thiếu AI, thứ họ thiếu là bản đồ để biết mình đang ở đâu",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-25 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/caixo-nguyen-xuan-phong-cua-fpt-doanh-nghiep-khong-thieu-ai-thu-ho-thieu-la-ban-do-de-biet-minh-dang-o-dau-188260925140029867.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "FPT tìm kiếm tài năng trẻ nghiên cứu AI, điện toán lượng tử và an ninh mạng",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-24 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/fpt-tim-kiem-tai-nang-tre-nghien-cuu-ai-dien-toan-luong-tu-va-an-ninh-mang-188260924202103483.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Chân dung người Việt SN 1983 là Tân TGĐ FPT Online, từng làm CEO Lenovo ở tuổi 24",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-22 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/chan-dung-nguoi-viet-sn-1983-la-tan-tgd-fpt-online-tung-lam-ceo-lenovo-o-tuoi-24-18826092218460838.chn",
+          "manual_relevant": true
+        }
+      ],
+      "status": {
+        "cafef_topic": "13/20 tin nhắc tới FPT",
+        "rss": "179 tin vĩ mô/thị trường"
+      }
+    },
+    {
+      "symbol": "VCB",
+      "exchange": "HOSE",
+      "sources": {
+        "CafeF (trang chủ đề mã)": {
+          "30d": 2,
+          "180d": 13,
+          "returned": 13,
+          "capped_at_30": false
+        },
+        "CafeF Tài chính": {
+          "30d": 3,
+          "180d": 3,
+          "returned": 3,
+          "capped_at_30": false
+        },
+        "VnExpress": {
+          "30d": 1,
+          "180d": 1,
+          "returned": 1,
+          "capped_at_30": false
+        }
+      },
+      "news_count": 17,
+      "no_news": false,
+      "coverage_ok": true,
+      "manual_review": null,
+      "relevant_count": null,
+      "sample": [
+        {
+          "title": "Lãi suất ngân hàng 8/10 tại Agribank, Vietcombank, BIDV, VietinBank, VPBank, MB, Techcombank, Sacombank, HDBank,...",
+          "source": "CafeF Tài chính",
+          "published_at": "2026-10-08 20:41:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/lai-suat-ngan-hang-8-10-tai-agribank-vietcombank-bidv-vietinbank-vpbank-mb-techcombank-sacombank-hdbank-188261008204232797.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Vietcombank ra mắt thẻ độc quyền lấy cảm hứng từ nghệ sĩ Quán Nhà Haha",
+          "source": "VnExpress",
+          "published_at": "2026-10-08 18:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://vnexpress.net/vietcombank-ra-mat-the-doc-quyen-lay-cam-hung-tu-nghe-si-quan-nha-haha-5130025.html",
+          "manual_relevant": true
+        },
+        {
+          "title": "Dự báo lợi nhuận ngân hàng quý 3/2026 sẽ có bất ngờ lớn: Vietcombank, VietinBank, MB, Techcombank, VPBank, HDBank,...",
+          "source": "CafeF Tài chính",
+          "published_at": "2026-10-07 00:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/du-bao-loi-nhuan-ngan-hang-quy-3-2026-se-co-bat-ngo-lon-vietcombank-vietinbank-mb-techcombank-vpbank-hdbank-188261006215558298.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Lãi suất ngân hàng 6/10 tại Agribank, Vietcombank, BIDV, VietinBank, VPBank, MB, Techcombank, Sacombank, HDBank,...",
+          "source": "CafeF Tài chính",
+          "published_at": "2026-10-06 21:47:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/lai-suat-ngan-hang-6-10-tai-agribank-vietcombank-bidv-vietinbank-vpbank-mb-techcombank-sacombank-hdbank-188261006215111713.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Phó Tổng Giám đốc Vietcombank bất ngờ xin nghỉ hưu trước tuổi",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-10-02 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/pho-tong-giam-doc-vietcombank-bat-ngo-xin-nghi-huu-truoc-tuoi-188261002150652259.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Tập đoàn Nguyễn Hoàng và Vietcombank ký kết Thỏa thuận hợp tác chiến lược toàn diện",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-24 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/tap-doan-nguyen-hoang-va-vietcombank-ky-ket-thoa-thuan-hop-tac-chien-luoc-toan-dien-188260924151404664.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Công an xác minh giao dịch 70.721.000 đồng tại tài khoản Vietcombank của Nguyễn Công Hoàn SN 1994",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-08 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/cong-an-xac-minh-giao-dich-70721000-dong-tai-tai-khoan-vietcombank-cua-nguyen-cong-hoan-sn-1994-188260908154930538.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Vietcombank phát cảnh báo khẩn về việc bị giả mạo",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-08-26 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/vietcombank-phat-canh-bao-khan-ve-viec-bi-gia-mao-188260826111009435.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Nhờ đâu lợi nhuận Vietcombank tăng vọt lên mức cao chưa từng có?",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-07-31 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/nho-dau-loi-nhuan-vietcombank-tang-vot-len-muc-cao-chua-tung-co-188260731112102574.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Chủ tịch Vietcombank: Các ngân hàng không dư vốn để cung ứng cho rất nhiều dự án lớn trong thời gian tới",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-07-18 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/chu-tich-vietcombank-cac-ngan-hang-khong-du-von-de-cung-ung-cho-rat-nhieu-du-an-lon-trong-thoi-gian-toi-188260718154951901.chn",
+          "manual_relevant": true
+        }
+      ],
+      "status": {
+        "cafef_topic": "13/20 tin nhắc tới VCB",
+        "rss": "179 tin vĩ mô/thị trường"
+      }
+    },
+    {
+      "symbol": "VIC",
+      "exchange": "HOSE",
+      "sources": {
+        "CafeF (trang chủ đề mã)": {
+          "30d": 1,
+          "180d": 4,
+          "returned": 4,
+          "capped_at_30": false
+        },
+        "VnExpress": {
+          "30d": 1,
+          "180d": 1,
+          "returned": 1,
+          "capped_at_30": false
+        }
+      },
+      "news_count": 5,
+      "no_news": false,
+      "coverage_ok": true,
+      "manual_review": null,
+      "relevant_count": null,
+      "sample": [
+        {
+          "title": "117 đoàn tàu cho metro Hà Nội sẽ được Vingroup lắp ráp tại Việt Nam",
+          "source": "VnExpress",
+          "published_at": "2026-10-06 16:30:34",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://vnexpress.net/117-doan-tau-cho-metro-ha-noi-se-duoc-vingroup-lap-rap-tai-viet-nam-5129099.html",
+          "manual_relevant": true
+        },
+        {
+          "title": "“Thua” VN-Index vì không nắm cổ phiếu Vingroup, nhà sáng lập PYN Elite Fund thẳng thắn thừa nhận một điều",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-27 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/thua-vn-index-vi-khong-nam-co-phieu-vingroup-nha-sang-lap-pyn-elite-fund-thang-than-thua-nhan-mot-dieu-188260927235257843.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Quyết định mới nhất của Vingroup với VinFast",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-08 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/quyet-dinh-moi-nhat-cua-vingroup-voi-vinfast-188260908175252399.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Cổ phiếu Vingroup điều chỉnh phiên đầu tuần",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-07 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/chuyen-gi-vua-xay-ra-voi-co-phieu-vingroup-188260907154438857.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Vốn hóa Vingroup bằng 10 ngân hàng cộng lại",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-06 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/von-hoa-vingroup-bang-10-ngan-hang-cong-lai-188260906233731288.chn",
+          "manual_relevant": true
+        }
+      ],
+      "status": {
+        "cafef_topic": "4/20 tin nhắc tới VIC",
+        "rss": "179 tin vĩ mô/thị trường"
+      }
+    },
+    {
+      "symbol": "VHM",
+      "exchange": "HOSE",
+      "sources": {
+        "CafeF (trang chủ đề mã)": {
+          "30d": 3,
+          "180d": 13,
+          "returned": 13,
+          "capped_at_30": false
+        },
+        "CafeF TTCK": {
+          "30d": 1,
+          "180d": 1,
+          "returned": 1,
+          "capped_at_30": false
+        }
+      },
+      "news_count": 14,
+      "no_news": false,
+      "coverage_ok": true,
+      "manual_review": null,
+      "relevant_count": null,
+      "sample": [
+        {
+          "title": "Một cổ phiếu bất ngờ bị khối ngoại \"xả\" đột biến hơn 9.600 tỷ đồng phiên cuối tuần",
+          "source": "CafeF TTCK",
+          "published_at": "2026-10-09 15:45:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/mot-co-phieu-bat-ngo-bi-khoi-ngoai-xa-dot-bien-hon-9600-ty-dong-phien-cuoi-tuan-188261009153241263.chn",
+          "manual_relevant": false
+        },
+        {
+          "title": "8.000 tỷ đồng trái phiếu 'đổ' về Vinhomes",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-10-01 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/8000-ty-dong-trai-phieu-do-ve-vinhomes-188261001084528459.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Vinhomes phê duyệt phương án chào bán 8.000 tỷ đồng trái phiếu",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-24 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/vinhomes-phe-duyet-phuong-an-chao-ban-8000-ty-dong-trai-phieu-188260924133857778.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Vinhomes nâng hợp đồng tổng thầu siêu dự án Cần Giờ tăng 76%, lên hơn 12 tỷ USD",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-18 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/vinhomes-nang-hop-dong-tong-thau-sieu-du-an-can-gio-tang-76-len-hon-12-ty-usd-188260918125909481.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Đúng 9 giờ ngày 9/9, Vinhomes có một sự thay đổi lớn",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-08 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/dung-9-gio-ngay-9-9-vinhomes-co-mot-su-thay-doi-lon-188260908232101173.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Ngày mai, hơn 4,1 tỷ cổ phiếu Vinhomes về tài khoản nhà đầu tư, được phép giao dịch",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-08 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/ngay-mai-hon-41-ty-co-phieu-vinhomes-ve-tai-khoan-nha-dau-tu-duoc-phep-giao-dich-18826090815103975.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "CTCK dự báo Vinhomes có thể lãi kỷ lục gần 60.000 tỷ đồng trong năm nay",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-07 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/ctck-du-bao-vinhomes-co-the-lai-ky-luc-gan-60000-ty-dong-trong-nam-nay-188260907220427048.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Khối ngoại \"quay xe\" mua ròng phiên VN-Index bứt phá, gom mạnh VIC, VHM",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-04 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/khoi-ngoai-quay-xe-mua-rong-phien-vn-index-but-pha-gom-manh-vic-vhm-188260904153527046.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Đúng 5 ngày nữa, cổ đông Vinhomes sẽ chứng kiến một thay đổi quan trọng",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-04 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/dung-5-ngay-nua-co-dong-vinhomes-se-chung-kien-mot-thay-doi-quan-trong-188260904111958112.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Vinhomes khởi công khu đô thị đa mục tiêu tổng vốn 111.000 tỷ, quy mô 600 hécta tại Hà Nội",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-08-29 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/vinhomes-khoi-cong-khu-do-thi-da-muc-tieu-tong-von-111000-ty-quy-mo-600-hecta-tai-ha-noi-1882608290720363.chn",
+          "manual_relevant": true
+        }
+      ],
+      "status": {
+        "cafef_topic": "13/20 tin nhắc tới VHM",
+        "rss": "179 tin vĩ mô/thị trường"
+      }
+    },
+    {
+      "symbol": "HPG",
+      "exchange": "HOSE",
+      "sources": {
+        "CafeF (trang chủ đề mã)": {
+          "30d": 7,
+          "180d": 13,
+          "returned": 13,
+          "capped_at_30": false
+        },
+        "CafeF TTCK": {
+          "30d": 1,
+          "180d": 1,
+          "returned": 1,
+          "capped_at_30": false
+        }
+      },
+      "news_count": 14,
+      "no_news": false,
+      "coverage_ok": true,
+      "manual_review": null,
+      "relevant_count": null,
+      "sample": [
+        {
+          "title": "Pyn Elite Fund lỗ sâu từ đầu năm, vẫn cược lớn vào Sacombank, Hòa Phát và Thế Giới Di Động",
+          "source": "CafeF TTCK",
+          "published_at": "2026-10-08 11:12:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/pyn-elite-fund-lo-sau-tu-dau-nam-van-cuoc-lon-vao-sacombank-hoa-phat-va-the-gioi-di-dong-18826100811021877.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Tin vui đến với Hòa Phát",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-10-07 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/tin-vui-den-voi-hoa-phat-188261007110329872.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Tỷ phú Trần Đình Long “lấy lại” gần 1.000 tỷ đồng sau thông tin con trai muốn gom 50 triệu cổ phiếu Hòa Phát",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-10-05 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/ty-phu-tran-dinh-long-lay-lai-gan-1000-ty-dong-sau-thong-tin-con-trai-muon-gom-50-trieu-co-phieu-hoa-phat-188261005154828912.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Ngỡ ngàng khối tài sản ở tuổi 30 của thiếu gia vừa đăng ký mua 50 triệu cổ phiếu Hòa Phát",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-10-02 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/ngo-ngang-khoi-tai-san-o-tuoi-30-cua-thieu-gia-vua-dang-ky-mua-50-trieu-co-phieu-hoa-phat-188261002233347315.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Con trai tỷ phú Trần Đình Long muốn chi nghìn tỷ gom thêm 50 triệu cổ phiếu Hòa Phát",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-10-02 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/con-trai-ty-phu-tran-dinh-long-muon-chi-nghin-ty-gom-them-50-trieu-co-phieu-hoa-phat-188261002145449202.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "CTCK dự báo Hòa Phát có thể lãi 5.400 tỷ đồng trong quý 3 dù giá thép hạ nhiệt",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-28 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/ctck-du-bao-hoa-phat-co-the-lai-5400-ty-dong-trong-quy-3-du-gia-thep-ha-nhiet-188260928141940921.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Người thân sếp lớn Hòa Phát đăng ký bán cổ phiếu HPG",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-10 07:00:00",
+          "match_reason": "mã được nêu kèm ngữ cảnh chứng khoán",
+          "link": "https://cafef.vn/nguoi-than-sep-lon-hoa-phat-dang-ky-ban-co-phieu-hpg-188260910164434455.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "CTCK nói về thuế CBPG 285,5 USD/tấn với Hòa Phát: Xuất khẩu thép Việt Nam sang Mexico là \"hạt cát\" với DN tỷ đô, rủi ro nằm ở chỗ khác",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-10 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/ctck-noi-ve-thue-cbpg-2855-usd-tan-voi-hoa-phat-xuat-khau-thep-viet-nam-sang-mexico-la-hat-cat-voi-dn-ty-do-rui-ro-nam-o-cho-khac-188260910141614694.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Dòng vốn ẩn danh từng đổ vào FPT, VIC, HPG... bất ngờ quay lại gom hàng nghìn tỷ đồng trên thị trường chứng khoán Việt",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-08-11 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/dong-von-an-danh-tung-do-vao-fpt-vic-hpg-bat-ngo-quay-lai-gom-hang-nghin-ty-dong-tren-thi-truong-chung-khoan-viet-188260811101607281.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Hòa Phát nhận hồ sơ đăng ký mua nhà ở xã hội từ tháng 8/2026, giá chỉ từ 20,8 triệu/m2",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-08-03 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/hoa-phat-nhan-ho-so-dang-ky-mua-nha-o-xa-hoi-tai-hung-yen-tu-thang-8-2026-188260803111544841.chn",
+          "manual_relevant": true
+        }
+      ],
+      "status": {
+        "cafef_topic": "13/20 tin nhắc tới HPG",
+        "rss": "179 tin vĩ mô/thị trường"
+      }
+    },
+    {
+      "symbol": "MWG",
+      "exchange": "HOSE",
+      "sources": {
+        "CafeF (trang chủ đề mã)": {
+          "30d": 4,
+          "180d": 7,
+          "returned": 7,
+          "capped_at_30": false
+        },
+        "CafeF TTCK": {
+          "30d": 1,
+          "180d": 1,
+          "returned": 1,
+          "capped_at_30": false
+        }
+      },
+      "news_count": 8,
+      "no_news": false,
+      "coverage_ok": true,
+      "manual_review": null,
+      "relevant_count": null,
+      "sample": [
+        {
+          "title": "Pyn Elite Fund lỗ sâu từ đầu năm, vẫn cược lớn vào Sacombank, Hòa Phát và Thế Giới Di Động",
+          "source": "CafeF TTCK",
+          "published_at": "2026-10-08 11:12:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/pyn-elite-fund-lo-sau-tu-dau-nam-van-cuoc-lon-vao-sacombank-hoa-phat-va-the-gioi-di-dong-18826100811021877.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Ông Đoàn Văn Hiểu Em bán ra 1 triệu cổ phiếu MWG",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-25 07:00:00",
+          "match_reason": "mã được nêu kèm ngữ cảnh chứng khoán",
+          "link": "https://cafef.vn/ong-doan-van-hieu-em-ban-ra-1-trieu-co-phieu-mwg-188260925151619442.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Ông Đoàn Văn Hiểu Em bán xong 1 triệu cổ phiếu MWG",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-25 07:00:00",
+          "match_reason": "mã được nêu kèm ngữ cảnh chứng khoán",
+          "link": "https://cafef.vn/ong-doan-van-hieu-em-ban-xong-1-trieu-co-phieu-mwg-188260925153941778.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Thế giới Di Động chốt ngày trả cổ tức bằng tiền mặt tỷ lệ 10%",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-22 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/the-gioi-di-dong-chot-ngay-tra-co-tuc-bang-tien-mat-ty-le-10-188260922073825104.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Thế Giới Di Động (MWG) chốt ngày chia cổ tức 1.500 tỷ cho cổ đông",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-21 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/the-gioi-di-dong-mwg-chot-ngay-chia-co-tuc-1500-ty-cho-co-dong-188260921153124119.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Ông Đoàn Văn Hiểu Em đăng ký bán 1 triệu cổ phiếu MWG",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-08-28 07:00:00",
+          "match_reason": "mã được nêu kèm ngữ cảnh chứng khoán",
+          "link": "https://cafef.vn/ong-doan-van-hieu-em-dang-ky-ban-1-trieu-co-phieu-mwg-188260828075235286.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Ông Đoàn Văn Hiểu Em tiếp tục đăng ký bán 1 triệu cổ phiếu MWG để tái cơ cấu đầu tư sang DMX",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-08-27 07:00:00",
+          "match_reason": "mã được nêu kèm ngữ cảnh chứng khoán",
+          "link": "https://cafef.vn/ong-doan-van-hieu-em-tiep-tuc-dang-ky-ban-1-trieu-co-phieu-mwg-de-tai-co-cau-dau-tu-sang-dmx-188260827202024719.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Chủ tịch Thế Giới Di Động “gom” thành công 1 triệu cổ phiếu MWG",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-08-17 07:00:00",
+          "match_reason": "mã được nêu kèm ngữ cảnh chứng khoán",
+          "link": "https://cafef.vn/chu-tich-the-gioi-di-dong-gom-thanh-cong-1-trieu-co-phieu-mwg-188260817101400398.chn",
+          "manual_relevant": true
+        }
+      ],
+      "status": {
+        "cafef_topic": "7/20 tin nhắc tới MWG",
+        "rss": "179 tin vĩ mô/thị trường"
+      }
+    },
+    {
+      "symbol": "SSI",
+      "exchange": "HOSE",
+      "sources": {
+        "CafeF (trang chủ đề mã)": {
+          "30d": 9,
+          "180d": 12,
+          "returned": 12,
+          "capped_at_30": false
+        },
+        "CafeF TTCK": {
+          "30d": 2,
+          "180d": 2,
+          "returned": 2,
+          "capped_at_30": false
+        }
+      },
+      "news_count": 14,
+      "no_news": false,
+      "coverage_ok": true,
+      "manual_review": null,
+      "relevant_count": null,
+      "sample": [
+        {
+          "title": "Nhu cầu điện tăng vọt, cổ phiếu nào được SSI đánh giá cao?",
+          "source": "CafeF TTCK",
+          "published_at": "2026-10-09 00:05:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/nhu-cau-dien-tang-vot-co-phieu-nao-duoc-ssi-danh-gia-cao-188261008222849276.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "VinFast bất ngờ “đắt hàng” tại quốc gia đông dân nhất thế giới",
+          "source": "CafeF TTCK",
+          "published_at": "2026-10-09 00:03:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/vinfast-bat-ngo-dat-hang-tai-quoc-gia-dong-dan-nhat-the-gioi-188261008220208428.chn",
+          "manual_relevant": false
+        },
+        {
+          "title": "Thị phần môi giới HoSE quý 3/2026: SSI \"phả hơi nóng\" lên VPS, TCBS lần đầu vượt mốc 10%",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-10-05 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/thi-phan-moi-gioi-hose-quy-3-2026-ssi-pha-hoi-nong-len-vps-tcbs-lan-dau-vuot-moc-10-188261005164200985.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Khi dữ liệu thị trường SSI bước vào cuộc trò chuyện với AI",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-10-05 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/khi-du-lieu-thi-truong-ssi-buoc-vao-cuoc-tro-chuyen-voi-ai-188261005144224436.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Chứng khoán SSI “treo thưởng” iPhone 18 nếu VN-Index xanh trong phiên 22/9",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-21 07:00:00",
+          "match_reason": "mã được nêu kèm ngữ cảnh chứng khoán",
+          "link": "https://cafef.vn/chung-khoan-ssi-treo-thuong-iphone-18-neu-vn-index-xanh-trong-phien-22-9-18826092122131261.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "CEO SSI Nguyễn Đức Thông: Dù đầu tư sớm hay muộn, tương lai vẫn rất tươi sáng",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-18 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/ceo-ssi-nguyen-duc-thong-du-dau-tu-som-hay-muon-tuong-lai-van-rat-tuoi-sang-188260918101226822.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Chứng khoán SSI phát thông báo quan trọng",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-17 07:00:00",
+          "match_reason": "mã được nêu kèm ngữ cảnh chứng khoán",
+          "link": "https://cafef.vn/chung-khoan-ssi-phat-thong-bao-quan-trong-188260917235958427.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Lãnh đạo SSI: Chứng khoán Việt Nam như \"cửa hàng đã mở rộng cửa nhưng chưa đủ hàng trên kệ\"",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-17 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/lanh-dao-ssi-chung-khoan-viet-nam-nhu-cua-hang-da-mo-rong-cua-nhung-chua-du-hang-tren-ke-188260917112406318.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "CEO SSI chỉ ra một nghịch lý trên thị trường chứng khoán: Khối FDI làm ra hơn 3/4 kim ngạch xuất khẩu nhưng chỉ chiếm 0,15% vốn hoá",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-17 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/ceo-ssi-chi-ra-mot-nghich-ly-tren-thi-truong-chung-khoan-khoi-fdi-lam-ra-hon-3-4-kim-ngach-xuat-khau-nhung-chi-chiem-015-von-hoa-188260917091634145.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Em trai ông Nguyễn Duy Hưng chi hơn trăm tỷ mua cổ phiếu SSI ngay trước “giờ G” nâng hạng",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-16 07:00:00",
+          "match_reason": "mã được nêu kèm ngữ cảnh chứng khoán",
+          "link": "https://cafef.vn/em-trai-ong-nguyen-duy-hung-chi-hon-tram-ty-mua-co-phieu-ssi-ngay-truoc-gio-g-nang-hang-188260916141311876.chn",
+          "manual_relevant": true
+        }
+      ],
+      "status": {
+        "cafef_topic": "12/20 tin nhắc tới SSI",
+        "rss": "179 tin vĩ mô/thị trường"
+      }
+    },
+    {
+      "symbol": "MSN",
+      "exchange": "HOSE",
+      "sources": {
+        "CafeF (trang chủ đề mã)": {
+          "30d": 1,
+          "180d": 10,
+          "returned": 10,
+          "capped_at_30": false
+        },
+        "CafeF TTCK": {
+          "30d": 2,
+          "180d": 2,
+          "returned": 2,
+          "capped_at_30": false
+        },
+        "VnExpress": {
+          "30d": 1,
+          "180d": 1,
+          "returned": 1,
+          "capped_at_30": false
+        }
+      },
+      "news_count": 13,
+      "no_news": false,
+      "coverage_ok": true,
+      "manual_review": null,
+      "relevant_count": null,
+      "sample": [
+        {
+          "title": "6.000 đồng/cổ phiếu năm 2026: MSR đặt nền móng cho chính sách cổ tức tiền mặt dài hạn",
+          "source": "CafeF TTCK",
+          "published_at": "2026-10-09 13:30:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/6000-dong-co-phieu-nam-2026-msr-dat-nen-mong-cho-chinh-sach-co-tuc-tien-mat-dai-han-188261008205512939.chn",
+          "manual_relevant": false
+        },
+        {
+          "title": "Masan tăng sở hữu tại MCH lên gần 75%",
+          "source": "VnExpress",
+          "published_at": "2026-10-09 09:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://vnexpress.net/masan-tang-so-huu-tai-mch-len-gan-75-5130190.html",
+          "manual_relevant": true
+        },
+        {
+          "title": "Dòng tiền 420 triệu USD từ MCH và MSR bổ sung nguồn lực cho Masan",
+          "source": "CafeF TTCK",
+          "published_at": "2026-10-09 08:00:00",
+          "match_reason": "mã sàn trong ngoặc",
+          "link": "https://cafef.vn/dong-tien-420-trieu-usd-tu-mch-va-msr-bo-sung-nguon-luc-cho-masan-188261008205749709.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "IR Awards 2026: Dấu ấn minh bạch trong hành trình tăng trưởng của Masan",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-25 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/ir-awards-2026-dau-an-minh-bach-trong-hanh-trinh-tang-truong-cua-masan-188260925182333985.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Petrosetco (PET) rót gần 473 tỷ đồng vào chứng khoán, mạnh tay với VIX, GEL, VPB và MSN",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-01 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/petrosetco-pet-rot-gan-473-ty-dong-vao-chung-khoan-manh-tay-voi-vix-gel-vpb-va-msn-188260901191955926.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Masan đạt hơn 63.800 tỷ đồng doanh thu thuần trong 7 tháng đầu năm, tăng 46% so với cùng kỳ",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-08-21 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/masan-dat-hon-63800-ty-dong-doanh-thu-thuan-trong-7-thang-dau-nam-tang-46-so-voi-cung-ky-188260821092324716.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Tổng giá trị cổ phần của Masan tại MCH, MSR, MML, WinCommerce và Techcombank lớn cỡ nào?",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-08-13 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/tong-gia-tri-co-phan-cua-masan-tai-mch-msr-mml-wincommerce-va-techcombank-lon-co-nao-188260813171153175.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Masan lãi 3.800 tỷ đồng, cao nhất từ trước đến nay, gấp hơn 2,3 lần cùng kỳ",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-07-27 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/masan-lai-3800-ty-dong-cao-nhat-tu-truoc-den-nay-gap-hon-23-lan-cung-ky-188260727093153896.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Động thái \"nóng\" từ hệ sinh thái Masan: MSN tăng 40% kế hoạch lợi nhuận vượt 10.000 tỷ, sếp Masan Consumer muốn mua số cổ phiếu gần 400 tỷ",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-07-22 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/dong-thai-nong-tu-he-sinh-thai-masan-msn-tang-40-ke-hoach-loi-nhuan-vuot-10000-ty-sep-masan-consumer-muon-mua-so-co-phieu-gan-400-ty-188260722094857767.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Vốn hóa Masan vẫn trên 100.000 tỷ",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-06-03 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/von-hoa-masan-van-tren-100000-ty-188260603065145519.chn",
+          "manual_relevant": true
+        }
+      ],
+      "status": {
+        "cafef_topic": "10/20 tin nhắc tới MSN",
+        "rss": "179 tin vĩ mô/thị trường"
+      }
+    },
+    {
+      "symbol": "GAS",
+      "exchange": "HOSE",
+      "sources": {
+        "CafeF (trang chủ đề mã)": {
+          "30d": 2,
+          "180d": 5,
+          "returned": 5,
+          "capped_at_30": false
+        }
+      },
+      "news_count": 5,
+      "no_news": false,
+      "coverage_ok": true,
+      "manual_review": null,
+      "relevant_count": null,
+      "sample": [
+        {
+          "title": "Chân dung Chủ tịch HĐQT và Tổng Giám đốc mới của PV GAS",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-16 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/chan-dung-chu-tich-hdqt-va-tong-giam-doc-moi-cua-pv-gas-188260916084255622.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "PV Gas sắp chi hơn 6.000 tỷ đồng trả cổ tức năm 2025",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-10 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/pv-gas-sap-chi-hon-6000-ty-dong-tra-co-tuc-nam-2025-188260910150319815.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Cổ phiếu DN nhà nước GVR, BCM, GAS... đồng loạt tăng trần: Điều gì đã xảy ra?",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-08-07 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/co-phieu-dn-nha-nuoc-gvr-bcm-gas-dong-loat-tang-tran-dieu-gi-da-xay-ra-188260807161239757.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "PV Gas sắp họp ĐHĐCĐ bất thường để bàn về nhân sự",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-07-27 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/pv-gas-sap-hop-dhdcd-bat-thuong-de-ban-ve-nhan-su-188260727152957131.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "PV GAS không đáp ứng điều kiện công ty đại chúng, Chủ tịch HĐQT nói gì?",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-05-25 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/pv-gas-khong-dap-ung-dieu-kien-cong-ty-dai-chung-chu-tich-hdqt-noi-gi-188260525151544855.chn",
+          "manual_relevant": true
+        }
+      ],
+      "status": {
+        "cafef_topic": "5/20 tin nhắc tới GAS",
+        "rss": "179 tin vĩ mô/thị trường"
+      }
+    },
+    {
+      "symbol": "VNM",
+      "exchange": "HOSE",
+      "sources": {
+        "CafeF (trang chủ đề mã)": {
+          "30d": 0,
+          "180d": 8,
+          "returned": 16,
+          "capped_at_30": false
+        }
+      },
+      "news_count": 16,
+      "no_news": false,
+      "coverage_ok": true,
+      "manual_review": null,
+      "relevant_count": null,
+      "sample": [
+        {
+          "title": "Vinamilk 50 năm vun đắp giá trị dinh dưỡng, đồng hành cùng sức khỏe người Việt",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-04 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/vinamilk-50-nam-vun-dap-gia-tri-dinh-duong-dong-hanh-cung-suc-khoe-nguoi-viet-18826090412541395.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Vinamilk sắp có thêm 8000 con bò",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-08-07 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/vinamilk-sap-co-them-8000-con-bo-188260807141906095.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Kinh tế học của niềm tin: Bên trong khối tài sản thương hiệu 2,6 tỷ USD của Vinamilk",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-08-01 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/kinh-te-hoc-cua-niem-tin-ben-trong-khoi-tai-san-thuong-hieu-26-ty-usd-cua-vinamilk-188260801073709654.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "50 năm không ngừng nâng chuẩn: Cách Vinamilk xây dựng thương hiệu tỷ đô của Việt Nam",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-07-28 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/50-nam-khong-ngung-nang-chuan-cach-vinamilk-xay-dung-thuong-hieu-ty-do-cua-viet-nam-188260728152900109.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Lợi nhuận sơ bộ quý 2 Vinamilk tăng gần 30%",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-07-24 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/loi-nhuan-so-bo-quy-2-vinamilk-tang-gan-30-188260724104127402.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "SCIC sắp nhận thêm gần 1.400 tỷ cổ tức từ Vinamilk, \"gà đẻ trứng vàng\" mang về hiệu quả gấp 71 lần vốn đầu tư",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-07-13 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/scic-sap-nhan-them-gan-1400-ty-co-tuc-tu-vinamilk-ga-de-trung-vang-mang-ve-hieu-qua-gap-71-lan-von-dau-tu-188260713111247128.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Tiên phong xu hướng dinh dưỡng, Vinamilk “gặt” tăng trưởng hai chữ số quý 1/2026",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-05-06 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/tien-phong-xu-huong-dinh-duong-vinamilk-gat-tang-truong-hai-chu-so-quy-1-2026-188260506105101722.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Vinamilk (VNM) hé lộ chiến lược vòng qua eo biển Hormuz",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-05-01 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/vinamilk-vnm-he-lo-chien-luoc-vong-qua-eo-bien-hormuz-188260501001208871.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "166 người thi vào Vinamilk chỉ chọn 1, khó hơn đại học Top đầu Việt Nam",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-04-08 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/166-nguoi-thi-vao-vinamilk-chi-chon-1-kho-hon-dai-hoc-top-dau-viet-nam-188260408233617974.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Xung đột Trung Đông leo thang: \"Mỏ vàng\" chiếm 70% doanh thu xuất khẩu của Vinamilk (VNM) lung lay?",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-03-31 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/xung-dot-trung-dong-leo-thang-mo-vang-chiem-70-doanh-thu-xuat-khau-cua-vinamilk-vnm-lung-lay-188260331231611994.chn",
+          "manual_relevant": true
+        }
+      ],
+      "status": {
+        "cafef_topic": "16/20 tin nhắc tới VNM",
+        "rss": "179 tin vĩ mô/thị trường"
+      }
+    },
+    {
+      "symbol": "TCB",
+      "exchange": "HOSE",
+      "sources": {
+        "CafeF (trang chủ đề mã)": {
+          "30d": 1,
+          "180d": 10,
+          "returned": 10,
+          "capped_at_30": false
+        },
+        "CafeF Tài chính": {
+          "30d": 5,
+          "180d": 5,
+          "returned": 5,
+          "capped_at_30": false
+        }
+      },
+      "news_count": 15,
+      "no_news": false,
+      "coverage_ok": true,
+      "manual_review": null,
+      "relevant_count": null,
+      "sample": [
+        {
+          "title": "Lãi suất ngân hàng 8/10 tại Agribank, Vietcombank, BIDV, VietinBank, VPBank, MB, Techcombank, Sacombank, HDBank,...",
+          "source": "CafeF Tài chính",
+          "published_at": "2026-10-08 20:41:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/lai-suat-ngan-hang-8-10-tai-agribank-vietcombank-bidv-vietinbank-vpbank-mb-techcombank-sacombank-hdbank-188261008204232797.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Dự báo lợi nhuận ngân hàng quý 3/2026 sẽ có bất ngờ lớn: Vietcombank, VietinBank, MB, Techcombank, VPBank, HDBank,...",
+          "source": "CafeF Tài chính",
+          "published_at": "2026-10-07 00:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/du-bao-loi-nhuan-ngan-hang-quy-3-2026-se-co-bat-ngo-lon-vietcombank-vietinbank-mb-techcombank-vpbank-hdbank-188261006215558298.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Lãi suất ngân hàng 6/10 tại Agribank, Vietcombank, BIDV, VietinBank, VPBank, MB, Techcombank, Sacombank, HDBank,...",
+          "source": "CafeF Tài chính",
+          "published_at": "2026-10-06 21:47:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/lai-suat-ngan-hang-6-10-tai-agribank-vietcombank-bidv-vietinbank-vpbank-mb-techcombank-sacombank-hdbank-188261006215111713.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Giám đốc adidas Việt Nam: Giải Marathon Quốc tế Hà Nội Techcombank kết nối người yêu thể thao, phù hợp với tham vọng của adidas",
+          "source": "CafeF Tài chính",
+          "published_at": "2026-10-06 20:18:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/giam-doc-adidas-viet-nam-giai-marathon-quoc-te-ha-noi-techcombank-ket-noi-nguoi-yeu-the-thao-phu-hop-voi-tham-vong-cua-adidas-188261006201841067.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Loạt ngân hàng VPBank, Techcombank, ACB,... tăng lãi suất cơ sở, lãi suất tham chiếu",
+          "source": "CafeF Tài chính",
+          "published_at": "2026-10-06 16:25:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/loat-ngan-hang-vpbank-techcombank-acb-tang-lai-suat-co-so-lai-suat-tham-chieu-188261006162226267.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "‏Techcombank là nhà đồng hành chiến lược “Ngày hội sáng tạo nội dung số Việt Nam 2026”‏",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-19 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/techcombank-la-nha-dong-hanh-chien-luoc-ngay-hoi-sang-tao-noi-dung-so-viet-nam-2026-188260919112738788.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Cổ phiếu Techcombank quay đầu giảm sau loạt thông tin về thương vụ bán 15% cổ phần",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-08-28 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/co-phieu-techcombank-quay-dau-giam-sau-loat-thong-tin-ve-thuong-vu-ban-15-co-phan-188260828153817346.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Từng ôm hàng triệu cổ phiếu Techcombank trị giá hơn 300 tỷ, một 'ông trùm' đã bán sạch trước tháng 6",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-08-26 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/tung-om-hang-trieu-co-phieu-techcombank-tri-gia-hon-300-ty-mot-ong-trum-da-ban-sach-truoc-thang-6-18826082623305733.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Cổ phiếu TCB, BCM “cháy hàng”, VN-Index tăng phiên thứ 5 liên tiếp",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-08-26 07:00:00",
+          "match_reason": "mã được nêu kèm ngữ cảnh chứng khoán",
+          "link": "https://cafef.vn/co-phieu-tcb-bcm-chay-hang-vn-index-tang-phien-thu-5-lien-tiep-188260826171144393.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Lai lịch 2 tổ chức nước ngoài đang đàm phán mua 15% cổ phần Techcombank",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-08-26 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/lai-lich-2-to-chuc-nuoc-ngoai-dang-dam-phan-mua-15-co-phan-techcombank-188260826151906777.chn",
+          "manual_relevant": true
+        }
+      ],
+      "status": {
+        "cafef_topic": "10/20 tin nhắc tới TCB",
+        "rss": "179 tin vĩ mô/thị trường"
+      }
+    },
+    {
+      "symbol": "ACB",
+      "exchange": "HOSE",
+      "sources": {
+        "CafeF (trang chủ đề mã)": {
+          "30d": 9,
+          "180d": 9,
+          "returned": 9,
+          "capped_at_30": false
+        },
+        "CafeF Tài chính": {
+          "30d": 1,
+          "180d": 1,
+          "returned": 1,
+          "capped_at_30": false
+        }
+      },
+      "news_count": 10,
+      "no_news": false,
+      "coverage_ok": true,
+      "manual_review": null,
+      "relevant_count": null,
+      "sample": [
+        {
+          "title": "Loạt ngân hàng VPBank, Techcombank, ACB,... tăng lãi suất cơ sở, lãi suất tham chiếu",
+          "source": "CafeF Tài chính",
+          "published_at": "2026-10-06 16:25:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/loat-ngan-hang-vpbank-techcombank-acb-tang-lai-suat-co-so-lai-suat-tham-chieu-188261006162226267.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Từ 1/10, ACB bắt đầu tuyển hàng loạt sinh viên năm cuối vào trải nghiệm, có phụ cấp, cơ hội thành nhân sự chính thức",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-10-03 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/tu-1-10-ngan-hang-co-chu-tich-van-nguoi-me-tran-hung-huy-bat-dau-tuyen-hang-loat-sinh-vien-nam-cuoi-vao-trai-nghiem-co-phu-cap-co-hoi-thanh-nhan-su-chinh-thuc-188261003203407579.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Tích điểm khi chi tiêu, nhận điểm dịp sinh nhật, khách hàng đổi được gì trên ACB Rewards?",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-30 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/tich-diem-khi-chi-tieu-nhan-diem-dip-sinh-nhat-khach-hang-doi-duoc-gi-tren-acb-rewards-188260930073801239.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Một chiếc thẻ ACB bất ngờ được cộng đồng mạng chú ý vì… ngoại hình",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-28 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/mot-chiec-the-acb-bat-ngo-duoc-cong-dong-mang-chu-y-vi-ngoai-hinh-18826092817543913.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Vị \"Chủ tịch ham học\" của ACB Trần Hùng Huy: Người lãnh đạo phải bước ra khỏi tư duy kiểm soát, kiến tạo tầm nhìn đủ lớn để thế hệ sau mang đi xa hơn",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-26 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/vi-chu-tich-ham-hoc-cua-acb-tran-hung-huy-nguoi-lanh-dao-phai-buoc-ra-khoi-tu-duy-kiem-soat-kien-tao-tam-nhin-du-lon-de-the-he-sau-mang-di-xa-hon-188260926174238402.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Hành trình Hy vọng đến Huế: ACB trao 500 triệu đồng hỗ trợ bệnh nhi nhân dịp Trung thu",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-25 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/hanh-trinh-hy-vong-den-hue-acb-trao-500-trieu-dong-ho-tro-benh-nhi-nhan-dip-trung-thu-188260925103405532.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "ACB được giới tài chính đánh giá cao nhất về hoạt động IR trong nhóm Financial Large Cap",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-24 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/acb-duoc-gioi-tai-chinh-danh-gia-cao-nhat-ve-hoat-dong-ir-trong-nhom-financial-large-cap-188260924172748447.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Từ Việt Nam đến New York: Chủ tịch ACB Trần Hùng Huy nói gì về chiến lược trong một thế giới liên tục thay đổi?",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-24 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/tu-viet-nam-den-new-york-chu-tich-acb-tran-hung-huy-noi-gi-ve-chien-luoc-trong-mot-the-gioi-lien-tuc-thay-doi-188260924064555905.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Kiểm tra tài khoản ngân hàng ACB của Tạ Mạnh Cường SN 1987: Công an phát hiện 3 tỷ đồng từ lừa đảo, 40 người đã chuyển tiền",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-22 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/kiem-tra-tai-khoan-ngan-hang-acb-cua-ta-manh-cuong-sn-1987-cong-an-phat-hien-3-ty-dong-tu-lua-dao-40-nguoi-da-chuyen-tien-188260922112034698.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Tổng Giám đốc ACB Từ Tiến Phát: \"Nâng hạng thị trường phải đi cùng nâng hạng năng lực doanh nghiệp\"",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-21 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/tong-giam-doc-acb-tu-tien-phat-nang-hang-thi-truong-phai-di-cung-nang-hang-nang-luc-doanh-nghiep-188260921064751841.chn",
+          "manual_relevant": true
+        }
+      ],
+      "status": {
+        "cafef_topic": "9/20 tin nhắc tới ACB",
+        "rss": "179 tin vĩ mô/thị trường"
+      }
+    },
+    {
+      "symbol": "CEO",
+      "exchange": "HNX",
+      "sources": {},
+      "news_count": 0,
+      "no_news": true,
+      "coverage_ok": true,
+      "manual_review": null,
+      "relevant_count": null,
+      "sample": [],
+      "status": {
+        "cafef_topic": "0/20 tin nhắc tới CEO",
+        "rss": "179 tin vĩ mô/thị trường"
+      }
+    },
+    {
+      "symbol": "ART",
+      "exchange": "UPCOM",
+      "sources": {
+        "CafeF (trang chủ đề mã)": {
+          "30d": 1,
+          "180d": 1,
+          "returned": 3,
+          "capped_at_30": false
+        }
+      },
+      "news_count": 3,
+      "no_news": false,
+      "coverage_ok": true,
+      "manual_review": null,
+      "relevant_count": null,
+      "sample": [
+        {
+          "title": "Chỉ có 8 cổ đông tham dự, Chứng khoán BOS (ART) không thể tiến hành ĐHĐCĐ bất thường",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2030-11-21 07:00:00",
+          "match_reason": "mã trong ngoặc sau tên doanh nghiệp",
+          "link": "https://cafef.vn/chi-co-8-co-dong-tham-du-chung-khoan-bos-art-khong-the-tien-hanh-dhdcd-bat-thuong-20230112142419524.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Chứng khoán BOS (ART): Chủ tịch 9x bị miễn nhiệm chỉ sau hơn 1 tháng \"ngồi ghế\", công ty chuẩn bị họp ĐHCĐ bất thường",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2021-11-30 07:00:00",
+          "match_reason": "mã trong ngoặc sau tên doanh nghiệp",
+          "link": "https://cafef.vn/chung-khoan-bos-art-chu-tich-9x-bi-mien-nhiem-chi-sau-hon-1-thang-ngoi-ghe-cong-ty-chuan-bi-hop-dhcd-bat-thuong-20221113094706029.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Chứng khoán BOS (ART) báo lãi hơn 25 tỷ đồng trong quý 4/2021",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2020-12-01 07:00:00",
+          "match_reason": "mã trong ngoặc sau tên doanh nghiệp",
+          "link": "https://cafef.vn/chung-khoan-bos-art-bao-lai-hon-25-ty-dong-trong-quy-4-2021-20220120112518007.chn",
+          "manual_relevant": true
+        }
+      ],
+      "status": {
+        "cafef_topic": "9/19 tin nhắc tới ART",
+        "rss": "179 tin vĩ mô/thị trường"
+      }
+    },
+    {
+      "symbol": "BVS",
+      "exchange": "HNX",
+      "sources": {
+        "CafeF (trang chủ đề mã)": {
+          "30d": 2,
+          "180d": 2,
+          "returned": 4,
+          "capped_at_30": false
+        }
+      },
+      "news_count": 4,
+      "no_news": false,
+      "coverage_ok": true,
+      "manual_review": null,
+      "relevant_count": null,
+      "sample": [
+        {
+          "title": "Chứng khoán Bảo Việt lãi ròng gần 83 tỷ đồng sau 9 tháng, hoàn thành 62% kế hoạch năm 2018",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2081-02-21 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/chung-khoan-bao-viet-lai-rong-gan-83-ty-dong-sau-9-thang-hoan-thanh-62-ke-hoach-nam-2018-20181022155753674.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Chứng khoán Bảo Việt lãi gần 15 tỷ đồng trong quý 3/2016, giảm 13% do phải nộp thuế",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2061-02-21 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/chung-khoan-bao-viet-lai-gan-15-ty-dong-trong-quy-3-2016-giam-13-do-phai-nop-thue-20161022102333719.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Chứng khoán Bảo Việt (BVS) sắp mua lại trước hạn toàn bộ nợ trái phiếu",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2021-12-20 07:00:00",
+          "match_reason": "mã trong ngoặc sau tên doanh nghiệp",
+          "link": "https://cafef.vn/chung-khoan-bao-viet-bvs-sap-mua-lai-truoc-han-toan-bo-no-trai-phieu-20221122085915018.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Thu về hơn 21 tỷ đồng tiền gửi không kỳ hạn, Chứng khoán Bảo Việt (BVSC) báo lãi quý 3/2022 tăng 16% so với cùng kỳ năm trước",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2021-02-01 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/thu-ve-hon-21-ty-dong-tien-gui-khong-ky-han-chung-khoan-bao-viet-bvsc-bao-lai-quy-3-2022-tang-16-so-voi-cung-ky-nam-truoc-20221020160221511.chn",
+          "manual_relevant": true
+        }
+      ],
+      "status": {
+        "cafef_topic": "16/20 tin nhắc tới BVS",
+        "rss": "179 tin vĩ mô/thị trường"
+      }
+    },
+    {
+      "symbol": "IDC",
+      "exchange": "HNX",
+      "sources": {
+        "CafeF (trang chủ đề mã)": {
+          "30d": 0,
+          "180d": 1,
+          "returned": 6,
+          "capped_at_30": false
+        }
+      },
+      "news_count": 6,
+      "no_news": false,
+      "coverage_ok": true,
+      "manual_review": null,
+      "relevant_count": null,
+      "sample": [
+        {
+          "title": "Một chi nhánh của Idico vừa bị xử phạt và truy thu thuế",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-07-15 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/mot-chi-nhanh-cua-idico-vua-bi-xu-phat-va-truy-thu-thue-188260715121348436.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Idico sắp chi hơn 569 tỷ đồng tạm ứng cổ tức đợt 1/2025",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2025-11-21 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/idico-sap-chi-hon-569-ty-dong-tam-ung-co-tuc-dot-1-2025-188251121121859843.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Idico góp hơn 560 tỷ đồng lập công ty con",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2024-12-17 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/idico-gop-hon-560-ty-dong-lap-cong-ty-con-188241217174747073.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Một Phó Tổng Giám đốc Idico xin từ nhiệm",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2024-11-27 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/mot-pho-tong-giam-doc-idico-xin-tu-nhiem-188241127133324008.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "IDICO chốt ngày trả cổ tức bằng tiền mặt cho cổ đông, tổng tỷ lệ 40%",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2024-06-09 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/idico-chot-ngay-tra-co-tuc-bang-tien-mat-cho-co-dong-tong-ty-le-40-188240609101422289.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Idico lên kế hoạch doanh thu năm 2024 cao kỷ lục, cổ tức tỷ lệ 40% bằng tiền, đang chuẩn bị quỹ đất 2.000 ha tại Hải Phòng, Ninh Bình...",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2024-04-04 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/idico-len-ke-hoach-doanh-thu-nam-2024-cao-ky-luc-co-tuc-ty-le-40-bang-tien-dang-chuan-bi-quy-dat-2000-ha-tai-hai-phong-ninh-binh-188240404160341097.chn",
+          "manual_relevant": true
+        }
+      ],
+      "status": {
+        "cafef_topic": "6/20 tin nhắc tới IDC",
+        "rss": "179 tin vĩ mô/thị trường"
+      }
+    },
+    {
+      "symbol": "PVS",
+      "exchange": "HNX",
+      "sources": {
+        "CafeF (trang chủ đề mã)": {
+          "30d": 0,
+          "180d": 2,
+          "returned": 2,
+          "capped_at_30": false
+        }
+      },
+      "news_count": 2,
+      "no_news": false,
+      "coverage_ok": true,
+      "manual_review": null,
+      "relevant_count": null,
+      "sample": [
+        {
+          "title": "PVS chốt ngày phát hành hơn 102 triệu cổ phiếu trả cổ tức",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-08-26 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/pvs-chot-ngay-phat-hanh-hon-102-trieu-co-phieu-tra-co-tuc-188260826151012098.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "PVS dự kiến phát hành hơn 102 triệu cổ phiếu trả cổ tức",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-08-12 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/pvs-du-kien-phat-hanh-hon-102-trieu-co-phieu-tra-co-tuc-188260812101543063.chn",
+          "manual_relevant": true
+        }
+      ],
+      "status": {
+        "cafef_topic": "2/20 tin nhắc tới PVS",
+        "rss": "179 tin vĩ mô/thị trường"
+      }
+    },
+    {
+      "symbol": "VGI",
+      "exchange": "UPCOM",
+      "sources": {
+        "CafeF (trang chủ đề mã)": {
+          "30d": 0,
+          "180d": 1,
+          "returned": 1,
+          "capped_at_30": false
+        }
+      },
+      "news_count": 1,
+      "no_news": false,
+      "coverage_ok": true,
+      "manual_review": null,
+      "relevant_count": null,
+      "sample": [
+        {
+          "title": "Trước thềm ĐHĐCĐ 2026: Viettel Global (VGI) lên kế hoạch doanh thu kỷ lục",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-04-22 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/truoc-them-dhdcd-2026-viettel-global-vgi-len-ke-hoach-doanh-thu-ky-luc-188260422214827464.chn",
+          "manual_relevant": true
+        }
+      ],
+      "status": {
+        "cafef_topic": "1/20 tin nhắc tới VGI",
+        "rss": "179 tin vĩ mô/thị trường"
+      }
+    },
+    {
+      "symbol": "MCH",
+      "exchange": "HOSE",
+      "sources": {
+        "CafeF (trang chủ đề mã)": {
+          "30d": 1,
+          "180d": 3,
+          "returned": 3,
+          "capped_at_30": false
+        },
+        "CafeF TTCK": {
+          "30d": 1,
+          "180d": 1,
+          "returned": 1,
+          "capped_at_30": false
+        },
+        "VnExpress": {
+          "30d": 1,
+          "180d": 1,
+          "returned": 1,
+          "capped_at_30": false
+        }
+      },
+      "news_count": 5,
+      "no_news": false,
+      "coverage_ok": true,
+      "manual_review": null,
+      "relevant_count": null,
+      "sample": [
+        {
+          "title": "Masan tăng sở hữu tại MCH lên gần 75%",
+          "source": "VnExpress",
+          "published_at": "2026-10-09 09:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://vnexpress.net/masan-tang-so-huu-tai-mch-len-gan-75-5130190.html",
+          "manual_relevant": true
+        },
+        {
+          "title": "Dòng tiền 420 triệu USD từ MCH và MSR bổ sung nguồn lực cho Masan",
+          "source": "CafeF TTCK",
+          "published_at": "2026-10-09 08:00:00",
+          "match_reason": "mã sàn trong ngoặc",
+          "link": "https://cafef.vn/dong-tien-420-trieu-usd-tu-mch-va-msr-bo-sung-nguon-luc-cho-masan-188261008205749709.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Doanh thu đạt 21.536 tỷ đồng, MCH mở rộng các trụ cột tăng trưởng",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-22 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/doanh-thu-dat-21536-ty-dong-mch-mo-rong-cac-tru-cot-tang-truong-188260922193737382.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "FTSE Russell loại 21 cổ phiếu FTSE Vietnam Index, thêm mới MCH, TCX và VPL",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-09-05 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/ftse-russell-loai-21-co-phieu-ftse-vietnam-index-them-moi-mch-tcx-va-vpl-188260905100801281.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Tổng giám đốc Masan Consumer (MCH) được mua tối đa 3,88 triệu cổ phiếu với giá rẻ hơn 92% thị giá hiện tại",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-05-27 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/tong-giam-doc-masan-consumer-mch-duoc-mua-toi-da-388-trieu-co-phieu-voi-gia-re-hon-92-thi-gia-hien-tai-188260527144008694.chn",
+          "manual_relevant": true
+        }
+      ],
+      "status": {
+        "cafef_topic": "3/20 tin nhắc tới MCH",
+        "rss": "179 tin vĩ mô/thị trường"
+      }
+    },
+    {
+      "symbol": "QNS",
+      "exchange": "UPCOM",
+      "sources": {
+        "CafeF (trang chủ đề mã)": {
+          "30d": 0,
+          "180d": 1,
+          "returned": 6,
+          "capped_at_30": false
+        }
+      },
+      "news_count": 6,
+      "no_news": false,
+      "coverage_ok": true,
+      "manual_review": null,
+      "relevant_count": null,
+      "sample": [
+        {
+          "title": "Đường Quảng Ngãi sắp chi hơn 367 tỷ đồng tạm ứng cổ tức",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-08-09 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/duong-quang-ngai-sap-chi-hon-367-ty-dong-tam-ung-co-tuc-188260809102243001.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Lãnh đạo Đường Quảng Ngãi chỉ mua vào 28% lượng cổ phiếu QNS đã đăng ký",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2026-02-10 07:00:00",
+          "match_reason": "mã được nêu kèm ngữ cảnh chứng khoán",
+          "link": "https://cafef.vn/lanh-dao-duong-quang-ngai-chi-mua-vao-28-luong-co-phieu-qns-da-dang-ky-188260210135424347.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Đường Quảng Ngãi sắp chi gần 368 tỷ đồng tạm ứng cổ tức đợt 2/2025",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2025-12-30 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/duong-quang-ngai-sap-chi-gan-368-ty-dong-tam-ung-co-tuc-dot-2-2025-188251230221533842.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Đường Quảng Ngãi: Lãi ròng quý II/2025 giảm 21%, hàng tồn kho tăng gần gấp đôi",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2025-07-28 07:00:00",
+          "match_reason": "khớp thương hiệu không dấu",
+          "link": "https://cafef.vn/duong-quang-ngai-lai-rong-quy-ii-2025-giam-21-hang-ton-kho-tang-gan-gap-doi-188250728152251592.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Phó Chủ tịch HĐQT Đường Quảng Ngãi liên tục \"gom\" cổ phiếu QNS",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2025-06-13 07:00:00",
+          "match_reason": "mã được nêu kèm ngữ cảnh chứng khoán",
+          "link": "https://cafef.vn/pho-chu-tich-hdqt-duong-quang-ngai-lien-tuc-gom-co-phieu-qns-188250613225928611.chn",
+          "manual_relevant": true
+        },
+        {
+          "title": "Đường Quảng Ngãi (QNS) dự kiến chi hơn 2.036 tỷ đồng mở rộng các nhà máy và cải tạo cơ sở hạ tầng",
+          "source": "CafeF (trang chủ đề mã)",
+          "published_at": "2024-07-10 07:00:00",
+          "match_reason": "mã cổ phiếu xuất hiện độc lập",
+          "link": "https://cafef.vn/duong-quang-ngai-qns-du-kien-chi-hon-2036-ty-dong-mo-rong-cac-nha-may-va-cai-tao-co-so-ha-tang-188240710100947711.chn",
+          "manual_relevant": true
+        }
+      ],
+      "status": {
+        "cafef_topic": "7/20 tin nhắc tới QNS",
+        "rss": "179 tin vĩ mô/thị trường"
+      }
+    }
+  ],
+  "reviewed_titles": 135,
+  "precision": 0.9777777777777777,
+  "precision_note": "Đọc thủ công tối đa 10 tiêu đề mỗi mã; false positive được ghi theo title trong script."
+}

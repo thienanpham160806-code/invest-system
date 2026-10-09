@@ -54,6 +54,8 @@ class ValuationResult:
     assumptions: dict = field(default_factory=dict)
     skipped: list[str] = field(default_factory=list)
     per_share: dict = field(default_factory=dict)
+    confidence: str = "THẤP"
+    confidence_reason: str = "Chưa đủ phương pháp định giá hợp lệ."
 
     @property
     def target_price(self) -> float | None:
@@ -87,9 +89,17 @@ def _round_price(v: float) -> float:
     return float(round(v / 100.0) * 100) if v is not None and np.isfinite(v) else None
 
 
+def _median_multiple(q):
+    if isinstance(q, dict):
+        return q.get("median")
+    return q[1] if isinstance(q, (tuple, list)) and len(q) >= 2 else None
+
+
 def value_company(fin: StandardFinancials, company_type: str, price: float | None,
                   shares: float | None, ratios: pd.DataFrame, sector_quantiles: dict,
-                  beta: float | None, rf: float | None = None) -> ValuationResult:
+                  beta: float | None, rf: float | None = None, *,
+                  net_income_ttm: float | None = None, historical_multiples: dict | None = None,
+                  symbol: str | None = None) -> ValuationResult:
     s = get_settings()
     res = ValuationResult(price=price)
     rf = rf if rf is not None else s.get("valuation.risk_free_rate", 0.03)
@@ -104,11 +114,12 @@ def value_company(fin: StandardFinancials, company_type: str, price: float | Non
         res.skipped.append("Thiếu BCTC, số cổ phiếu lưu hành hoặc giá — không định giá được.")
         return res
 
-    nip = fin.get("net_income_parent") or fin.get("net_income")
+    nip_fy = fin.get("net_income_parent")
+    nip = net_income_ttm if net_income_ttm is not None else (nip_fy if nip_fy is not None else fin.get("net_income"))
     equity = fin.get("equity")
     minority = fin.get("minority_interest") or 0.0
     eq_parent = (equity - minority) if equity else None
-    eps = nip / shares if nip else None
+    eps = nip / shares if nip is not None else None
     bvps = eq_parent / shares if eq_parent else None
     nip_series = fin.series("net_income_parent").dropna()
     from .ratios import cagr
@@ -119,29 +130,77 @@ def value_company(fin: StandardFinancials, company_type: str, price: float | Non
                      "growth": g, "growth_raw": g_raw}
     res.assumptions["growth"] = g
     hist = fin.ratios_history if not fin.ratios_history.empty else pd.DataFrame()
+    historical_multiples = historical_multiples or {}
+    is_special = symbol and symbol.upper() in (s.get("valuation.special_cases", {}) or {})
+    special_reason = ((s.get("valuation.special_cases", {}) or {}).get(symbol.upper())
+                     if is_special else None)
 
     methods: list[MethodResult] = []
     scen_mult = {"bear": 0, "base": 1, "bull": 2}
 
     # ---- P/E tuong doi
-    trip = _multiple_triplet(sector_quantiles, "pe", hist.get("pe") if not hist.empty else None)
-    if trip and eps and eps > 0:
+    current_pe = (price * shares / nip) if price and shares and nip is not None and nip > 0 else None
+    peer_pe = sector_quantiles.get("pe")
+    history_pe = _multiple_triplet(historical_multiples, "pe", hist.get("pe") if not hist.empty else None)
+    pe_trip = None
+    if is_special:
+        res.skipped.append(f"P/E: mã thuộc nhóm tập đoàn đa ngành ({special_reason}); SOTP nằm ngoài phạm vi mô hình.")
+    elif nip is None or nip <= 0:
+        res.skipped.append("P/E: LNST cổ đông công ty mẹ không dương.")
+    elif current_pe is None or not 0 < current_pe < 60:
+        res.skipped.append(f"P/E: bội số hiện tại {current_pe:.1f}x không nằm trong (0; 60)." if current_pe else
+                           "P/E: không tính được bội số hiện tại.")
+    elif _median_multiple(peer_pe) and not 0.25 <= current_pe / _median_multiple(peer_pe) <= 4:
+        pe_trip = history_pe
+        if pe_trip:
+            pe_trip = (pe_trip[0], pe_trip[1], pe_trip[2], "lịch sử 5 năm của chính doanh nghiệp")
+            res.skipped.append("P/E tương đối: khác biệt cấu trúc với ngành; dùng lịch sử 5 năm của chính doanh nghiệp.")
+        else:
+            res.skipped.append("P/E tương đối: ngoài dải 0,25–4 lần ngành và thiếu lịch sử 5 năm hợp lệ.")
+    else:
+        pe_trip = _multiple_triplet(sector_quantiles, "pe", None)
+        if pe_trip is None and history_pe:
+            pe_trip = (history_pe[0], history_pe[1], history_pe[2], "lịch sử 5 năm của chính doanh nghiệp")
+            res.skipped.append("P/E: không đủ nhóm so sánh; dùng lịch sử 5 năm của chính doanh nghiệp.")
+    if pe_trip and eps is not None and eps > 0:
         fwd = eps * (1 + g)
-        vals = {sc: fwd * trip[scen_mult[sc]] for sc in SCENARIOS}
+        vals = {sc: fwd * pe_trip[scen_mult[sc]] for sc in SCENARIOS}
         methods.append(MethodResult("pe_relative", METHOD_LABELS["pe_relative"], vals,
-                                    inputs={"EPS dự phóng": fwd, "P/E mục tiêu": trip[1],
-                                            "Nguồn bội số": trip[3]}))
-    elif eps is not None and eps <= 0:
-        res.skipped.append("P/E: EPS âm — không áp dụng.")
+                                    inputs={"EPS dự phóng": fwd, "P/E mục tiêu": pe_trip[1],
+                                            "Nguồn bội số": pe_trip[3], "P/E hiện tại": current_pe,
+                                            "Kỳ LNST": "TTM" if net_income_ttm is not None else f"FY{fin.last_year()}"}))
     # ---- P/B tuong doi
-    trip = _multiple_triplet(sector_quantiles, "pb", hist.get("pb") if not hist.empty else None)
-    if trip and bvps and bvps > 0:
-        vals = {sc: bvps * trip[scen_mult[sc]] for sc in SCENARIOS}
+    current_pb = (price * shares / eq_parent) if price and shares and eq_parent and eq_parent > 0 else None
+    peer_pb = sector_quantiles.get("pb")
+    history_pb = _multiple_triplet(historical_multiples, "pb", hist.get("pb") if not hist.empty else None)
+    pb_trip = None
+    if is_special:
+        pb_trip = history_pb
+        res.skipped.append(f"P/B: mã thuộc nhóm tập đoàn đa ngành ({special_reason}); dùng lịch sử 5 năm; SOTP nằm ngoài phạm vi mô hình.")
+        if pb_trip:
+            pb_trip = (pb_trip[0], pb_trip[1], pb_trip[2], "lịch sử 5 năm của chính doanh nghiệp")
+    elif _median_multiple(peer_pb) and current_pb is not None and not 0.25 <= current_pb / _median_multiple(peer_pb) <= 4:
+        pb_trip = history_pb
+        if pb_trip:
+            pb_trip = (pb_trip[0], pb_trip[1], pb_trip[2], "lịch sử 5 năm của chính doanh nghiệp")
+            res.skipped.append("P/B tương đối: khác biệt cấu trúc với ngành; dùng lịch sử 5 năm của chính doanh nghiệp.")
+        else:
+            res.skipped.append("P/B tương đối: ngoài dải 0,25–4 lần ngành và thiếu lịch sử 5 năm hợp lệ.")
+    else:
+        pb_trip = _multiple_triplet(sector_quantiles, "pb", None)
+        if pb_trip is None and history_pb:
+            pb_trip = (history_pb[0], history_pb[1], history_pb[2], "lịch sử 5 năm của chính doanh nghiệp")
+            res.skipped.append("P/B: không đủ nhóm so sánh; dùng lịch sử 5 năm của chính doanh nghiệp.")
+    if pb_trip and bvps is not None and bvps > 0:
+        vals = {sc: bvps * pb_trip[scen_mult[sc]] for sc in SCENARIOS}
         methods.append(MethodResult("pb_relative", METHOD_LABELS["pb_relative"], vals,
-                                    inputs={"BVPS": bvps, "P/B mục tiêu": trip[1],
-                                            "Nguồn bội số": trip[3]}))
+                                    inputs={"BVPS": bvps, "P/B mục tiêu": pb_trip[1],
+                                            "Nguồn bội số": pb_trip[3], "P/B hiện tại": current_pb,
+                                            "Số CP hiện tại": shares, "VCSH CĐ mẹ": eq_parent}))
+    elif bvps is None or bvps <= 0:
+        res.skipped.append("P/B: vốn chủ sở hữu cổ đông công ty mẹ không dương hoặc thiếu.")
 
-    if company_type == "NON_FINANCIAL":
+    if company_type == "NON_FINANCIAL" and not is_special:
         _ev_ebitda(fin, shares, sector_quantiles, methods, res)
         _dcf(fin, shares, price, ke, gT, g, methods, res)
     if company_type == "BANK":
@@ -167,9 +226,28 @@ def value_company(fin: StandardFinancials, company_type: str, price: float | Non
     if usable:
         for sc in SCENARIOS:
             res.target[sc] = _round_price(sum(m.values[sc] * m.weight for m in usable))
-        res.upside = res.target["base"] / price - 1
+        res.upside = res.target["base"] / price - 1 if price else None
     else:
         res.skipped.append("Không có phương pháp định giá nào đủ dữ liệu.")
+    dispersion = None
+    base_values = [m.values["base"] for m in usable if np.isfinite(m.values["base"]) and m.values["base"] > 0]
+    if len(base_values) >= 2:
+        dispersion = max(base_values) / min(base_values)
+    if len(usable) <= 1 or (dispersion is not None and dispersion > 2.5) or (
+            res.upside is not None and not -0.5 <= res.upside <= 1.0):
+        res.confidence = "THẤP"
+    elif len(usable) == 2:
+        res.confidence = "TRUNG BÌNH"
+    else:
+        res.confidence = "CAO"
+    reasons = [f"{len(usable)} phương pháp hợp lệ"]
+    if dispersion is not None:
+        reasons.append(f"phân tán tối đa/tối thiểu {dispersion:.2f}x")
+    if res.upside is not None and not -0.5 <= res.upside <= 1.0:
+        reasons.append("upside ngoài dải −50% đến +100%")
+    if is_special:
+        reasons.append("tập đoàn đa ngành, không dùng bội số ngành")
+    res.confidence_reason = "; ".join(reasons)
     return res
 
 

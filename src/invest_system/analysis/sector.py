@@ -304,6 +304,76 @@ def universe_quantiles(peers: pd.DataFrame) -> dict:
     return out
 
 
+def valuation_comparison(peers: pd.DataFrame, symbol: str, target_market_cap: float | None) -> tuple[dict, dict]:
+    """Return comparison multiples for liquid ICB peers and their selection audit.
+
+    Prefer same-node peers with at least 10% of target capitalization. If too few
+    exist, widen the cap threshold progressively, then use the ten largest peers.
+    The target itself is excluded from peer aggregates.
+    """
+    all_liquid = peers[peers.get("liquidity_flag", False).fillna(False).astype(bool)].copy()
+    all_liquid["market_cap"] = pd.to_numeric(all_liquid.get("market_cap"), errors="coerce")
+    all_liquid = all_liquid[all_liquid["market_cap"] > 0].sort_values("market_cap", ascending=False)
+    liquid = all_liquid[all_liquid["symbol"].astype(str).str.upper() != symbol.upper()]
+    selected = pd.DataFrame()
+    threshold_used = None
+    if target_market_cap and target_market_cap > 0:
+        for fraction in (0.10, 0.05, 0.01, 0.0):
+            candidate = liquid[liquid["market_cap"] >= target_market_cap * fraction]
+            if len(candidate) >= 2:
+                selected, threshold_used = candidate.head(10), fraction
+                break
+    if selected.empty:
+        selected = liquid.head(10)
+        threshold_used = None
+
+    out: dict[str, tuple[float, float, float]] = {}
+    aggregates: dict[str, float | None] = {}
+    for key, denominator in (("pe", "net_income_parent"), ("pb", "equity_parent")):
+        if denominator not in selected:
+            continue
+        den = pd.to_numeric(selected[denominator], errors="coerce")
+        if key == "pe" and "ni_ttm" in selected:
+            ttm = pd.to_numeric(selected["ni_ttm"], errors="coerce")
+            den = ttm.where(ttm > 0, den)
+        cap = pd.to_numeric(selected["market_cap"], errors="coerce")
+        valid = (den > 0) & (cap > 0)
+        multiples = (cap[valid] / den[valid]).replace([np.inf, -np.inf], np.nan).dropna()
+        if key == "pe":
+            multiples = multiples[multiples < 60]
+        else:
+            multiples = multiples[multiples <= 20]
+        if len(multiples) >= 2:
+            out[key] = tuple(float(multiples.quantile(q)) for q in (0.25, 0.50, 0.75))
+        agg_valid = (den > 0) & (cap > 0)
+        if key == "pe":
+            # A gross P/E is not meaningful when loss-making peers dominate NI.
+            agg_valid &= den.notna()
+        if agg_valid.any() and den[agg_valid].sum() > 0:
+            aggregates[key] = float(cap[agg_valid].sum() / den[agg_valid].sum())
+        else:
+            aggregates[key] = None
+
+    cap_cut = float(all_liquid["market_cap"].quantile(0.90)) if len(all_liquid) else None
+    is_top_decile = bool(target_market_cap and cap_cut and target_market_cap >= cap_cut)
+    if is_top_decile:
+        for key in ("pe", "pb"):
+            agg = aggregates.get(key)
+            if agg is not None and (key != "pe" or agg < 60):
+                out[key] = (agg, agg, agg)
+
+    audit = {
+        "peer_symbols": selected["symbol"].astype(str).tolist(),
+        "peer_count": int(len(selected)),
+        "liquid_peer_count": int(len(liquid)),
+        "cap_threshold": threshold_used,
+        "target_top_decile": is_top_decile,
+        "gross_multiples": aggregates,
+        "source": "bội số gộp theo vốn hóa" if is_top_decile else "trung vị nhóm so sánh",
+    }
+    return out, audit
+
+
 def position_in(peers: pd.DataFrame, symbol: str) -> dict:
     """Phan vi (0-1) cua ma trong TOAN nhom peers theo tung chi so."""
     out = {}

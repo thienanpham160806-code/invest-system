@@ -149,6 +149,12 @@ valuation:
     SECURITIES:    {pb_relative: 0.60, pe_relative: 0.40}
     INSURANCE:     {pb_relative: 0.60, pe_relative: 0.40}
     REAL_ESTATE:   {pb_relative: 0.60, pe_relative: 0.40}
+  special_cases:
+    VIC: "Tập đoàn đa ngành; định giá bất động sản riêng lẻ không phản ánh đầy đủ hệ sinh thái; SOTP nằm ngoài phạm vi mô hình."
+    MSN: "Tập đoàn tiêu dùng, bán lẻ và khai khoáng; cấu trúc lợi ích chéo; SOTP nằm ngoài phạm vi mô hình."
+    GEX: "Tập đoàn đa ngành gồm thiết bị điện, hạ tầng và tài chính; SOTP nằm ngoài phạm vi mô hình."
+    REE: "Tập đoàn đa ngành gồm cơ điện, năng lượng, nước và bất động sản; SOTP nằm ngoài phạm vi mô hình."
+    PAN: "Tập đoàn đa ngành nông nghiệp và thực phẩm với nhiều công ty con/liên kết; SOTP nằm ngoài phạm vi mô hình."
 
 composite:
   # Diem tong hop 0-100 (top-down: vi mo -> nganh -> doanh nghiep)

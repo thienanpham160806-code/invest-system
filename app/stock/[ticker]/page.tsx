@@ -41,7 +41,7 @@ export default function StockPage() {
                 <h1 className="text-2xl font-bold">{d.symbol} <span className="text-base font-normal text-slate-600">{d.name}</span></h1>
                 <div className="text-sm text-slate-600">
                   {d.exchange} · {d.company_type_label} · ICB:{" "}
-                  {[1, 2, 3, 4].map((l) => <span key={l}>{l > 1 && " › "}<Link className="link" href={`/nganh/${d.icb_slugs["icb" + l]}`}>{d.icb["icb" + l]}</Link></span>)}
+                  {[1, 2, 3, 4].filter((l, i, levels) => i === 0 || d.icb[`icb${l}`] !== d.icb[`icb${levels[i - 1]}`]).map((l, i) => <span key={l}>{i > 0 && " › "}<Link className="link" href={`/nganh/${d.icb_slugs[`icb${l}`]}`}>{d.icb[`icb${l}`]}</Link></span>)}
                 </div>
                 <div className="mt-1"><AsOf p={d.sources?.[1]} label="Giá đến" /> {d.bctc_available ? <AsOf p={d.sources?.[3]} label="BCTC" /> : <span className="asof !bg-amber-50 !border-amber-200 !text-amber-800">{d.bctc_note}</span>}</div>
               </div>
@@ -85,6 +85,10 @@ function Overview({ d }: { d: any }) {
     <div className="grid md:grid-cols-3 gap-4">
       <Card title="Khuyến nghị & định giá" className="md:col-span-2">
         {!d.bctc_available && <div className="rounded bg-amber-50 border border-amber-200 text-amber-800 text-sm p-2 mb-3">Chưa có nguồn BCTC cho mã này (bộ BCTC arminer chỉ phủ HSX/HNX) → chưa định giá cơ bản. Giá và ngành vẫn có đầy đủ.</div>}
+        {d.valuation?.confidence && <div className={`rounded border p-2 mb-3 text-sm ${d.valuation.confidence === "THẤP" ? "border-amber-300 bg-amber-50 text-amber-900" : "border-slate-200 bg-slate-50 text-slate-700"}`}>
+          <b>Độ tin cậy định giá: {d.valuation.confidence}</b> · {d.valuation.confidence_reason}
+          <span className="block text-xs mt-1">Số CP: {num(d.valuation.shares)} theo {d.valuation.shares_source}, cập nhật {d.valuation.shares_as_of || "không rõ ngày"}.</span>
+        </div>}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
           <Stat label="Giá mục tiêu (cơ sở)" value={price(r.target_price)} sub={`Bi quan ${price(r.targets?.bear)} · Lạc quan ${price(r.targets?.bull)}`} />
           <Stat label="Upside" value={<span className={cls(r.upside)}>{pct(r.upside, 1, true)}</span>} />
@@ -93,7 +97,7 @@ function Overview({ d }: { d: any }) {
           <Stat label={`P/E FY${m.fin_year || ""}${m.pe_ttm ? " · " + m.ttm_label : ""}`} value={<>{times(m.pe)}{m.pe_ttm ? <span className="text-slate-500"> · {times(m.pe_ttm)}</span> : null}</>} sub={d.eps_basis} />
           <Stat label="P/B" value={times(m.pb, 2)} />
           <Stat label="ROE" value={pct(m.roe)} />
-          <Stat label="Tăng trưởng LN" value={<span className={cls(m.ni_growth)}>{pct(m.ni_growth, 1, true)}</span>} sub={m.fin_year ? `FY${m.fin_year} vs FY${m.fin_year - 1}` : ""} />
+          <Stat label={`Tăng trưởng LNST YoY FY${m.fin_year || "—"}`} value={<span className={cls(m.ni_growth)}>{pct(m.ni_growth, 1, true)}</span>} sub={m.fin_year ? `so với FY${m.fin_year - 1}` : "Chưa có kỳ so sánh"} />
         </div>
         {r.reason && <p className="text-sm text-slate-600 mt-3">{r.reason}</p>}
         <div className="grid md:grid-cols-2 gap-4 mt-4">
@@ -345,7 +349,7 @@ function NewsTab({ t }: { t: string }) {
           {data.items.map((n: any) => (
             <li key={n.link} className="py-2 text-sm flex gap-2">
               <span className={`shrink-0 w-14 text-center rounded text-xs py-0.5 ${n.sentiment > 0 ? "bg-emerald-100 text-emerald-800" : n.sentiment < 0 ? "bg-red-100 text-red-800" : "bg-slate-100 text-slate-600"}`}>{n.sentiment > 0 ? "Tích cực" : n.sentiment < 0 ? "Tiêu cực" : "Trung tính"}</span>
-              <div><a className="link" href={n.link} target="_blank" rel="noreferrer">{n.title}</a><div className="text-xs text-slate-500">{n.source} · {n.published_at ? dmy(n.published_at) : "không rõ ngày"}</div></div>
+              <div><a className="link" href={n.link} target="_blank" rel="noreferrer">{n.title}</a><div className="text-xs text-slate-500">{n.source} · {n.published_at ? dmy(n.published_at) : "không rõ ngày"}{n.match_reason ? ` · Gán mã: ${n.match_reason}` : ""}</div></div>
             </li>
           ))}
         </ul>

@@ -35,4 +35,5 @@ export function fmtKind(v: any, kind: string): string {
 export const RATING_COLOR: Record<string, string> = {
   "MUA": "bg-emerald-600", "KHẢ QUAN": "bg-emerald-500", "NẮM GIỮ": "bg-amber-500",
   "KÉM KHẢ QUAN": "bg-orange-600", "BÁN": "bg-red-600",
+  "THEO DÕI": "bg-amber-700",
 };

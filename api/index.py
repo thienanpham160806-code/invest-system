@@ -64,8 +64,8 @@ def bctc_coverage():
 
 
 @app.get("/api/py/search")
-def search(q: str = "", limit: int = 12):
-    return _call(service.search, q, limit)
+def search(q: str = "", limit: int = 2000, exchange: Literal["ALL", "HOSE", "HNX", "UPCOM"] = "ALL"):
+    return _call(service.search, q, limit, exchange)
 
 
 @app.get("/api/py/symbols")

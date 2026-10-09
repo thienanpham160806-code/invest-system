@@ -72,6 +72,25 @@ def test_symbols_picker_has_exchange_company_and_financial_coverage(client):
     assert fpt["name"] and fpt["icb1"] and fpt["has_bctc"] is True
 
 
+def test_search_ranks_tickers_before_names_and_filters_exchange_first():
+    import pandas as pd
+
+    from invest_system.web.symbol_search import rank_symbol_rows
+
+    rows = pd.DataFrame([
+        {"symbol": "VICEM", "name": "Tập đoàn VICEM", "brand": "VICEM", "exchange": "HNX", "market_cap": 100},
+        {"symbol": "VIC", "name": "Tập đoàn Vingroup", "brand": "Vingroup", "exchange": "HOSE", "market_cap": 1000},
+        {"symbol": "VNM", "name": "Công ty Cổ phần Sữa Việt Nam", "brand": "Vinamilk", "exchange": "HOSE", "market_cap": 800},
+        {"symbol": "HPG", "name": "Công ty Cổ phần Tập đoàn Hòa Phát", "brand": "Hoa Phat", "exchange": "HOSE", "market_cap": 700},
+        {"symbol": "VICEM2", "name": "Công ty VICEM 2", "brand": "VICEM", "exchange": "HNX", "market_cap": 90},
+    ])
+    assert rank_symbol_rows(rows, "vic")["symbol"].tolist() == ["VIC", "VICEM", "VICEM2"]
+    assert rank_symbol_rows(rows, "vinamilk").iloc[0]["symbol"] == "VNM"
+    assert rank_symbol_rows(rows, "hoa phat").iloc[0]["symbol"] == "HPG"
+    assert rank_symbol_rows(rows, "vicem")["symbol"].tolist() == ["VICEM", "VICEM2"]
+    assert rank_symbol_rows(rows, "vic", "HNX")["symbol"].tolist() == ["VICEM", "VICEM2"]
+
+
 def test_live_endpoints_use_short_cache_and_return_session(client, monkeypatch):
     monkeypatch.setattr(service, "_live_quote", lambda symbol, is_index=False: {
         "symbol": symbol, "price": 100.0, "change": 1.0, "change_pct": 0.01,
@@ -80,6 +99,8 @@ def test_live_endpoints_use_short_cache_and_return_session(client, monkeypatch):
     market = client.get("/api/py/market/live")
     assert market.status_code == 200 and "s-maxage=10" in market.headers["cache-control"]
     assert market.json()["session"] and market.json()["indices"][0]["symbol"] == "VNINDEX"
+    assert all(x["symbol"] != "HNXIndex" and x["symbol"] != "HNXUpcomIndex" for x in market.json()["indices"])
+    assert len(market.json()["unavailable_indices"]) == 2
     quote = client.get("/api/py/stock/FPT/live")
     assert quote.status_code == 200 and quote.json()["symbol"] == "FPT"
     assert "s-maxage=10" in quote.headers["cache-control"]

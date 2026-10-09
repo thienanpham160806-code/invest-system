@@ -100,7 +100,9 @@ def base_rating(upside: float | None) -> str | None:
     return "BÁN"
 
 
-def combine(scores: dict[str, float | None], upside: float | None) -> CompositeResult:
+def combine(scores: dict[str, float | None], upside: float | None,
+            valuation_confidence: str | None = None,
+            valuation_confidence_reason: str | None = None) -> CompositeResult:
     s = get_settings()
     weights = s.get("composite.weights", {})
     res = CompositeResult()
@@ -125,6 +127,14 @@ def combine(scores: dict[str, float | None], upside: float | None) -> CompositeR
         else:
             res.rating_reason = (f"Xếp hạng theo upside của giá mục tiêu; điểm tổng hợp "
                                  f"{res.total:.0f}/100 không đổi bậc.")
+    if valuation_confidence == "THẤP":
+        res.base_rating = None
+        rating = "THEO DÕI"
+        res.rating_reason = ("THEO DÕI – định giá chưa đủ tin cậy: " + valuation_confidence_reason
+                             if valuation_confidence_reason else
+                             "THEO DÕI – định giá chưa đủ tin cậy theo số phương pháp hợp lệ, độ phân tán hoặc upside.")
+    if rating == "BÁN" and sum(v > 65 for v in res.scores.values()) >= 3:
+        res.rating_reason += " Các nhóm điểm cơ bản đang tích cực nhưng khuyến nghị BÁN vẫn dựa trên upside định giá; cần cân nhắc xung đột tín hiệu này."
     res.rating = rating
     return res
 
@@ -152,10 +162,12 @@ def build_thesis_and_risks(ctx: dict, res: CompositeResult) -> None:
         (th if g > 0.10 else rk if g < 0 else th).append(
             f"LNST công ty mẹ CAGR {growth.get('years','')}: {pct(g)}"
             + (" — tăng trưởng mạnh." if g > 0.10 else " — suy giảm." if g < 0 else "."))
-    if val is not None and val.upside is not None:
+    if val is not None and val.upside is not None and getattr(val, "confidence", "CAO") != "THẤP":
         (th if val.upside > 0.10 else rk if val.upside < -0.05 else th).append(
             f"Giá mục tiêu {price(val.target_price)} đ/cp, "
             f"{'tiềm năng tăng' if val.upside >= 0 else 'thấp hơn giá hiện tại'} {pct(abs(val.upside))}.")
+    elif val is not None and getattr(val, "confidence", None) == "THẤP":
+        rk.append(f"Định giá chưa đủ tin cậy: {val.confidence_reason}. Khuyến nghị theo dõi, không xếp MUA/BÁN.")
     if ctype == "BANK":
         cc = last.get("credit_cost")
         if cc is not None and pd.notna(cc) and cc > 0.015:
@@ -186,9 +198,17 @@ def build_thesis_and_risks(ctx: dict, res: CompositeResult) -> None:
     if sector is not None and sector.performance:
         s3, b3 = sector.performance.get("sector_ret_3m"), sector.performance.get("bench_ret_3m")
         if s3 is not None and b3 is not None:
-            (th if s3 > b3 else rk).append(
-                f"Ngành {'mạnh' if s3 > b3 else 'yếu'} hơn thị trường 3 tháng qua "
-                f"({pct(s3)} so với {pct(b3)}).")
+            if s3 < 0 and b3 < 0:
+                relation = "giảm ít hơn" if s3 > b3 else "giảm nhiều hơn" if s3 < b3 else "giảm tương đương"
+                good = s3 > b3
+            elif s3 > 0 and b3 > 0:
+                relation = "tăng nhiều hơn" if s3 > b3 else "tăng ít hơn" if s3 < b3 else "tăng tương đương"
+                good = s3 > b3
+            else:
+                relation = "diễn biến tốt hơn" if s3 > b3 else "diễn biến kém hơn" if s3 < b3 else "diễn biến tương đương"
+                good = s3 > b3
+            (th if good else rk).append(
+                f"Ngành {relation} thị trường trong 3 tháng qua ({pct(s3, sign=True)} so với {pct(b3, sign=True)}).")
     if tech is not None:
         if tech.vetoed_by_kumo:
             rk.append("Kỹ thuật: giá nằm dưới mây Ichimoku — xu hướng ngắn hạn chưa ủng hộ.")

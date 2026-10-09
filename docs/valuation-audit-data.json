@@ -1,0 +1,419 @@
+{
+  "generated_at": "2026-10-09T15:55:26.484114+07:00",
+  "records": [
+    {
+      "symbol": "FPT",
+      "price": 57900.0,
+      "shares": 1714326422.0,
+      "shares_source": "Vietcap getList listedShare",
+      "shares_as_of": "2026-10-09 14:14",
+      "market_cap": 99259499833800.0,
+      "pe_ttm": 10.254608938543416,
+      "pe_fy": 10.586406644198231,
+      "pb": 2.720709709832062,
+      "methods": [
+        "pe_relative",
+        "dcf_fcff"
+      ],
+      "target": 81700.0,
+      "upside": 0.4110535405872193,
+      "rating": "MUA",
+      "rating_reason": "Xếp hạng theo upside của giá mục tiêu; điểm tổng hợp 74/100 không đổi bậc.",
+      "confidence": "TRUNG BÌNH",
+      "confidence_reason": "2 phương pháp hợp lệ; phân tán tối đa/tối thiểu 1.10x",
+      "price_as_of": "2026-10-09",
+      "source": "Bảng toàn thị trường: symbols: Vietcap public API /price/symbols/getAll; price: Vietcap public API gap-chart (kho OHLCV ngày); board_shares: Vietcap public API /price/symbols/getList (listedShare); industry: vnstock list_by_industry (live) + bù fiinpro_icb_companies.csv (vn-annual-report-miner); financials: BCTC năm – vn-annual-report-miner (Tumiqa, MIT); ttm: vnstock BCTC quý (Vietcap) – 96 mã thanh khoản cao, LNST CĐ mẹ 4 quý gần nhất",
+      "thesis": [
+        "Hiệu quả sinh lời vượt trội: ROE 28,3% so với trung vị ngành 13,1%.",
+        "LNST công ty mẹ CAGR 2020–2025: 21,5% — tăng trưởng mạnh.",
+        "Giá mục tiêu 81.700 đ/cp, tiềm năng tăng 41,1%.",
+        "Lợi nhuận chuyển hóa tốt thành tiền: CFO/LNST bq 3 năm 1,12 lần.",
+        "Vĩ mô thuận lợi cho nhóm doanh nghiệp phi tài chính (điểm 70/100)."
+      ],
+      "risks": [
+        "Ngành giảm nhiều hơn thị trường trong 3 tháng qua (-12,1% so với -5,6%).",
+        "Kỹ thuật: giá nằm dưới mây Ichimoku — xu hướng ngắn hạn chưa ủng hộ.",
+        "Rủi ro chung: biến động thị trường, thay đổi chính sách tiền tệ/tài khóa, sai lệch giả định định giá."
+      ]
+    },
+    {
+      "symbol": "VCB",
+      "price": 56700.0,
+      "shares": 8355675094.0,
+      "shares_source": "Vietcap getList listedShare",
+      "shares_as_of": "2026-10-09 14:14",
+      "market_cap": 473766777829800.0,
+      "pe_ttm": 11.580136259457825,
+      "pe_fy": 13.46782979386095,
+      "pb": 2.1097678378786315,
+      "methods": [
+        "pe_relative",
+        "pb_relative",
+        "justified_pb"
+      ],
+      "target": 49200.0,
+      "upside": -0.13227513227513232,
+      "rating": "KÉM KHẢ QUAN",
+      "rating_reason": "Xếp hạng theo upside của giá mục tiêu; điểm tổng hợp 54/100 không đổi bậc.",
+      "confidence": "CAO",
+      "confidence_reason": "3 phương pháp hợp lệ; phân tán tối đa/tối thiểu 1.59x",
+      "price_as_of": "2026-10-09",
+      "source": "Bảng toàn thị trường: symbols: Vietcap public API /price/symbols/getAll; price: Vietcap public API gap-chart (kho OHLCV ngày); board_shares: Vietcap public API /price/symbols/getList (listedShare); industry: vnstock list_by_industry (live) + bù fiinpro_icb_companies.csv (vn-annual-report-miner); financials: BCTC năm – vn-annual-report-miner (Tumiqa, MIT); ttm: vnstock BCTC quý (Vietcap) – 96 mã thanh khoản cao, LNST CĐ mẹ 4 quý gần nhất",
+      "thesis": [
+        "LNST công ty mẹ CAGR 2020–2025: 13,8% — tăng trưởng mạnh.",
+        "Vận hành hiệu quả: CIR 34,8%.",
+        "Vĩ mô thuận lợi cho nhóm ngân hàng (điểm 73/100)."
+      ],
+      "risks": [
+        "Giá mục tiêu 49.200 đ/cp, thấp hơn giá hiện tại 13,2%.",
+        "Ngành giảm nhiều hơn thị trường trong 3 tháng qua (-5,9% so với -5,6%).",
+        "Kỹ thuật: giá nằm dưới mây Ichimoku — xu hướng ngắn hạn chưa ủng hộ.",
+        "Rủi ro chung: biến động thị trường, thay đổi chính sách tiền tệ/tài khóa, sai lệch giả định định giá."
+      ]
+    },
+    {
+      "symbol": "VIC",
+      "price": 227000.0,
+      "shares": 7762186429.0,
+      "shares_source": "Vietcap getList listedShare",
+      "shares_as_of": "2026-10-09 14:14",
+      "market_cap": 1762016319383000.0,
+      "pe_ttm": 72.24345373085397,
+      "pe_fy": 155.24463132411165,
+      "pb": 11.94050279692506,
+      "methods": [],
+      "target": null,
+      "upside": null,
+      "rating": "THEO DÕI",
+      "rating_reason": "THEO DÕI – định giá chưa đủ tin cậy: 0 phương pháp hợp lệ; tập đoàn đa ngành, không dùng bội số ngành",
+      "confidence": "THẤP",
+      "confidence_reason": "0 phương pháp hợp lệ; tập đoàn đa ngành, không dùng bội số ngành",
+      "price_as_of": "2026-10-09",
+      "source": "Bảng toàn thị trường: symbols: Vietcap public API /price/symbols/getAll; price: Vietcap public API gap-chart (kho OHLCV ngày); board_shares: Vietcap public API /price/symbols/getList (listedShare); industry: vnstock list_by_industry (live) + bù fiinpro_icb_companies.csv (vn-annual-report-miner); financials: BCTC năm – vn-annual-report-miner (Tumiqa, MIT); ttm: vnstock BCTC quý (Vietcap) – 96 mã thanh khoản cao, LNST CĐ mẹ 4 quý gần nhất",
+      "thesis": [
+        "LNST công ty mẹ CAGR 2020–2025: 15,7% — tăng trưởng mạnh.",
+        "Vĩ mô thuận lợi cho nhóm bất động sản (điểm 67/100).",
+        "Ngành giảm ít hơn thị trường trong 3 tháng qua (-2,2% so với -5,6%)."
+      ],
+      "risks": [
+        "Định giá chưa đủ tin cậy: 0 phương pháp hợp lệ; tập đoàn đa ngành, không dùng bội số ngành. Khuyến nghị theo dõi, không xếp MUA/BÁN.",
+        "Đòn bẩy cao: vay nợ/VCSH 2,21 lần.",
+        "Khả năng trả lãi yếu: EBIT/lãi vay 1,9 lần.",
+        "Chất lượng lợi nhuận thấp: CFO/LNST bq 3 năm 0,16 lần.",
+        "Rủi ro chung: biến động thị trường, thay đổi chính sách tiền tệ/tài khóa, sai lệch giả định định giá."
+      ]
+    },
+    {
+      "symbol": "VHM",
+      "price": 65600.0,
+      "shares": 8214824008.0,
+      "shares_source": "Vietcap getList listedShare",
+      "shares_as_of": "2026-10-09 14:14",
+      "market_cap": 538892454924800.0,
+      "pe_ttm": 9.591861639539983,
+      "pe_fy": 12.862851769843626,
+      "pb": 2.2635020445741247,
+      "methods": [
+        "pb_relative"
+      ],
+      "target": 256200.0,
+      "upside": 2.9054878048780486,
+      "rating": "THEO DÕI",
+      "rating_reason": "THEO DÕI – định giá chưa đủ tin cậy: 1 phương pháp hợp lệ; upside ngoài dải −50% đến +100%",
+      "confidence": "THẤP",
+      "confidence_reason": "1 phương pháp hợp lệ; upside ngoài dải −50% đến +100%",
+      "price_as_of": "2026-10-09",
+      "source": "Bảng toàn thị trường: symbols: Vietcap public API /price/symbols/getAll; price: Vietcap public API gap-chart (kho OHLCV ngày); board_shares: Vietcap public API /price/symbols/getList (listedShare); industry: vnstock list_by_industry (live) + bù fiinpro_icb_companies.csv (vn-annual-report-miner); financials: BCTC năm – vn-annual-report-miner (Tumiqa, MIT); ttm: vnstock BCTC quý (Vietcap) – 96 mã thanh khoản cao, LNST CĐ mẹ 4 quý gần nhất",
+      "thesis": [
+        "Hiệu quả sinh lời vượt trội: ROE 19,0% so với trung vị ngành 7,3%.",
+        "LNST công ty mẹ CAGR 2020–2025: 8,9%.",
+        "Vĩ mô thuận lợi cho nhóm bất động sản (điểm 67/100).",
+        "Ngành giảm ít hơn thị trường trong 3 tháng qua (-2,2% so với -5,6%)."
+      ],
+      "risks": [
+        "Định giá chưa đủ tin cậy: 1 phương pháp hợp lệ; upside ngoài dải −50% đến +100%. Khuyến nghị theo dõi, không xếp MUA/BÁN.",
+        "Chất lượng lợi nhuận thấp: CFO/LNST bq 3 năm 0,12 lần.",
+        "Kỹ thuật: giá nằm dưới mây Ichimoku — xu hướng ngắn hạn chưa ủng hộ.",
+        "Rủi ro chung: biến động thị trường, thay đổi chính sách tiền tệ/tài khóa, sai lệch giả định định giá."
+      ]
+    },
+    {
+      "symbol": "HPG",
+      "price": 20150.0,
+      "shares": 8442964520.0,
+      "shares_source": "Vietcap getList listedShare",
+      "shares_as_of": "2026-10-09 14:14",
+      "market_cap": 170125735078000.0,
+      "pe_ttm": 9.685707280089458,
+      "pe_fy": 11.009112756349621,
+      "pb": 1.3169563448184372,
+      "methods": [
+        "pe_relative",
+        "pb_relative"
+      ],
+      "target": 28500.0,
+      "upside": 0.4143920595533499,
+      "rating": "THEO DÕI",
+      "rating_reason": "THEO DÕI – định giá chưa đủ tin cậy: 2 phương pháp hợp lệ; phân tán tối đa/tối thiểu 3.28x",
+      "confidence": "THẤP",
+      "confidence_reason": "2 phương pháp hợp lệ; phân tán tối đa/tối thiểu 3.28x",
+      "price_as_of": "2026-10-09",
+      "source": "Bảng toàn thị trường: symbols: Vietcap public API /price/symbols/getAll; price: Vietcap public API gap-chart (kho OHLCV ngày); board_shares: Vietcap public API /price/symbols/getList (listedShare); industry: vnstock list_by_industry (live) + bù fiinpro_icb_companies.csv (vn-annual-report-miner); financials: BCTC năm – vn-annual-report-miner (Tumiqa, MIT); ttm: vnstock BCTC quý (Vietcap) – 96 mã thanh khoản cao, LNST CĐ mẹ 4 quý gần nhất",
+      "thesis": [
+        "Hiệu quả sinh lời vượt trội: ROE 12,7% so với trung vị ngành 7,0%.",
+        "LNST công ty mẹ CAGR 2020–2025: 2,8%.",
+        "Vĩ mô thuận lợi cho nhóm doanh nghiệp phi tài chính (điểm 70/100)."
+      ],
+      "risks": [
+        "Định giá chưa đủ tin cậy: 2 phương pháp hợp lệ; phân tán tối đa/tối thiểu 3.28x. Khuyến nghị theo dõi, không xếp MUA/BÁN.",
+        "Ngành giảm nhiều hơn thị trường trong 3 tháng qua (-12,2% so với -5,6%).",
+        "Kỹ thuật: giá nằm dưới mây Ichimoku — xu hướng ngắn hạn chưa ủng hộ.",
+        "Rủi ro chung: biến động thị trường, thay đổi chính sách tiền tệ/tài khóa, sai lệch giả định định giá."
+      ]
+    },
+    {
+      "symbol": "MWG",
+      "price": 75600.0,
+      "shares": 1477035294.0,
+      "shares_source": "Vietcap getList listedShare",
+      "shares_as_of": "2026-10-09 14:14",
+      "market_cap": 111663868226400.0,
+      "pe_ttm": 12.848175403304294,
+      "pe_fy": 15.875482283169198,
+      "pb": 3.4252965774017032,
+      "methods": [
+        "pe_relative",
+        "pb_relative",
+        "dcf_fcff"
+      ],
+      "target": 111900.0,
+      "upside": 0.48015873015873023,
+      "rating": "MUA",
+      "rating_reason": "Xếp hạng theo upside của giá mục tiêu; điểm tổng hợp 83/100 không đổi bậc.",
+      "confidence": "CAO",
+      "confidence_reason": "3 phương pháp hợp lệ; phân tán tối đa/tối thiểu 1.79x",
+      "price_as_of": "2026-10-09",
+      "source": "Bảng toàn thị trường: symbols: Vietcap public API /price/symbols/getAll; price: Vietcap public API gap-chart (kho OHLCV ngày); board_shares: Vietcap public API /price/symbols/getList (listedShare); industry: vnstock list_by_industry (live) + bù fiinpro_icb_companies.csv (vn-annual-report-miner); financials: BCTC năm – vn-annual-report-miner (Tumiqa, MIT); ttm: vnstock BCTC quý (Vietcap) – 96 mã thanh khoản cao, LNST CĐ mẹ 4 quý gần nhất",
+      "thesis": [
+        "LNST công ty mẹ CAGR 2020–2025: 12,4% — tăng trưởng mạnh.",
+        "Giá mục tiêu 111.900 đ/cp, tiềm năng tăng 48,0%.",
+        "Lợi nhuận chuyển hóa tốt thành tiền: CFO/LNST bq 3 năm 7,87 lần.",
+        "Vĩ mô thuận lợi cho nhóm doanh nghiệp phi tài chính (điểm 70/100).",
+        "Ngành diễn biến tốt hơn thị trường trong 3 tháng qua (+7,5% so với -5,6%).",
+        "Kỹ thuật tích cực (điểm hợp lưu MACD/RSI/Ichimoku +64)."
+      ],
+      "risks": [
+        "Rủi ro chung: biến động thị trường, thay đổi chính sách tiền tệ/tài khóa, sai lệch giả định định giá."
+      ]
+    },
+    {
+      "symbol": "SSI",
+      "price": 19200.0,
+      "shares": 3003293801.0,
+      "shares_source": "Vietcap getList listedShare",
+      "shares_as_of": "2026-10-09 14:14",
+      "market_cap": 57663240979200.0,
+      "pe_ttm": 13.202168533904157,
+      "pe_fy": 20.33960166497562,
+      "pb": 2.1616124207244924,
+      "methods": [
+        "pe_relative",
+        "pb_relative"
+      ],
+      "target": 17500.0,
+      "upside": -0.08854166666666663,
+      "rating": "KÉM KHẢ QUAN",
+      "rating_reason": "Xếp hạng theo upside của giá mục tiêu; điểm tổng hợp 46/100 không đổi bậc.",
+      "confidence": "TRUNG BÌNH",
+      "confidence_reason": "2 phương pháp hợp lệ; phân tán tối đa/tối thiểu 1.74x",
+      "price_as_of": "2026-10-09",
+      "source": "Bảng toàn thị trường: symbols: Vietcap public API /price/symbols/getAll; price: Vietcap public API gap-chart (kho OHLCV ngày); board_shares: Vietcap public API /price/symbols/getList (listedShare); industry: vnstock list_by_industry (live) + bù fiinpro_icb_companies.csv (vn-annual-report-miner); financials: BCTC năm – vn-annual-report-miner (Tumiqa, MIT); ttm: vnstock BCTC quý (Vietcap) – 96 mã thanh khoản cao, LNST CĐ mẹ 4 quý gần nhất",
+      "thesis": [
+        "Hiệu quả sinh lời vượt trội: ROE 11,4% so với trung vị ngành 9,0%.",
+        "LNST công ty mẹ CAGR 2019–2024: 25,5% — tăng trưởng mạnh.",
+        "Vĩ mô thuận lợi cho nhóm chứng khoán (điểm 65/100)."
+      ],
+      "risks": [
+        "Giá mục tiêu 17.500 đ/cp, thấp hơn giá hiện tại 8,9%.",
+        "Chất lượng lợi nhuận thấp: CFO/LNST bq 3 năm -0,50 lần.",
+        "Ngành giảm nhiều hơn thị trường trong 3 tháng qua (-19,2% so với -5,6%).",
+        "Kỹ thuật: giá nằm dưới mây Ichimoku — xu hướng ngắn hạn chưa ủng hộ.",
+        "Rủi ro chung: biến động thị trường, thay đổi chính sách tiền tệ/tài khóa, sai lệch giả định định giá."
+      ]
+    },
+    {
+      "symbol": "MSN",
+      "price": 74200.0,
+      "shares": 1460374611.0,
+      "shares_source": "Vietcap getList listedShare",
+      "shares_as_of": "2026-10-09 14:14",
+      "market_cap": 108359796136200.0,
+      "pe_ttm": 17.473773348188328,
+      "pe_fy": 26.37578508908538,
+      "pb": 3.0655006766463293,
+      "methods": [],
+      "target": null,
+      "upside": null,
+      "rating": "THEO DÕI",
+      "rating_reason": "THEO DÕI – định giá chưa đủ tin cậy: 0 phương pháp hợp lệ; tập đoàn đa ngành, không dùng bội số ngành",
+      "confidence": "THẤP",
+      "confidence_reason": "0 phương pháp hợp lệ; tập đoàn đa ngành, không dùng bội số ngành",
+      "price_as_of": "2026-10-09",
+      "source": "Bảng toàn thị trường: symbols: Vietcap public API /price/symbols/getAll; price: Vietcap public API gap-chart (kho OHLCV ngày); board_shares: Vietcap public API /price/symbols/getList (listedShare); industry: vnstock list_by_industry (live) + bù fiinpro_icb_companies.csv (vn-annual-report-miner); financials: BCTC năm – vn-annual-report-miner (Tumiqa, MIT); ttm: vnstock BCTC quý (Vietcap) – 96 mã thanh khoản cao, LNST CĐ mẹ 4 quý gần nhất",
+      "thesis": [
+        "Hiệu quả sinh lời vượt trội: ROE 12,5% so với trung vị ngành 10,7%.",
+        "LNST công ty mẹ CAGR 2020–2025: 27,2% — tăng trưởng mạnh.",
+        "Vĩ mô thuận lợi cho nhóm doanh nghiệp phi tài chính (điểm 70/100).",
+        "Ngành diễn biến tốt hơn thị trường trong 3 tháng qua (+5,2% so với -5,6%).",
+        "Kỹ thuật tích cực (điểm hợp lưu MACD/RSI/Ichimoku +39)."
+      ],
+      "risks": [
+        "Định giá chưa đủ tin cậy: 0 phương pháp hợp lệ; tập đoàn đa ngành, không dùng bội số ngành. Khuyến nghị theo dõi, không xếp MUA/BÁN.",
+        "Khả năng trả lãi yếu: EBIT/lãi vay 2,5 lần.",
+        "Rủi ro chung: biến động thị trường, thay đổi chính sách tiền tệ/tài khóa, sai lệch giả định định giá."
+      ]
+    },
+    {
+      "symbol": "GAS",
+      "price": 81200.0,
+      "shares": 2412949756.0,
+      "shares_source": "Vietcap getList listedShare",
+      "shares_as_of": "2026-10-09 14:14",
+      "market_cap": 195931520187200.0,
+      "pe_ttm": 15.653644186925998,
+      "pe_fy": 17.165383342632484,
+      "pb": 2.955450383890099,
+      "methods": [
+        "pe_relative",
+        "pb_relative",
+        "dcf_fcff"
+      ],
+      "target": 66300.0,
+      "upside": -0.18349753694581283,
+      "rating": "BÁN",
+      "rating_reason": "Xếp hạng theo upside của giá mục tiêu; điểm tổng hợp 57/100 không đổi bậc. Các nhóm điểm cơ bản đang tích cực nhưng khuyến nghị BÁN vẫn dựa trên upside định giá; cần cân nhắc xung đột tín hiệu này.",
+      "confidence": "CAO",
+      "confidence_reason": "3 phương pháp hợp lệ; phân tán tối đa/tối thiểu 2.10x",
+      "price_as_of": "2026-10-09",
+      "source": "Bảng toàn thị trường: symbols: Vietcap public API /price/symbols/getAll; price: Vietcap public API gap-chart (kho OHLCV ngày); board_shares: Vietcap public API /price/symbols/getList (listedShare); industry: vnstock list_by_industry (live) + bù fiinpro_icb_companies.csv (vn-annual-report-miner); financials: BCTC năm – vn-annual-report-miner (Tumiqa, MIT); ttm: vnstock BCTC quý (Vietcap) – 96 mã thanh khoản cao, LNST CĐ mẹ 4 quý gần nhất",
+      "thesis": [
+        "Hiệu quả sinh lời vượt trội: ROE 18,0% so với trung vị ngành 4,4%.",
+        "LNST công ty mẹ CAGR 2020–2025: 7,8%.",
+        "Lợi nhuận chuyển hóa tốt thành tiền: CFO/LNST bq 3 năm 1,05 lần.",
+        "Vĩ mô thuận lợi cho nhóm doanh nghiệp phi tài chính (điểm 70/100).",
+        "Ngành diễn biến tốt hơn thị trường trong 3 tháng qua (+9,2% so với -5,6%)."
+      ],
+      "risks": [
+        "Giá mục tiêu 66.300 đ/cp, thấp hơn giá hiện tại 18,3%.",
+        "Kỹ thuật tiêu cực (điểm hợp lưu -27).",
+        "Rủi ro chung: biến động thị trường, thay đổi chính sách tiền tệ/tài khóa, sai lệch giả định định giá."
+      ]
+    },
+    {
+      "symbol": "VNM",
+      "price": 57800.0,
+      "shares": 2089955445.0,
+      "shares_source": "Vietcap getList listedShare",
+      "shares_as_of": "2026-10-09 14:14",
+      "market_cap": 120799424721000.0,
+      "pe_ttm": 11.957204779450269,
+      "pe_fy": 12.83707079363863,
+      "pb": 3.9367090541956973,
+      "methods": [
+        "pe_relative",
+        "pb_relative",
+        "dcf_fcff"
+      ],
+      "target": 73200.0,
+      "upside": 0.26643598615916964,
+      "rating": "THEO DÕI",
+      "rating_reason": "THEO DÕI – định giá chưa đủ tin cậy: 3 phương pháp hợp lệ; phân tán tối đa/tối thiểu 2.56x",
+      "confidence": "THẤP",
+      "confidence_reason": "3 phương pháp hợp lệ; phân tán tối đa/tối thiểu 2.56x",
+      "price_as_of": "2026-10-09",
+      "source": "Bảng toàn thị trường: symbols: Vietcap public API /price/symbols/getAll; price: Vietcap public API gap-chart (kho OHLCV ngày); board_shares: Vietcap public API /price/symbols/getList (listedShare); industry: vnstock list_by_industry (live) + bù fiinpro_icb_companies.csv (vn-annual-report-miner); financials: BCTC năm – vn-annual-report-miner (Tumiqa, MIT); ttm: vnstock BCTC quý (Vietcap) – 96 mã thanh khoản cao, LNST CĐ mẹ 4 quý gần nhất",
+      "thesis": [
+        "Hiệu quả sinh lời vượt trội: ROE 29,9% so với trung vị ngành 10,7%.",
+        "Vĩ mô thuận lợi cho nhóm doanh nghiệp phi tài chính (điểm 70/100).",
+        "Ngành diễn biến tốt hơn thị trường trong 3 tháng qua (+5,2% so với -5,6%)."
+      ],
+      "risks": [
+        "LNST công ty mẹ CAGR 2020–2025: -3,2% — suy giảm.",
+        "Định giá chưa đủ tin cậy: 3 phương pháp hợp lệ; phân tán tối đa/tối thiểu 2.56x. Khuyến nghị theo dõi, không xếp MUA/BÁN.",
+        "Kỹ thuật: giá nằm dưới mây Ichimoku — xu hướng ngắn hạn chưa ủng hộ.",
+        "Rủi ro chung: biến động thị trường, thay đổi chính sách tiền tệ/tài khóa, sai lệch giả định định giá."
+      ]
+    },
+    {
+      "symbol": "TCB",
+      "price": 32150.0,
+      "shares": 7086240414.0,
+      "shares_source": "Vietcap getList listedShare",
+      "shares_as_of": "2026-10-09 14:14",
+      "market_cap": 227822629310100.0,
+      "pe_ttm": 8.334922200611382,
+      "pe_fy": 9.008325717484578,
+      "pb": 1.2691966525266132,
+      "methods": [
+        "pe_relative",
+        "pb_relative",
+        "justified_pb"
+      ],
+      "target": 35500.0,
+      "upside": 0.10419906687402802,
+      "rating": "KHẢ QUAN",
+      "rating_reason": "Xếp hạng theo upside của giá mục tiêu; điểm tổng hợp 68/100 không đổi bậc.",
+      "confidence": "CAO",
+      "confidence_reason": "3 phương pháp hợp lệ; phân tán tối đa/tối thiểu 1.18x",
+      "price_as_of": "2026-10-09",
+      "source": "Bảng toàn thị trường: symbols: Vietcap public API /price/symbols/getAll; price: Vietcap public API gap-chart (kho OHLCV ngày); board_shares: Vietcap public API /price/symbols/getList (listedShare); industry: vnstock list_by_industry (live) + bù fiinpro_icb_companies.csv (vn-annual-report-miner); financials: BCTC năm – vn-annual-report-miner (Tumiqa, MIT); ttm: vnstock BCTC quý (Vietcap) – 96 mã thanh khoản cao, LNST CĐ mẹ 4 quý gần nhất",
+      "thesis": [
+        "LNST công ty mẹ CAGR 2020–2025: 15,5% — tăng trưởng mạnh.",
+        "Giá mục tiêu 35.500 đ/cp, tiềm năng tăng 10,4%.",
+        "Vận hành hiệu quả: CIR 30,8%.",
+        "Vĩ mô thuận lợi cho nhóm ngân hàng (điểm 73/100)."
+      ],
+      "risks": [
+        "Ngành giảm nhiều hơn thị trường trong 3 tháng qua (-5,9% so với -5,6%).",
+        "Rủi ro chung: biến động thị trường, thay đổi chính sách tiền tệ/tài khóa, sai lệch giả định định giá."
+      ]
+    },
+    {
+      "symbol": "ACB",
+      "price": 20300.0,
+      "shares": 5804421957.0,
+      "shares_source": "Vietcap getList listedShare",
+      "shares_as_of": "2026-10-09 14:14",
+      "market_cap": 117829765727100.0,
+      "pe_ttm": 7.836500709636022,
+      "pe_fy": 7.541250281179817,
+      "pb": 1.2466157006571295,
+      "methods": [
+        "pe_relative",
+        "pb_relative",
+        "justified_pb"
+      ],
+      "target": 32800.0,
+      "upside": 0.6157635467980296,
+      "rating": "MUA",
+      "rating_reason": "Xếp hạng theo upside của giá mục tiêu; điểm tổng hợp 74/100 không đổi bậc.",
+      "confidence": "CAO",
+      "confidence_reason": "3 phương pháp hợp lệ; phân tán tối đa/tối thiểu 1.79x",
+      "price_as_of": "2026-10-09",
+      "source": "Bảng toàn thị trường: symbols: Vietcap public API /price/symbols/getAll; price: Vietcap public API gap-chart (kho OHLCV ngày); board_shares: Vietcap public API /price/symbols/getList (listedShare); industry: vnstock list_by_industry (live) + bù fiinpro_icb_companies.csv (vn-annual-report-miner); financials: BCTC năm – vn-annual-report-miner (Tumiqa, MIT); ttm: vnstock BCTC quý (Vietcap) – 96 mã thanh khoản cao, LNST CĐ mẹ 4 quý gần nhất",
+      "thesis": [
+        "Hiệu quả sinh lời vượt trội: ROE 17,6% so với trung vị ngành 15,4%.",
+        "LNST công ty mẹ CAGR 2020–2025: 15,3% — tăng trưởng mạnh.",
+        "Giá mục tiêu 32.800 đ/cp, tiềm năng tăng 61,6%.",
+        "Vận hành hiệu quả: CIR 32,3%.",
+        "Vĩ mô thuận lợi cho nhóm ngân hàng (điểm 73/100)."
+      ],
+      "risks": [
+        "Ngành giảm nhiều hơn thị trường trong 3 tháng qua (-5,9% so với -5,6%).",
+        "Kỹ thuật: giá nằm dưới mây Ichimoku — xu hướng ngắn hạn chưa ủng hộ.",
+        "Rủi ro chung: biến động thị trường, thay đổi chính sách tiền tệ/tài khóa, sai lệch giả định định giá."
+      ]
+    }
+  ],
+  "out_of_range_buy_sell": []
+}

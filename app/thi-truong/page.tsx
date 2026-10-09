@@ -30,7 +30,7 @@ export default function Universe() {
           <select className="sel" value={exchange} onChange={(e) => { setExchange(e.target.value); setPage(1); }}>
             <option value="">Mọi sàn</option><option>HOSE</option><option>HNX</option><option>UPCOM</option>
           </select>
-          <label>GTGD TB20 ≥ <input className="sel w-20" type="number" value={minValue} onChange={(e) => { setMinValue(+e.target.value); setPage(1); }} /> tỷ</label>
+          <label>GTGD TB 20 phiên ≥ <input className="sel w-20" type="number" value={minValue} onChange={(e) => { setMinValue(+e.target.value); setPage(1); }} /> tỷ</label>
           <select className="sel" value={sort} onChange={(e) => setSort(e.target.value)}>
             {[["market_cap", "Vốn hoá"], ["avg_value_20d", "Thanh khoản"], ["ret_ytd", "Hiệu suất YTD"], ["ret_1y", "Hiệu suất 1N"], ["roe", "ROE"], ["pe", "P/E"]].map(([k, l]) => <option key={k} value={k}>Sắp theo {l}</option>)}
           </select>
@@ -55,7 +55,7 @@ export default function Universe() {
               { key: "pe", label: "P/E", num: true, render: (r) => times(r.pe) }, { key: "pb", label: "P/B", num: true, render: (r) => times(r.pb, 2) },
               { key: "roe", label: "ROE", num: true, render: (r) => pct(r.roe) },
               { key: "ret_ytd", label: "YTD", num: true, render: (r) => <span className={cls(r.ret_ytd)}>{pct(r.ret_ytd)}</span> },
-              { key: "avg_value_20d", label: "GTGD TB20", num: true, render: (r) => num(r.avg_value_20d / 1e9, 1) + " tỷ" },
+              { key: "avg_value_20d", label: "GTGD TB 20 phiên", num: true, render: (r) => num(r.avg_value_20d / 1e9, 1) + " tỷ" },
               { key: "fin_year", label: "BCTC", render: (r) => (r.fin_year ? `FY${r.fin_year}` : "–") },
             ]} />
         )}
