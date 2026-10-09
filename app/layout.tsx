@@ -38,6 +38,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link href="/" className="hover:text-sky-200">Tổng quan</Link>
               <Link href="/nganh" className="hover:text-sky-200">Ngành</Link>
               <Link href="/co-hoi" className="hover:text-sky-200">Cơ hội</Link>
+              <Link href="/vi-mo" className="hover:text-sky-200">Vĩ mô</Link>
               <Link href="/thi-truong" className="hover:text-sky-200">Toàn thị trường</Link>
               <Link href="/nguon" className="hover:text-sky-200">Dữ liệu & nguồn</Link>
             </nav>

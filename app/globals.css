@@ -25,6 +25,8 @@ html[data-theme="dark"] .border-sky-200 { border-color: #155e75 !important; }
 html[data-theme="dark"] .border-red-200 { border-color: #7f303b !important; }
 html[data-theme="dark"] .border-amber-200, html[data-theme="dark"] .border-amber-300 { border-color: #76542a !important; }
 html[data-theme="dark"] .card { background-color: var(--surface); border-color: var(--line); }
+html[data-theme="dark"] .card-title { color: #f1f5f9; }
+html[data-theme="dark"] .stat { background-color: var(--surface-raised); border-color: var(--line); }
 html[data-theme="dark"] .asof { color: #bae6fd; background: #102b40; border-color: #155e75; }
 html[data-theme="dark"] .tbl th { color: #d8e2ee; background: #26354a; border-color: var(--line); }
 html[data-theme="dark"] .tbl td { border-color: #29384d; }

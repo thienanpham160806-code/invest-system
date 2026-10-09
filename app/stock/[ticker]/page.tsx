@@ -1,5 +1,6 @@
 "use client";
 import Link from "next/link";
+import MacroPanel from "@/components/MacroPanel";
 import { useParams } from "next/navigation";
 import { Fragment, useState } from "react";
 import { Candles, CompareLine, Histogram, PbRoeScatter, ScoreBars } from "@/components/Charts";
@@ -121,34 +122,7 @@ function Overview({ d }: { d: any }) {
 }
 
 function MacroTab({ ctype }: { ctype: string }) {
-  const { data, error, loading } = useApi<any>(`/api/py/macro?company_type=${ctype}`);
-  if (loading) return <Loading what="vĩ mô" />;
-  if (error) return <ErrorBox error={error} />;
-  if (!data) return null;
-  const hist = data.history || {};
-  const series = (k: string) => (hist[k] || []).map((x: any) => ({ time: String(x.year), v: x.value }));
-  return (
-    <div className="grid md:grid-cols-2 gap-4">
-      <Card title="Chỉ tiêu vĩ mô (kèm nguồn)" right={<AsOf p={data.provenance} label="Cập nhật" />} className="md:col-span-2">
-        <SortTable rows={data.table} rowKey={(r) => r.key + r.period}
-          cols={[
-            { key: "label", label: "Chỉ tiêu" }, { key: "period", label: "Kỳ" },
-            { key: "value", label: "Giá trị", num: true, render: (r) => (r.unit === "VND" ? num(r.value) : num(r.value, 2)) + " " + r.unit },
-            { key: "as_of", label: "Công bố", render: (r) => dmy(r.as_of) },
-            { key: "source", label: "Nguồn", render: (r) => { const u = (String(r.source).match(/https?:[^)\s]+/) || [])[0]; return <span className="whitespace-normal text-xs">{String(r.source).replace(/\(https?:[^)]+\)/, "")} {u && <a className="link" href={u} target="_blank" rel="noreferrer">[link]</a>}</span>; } },
-          ]} />
-      </Card>
-      <Card title="Đánh giá & tác động lên ngành">
-        <div className="flex gap-2 mb-2"><Stat label="Điểm vĩ mô chung" value={num(data.score, 0)} /><Stat label="Tác động lên nhóm DN này" value={num(data.sector_score, 0)} /></div>
-        <ul className="list-disc pl-5 text-sm space-y-1">{data.commentary.map((c: string, i: number) => <li key={i}>{c}</li>)}</ul>
-        <div className="text-xs text-slate-500 mt-2">Tác động theo loại DN: {Object.entries(data.sector_impact).map(([k, v]: any) => `${k} ${num(v, 0)}`).join(" · ")} (ma trận độ nhạy config/sector_map.yaml)</div>
-      </Card>
-      <Card title="Chuỗi lịch sử (World Bank + số nhập tay theo năm)">
-        <CompareLine data={series("gdp_growth").map((g: any) => ({ time: g.time, gdp: g.v, cpi: series("cpi").find((c: any) => c.time === g.time)?.v }))}
-          lines={[{ key: "gdp", name: "GDP %", color: "#0b3b6f" }, { key: "cpi", name: "CPI %", color: "#dc2626" }]} height={220} />
-      </Card>
-    </div>
-  );
+  return <MacroPanel ctype={ctype} />;
 }
 
 function SectorTab({ d }: { d: any }) {
