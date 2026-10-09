@@ -22,6 +22,8 @@ import pandas as pd
 from ..analysis import composite as comp
 from ..analysis import sector as sector_mod
 from ..analysis.macro import analyze_macro
+from ..analysis.macro_intl import analyze_international
+from ..analysis.macro_intl import blend as blend_macro
 from ..analysis.ratios import BANK_KEYS, NONFIN_KEYS, RATIO_LABELS, compute_ratios, growth_summary
 from ..analysis.sentiment import analyze_news
 from ..analysis.valuation import value_company
@@ -538,9 +540,47 @@ def macro_data(world_bank: bool = False):
     return md
 
 
+_INTL_CACHE: dict = {}
+
+
+def _intl_macro():
+    """(ket qua FRED, loi) - cache 1 gio trong tien trinh (FredClient cache dia 1 ngay).
+    None khi khong lay duoc chuoi nao. Backtest thay ham nay bang None (khong co lich su)."""
+    hit = _INTL_CACHE.get("v")
+    if hit and time.time() - hit[0] < 3600:
+        return hit[1]
+    try:
+        from ..data.fred import FredClient
+
+        results, errors = FredClient().get_all()
+        value = (results, errors) if results else None
+    except Exception:  # noqa: BLE001 - mat FRED thi dung vi mo trong nuoc
+        value = None
+    _INTL_CACHE["v"] = (time.time(), value)
+    return value
+
+
+def _intl_for(company_type: str, icb1: str | None = None):
+    fetched = _intl_macro()
+    if not fetched:
+        return None
+    results, errors = fetched
+    return analyze_international(results, company_type, icb1, errors)
+
+
+def _intl_payload(intl) -> dict | None:
+    if intl is None:
+        return None
+    return {"score": intl.score, "sector_score": intl.sector_score, "rows": intl.rows, "z": intl.z,
+            "commentary": intl.commentary, "notes": intl.notes,
+            "model": "z so với mức trung tính (giả định định tính) – analysis/macro_intl.py"}
+
+
 def macro(company_type: str = "NON_FINANCIAL", world_bank: bool = True) -> dict:
     md = macro_data(world_bank)
-    res = analyze_macro(md, company_type)
+    intl = _intl_for(company_type)
+    domestic = analyze_macro(md, company_type)
+    res = blend_macro(domestic, intl)
     from ..data.macro import load_manual
 
     manual = load_manual()
@@ -553,10 +593,12 @@ def macro(company_type: str = "NON_FINANCIAL", world_bank: bool = True) -> dict:
             for k, s in md.history.items()}
     impact = {}
     for ct in COMPANY_TYPE_LABELS:
-        impact[ct] = analyze_macro(md, ct).sector_score
+        impact[ct] = blend_macro(analyze_macro(md, ct), _intl_for(ct)).sector_score
     return jsonable({
         "latest": md.latest, "table": rows, "score": res.score, "sector_impact": impact,
         "company_type": company_type, "sector_score": res.sector_score, "z": res.z,
+        "parts": res.parts, "international": _intl_payload(intl),
+        "domestic_commentary": domestic.commentary,
         "commentary": analyze_macro_narrative({"macro": res}), "notes": md.notes, "history": hist,
         "provenance": prov("config/macro_vn.csv (GSO/NSO, NHNN, HNX – có URL từng dòng)"
                            + (" + World Bank Open Data API (chuỗi lịch sử)" if world_bank else ""),
@@ -1063,7 +1105,8 @@ def analysis(symbol: str, years: int = 5, with_news: bool = True) -> dict:
     bench_ret = _bench_returns()
     peer_stats = sector_mod.node_stats(peers, float(uni["market_cap"].sum()), bench_ret)
     md = macro_data(False)
-    mres = analyze_macro(md, ctype)
+    intl = _intl_for(ctype, row.get("icb1"))
+    mres = blend_macro(analyze_macro(md, ctype), intl)
     macro_commentary = analyze_macro_narrative({"macro": mres})
     sc = sector_mod.sector_score_universe(peer_stats, mres.sector_score)
     perf = {"sector_ret_3m": peer_stats.get("ret_3m"), "bench_ret_3m": bench_ret.get("ret_3m"),
@@ -1172,7 +1215,8 @@ def analysis(symbol: str, years: int = 5, with_news: bool = True) -> dict:
             "peers": peer_table,
         },
         "macro": {"score": mres.score, "sector_score": mres.sector_score, "label": mres.sector_label,
-                  "commentary": macro_commentary, "table": mres.table},
+                  "commentary": macro_commentary, "table": mres.table, "parts": mres.parts,
+                  "international": _intl_payload(intl)},
         "ratios_last": ratios_last, "growth": growth,
         "technical": None if tech is None else {
             "action": tech.action, "total_score": tech.total_score, "components": tech.component_scores,

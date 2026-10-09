@@ -38,6 +38,7 @@ class MacroResult:
     sector_label: str = ""
     commentary: list[str] = field(default_factory=list)
     notes: list[str] = field(default_factory=list)
+    parts: dict = field(default_factory=dict)       # trong nuoc / quoc te (analysis/macro_intl.blend)
 
 
 def _fx_change(data: MacroData) -> float | None:

@@ -156,6 +156,10 @@ valuation:
     REE: "Tập đoàn đa ngành gồm cơ điện, năng lượng, nước và bất động sản; SOTP nằm ngoài phạm vi mô hình."
     PAN: "Tập đoàn đa ngành nông nghiệp và thực phẩm với nhiều công ty con/liên kết; SOTP nằm ngoài phạm vi mô hình."
 
+macro:
+  # Diem vi mo = (1 - intl_weight) x trong nuoc + intl_weight x quoc te (FRED, analysis/macro_intl.py)
+  intl_weight: 0.30
+
 composite:
   # Diem tong hop 0-100 (top-down: vi mo -> nganh -> doanh nghiep)
   weights:

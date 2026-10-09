@@ -11,6 +11,7 @@ live bang ban chup):
   financials_std   -> BCTC nam chi gom cac nam da cong bo tai t
   analyze_macro    -> giu tinh toan nhung sector_score = None: vi mo khong co
                       lich su theo ngay cong bo (docs/phase2/backtest-design.md muc 5)
+  _intl_macro      -> None (gia tri FRED hien tai khong duoc lot vao qua khu)
   with_news=False  -> khong co kho tin lich su
 
 Gioi han (ghi trong bao cao): so CP dung so HIEN TAI (von hoa qua khu = gia dieu
@@ -38,6 +39,8 @@ log = get_logger(__name__)
 MIN_LIQUID_VALUE = 1e9          # = scripts/build_market_universe.py: "du thanh khoan" cho peers
 MIN_OPPORTUNITY_VALUE = 5e9     # = scripts/build_opportunities.py: dieu kien /co-hoi
 MIN_SESSIONS = 120
+FIN_COLS = ["fin_year", "as_of_fin", "net_income_parent", "equity_parent", "total_assets", "revenue",
+            "roe", "net_margin", "ni_growth", "ebitda", "net_debt", "debt_to_equity", "ni_ttm", "ttm_label"]
 STATIC_COLS = ["symbol", "exchange", "icb1", "icb2", "icb3", "icb4", "icb4_code", "com_type_code",
                "company_type", "name", "brand", "website", "industry_source", "shares", "shares_source"]
 
@@ -188,6 +191,9 @@ class History:
         uni = (self.base.merge(prices, on="symbol", how="inner")
                         .merge(fin.drop(columns=["available_from"]), on="symbol", how="left")
                         .merge(ttm.drop(columns=["available_from"]), on="symbol", how="left"))
+        for col in FIN_COLS:                      # chua co BCTC nao cong bo -> cot rong, khong loi
+            if col not in uni.columns:
+                uni[col] = np.nan
         uni["market_cap"] = uni["price"] * uni["shares"]
         ni = uni["net_income_parent"]
         uni["pe"] = np.where(ni > 0, uni["market_cap"] / ni, np.nan)
@@ -223,7 +229,7 @@ class History:
         vni = self.vnindex[self.vnindex["time"] <= cutoff]
         real_macro = service.analyze_macro
         saved = {name: getattr(service, name) for name in
-                 ("price_frame", "_vnindex_live", "_uni", "financials_std", "analyze_macro")}
+                 ("price_frame", "_vnindex_live", "_uni", "financials_std", "analyze_macro", "_intl_macro")}
         meta = {"built_at": f"{cutoff:%Y-%m-%d} (backtest point-in-time)"}
         service.price_frame = lambda s, days=750: (self.prices_until(s, cutoff, days),
                                                    service.prov("backtest: giá ≤ t", cutoff))
@@ -231,6 +237,7 @@ class History:
         service._uni = lambda: (uni, meta)
         service.financials_std = lambda s, years=10: financials_as_of(s, cutoff, years)
         service.analyze_macro = lambda md, ct: dataclasses.replace(real_macro(md, ct), sector_score=None)
+        service._intl_macro = lambda: None      # FRED hom nay khong phai du lieu tai t
         try:
             yield service
         finally:
