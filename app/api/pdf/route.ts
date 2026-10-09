@@ -18,6 +18,7 @@ export async function GET(req: NextRequest) {
   }
   const target = `${url.origin}/report/${ticker}?${qs.toString()}`;
   let browser: any;
+  const reportFailures: string[] = [];
   try {
     const puppeteer = (await import("puppeteer-core")).default;
     let executablePath = process.env.CHROME_PATH;
@@ -32,6 +33,7 @@ export async function GET(req: NextRequest) {
     // chuyen tiep thong tin bao ve deployment de Chromium goi duoc /api/py trong Preview
     const bypass = req.headers.get("x-vercel-protection-bypass");
     const trustedOidc = req.headers.get("x-vercel-trusted-oidc-idp-token");
+    console.info("PDF internal auth present", { bypass: Boolean(bypass), trustedOidc: Boolean(trustedOidc) });
     const protectionHeaders: Record<string, string> = {};
     if (bypass) protectionHeaders["x-vercel-protection-bypass"] = bypass;
     if (trustedOidc) protectionHeaders["x-vercel-trusted-oidc-idp-token"] = trustedOidc;
@@ -42,6 +44,16 @@ export async function GET(req: NextRequest) {
         const headers = request.headers();
         if (new URL(request.url()).origin === origin) Object.assign(headers, protectionHeaders);
         void request.continue({ headers }).catch(() => {});
+      });
+      page.on("response", (response) => {
+        const responseUrl = new URL(response.url());
+        if (responseUrl.origin === origin && response.status() >= 400) {
+          reportFailures.push(`${responseUrl.pathname} HTTP ${response.status()}`);
+        }
+      });
+      page.on("requestfailed", (request) => {
+        const requestUrl = new URL(request.url());
+        if (requestUrl.origin === origin) reportFailures.push(`${requestUrl.pathname} network failure`);
       });
     }
     await page.goto(target, { waitUntil: "networkidle0", timeout: 45000 });
@@ -54,6 +66,7 @@ export async function GET(req: NextRequest) {
       headers: { "Content-Type": "application/pdf", "Content-Disposition": `attachment; filename="${ticker}_${d}.pdf"`, "Cache-Control": "no-store" },
     });
   } catch (e: any) {
+    console.error("PDF render failed", { errorType: e?.name || "Error", reportFailures: reportFailures.slice(0, 12) });
     return NextResponse.json({ error: `Không tạo được PDF trên máy chủ: ${e?.message || e}`, fallback: "window.print" }, { status: 503 });
   } finally {
     try { await browser?.close(); } catch {}
