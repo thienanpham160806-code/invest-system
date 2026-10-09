@@ -41,6 +41,9 @@ class MacroResult:
 
 
 def _fx_change(data: MacroData) -> float | None:
+    ytd = data.latest.get("usd_vnd_ytd")
+    if ytd:  # so NHNN moi nhat (nhap tay) uu tien hon chuoi nam World Bank
+        return float(ytd["value"])
     hist = data.history.get("usd_vnd")
     if hist is None or len(hist.dropna()) < 2:
         return None

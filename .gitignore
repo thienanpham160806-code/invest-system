@@ -27,6 +27,7 @@ __pycache__/
 /cache/
 /artifacts/
 *.parquet
+!webdata/**/*.parquet
 *.db
 *.sqlite3
 *.pkl
@@ -48,3 +49,12 @@ Thumbs.db
 # tu sinh ra boi vnstock/vnai khi import - noi dung dang "chi thi" cho AI
 # agent, khong phai cua repo nay, xoa moi lan gap (xem lich su commit)
 AGENTS.md
+
+# du lieu web dong goi (snapshot toan thi truong, BCTC arminer da repack) - CO commit
+!webdata/
+!webdata/**
+# web
+node_modules/
+.next/
+.vercel/
+next-env.d.ts

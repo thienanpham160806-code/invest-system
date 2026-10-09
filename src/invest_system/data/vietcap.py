@@ -161,6 +161,28 @@ def align_statement_years(bundle: dict[str, pd.DataFrame]) -> dict[str, pd.DataF
     return fixed
 
 
+def pivot_industry_levels(frame: pd.DataFrame) -> pd.DataFrame:
+    """Bang dai list_by_industry (symbol, icb_level, icb_code, icb_name, ...) -> MOT dong/ma:
+    symbol, industry (= ten ICB cap 4, giu tuong thich cu), icb1..icb4, icb1_code..icb4_code,
+    organ_name, com_type_code."""
+    if frame is None or frame.empty or "icb_name" not in frame.columns:
+        return pd.DataFrame(columns=["symbol", "industry"])
+    frame = frame.copy()
+    frame["icb_level"] = pd.to_numeric(frame["icb_level"], errors="coerce")
+    names = frame.pivot_table(index="symbol", columns="icb_level", values="icb_name", aggfunc="first")
+    codes = frame.pivot_table(index="symbol", columns="icb_level", values="icb_code", aggfunc="first")
+    out = pd.DataFrame(index=names.index)
+    for lvl in (1, 2, 3, 4):
+        out[f"icb{lvl}"] = names[lvl] if lvl in names.columns else None
+        out[f"icb{lvl}_code"] = codes[lvl].astype(str) if lvl in codes.columns else None
+    extra = frame.drop_duplicates("symbol").set_index("symbol")
+    for col in ("organ_name", "com_type_code"):
+        if col in extra.columns:
+            out[col] = extra[col]
+    out["industry"] = out["icb4"]
+    return out.reset_index()
+
+
 class VietcapProvider(PriceProvider, FundamentalProvider):
     """Bao cao tai chinh, danh sach ma, nganh va gia du phong tu Vietcap/VCI."""
 
@@ -275,11 +297,7 @@ class VietcapProvider(PriceProvider, FundamentalProvider):
         frame = pd.DataFrame(
             self._guard(lambda: reference.equity.list_by_industry(), "industry_map")
         )
-        if frame.empty or "icb_name" not in frame.columns:
-            return frame
-        frame = frame[frame.get("icb_level") == _INDUSTRY_LEVEL]
-        frame = frame.rename(columns={"icb_name": "industry"})
-        return frame[["symbol", "industry"]].reset_index(drop=True)
+        return pivot_industry_levels(frame)
 
     def company_overview(self, symbol: str) -> dict:
         _, reference, _ = self._modules()

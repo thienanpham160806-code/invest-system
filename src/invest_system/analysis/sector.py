@@ -190,3 +190,126 @@ def _sector_score(res: SectorResult) -> float | None:
         return None
     total_w = sum(w for _, w in parts)
     return float(np.clip(sum(v * w for v, w in parts) / total_w, 0, 100))
+
+
+# =====================================================================
+# PHAN TICH NGANH THEO BANG TOAN THI TRUONG (universe, web/build_market_universe)
+# Moi nut ICB 1-4 tong hop tu TAT CA ma trong nut (khong chi vai peers).
+# =====================================================================
+UNIVERSE_STATS = ("pe", "pb", "roe", "net_margin", "ni_growth")
+_RET_COLS = ("ret_1m", "ret_3m", "ret_ytd", "ret_1y")
+
+
+def _clean_multiples(frame: pd.DataFrame) -> pd.DataFrame:
+    """Chi ma du thanh khoan; loai P/E <= 0 hoac > 100, P/B <= 0 hoac > 20."""
+    f = frame[frame["liquidity_flag"].fillna(False).astype(bool)].copy()
+    f.loc[~f["pe"].between(0, 100, inclusive="right"), "pe"] = np.nan
+    f.loc[~f["pb"].between(0, 20, inclusive="right"), "pb"] = np.nan
+    return f
+
+
+def _q(series: pd.Series) -> dict | None:
+    s = pd.to_numeric(series, errors="coerce").dropna()
+    if s.empty:
+        return None
+    return {"p25": float(s.quantile(0.25)), "median": float(s.median()),
+            "p75": float(s.quantile(0.75)), "n": int(len(s))}
+
+
+def _cap_weighted(frame: pd.DataFrame, col: str) -> float | None:
+    f = frame[[col, "market_cap"]].dropna()
+    f = f[f["market_cap"] > 0]
+    if f.empty:
+        return None
+    return float((f[col] * f["market_cap"]).sum() / f["market_cap"].sum())
+
+
+def node_stats(members: pd.DataFrame, total_cap: float, bench: dict | None = None) -> dict:
+    """Chi so tong hop cho mot nut nganh (members = tat ca ma trong nut)."""
+    caps = members["market_cap"].dropna()
+    cap = float(caps.sum()) if not caps.empty else 0.0
+    liquid = _clean_multiples(members)
+    ni = members.loc[members["market_cap"].notna(), "net_income_parent"]
+    ni_pos_cap = members.loc[members["net_income_parent"].notna() & members["market_cap"].notna()]
+    agg_pe = None
+    if not ni_pos_cap.empty and ni_pos_cap["net_income_parent"].sum() > 0:
+        agg_pe = float(ni_pos_cap["market_cap"].sum() / ni_pos_cap["net_income_parent"].sum())
+    out = {
+        "n_symbols": int(len(members)),
+        "n_liquid": int(members["liquidity_flag"].fillna(False).astype(bool).sum()),
+        "n_with_bctc": int(members["has_bctc"].fillna(False).astype(bool).sum()),
+        "market_cap": cap, "market_weight": cap / total_cap if total_cap else None,
+        "avg_value_20d": float(members["avg_value_20d"].sum(skipna=True)),
+        "pe_aggregate": agg_pe,
+        "top_symbols": members.sort_values("market_cap", ascending=False)["symbol"].head(5).tolist(),
+    }
+    del ni
+    for col in _RET_COLS:
+        out[col] = _cap_weighted(members, col)
+        if bench and bench.get(col) is not None and out[col] is not None:
+            out[f"{col}_vs_index"] = out[col] - bench[col]
+    for col in UNIVERSE_STATS:
+        out[col] = _q(liquid[col])
+    return out
+
+
+def sector_score_universe(stats: dict, macro_impact: float | None) -> dict:
+    """Diem nganh 0-100 = dong luc gia (3T, 1N so VN-Index) 40% + ROE trung vi 30%
+    + tac dong vi mo theo loai DN 30%. Thanh phan nao thieu thi chuan hoa lai trong so."""
+    parts = []
+    m3, m12 = stats.get("ret_3m_vs_index"), stats.get("ret_1y_vs_index")
+    mom = [v for v in (m3, m12) if v is not None]
+    if mom:
+        parts.append(("momentum", float(np.clip(50 + np.mean(mom) * 200, 0, 100)), 0.4))
+    roe = (stats.get("roe") or {}).get("median")
+    if roe is not None:
+        parts.append(("roe", float(np.clip(50 + (roe - 0.12) * 400, 0, 100)), 0.3))
+    if macro_impact is not None:
+        parts.append(("macro", float(macro_impact), 0.3))
+    if not parts:
+        return {"score": None, "components": {}}
+    tw = sum(w for *_, w in parts)
+    return {"score": float(sum(v * w for _, v, w in parts) / tw),
+            "components": {k: v for k, v, _ in parts}}
+
+
+def peers_from_universe(universe: pd.DataFrame, symbol: str, min_liquid: int = 5) -> tuple[pd.DataFrame, int, str]:
+    """Peers = TOAN BO ma cung ICB4; < min_liquid ma du thanh khoan thi lui ICB3, roi ICB2.
+    Tra ve (bang peers gom ca ma muc tieu, cap ICB dang dung, ten nut)."""
+    row = universe.loc[universe["symbol"] == symbol.upper()]
+    if row.empty:
+        return universe.iloc[0:0], 0, ""
+    row = row.iloc[0]
+    for lvl in (4, 3, 2, 1):
+        name = row[f"icb{lvl}"]
+        members = universe[universe[f"icb{lvl}"] == name]
+        if members["liquidity_flag"].fillna(False).astype(bool).sum() >= min_liquid or lvl == 1:
+            return members, lvl, str(name)
+    return universe.iloc[0:0], 0, ""
+
+
+def universe_quantiles(peers: pd.DataFrame) -> dict:
+    """{"pe": (p25, p50, p75), ...} tren nhom peers (du thanh khoan, da loai ngoai lai)
+    -> dau vao analysis/valuation.py (cung dinh dang SectorResult.quantiles)."""
+    liquid = _clean_multiples(peers)
+    out = {}
+    for k in ("pe", "pb", "roe", "net_margin", "ni_growth"):
+        s = pd.to_numeric(liquid[k], errors="coerce").dropna()
+        if len(s) >= 3:
+            out[k] = tuple(float(s.quantile(q)) for q in (0.25, 0.5, 0.75))
+    return out
+
+
+def position_in(peers: pd.DataFrame, symbol: str) -> dict:
+    """Phan vi (0-1) cua ma trong TOAN nhom peers theo tung chi so."""
+    out = {}
+    me = peers.loc[peers["symbol"] == symbol.upper()]
+    if me.empty:
+        return out
+    me = me.iloc[0]
+    for k in ("pe", "pb", "roe", "net_margin", "ni_growth", "ret_1y", "market_cap"):
+        vals = pd.to_numeric(peers[k], errors="coerce").dropna()
+        v = me.get(k)
+        if pd.notna(v) and len(vals) >= 3:
+            out[k] = float((vals <= v).mean())
+    return out

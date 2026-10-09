@@ -1,45 +1,12 @@
-# --- lõi ---
-python-dotenv>=1.0
-pyyaml>=6.0
+# Backend web (Vercel Python function) - CHI goi can luc chay.
+# Chay local day du (CLI/Streamlit/WeasyPrint/vnstock): requirements-local.txt
+fastapi>=0.115
+pydantic>=2.7
 pandas>=2.2
 numpy>=1.26
 pyarrow>=16.0
-tenacity>=8.2
 requests>=2.31
 httpx>=0.27
-psutil>=5.9
-scipy>=1.11
-
-# --- nguồn dữ liệu ---
-# DNSE (giá realtime, tuỳ chọn - cần API key) - tái sử dụng từ bot-phan-tich
-dnse-sdk-openapi>=2.3
-urllib3>=2.0
-certifi
-websockets>=12.0
-msgpack>=1.0
-# BCTC dạng bảng 2014-2024 (HSX/HNX) của TS. Ngô Phú Thạnh - UEL (cần `hf auth login`)
-vnfinancialdata>=0.1
-huggingface_hub>=0.23
-# vnstock (BCTC/ngành/tin công bố qua Vietcap) là TUỲ CHỌN: gói đang bị PyPI cách ly
-# từ 25/09/2026. Nếu máy đã cài sẵn (từ bot-phan-tich) thì hệ thống tự dùng.
-#     pip install "vnstock>=4.0"
-
-# --- text mining BCTC PDF ---
-pypdfium2>=4.30
-pdfplumber>=0.11
-
-# --- báo cáo PDF ---
-jinja2>=3.1
-matplotlib>=3.8
-weasyprint>=62      # Windows: cần GTK runtime, hoặc dùng Playwright (dòng dưới)
-# playwright>=1.45  # pip install playwright && playwright install chromium
-
-# --- giao diện ---
-streamlit>=1.46
-
-# --- tuỳ chọn: nhận định bằng Claude API (LLM_ENABLED=1) ---
-# anthropic>=0.40
-
-# --- kiểm thử ---
-pytest>=8.0
-ruff>=0.4
+pyyaml>=6.0
+python-dotenv>=1.0
+tenacity>=8.2

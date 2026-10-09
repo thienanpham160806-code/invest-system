@@ -1,0 +1,32 @@
+{
+  "built_at": "2026-10-09 13:43",
+  "as_of_price": "2026-10-09",
+  "as_of_fin_max": "FY2025",
+  "sources": {
+    "symbols": "Vietcap public API /price/symbols/getAll",
+    "price": "Vietcap public API gap-chart (kho OHLCV ngày)",
+    "board_shares": "Vietcap public API /price/symbols/getList (listedShare)",
+    "industry": "vnstock list_by_industry (live) + bù fiinpro_icb_companies.csv (vn-annual-report-miner)",
+    "financials": "BCTC năm – vn-annual-report-miner (Tumiqa, MIT)"
+  },
+  "checks": {
+    "n_getall": 1522,
+    "n_universe": 1522,
+    "one_icb4_per_symbol": true,
+    "sum_icb1_equals_total": true,
+    "n_unclassified": 0,
+    "industry_source_counts": {
+      "vnstock": 1522
+    },
+    "n_with_price": 1521,
+    "n_with_bctc": 715,
+    "n_shares_approx": 0,
+    "n_liquid": 286,
+    "exchange_counts": {
+      "UPCOM": 817,
+      "HOSE": 406,
+      "HNX": 299
+    }
+  },
+  "elapsed_s": 52.0
+}

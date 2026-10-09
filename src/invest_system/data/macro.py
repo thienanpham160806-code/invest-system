@@ -32,6 +32,10 @@ INDICATORS = {
     "credit_growth": ("Tăng trưởng tín dụng", "%", None),
     "usd_vnd": ("Tỷ giá USD/VND", "VND", "PA.NUS.FCRF"),
     "gov_bond_10y": ("Lợi suất TPCP 10 năm", "%", None),
+    "gdp_growth_ytd": ("GDP lũy kế từ đầu năm", "%", None),
+    "cpi_yoy": ("CPI tháng gần nhất (so cùng kỳ)", "%", None),
+    "credit_growth_ytd": ("Tín dụng từ đầu năm", "%", None),
+    "usd_vnd_ytd": ("Tỷ giá trung tâm thay đổi từ đầu năm", "%", None),
     "private_credit_gdp": ("Tín dụng tư nhân/GDP", "%", "FS.AST.PRVT.GD.ZS"),
 }
 _WB_URL = "https://api.worldbank.org/v2/country/VNM/indicator/{code}?format=json&per_page=60"

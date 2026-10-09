@@ -66,6 +66,8 @@ FIELD_LABELS_VI = {
     "fee_income": "Lãi thuần từ dịch vụ", "total_operating_income": "Tổng thu nhập hoạt động",
     "operating_expense": "Chi phí hoạt động", "provision": "Chi phí dự phòng rủi ro tín dụng",
     "loans": "Cho vay khách hàng", "deposits": "Tiền gửi của khách hàng",
+    "ebit": "EBIT", "ebitda": "EBITDA", "eps_reported": "EPS cơ bản (báo cáo)",
+    "charter_capital": "Vốn góp / vốn điều lệ",
 }
 
 # ---------------------------------------------- anh xa ten cot vnstock (item_id)
@@ -397,7 +399,10 @@ def load_financials(symbol: str, exchange: str | None = None, years: int = 5,
     else:
         std = None
         tried = []
-        for name, loader in (("manual", lambda: from_manual(symbol)),
+        from .arminer_bctc import from_arminer
+
+        for name, loader in (("arminer", lambda: from_arminer(symbol)),
+                             ("manual", lambda: from_manual(symbol)),
                              ("vnstock", lambda: from_router(symbol)),
                              ("vnfinancialdata", lambda: from_vnfinancialdata(symbol, exchange))):
             std = loader()
