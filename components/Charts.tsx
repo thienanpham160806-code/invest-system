@@ -2,7 +2,7 @@
 import { useEffect, useRef } from "react";
 import {
   CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis, ZAxis,
-  BarChart, Bar, Cell, ReferenceLine,
+  BarChart, Bar, Cell, ReferenceLine, Treemap,
 } from "recharts";
 import { num, pct } from "@/lib/fmt";
 
@@ -109,3 +109,29 @@ export function Candles({ bars, height = 380 }: { bars: any[]; height?: number }
 }
 
 export function pctTick(v: number) { return pct(v, 0); }
+
+function heat(v: number | null | undefined) {
+  if (v === null || v === undefined || !Number.isFinite(v)) return "#94a3b8";
+  const x = Math.max(-0.1, Math.min(0.1, v)) / 0.1;
+  return x >= 0 ? `rgba(5,150,105,${0.35 + 0.65 * x})` : `rgba(220,38,38,${0.35 + 0.65 * -x})`;
+}
+
+export function MarketTreemap({ items, height = 360, onClick }: { items: any[]; height?: number; onClick?: (slug: string) => void }) {
+  const data = items.filter((i) => i.market_cap > 0).map((i) => ({ name: i.name, size: i.market_cap, ret: i.ret_1m, slug: i.slug }));
+  const Cell = (p: any) => {
+    const { x, y, width, height: h, name, ret, slug } = p;
+    if (!name) return null;
+    return (
+      <g onClick={() => slug && onClick?.(slug)} style={{ cursor: "pointer" }}>
+        <rect x={x} y={y} width={width} height={h} fill={heat(ret)} stroke="#fff" strokeWidth={2} />
+        {width > 70 && h > 30 && <text x={x + 6} y={y + 18} fill="#fff" fontSize={12} fontWeight={600}>{String(name).slice(0, Math.floor(width / 7))}</text>}
+        {width > 70 && h > 46 && <text x={x + 6} y={y + 34} fill="#fff" fontSize={11}>{ret === null || ret === undefined ? "–" : pct(ret, 1, true)}</text>}
+      </g>
+    );
+  };
+  return (
+    <ResponsiveContainer width="100%" height={height}>
+      <Treemap data={data} dataKey="size" isAnimationActive={false} content={<Cell />} />
+    </ResponsiveContainer>
+  );
+}

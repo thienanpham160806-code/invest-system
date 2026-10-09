@@ -4,6 +4,7 @@ import { useParams } from "next/navigation";
 import { Fragment, useState } from "react";
 import { Candles, CompareLine, Histogram, PbRoeScatter, ScoreBars } from "@/components/Charts";
 import { AsOf, Card, ErrorBox, Loading, SortTable, Stat, Tabs } from "@/components/ui";
+import Sensitivity from "@/components/Sensitivity";
 import { downloadCSV, toCSV, useApi } from "@/lib/api";
 import { bnLabel, cls, dmy, fmtKind, num, pct, price, RATING_COLOR, times } from "@/lib/fmt";
 
@@ -38,7 +39,7 @@ export default function StockPage() {
                   {d.exchange} · {d.company_type_label} · ICB:{" "}
                   {[1, 2, 3, 4].map((l) => <span key={l}>{l > 1 && " › "}<Link className="link" href={`/nganh/${d.icb_slugs["icb" + l]}`}>{d.icb["icb" + l]}</Link></span>)}
                 </div>
-                <div className="mt-1"><AsOf p={d.sources?.[1]} label="Giá đến" /> <AsOf p={d.sources?.[3]} label="BCTC" /></div>
+                <div className="mt-1"><AsOf p={d.sources?.[1]} label="Giá đến" /> {d.bctc_available ? <AsOf p={d.sources?.[3]} label="BCTC" /> : <span className="asof !bg-amber-50 !border-amber-200 !text-amber-800">BCTC: chưa có nguồn cho mã này (arminer chỉ phủ HSX/HNX)</span>}</div>
               </div>
               <div className="flex items-center gap-3">
                 <div className="text-right">
@@ -61,7 +62,7 @@ export default function StockPage() {
           {tab === "sector" && <SectorTab d={d} />}
           {tab === "bctc" && <BctcTab t={t} />}
           {tab === "ratios" && <RatiosTab t={t} />}
-          {tab === "valuation" && <ValuationTab d={d} />}
+          {tab === "valuation" && <><ValuationTab d={d} /><Sensitivity d={d} /></>}
           {tab === "technical" && <TechTab d={d} t={t} />}
           {tab === "news" && <NewsTab t={t} />}
           {tab === "docs" && <DocsTab t={t} />}

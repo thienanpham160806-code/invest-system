@@ -2,7 +2,8 @@
 import Link from "next/link";
 import Search from "@/components/Search";
 import { AsOf, Card, ErrorBox, Loading, SortTable, Stat } from "@/components/ui";
-import { CompareLine } from "@/components/Charts";
+import { CompareLine, MarketTreemap } from "@/components/Charts";
+import { useRouter } from "next/navigation";
 import { useApi } from "@/lib/api";
 import { bnLabel, cls, dmy, num, pct, times } from "@/lib/fmt";
 
@@ -13,6 +14,8 @@ export default function Home() {
   const mac = useApi<any>("/api/py/macro?world_bank=false");
   const sec = useApi<any>("/api/py/sectors?level=1");
   const vn = m.data?.vnindex;
+  const router = useRouter();
+  const sec2 = useApi<any>("/api/py/sectors?level=2");
   return (
     <div className="space-y-5">
       <div className="card bg-gradient-to-r from-[#0b3b6f] to-[#14598f] text-white">
@@ -69,6 +72,11 @@ export default function Home() {
           </div>
         )}
         {mac.data && <p className="text-sm text-slate-600 mt-3">Điểm vĩ mô chung: <b>{num(mac.data.score, 0)}/100</b>. {mac.data.commentary?.slice(0, 4).join(" ")}</p>}
+      </Card>
+
+      <Card title="Bản đồ thị trường theo ngành cấp 2 (ô = vốn hoá, màu = hiệu suất 1 tháng)" right={<AsOf p={sec2.data?.provenance} />}>
+        {sec2.loading && <Loading what="bản đồ ngành" />}
+        {sec2.data && <MarketTreemap items={sec2.data.items} onClick={(slug) => router.push(`/nganh/${slug}`)} />}
       </Card>
 
       <Card title="Ngành cấp 1 (ICB) – toàn thị trường" right={<span><AsOf p={sec.data?.provenance} /> <Link className="link text-sm ml-2" href="/nganh">Xem tất cả cấp →</Link></span>}>
