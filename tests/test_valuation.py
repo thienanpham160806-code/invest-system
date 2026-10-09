@@ -17,7 +17,8 @@ def test_bank_uses_justified_pb_not_dcf():
 
 
 def test_justified_pb_formula():
-    # ROE 20%, Ke 3% + 1.0*8% = 11%, g = min(ROE*(1-0.25), 8%, Ke-2%) = 8% -> P/B = (0.20-0.08)/(0.11-0.08) = 4.0 (cat tran 4.0)
+    # ROE 20%, Ke = max(3% + 1.0*8%, san 12%) = 12%, g = min(ROE*(1-0.25), 6%, Ke-4%) = 6%
+    # -> P/B = (0.20-0.06)/(0.12-0.06) = 2.333
     years = [2021, 2022, 2023, 2024, 2025]
     frame = pd.DataFrame({"net_income_parent": [20.0] * 5, "equity": [100.0] * 5,
                           "total_assets": [1000.0] * 5, "net_interest_income": [30.0] * 5},
@@ -26,7 +27,7 @@ def test_justified_pb_formula():
     ratios = compute_ratios(fin, "BANK")
     val = value_company(fin, "BANK", 10000, 1e7, ratios, {}, beta=1.0, rf=0.03)
     jpb = next(m for m in val.methods if m.key == "justified_pb")
-    assert jpb.inputs["P/B hợp lý"] == pytest.approx(4.0)
+    assert jpb.inputs["P/B hợp lý"] == pytest.approx(0.14 / 0.06)
 
 
 def test_dcf_skipped_when_fcff_negative():

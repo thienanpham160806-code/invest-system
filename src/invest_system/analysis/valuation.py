@@ -64,7 +64,9 @@ def cost_of_equity(beta: float | None, rf: float, erp: float) -> tuple[float, fl
     s = get_settings()
     b = beta if beta is not None else s.get("valuation.default_beta", 1.0)
     b = float(np.clip(b, s.get("valuation.beta_floor", 0.6), s.get("valuation.beta_ceiling", 1.8)))
-    return rf + b * erp, b
+    # San Ke: CAPM voi beta thap + rf thap cho Ke ~9-10%, thap hon thuc tien dinh gia cua CTCK VN
+    # (12-15%) va lam mo hinh Gordon/DCF bung no khi Ke - g qua nho.
+    return max(rf + b * erp, s.get("valuation.ke_floor", 0.12)), b
 
 
 def _multiple_triplet(sector_q: dict, key: str, own_hist: pd.Series | None):
@@ -243,7 +245,8 @@ def _justified_pb(ratios, bvps, ke, methods, res):
     roe = float(ratios["roe"].dropna().tail(3).mean())
     payout = 0.25
     g_sus = float(np.clip(roe * (1 - payout), 0.0, ke - 0.02))
-    g_sus = min(g_sus, 0.08)  # tang truong ben vung dai han khong vuot ~ GDP danh nghia
+    # g dai han <= 6% va cach Ke >= 4 diem % (tranh mau so (Ke-g) qua nho -> P/B vo ly)
+    g_sus = min(g_sus, get_settings().get("valuation.bank_g_cap", 0.06), ke - 0.04)
     res.assumptions.update({"bank_roe": roe, "bank_g": g_sus})
 
     def pb(roe_):
