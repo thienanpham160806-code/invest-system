@@ -173,7 +173,23 @@ Chỉ kết luận **"có lợi thế"** khi đồng thời:
 Thiếu bất kỳ điều kiện nào → báo cáo **"không có bằng chứng lợi thế có ý nghĩa thống kê"**, kèm số liệu đầy đủ.
 Không chỉnh tham số sau khi xem kết quả OOS; nếu buộc phải sửa lỗi code thì chạy lại, giữ cả kết quả trước/sau ở mục 10.
 
-## 10. Nhật ký thay đổi sau khi chạy
+## 10. Nhật ký thay đổi
+
+### Trước khi chạy (chưa xem kết quả nào)
+
+- **10/10/2026 — cách tái tạo điểm.** Không viết lại công thức: `backtest/history.py` chạy lại đúng
+  `web/service.analysis()` với đầu vào cắt tại `t` (giá, VN-Index, universe, BCTC năm đã công bố), vĩ mô tắt, không tin
+  tức. Kiểm tra tại 09/10/2026: 8/8 mã cho cùng khuyến nghị với bảng `/co-hoi` live.
+- **10/10/2026 — TTM.** Định giá live dùng LNST TTM khi có 4 quý. Backtest dùng TTM point-in-time từ
+  `data/reference/bctc_quarterly.parquet` (VCI, **ngày công bố thật** từng quý). Vì vậy lần chạy chính thức chỉ bắt đầu
+  sau khi tải xong BCTC quý; các lần chạy trước đó chỉ để gỡ lỗi code trên giai đoạn ngắn, **không đọc kết quả**.
+- **10/10/2026 — chi tiết engine.** Tiền bán về sau T+2 mới mua được; lệnh chưa khớp (thiếu tiền, kẹt sàn, mã tạm
+  ngưng) giữ tới khi khớp hoặc tới kỳ tái cân bằng sau. Cuối mỗi lát test walk-forward đóng toàn bộ vị thế (có tính
+  phí, thuế) để lát sau bắt đầu sạch với tham số mới — bảo thủ hơn giữ nguyên danh mục.
+- **10/10/2026 — benchmark** "cân bằng toàn universe" và "top N vốn hoá" tái cân bằng **tháng**, cùng phí/thuế/T+2;
+  top N vốn hoá dùng N của cấu hình được chọn ở từng lát.
+
+### Sau khi chạy
 
 (trống — chưa chạy)
 
