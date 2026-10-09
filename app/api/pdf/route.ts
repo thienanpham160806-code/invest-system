@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
     if (!executablePath) {
       const chromium = (await import("@sparticuz/chromium")).default;
       executablePath = await chromium.executablePath();
-      args = puppeteer.defaultArgs({ args: chromium.args, headless: "shell" });
+      args = await puppeteer.defaultArgs({ args: chromium.args, headless: "shell" });
     }
     browser = await puppeteer.launch({ args, executablePath, headless: "shell", defaultViewport: { width: 1200, height: 1600 } });
     const page = await browser.newPage();
