@@ -105,13 +105,35 @@ def load_universe() -> tuple[pd.DataFrame, dict]:
             frame = pd.read_parquet(io.BytesIO(raw))
             meta = json.loads(meta_raw) if meta_raw else {}
             meta["origin"] = "Vercel Blob (universe/latest.parquet)"
+            return _merge_ttm(frame, meta), meta
         else:
             frame = pd.read_parquet(SNAPSHOT_DIR / "market_universe.parquet")
             path = SNAPSHOT_DIR / "meta.json"
             meta = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
             meta["origin"] = "Bản đóng gói trong repo (webdata/snapshot)"
-        return frame, meta
+        return _merge_ttm(frame, meta), meta
     return _cached("universe", loader)
+
+
+def _merge_ttm(frame: pd.DataFrame, meta: dict) -> pd.DataFrame:
+    """Ghep LNST 4 quy gan nhat (scripts/build_ttm.py) -> P/E TTM cho cac ma co du lieu quy."""
+    if "ni_ttm" in frame.columns:
+        return frame
+    raw = _blob_get("ttm.parquet") if meta.get("origin", "").startswith("Vercel Blob") else None
+    path = SNAPSHOT_DIR / "ttm.parquet"
+    if raw is not None:
+        ttm = pd.read_parquet(io.BytesIO(raw))
+    elif path.exists():
+        ttm = pd.read_parquet(path)
+    else:
+        return frame
+    frame = frame.merge(ttm, on="symbol", how="left")
+    ok = frame["ni_ttm"] > 0
+    frame["pe_ttm"] = (frame["market_cap"] / frame["ni_ttm"]).where(ok)
+    frame["eps_ttm"] = (frame["ni_ttm"] / frame["shares"]).where(ok)
+    meta.setdefault("sources", {})["ttm"] = (f"vnstock BCTC quý (Vietcap) – {int(frame['ni_ttm'].notna().sum())} mã "
+                                             "thanh khoản cao, LNST CĐ mẹ 4 quý gần nhất")
+    return frame
 
 
 def load_sector_index() -> pd.DataFrame:

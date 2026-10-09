@@ -1,5 +1,5 @@
 {
-  "built_at": "2026-10-09 13:46",
+  "built_at": "2026-10-09 14:14",
   "as_of_price": "2026-10-09",
   "as_of_fin_max": "FY2025",
   "sources": {
@@ -21,12 +21,12 @@
     "n_with_price": 1521,
     "n_with_bctc": 715,
     "n_shares_approx": 0,
-    "n_liquid": 286,
+    "n_liquid": 287,
     "exchange_counts": {
       "UPCOM": 817,
       "HOSE": 406,
       "HNX": 299
     }
   },
-  "elapsed_s": 88.5
+  "elapsed_s": 87.4
 }

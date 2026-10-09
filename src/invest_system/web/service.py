@@ -25,10 +25,17 @@ from ..analysis.valuation import value_company
 from ..data import arminer_bctc
 from ..data.fundamentals import FIELD_LABELS_VI, StandardFinancials, _fill_derived
 from ..data.macro import INDICATORS, load_macro
+from ..narrative.llm import analyze_macro as analyze_macro_narrative
 from ..validation import checks
 from .universe import (
-    COMPANY_TYPE_LABELS, UNCLASSIFIED, load_ohlcv_snapshot, load_sector_index, load_universe,
-    load_vnindex_snapshot, node_key, zenodo_index,
+    COMPANY_TYPE_LABELS,
+    UNCLASSIFIED,
+    load_ohlcv_snapshot,
+    load_sector_index,
+    load_universe,
+    load_vnindex_snapshot,
+    node_key,
+    zenodo_index,
 )
 
 TZ = ZoneInfo("Asia/Ho_Chi_Minh")
@@ -94,6 +101,7 @@ UNIVERSE_COLS = [
     "price", "change_1d", "ret_1m", "ret_3m", "ret_ytd", "ret_1y", "avg_value_20d", "shares",
     "shares_source", "market_cap", "pe", "pb", "ev_ebitda", "roe", "net_margin", "ni_growth",
     "debt_to_equity", "eps", "fin_year", "liquidity_flag", "has_bctc", "as_of_price", "as_of_fin",
+    "pe_ttm", "ttm_label",
 ]
 
 
@@ -120,10 +128,10 @@ def search(q: str, limit: int = 12) -> dict:
     sym = uni["symbol"].str.upper()
     exact = uni[sym == q.upper()]
     starts = uni[sym.str.startswith(q.upper()) & (sym != q.upper())]
-    names = uni["name"].fillna("").map(_strip)
+    names = (uni["name"].fillna("") + " " + (uni["brand"].fillna("") if "brand" in uni.columns else "")).map(_strip)
     by_name = uni[names.str.contains(re.escape(qs), regex=True) & ~sym.str.startswith(q.upper())]
     hits = pd.concat([exact, starts, by_name]).drop_duplicates("symbol").head(limit)
-    cols = ["symbol", "name", "exchange", "icb2", "icb4", "price", "market_cap"]
+    cols = [c for c in ["symbol", "name", "brand", "exchange", "icb2", "icb4", "price", "market_cap"] if c in hits.columns]
     return {"items": jsonable(hits[cols]), "provenance": universe_prov(meta)}
 
 
@@ -215,7 +223,8 @@ def market() -> dict:
               "ret_1y": r(250) if len(c) > 250 else None,
               "ret_ytd": float(c.iloc[-1] / ystart.iloc[-1] - 1) if len(ystart) else None,
               "as_of": _iso(vni["time"].iloc[-1]),
-              "series": [{"time": _iso(t), "close": float(v)} for t, v in zip(vni["time"], c)][-260:]}
+              "series": [{"time": _iso(t), "close": float(v)}
+                         for t, v in zip(vni["time"], c, strict=True)][-260:]}
     adv = int((uni["change_1d"] > 0).sum())
     dec = int((uni["change_1d"] < 0).sum())
     stats = {
@@ -273,7 +282,7 @@ def macro(company_type: str = "NON_FINANCIAL", world_bank: bool = True) -> dict:
     return jsonable({
         "latest": md.latest, "table": rows, "score": res.score, "sector_impact": impact,
         "company_type": company_type, "sector_score": res.sector_score, "z": res.z,
-        "commentary": res.commentary, "notes": md.notes, "history": hist,
+        "commentary": analyze_macro_narrative({"macro": res}), "notes": md.notes, "history": hist,
         "provenance": prov("config/macro_vn.csv (GSO/NSO, NHNN, HNX – có URL từng dòng)"
                            + (" + World Bank Open Data API (chuỗi lịch sử)" if world_bank else ""),
                            max((r["as_of"] for r in rows if isinstance(r["as_of"], str)), default=None)),
@@ -319,7 +328,8 @@ def sectors(level: int = 1) -> dict:
         ctype = members.groupby("company_type")["market_cap"].sum().idxmax() \
             if members["market_cap"].notna().any() else members["company_type"].mode().iloc[0]
         sc = sector_mod.sector_score_universe(st, impacts.get(ctype))
-        parent = {f"icb{l}": members[f"icb{l}"].iloc[0] for l in range(1, level)}
+        parent = {f"icb{parent_level}": members[f"icb{parent_level}"].iloc[0]
+                  for parent_level in range(1, level)}
         items.append({"slug": node_key(level, name), "name": name, "level": level, **parent,
                       "company_type": ctype, **st, "score": sc["score"], "score_components": sc["components"]})
     for k in ("ret_1m", "ret_3m", "ret_ytd", "ret_1y", "score"):
@@ -368,8 +378,9 @@ def sector_detail(slug: str) -> dict:
         for cname, cm in members.groupby(f"icb{level + 1}"):
             children.append({"slug": node_key(level + 1, cname), "name": cname, "n_symbols": int(len(cm)),
                              "market_cap": float(cm["market_cap"].sum())})
-    parents = [{"slug": node_key(l, members[f"icb{l}"].iloc[0]), "name": members[f"icb{l}"].iloc[0], "level": l}
-               for l in range(1, level)]
+    parents = [{"slug": node_key(parent_level, members[f"icb{parent_level}"].iloc[0]),
+                "name": members[f"icb{parent_level}"].iloc[0], "level": parent_level}
+               for parent_level in range(1, level)]
     cols = [c for c in UNIVERSE_COLS if c in members.columns]
     return jsonable({
         "slug": slug, "name": name, "level": level, "company_type": ctype, "parents": parents,
@@ -396,8 +407,9 @@ def profile(symbol: str) -> dict:
     has = symbol.upper() in set(cov["ticker"])
     return jsonable({
         "symbol": row["symbol"], "name": row.get("name"), "exchange": row["exchange"],
-        "icb": {f"icb{l}": row[f"icb{l}"] for l in range(1, 5)},
-        "icb_slugs": {f"icb{l}": node_key(l, row[f"icb{l}"]) for l in range(1, 5)},
+        "icb": {f"icb{industry_level}": row[f"icb{industry_level}"] for industry_level in range(1, 5)},
+        "icb_slugs": {f"icb{industry_level}": node_key(industry_level, row[f"icb{industry_level}"])
+                      for industry_level in range(1, 5)},
         "industry_source": row["industry_source"], "website": row.get("website"),
         "company_type": row["company_type"], "company_type_label": COMPANY_TYPE_LABELS[row["company_type"]],
         "shares": row.get("shares"), "shares_source": row.get("shares_source"),
@@ -449,6 +461,26 @@ def financials_std(symbol: str, years: int = 10) -> StandardFinancials:
     return std
 
 
+_KEY_ORDER = {
+    "is": ["revenue", "net_interest_income", "fee_income", "total_operating_income", "cogs", "gross_profit",
+           "selling_expense", "admin_expense", "operating_expense", "operating_profit", "provision",
+           "interest_expense", "ebit", "ebitda", "pbt", "net_income", "net_income_parent", "eps_reported"],
+    "bs": ["current_assets", "cash", "short_investments", "receivables", "inventory", "loans", "fixed_assets",
+           "total_assets", "total_liabilities", "current_liabilities", "short_debt", "long_debt", "deposits",
+           "equity", "charter_capital", "minority_interest"],
+    "cf": ["cfo", "depreciation", "capex", "cfi", "dividends_paid", "cff"],
+}
+
+
+def _key_rank(std: StandardFinancials, statement: str) -> dict[str, tuple[int, str]]:
+    """item_code -> (thu tu, ten chi tieu chuan) cho cac dong da anh xa."""
+    out = {}
+    for i, fld in enumerate(_KEY_ORDER[statement]):
+        for code in re.findall(r"([a-z]{2}_[a-z0-9_]+) \(", std.mapping.get(fld, "")):
+            out.setdefault(code, (i, FIELD_LABELS_VI.get(fld, fld)))
+    return out
+
+
 def financials(symbol: str, statement: str = "is", years: int = 5) -> dict:
     _row(symbol)
     statement = statement if statement in ("bs", "is", "cf") else "is"
@@ -464,6 +496,10 @@ def financials(symbol: str, statement: str = "is", years: int = 5) -> dict:
         b = raw[raw["item_code"].str.match(base_code)]
         if not b.empty:
             base = b.iloc[0]
+    std = financials_std(symbol, years)
+    rank = _key_rank(std, statement)
+    raw = raw.assign(_rank=raw["item_code"].map(lambda c: rank.get(c, (1000, ""))[0]))
+    raw = raw.sort_values(["_rank", "item_name"], kind="stable").drop(columns="_rank")
     rows = []
     for r in raw.itertuples(index=False):
         d = r._asdict()
@@ -473,9 +509,12 @@ def financials(symbol: str, statement: str = "is", years: int = 5) -> dict:
         for i, y in enumerate(year_cols[1:], 1):
             prev = vals[year_cols[i - 1]]
             yoy[y] = (vals[y] / prev - 1) if prev and pd.notna(prev) and prev > 0 and pd.notna(vals[y]) else None
+        is_eps = "tren_co_phieu" in d["item_code"]
         rows.append({"item_code": d["item_code"], "item_name": d["item_name"], "values": vals,
-                     "common_size": common, "yoy": yoy})
-    std = financials_std(symbol, years)
+                     "common_size": {y: None for y in year_cols} if is_eps else common, "yoy": yoy,
+                     "unit": "VND/cp" if is_eps else "VND",
+                     "group": "key" if d["item_code"] in rank else "detail",
+                     "std_label": rank.get(d["item_code"], (0, None))[1]})
     return jsonable({
         "symbol": symbol.upper(), "statement": statement, "years": [int(y) for y in year_cols],
         "rows": rows, "common_size_base": None if base is None else base["item_name"],
@@ -682,6 +721,7 @@ def analysis(symbol: str, years: int = 5, with_news: bool = True) -> dict:
     peer_stats = sector_mod.node_stats(peers, float(uni["market_cap"].sum()), bench_ret)
     md = macro_data(False)
     mres = analyze_macro(md, ctype)
+    macro_commentary = analyze_macro_narrative({"macro": mres})
     sc = sector_mod.sector_score_universe(peer_stats, mres.sector_score)
     perf = {"sector_ret_3m": peer_stats.get("ret_3m"), "bench_ret_3m": bench_ret.get("ret_3m"),
             "sector_ret_1y": peer_stats.get("ret_1y"), "bench_ret_1y": bench_ret.get("ret_1y")}
@@ -736,15 +776,18 @@ def analysis(symbol: str, years: int = 5, with_news: bool = True) -> dict:
     out = {
         "symbol": sym, "name": row.get("name"), "exchange": row["exchange"],
         "company_type": ctype, "company_type_label": COMPANY_TYPE_LABELS[ctype],
-        "icb": {f"icb{l}": row[f"icb{l}"] for l in range(1, 5)},
-        "icb_slugs": {f"icb{l}": node_key(l, row[f"icb{l}"]) for l in range(1, 5)},
+        "icb": {f"icb{industry_level}": row[f"icb{industry_level}"] for industry_level in range(1, 5)},
+        "icb_slugs": {f"icb{industry_level}": node_key(industry_level, row[f"icb{industry_level}"])
+                      for industry_level in range(1, 5)},
         "price": price_now, "as_of_price": _iso(ohlcv["time"].iloc[-1]) if not ohlcv.empty else row.get("as_of_price"),
         "shares": shares, "shares_source": row.get("shares_source"),
         "market_cap": price_now * shares if price_now and shares else None,
-        "metrics": {k: row.get(k) for k in ("pe", "pb", "ev_ebitda", "roe", "net_margin", "ni_growth",
+        "metrics": {k: row.get(k) for k in ("pe", "pe_ttm", "eps_ttm", "ni_ttm", "ttm_label", "pb", "ev_ebitda", "roe", "net_margin", "ni_growth",
                                             "debt_to_equity", "eps", "avg_value_20d", "ret_1m", "ret_3m",
                                             "ret_ytd", "ret_1y", "fin_year")},
-        "eps_basis": f"FY{int(row['fin_year'])} (BCTC năm; chưa có dữ liệu quý trên máy chủ web)"
+        "eps_basis": (f"P/E FY{int(row['fin_year'])} (BCTC năm arminer)"
+                      + (f"; {row['ttm_label']} = {row['pe_ttm']:.1f}x (vnstock quý {row['ttm_periods']})"
+                         if pd.notna(row.get("pe_ttm")) else "; chưa có số quý (TTM) cho mã này"))
                      if pd.notna(row.get("fin_year")) else None,
         "recommendation": {"rating": result.rating, "base_rating": result.base_rating,
                            "reason": result.rating_reason, "total_score": result.total,
@@ -767,7 +810,7 @@ def analysis(symbol: str, years: int = 5, with_news: bool = True) -> dict:
             "peers": peer_table,
         },
         "macro": {"score": mres.score, "sector_score": mres.sector_score, "label": mres.sector_label,
-                  "commentary": mres.commentary, "table": mres.table},
+                  "commentary": macro_commentary, "table": mres.table},
         "ratios_last": ratios_last, "growth": growth,
         "technical": None if tech is None else {
             "action": tech.action, "total_score": tech.total_score, "components": tech.component_scores,

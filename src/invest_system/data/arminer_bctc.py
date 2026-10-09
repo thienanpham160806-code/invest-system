@@ -112,7 +112,9 @@ def repack(out: Path = PACKED, row_group_size: int = 20_000) -> Path:
     if not frames:
         raise FileNotFoundError(f"Khong thay du lieu arminer trong {RAW_DIR}")
     long = pd.concat(frames, ignore_index=True)
-    long = long.sort_values(["ticker", "statement", "year", "item_code"], kind="stable")
+    # giu THU TU DONG GOC cua mau bieu (de hien BCTC dung trinh tu CDKT/KQKD/LCTT)
+    long["line_no"] = long.groupby(["ticker", "statement", "year"]).cumcount().astype("int32")
+    long = long.sort_values(["ticker", "statement", "year", "line_no"], kind="stable")
     for col in ("ticker", "exchange", "statement"):
         long[col] = long[col].astype(str)
     long.to_parquet(out, index=False, row_group_size=row_group_size, compression="zstd")
@@ -166,6 +168,8 @@ def raw_statement(symbol: str, statement: str, years: int = 5) -> pd.DataFrame:
         return pd.DataFrame()
     keep_years = sorted(part["year"].unique())[-years:]
     part = part[part["year"].isin(keep_years)]
+    if "line_no" in part.columns:  # thu tu dong goc (nam gan nhat uu tien)
+        part = part.sort_values(["year", "line_no"], ascending=[False, True])
     order = part.drop_duplicates("item_code")[["item_code", "item_name"]]
     wide = part.pivot_table(index="item_code", columns="year", values="value", aggfunc="last")
     wide = order.set_index("item_code").join(wide, how="left")

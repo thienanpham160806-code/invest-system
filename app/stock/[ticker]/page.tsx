@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { Candles, CompareLine, Histogram, PbRoeScatter, ScoreBars } from "@/components/Charts";
 import { AsOf, Card, ErrorBox, Loading, SortTable, Stat, Tabs } from "@/components/ui";
 import { downloadCSV, toCSV, useApi } from "@/lib/api";
@@ -84,7 +84,7 @@ function Overview({ d }: { d: any }) {
           <Stat label="Upside" value={<span className={cls(r.upside)}>{pct(r.upside, 1, true)}</span>} />
           <Stat label="Điểm tổng hợp" value={num(r.total_score, 0) + "/100"} sub={r.base_rating && r.base_rating !== r.rating ? `Theo upside: ${r.base_rating}` : undefined} />
           <Stat label="Vốn hoá" value={bnLabel(d.market_cap)} sub={d.shares_source} />
-          <Stat label="P/E" value={times(m.pe)} sub={d.eps_basis} />
+          <Stat label={`P/E FY${m.fin_year || ""}${m.pe_ttm ? " · " + m.ttm_label : ""}`} value={<>{times(m.pe)}{m.pe_ttm ? <span className="text-slate-500"> · {times(m.pe_ttm)}</span> : null}</>} sub={d.eps_basis} />
           <Stat label="P/B" value={times(m.pb, 2)} />
           <Stat label="ROE" value={pct(m.roe)} />
           <Stat label="Tăng trưởng LN" value={<span className={cls(m.ni_growth)}>{pct(m.ni_growth, 1, true)}</span>} sub={m.fin_year ? `FY${m.fin_year} vs FY${m.fin_year - 1}` : ""} />
@@ -206,14 +206,19 @@ function BctcTab({ t, years: y0 = 5 }: { t: string; years?: number }) {
             <table className="tbl">
               <thead className="sticky top-0"><tr><th>Chỉ tiêu</th>{ys.map((y) => <th key={y} className="text-right">FY{y}</th>)}</tr></thead>
               <tbody>
-                {data.rows.map((r: any) => (
-                  <tr key={r.item_code} className={/^[A-ZĐÀ-Ỹ\s,]+$/.test(r.item_name) && r.item_name.length > 4 ? "font-semibold" : ""}>
-                    <td title={r.item_code} className="whitespace-normal min-w-64">{r.item_name}</td>
-                    {ys.map((y) => {
-                      const v = mode === "values" ? r.values[y] : mode === "common" ? r.common_size[y] : r.yoy[y];
-                      return <td key={y} className={`text-right tabular-nums ${mode === "yoy" ? cls(v) : ""}`}>{mode === "values" ? num(v / 1e9, 0) : pct(v, 1)}</td>;
-                    })}
-                  </tr>
+                {data.rows.map((r: any, i: number) => (
+                  <Fragment key={r.item_code}>
+                    {(i === 0 || data.rows[i - 1].group !== r.group) && (
+                      <tr><td colSpan={ys.length + 1} className="bg-sky-50 font-semibold text-[#0b3b6f]">{r.group === "key" ? "Chỉ tiêu chính (trình tự chuẩn)" : "Chi tiết khác (theo tên chỉ tiêu của nguồn)"}</td></tr>
+                    )}
+                    <tr className={r.group === "key" ? "font-medium" : ""}>
+                      <td title={`${r.item_code}${r.std_label ? " → " + r.std_label : ""}`} className="whitespace-normal min-w-64">{r.item_name}</td>
+                      {ys.map((y) => {
+                        const v = mode === "values" ? r.values[y] : mode === "common" ? r.common_size[y] : r.yoy[y];
+                        return <td key={y} className={`text-right tabular-nums ${mode === "yoy" ? cls(v) : ""}`}>{mode === "values" ? (r.unit === "VND/cp" ? num(v) : num(v / 1e9, 0)) : pct(v, 1)}</td>;
+                      })}
+                    </tr>
+                  </Fragment>
                 ))}
               </tbody>
             </table>

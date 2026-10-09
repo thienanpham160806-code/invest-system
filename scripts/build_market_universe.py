@@ -77,6 +77,7 @@ def load_fiinpro() -> pd.DataFrame:
         "Ngành ICB Cấp 1 (Industry)": "icb1", "Ngành ICB Cấp 2 (Supersector)": "icb2",
         "Ngành ICB Cấp 3 (Sector)": "icb3", "Ngành ICB Cấp 4 (Subsector)": "icb4",
         "Mã Phân Ngành (ICB Code L4)": "icb4_code", "Trang chủ (Website)": "website",
+        "Tên thương hiệu / Viết tắt": "brand",
     })
     f["symbol"] = f["symbol"].astype(str).str.upper().str.strip()
     f["icb4_code"] = f["icb4_code"].astype(str)
@@ -188,30 +189,38 @@ def sector_index(universe: pd.DataFrame, ohlcv: pd.DataFrame, days: int = 260) -
 
 
 def upload_blob(path: Path, pathname: str) -> str | None:
-    token = os.getenv("BLOB_READ_WRITE_TOKEN")
-    if not token:
-        log.warning("Thieu BLOB_READ_WRITE_TOKEN -> bo qua upload")
-        return None
-    import requests
+    """Day len Vercel Blob bang CLI chinh thuc `vercel blob put` (can `vercel login` va
+    BLOB_READ_WRITE_TOKEN - lay bang `vercel env pull`). Tra ve URL cong khai."""
+    import re
+    import shutil
+    import subprocess
 
-    resp = requests.put(
-        f"https://blob.vercel-storage.com/{pathname}",
-        data=path.read_bytes(),
-        headers={"authorization": f"Bearer {token}", "x-api-version": "7",
-                 "x-add-random-suffix": "0", "x-allow-overwrite": "1",
-                 "x-content-type": "application/octet-stream", "x-cache-control-max-age": "60"},
-        timeout=120,
-    )
-    resp.raise_for_status()
-    url = resp.json().get("url")
-    log.info("Upload %s -> %s", path.name, url)
-    return url
+    exe = shutil.which("vercel") or shutil.which("vercel.cmd")
+    if not exe:
+        log.warning("Khong thay Vercel CLI -> bo qua upload")
+        return None
+    cmd = [exe, "blob", "put", str(path), "--pathname", pathname, "--access", "public",
+           "--allow-overwrite", "true", "--cache-control-max-age", "60"]
+    token = os.getenv("BLOB_READ_WRITE_TOKEN")
+    if token:
+        cmd += ["--rw-token", token]
+    out = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace")
+    url = re.search(r"https://\S+blob\.vercel-storage\.com/\S+", out.stdout + out.stderr)
+    if out.returncode != 0 or not url:
+        log.warning("Upload %s loi: %s", path.name, (out.stdout + out.stderr)[-400:])
+        return None
+    log.info("Upload %s -> %s", path.name, url.group(0))
+    return url.group(0)
 
 
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--upload", action="store_true")
+    ap.add_argument("--upload-only", action="store_true", help="Chi day ban da dung len Blob")
     args = ap.parse_args()
+    if args.upload_only:
+        upload_all()
+        return
     setup_logging()
     t0 = time.time()
     SNAPSHOT_DIR.mkdir(parents=True, exist_ok=True)
@@ -262,6 +271,7 @@ def main() -> None:
                          "industry_source": "none"})
     uni = uni.merge(pd.DataFrame(recs), on="symbol", how="left")
     uni["website"] = uni["symbol"].map(fi["website"]) if "website" in fi.columns else None
+    uni["brand"] = uni["symbol"].map(fi["brand"]) if "brand" in fi.columns else None
     uni["name"] = uni["board_name"].fillna(uni["vn_name"]).fillna(uni["symbol"].map(fi["fiin_name"]))
     uni["company_type"] = [classify_company_type(r.com_type_code, r.icb1, r.icb2, r.icb3, r.icb4)
                            for r in uni.itertuples()]
@@ -329,8 +339,15 @@ def main() -> None:
     print(json.dumps(meta, ensure_ascii=False, indent=2))
 
     if args.upload:
-        for name in ("market_universe.parquet", "sector_index.parquet", "meta.json"):
-            upload_blob(SNAPSHOT_DIR / name, f"universe/{'latest.parquet' if name == 'market_universe.parquet' else name}")
+        upload_all()
+
+
+def upload_all() -> None:
+    """market_universe -> universe/latest.parquet (+ meta, ttm). Backend doc qua BLOB_BASE_URL."""
+    for name, target in (("market_universe.parquet", "latest.parquet"), ("meta.json", "meta.json"),
+                         ("ttm.parquet", "ttm.parquet")):
+        if (SNAPSHOT_DIR / name).exists():
+            print(upload_blob(SNAPSHOT_DIR / name, f"universe/{target}"))
 
 
 if __name__ == "__main__":

@@ -157,6 +157,7 @@ function ReportBody({ d, sections, template, years }: { d: any; sections: string
               <tr><td>Vốn hoá</td><td>{bnLabel(a.market_cap)}</td></tr>
               <tr><td>Số CP</td><td>{num(a.shares)}</td></tr>
               <tr><td>P/E ({a.metrics.fin_year ? `FY${a.metrics.fin_year}` : "–"})</td><td>{times(a.metrics.pe)}</td></tr>
+              {a.metrics.pe_ttm && <tr><td>P/E ({a.metrics.ttm_label})</td><td>{times(a.metrics.pe_ttm)}</td></tr>}
               <tr><td>P/B</td><td>{times(a.metrics.pb, 2)}</td></tr>
               <tr><td>EV/EBITDA</td><td>{times(a.metrics.ev_ebitda)}</td></tr>
               <tr><td>ROE</td><td>{pct(a.metrics.roe)}</td></tr>
