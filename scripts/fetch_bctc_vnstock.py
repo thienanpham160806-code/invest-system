@@ -7,26 +7,29 @@ Examples:
 from __future__ import annotations
 
 import argparse
+import io
 import json
 import re
 import subprocess
 import sys
 import time
-import io
 from datetime import datetime
 from pathlib import Path
 
-import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from invest_system.data.arminer_bctc import FIELD_CODES, VNSTOCK_PACKED, _vnstock_supplement, coverage  # noqa: E402
+from invest_system.data.arminer_bctc import (  # noqa: E402
+    FIELD_CODES,
+    VNSTOCK_PACKED,
+    _vnstock_supplement,
+    coverage,
+)
 from invest_system.data.fundamentals import FIELD_LABELS_VI, standardize_vnstock  # noqa: E402
 from invest_system.data.vietcap import VietcapProvider, _parent_profit_column  # noqa: E402
 from invest_system.web.universe import SNAPSHOT_DIR, classify_company_type  # noqa: E402
-
 
 REFERENCE = ROOT / "data" / "reference"
 CACHE = REFERENCE / "bctc_vnstock" / "by_symbol"
@@ -53,6 +56,14 @@ FIELD_STATEMENT = {
 def _period_key(value) -> tuple[int, int] | None:
     match = re.fullmatch(r"\s*(20\d{2})-Q([1-4])\s*", str(value))
     return (int(match.group(1)), int(match.group(2))) if match else None
+
+
+def _tickers_for_exchange(frame: pd.DataFrame, exchange: str) -> set[str]:
+    """Return cached supplement symbols, including the empty/missing-schema case."""
+    if frame.empty or not {"ticker", "exchange"}.issubset(frame.columns):
+        return set()
+    rows = frame.loc[frame["exchange"].astype(str).str.upper() == exchange.upper(), "ticker"]
+    return set(rows.astype(str).str.upper())
 
 
 def _has_four_consecutive(keys: list[tuple[int, int]]) -> bool:
@@ -156,6 +167,7 @@ def _upload(path: Path, pathname: str) -> None:
 def _download_existing() -> None:
     """Restore the last published supplement so scheduled runs can resume across runners."""
     import os
+
     import requests
 
     base = os.environ.get("BLOB_BASE_URL", "").rstrip("/")
@@ -181,11 +193,11 @@ def run(exchange: str, top: int | None, resume: bool, delay: float, years: int, 
     if exchange == "UPCOM":
         # Only a supplement tagged UPCOM counts; legacy HSX/HNX records with the
         # same ticker must not silently suppress a current UPCOM fetch.
-        current_upcom = set(_vnstock_supplement().loc[lambda x: x["exchange"] == "UPCOM", "ticker"].astype(str))
+        current_upcom = _tickers_for_exchange(_vnstock_supplement(), "UPCOM")
         candidates = candidates[~candidates["symbol"].isin(current_upcom)]
     else:
         if exchange == "ALL":
-            present = set(zip(available["ticker"].astype(str), available["exchange"].astype(str)))
+            present = set(zip(available["ticker"].astype(str), available["exchange"].astype(str), strict=True))
             candidates = candidates[[ (str(row.symbol), str(row.exchange)) not in present
                                       for row in candidates.itertuples() ]]
         else:
