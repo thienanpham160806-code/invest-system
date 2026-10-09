@@ -147,6 +147,11 @@ function heat(v: number | null | undefined) {
 export function MarketTreemap({ items, height = 440, periodLabel = "1 tháng", onClick }: { items: any[]; height?: number; periodLabel?: string; onClick?: (slug: string) => void }) {
   const [path, setPath] = useState<any[]>([]);
   const current = path.length ? path[path.length - 1].children || [] : items;
+  const withPerformance = (nodes: any[]): any[] => nodes.map((item) => ({
+    ...item,
+    performance: item.performance ?? item.value,
+    ...(item.children?.length ? { children: withPerformance(item.children) } : {}),
+  }));
   const handleSelect = (node: any) => {
     if (node.children?.length) setPath((prev) => [...prev, node]);
     else if (node.slug) onClick?.(node.slug);
@@ -156,7 +161,7 @@ export function MarketTreemap({ items, height = 440, periodLabel = "1 tháng", o
     const { x, y, width, height: h, name, children } = p;
     // Treemap's `value` prop is the dataKey used for cell area (market cap).
     // The node's own `value` field is the selected-period return.
-    const performance = node.value;
+    const performance = p.performance ?? node.performance;
     if (!name) return null;
     const group = Boolean(node.children?.length || children?.length);
     const select = () => handleSelect(node);
@@ -181,7 +186,7 @@ export function MarketTreemap({ items, height = 440, periodLabel = "1 tháng", o
       <span>−10%</span><span>0%</span><span>+10% trở lên</span>
     </div>
     <ResponsiveContainer width="100%" height={height}>
-      <Treemap data={current} dataKey="size" isAnimationActive={false} content={<Cell />} />
+      <Treemap data={withPerformance(current)} dataKey="size" isAnimationActive={false} content={<Cell />} />
     </ResponsiveContainer>
   </div>;
 }
