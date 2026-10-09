@@ -25,7 +25,11 @@ from ..analysis.valuation import value_company
 from ..data import arminer_bctc
 from ..data.fundamentals import FIELD_LABELS_VI, StandardFinancials, _fill_derived
 from ..data.macro import INDICATORS, load_macro
-from ..narrative.llm import analyze_macro as analyze_macro_narrative
+try:  # nhan dinh vi mo bang LLM (tuy chon); ban llm.py chua co ham nay -> dung nhan dinh theo quy tac
+    from ..narrative.llm import analyze_macro as analyze_macro_narrative
+except ImportError:
+    def analyze_macro_narrative(ctx: dict) -> list[str]:
+        return list(ctx["macro"].commentary)
 from ..validation import checks
 from .universe import (
     COMPANY_TYPE_LABELS,
