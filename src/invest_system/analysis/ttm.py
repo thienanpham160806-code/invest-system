@@ -169,9 +169,11 @@ def compute_ttm(frame: pd.DataFrame, end: tuple[int, int] | None = None) -> TTMR
         if len(eq) == 5:
             equity_avg = float(eq.mean())
         else:
-            have = set(eq.index)
-            gaps = [qlabel(i) for i in range(end_idx - 4, end_idx + 1) if i not in have]
-            notes.append(f"VCSH bình quân 5 điểm: thiếu {', '.join(gaps)}")
+            dup = sorted({qlabel(i) for i in eq.index[eq.index.duplicated()]})
+            gaps = [qlabel(i) for i in range(end_idx - 4, end_idx + 1) if i not in set(eq.index)]
+            reasons = ([f"thiếu {', '.join(gaps)}"] if gaps else []) + (
+                [f"quý trùng với số khác nhau {', '.join(dup)}"] if dup else [])
+            notes.append(f"VCSH bình quân 5 điểm: {'; '.join(reasons)}")
 
     label = f"TTM Q{end_tuple[1]}/{end_tuple[0]}"
     return TTMResult(label, end_tuple, periods, values, equity_avg, check, notes)
@@ -180,22 +182,26 @@ def compute_ttm(frame: pd.DataFrame, end: tuple[int, int] | None = None) -> TTMR
 def deaccumulate_ytd(frame: pd.DataFrame, fields: tuple[str, ...] = CASHFLOW_FIELDS) -> pd.DataFrame:
     """So luy ke tu dau nam -> so tung quy: Q1 = YTD1, Qn = YTDn - YTD(n-1).
 
-    Quy truoc trong cung nam thieu -> quy do NaN (khong doan)."""
+    Quy truoc trong cung nam thieu -> quy do NaN (khong doan). Quy TRUNG voi so
+    luy ke KHAC nhau -> quy do va quy lien sau deu NaN (khong phu thuoc thu tu
+    dong); trung giong het thi dung binh thuong."""
     out = frame.copy()
     q = _quarterly(frame)
+    keys = list(zip(q["year"].astype(int), q["quarter"].astype(int), strict=True))
     for name in fields:
         if name not in out.columns:
             continue
         ytd = pd.to_numeric(q[name], errors="coerce")
-        keys = list(zip(q["year"].astype(int), q["quarter"].astype(int), strict=True))
-        by_period = dict(zip(keys, ytd, strict=True))
+        by_period: dict[tuple[int, int], float] = {}
+        for key, values in ytd.groupby([q["year"].astype(int), q["quarter"].astype(int)], sort=False):
+            distinct = set(values.dropna().tolist())
+            conflict = len(distinct) > 1 or (distinct and values.isna().any())
+            by_period[key] = np.nan if conflict or not distinct else distinct.pop()
         discrete = []
-        for (year, quarter), value in zip(keys, ytd, strict=True):
-            if quarter == 1:
-                discrete.append(value)
-            else:
-                prev = by_period.get((year, quarter - 1))
-                discrete.append(np.nan if prev is None or pd.isna(prev) or pd.isna(value) else value - prev)
+        for year, quarter in keys:
+            value = by_period[(year, quarter)]
+            prev = 0.0 if quarter == 1 else by_period.get((year, quarter - 1), np.nan)
+            discrete.append(np.nan if pd.isna(prev) or pd.isna(value) else value - prev)
         out.loc[q.index, name] = discrete
     return out
 

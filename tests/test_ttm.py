@@ -175,3 +175,43 @@ def test_reconcile_negative_and_zero_annual():
     zero = ttm.reconcile_annual(_year([0, 0, 0, 0]), {"net_income_parent": 0.0}, 2025,
                                 fields=("net_income_parent",))
     assert zero.iloc[0]["status"] == "khớp"
+
+
+# ---------------------------------------------------------------- review Codex d22e2db
+def _ytd(rows):
+    return pd.DataFrame([{"year": 2025, "quarter": q, "cfo": v} for q, v in rows])
+
+
+def test_deaccumulate_conflicting_duplicate_is_nan_and_order_independent():
+    rows = [(1, 30.0), (2, 70.0), (2, 75.0), (3, 90.0), (4, 160.0)]
+    results = []
+    for order in (rows, list(reversed(rows)), [rows[2], rows[0], rows[4], rows[1], rows[3]]):
+        out = ttm.deaccumulate_ytd(_ytd(order))
+        results.append(dict(zip(out["quarter"].astype(int).astype(str) + "/" + out.index.astype(str),
+                                out["cfo"], strict=True)))
+        by_q = out.groupby("quarter")["cfo"].apply(list).to_dict()
+        assert by_q[1] == [30.0]
+        assert all(pd.isna(v) for v in by_q[2])        # quy trung khac so
+        assert all(pd.isna(v) for v in by_q[3])        # phu thuoc Q2 -> cung NaN
+        assert by_q[4] == [70.0]                       # Q4 - Q3 khong dung Q2
+    assert len({tuple(sorted(map(str, r.values()))) for r in results}) == 1
+
+
+def test_deaccumulate_identical_duplicate_is_used():
+    out = ttm.deaccumulate_ytd(_ytd([(1, 30.0), (2, 70.0), (2, 70.0), (3, 90.0)]))
+    assert out.groupby("quarter")["cfo"].apply(list).to_dict() == {1: [30.0], 2: [40.0, 40.0], 3: [20.0]}
+
+
+def test_deaccumulate_duplicate_with_one_missing_value_is_conflict():
+    out = ttm.deaccumulate_ytd(_ytd([(1, 30.0), (2, 70.0), (2, float("nan")), (3, 90.0)]))
+    assert out[out["quarter"] == 3]["cfo"].isna().all()
+
+
+def test_fifth_equity_point_conflicting_duplicate_is_reported():
+    frame = _quarters(n=10)                         # end 2026-Q2 -> diem thu 5 la 2025-Q2
+    dup = frame[(frame["year"] == 2025) & (frame["quarter"] == 2)].copy()
+    dup["equity"] = 1.0
+    result = ttm.compute_ttm(pd.concat([frame, dup]))
+    assert result.ok and result.equity_avg_5 is None
+    note = next(n for n in result.notes if "VCSH" in n)
+    assert "2025-Q2" in note and "trùng" in note and "thiếu" not in note
