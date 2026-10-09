@@ -76,6 +76,9 @@ html[data-theme="dark"] .report .border-slate-100, html[data-theme="dark"] .repo
 .text-ref { color: #b45309; }
 .price-up { animation: flash-green 700ms ease-out; }
 .price-down { animation: flash-red 700ms ease-out; }
+.market-treemap-cell:hover rect { stroke: #fff; stroke-width: 3; filter: brightness(1.14); }
+.market-treemap-cell:focus-visible rect { stroke: #0b3b6f; stroke-width: 3; }
+html[data-theme="dark"] .market-treemap-cell:focus-visible rect { stroke: #7dd3fc; }
 @keyframes flash-green { from { background: #bbf7d0; } to { background: transparent; } }
 @keyframes flash-red { from { background: #fecaca; } to { background: transparent; } }
 @media (prefers-reduced-motion: reduce) { .price-up, .price-down { animation: none; } }
