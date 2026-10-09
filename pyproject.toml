@@ -13,6 +13,11 @@ dependencies = [
 requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
 
+# Resolve packages against the Linux x86_64 runtime used by Vercel. Without
+# this, uv may select a newer pyarrow release that only ships macOS wheels.
+[tool.uv]
+required-environments = ["sys_platform == 'linux' and platform_machine == 'x86_64'"]
+
 [tool.setuptools.packages.find]
 where = ["src"]
 
