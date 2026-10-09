@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import io
 import os
+import re
 from dataclasses import dataclass
 
 import pandas as pd
@@ -41,6 +42,7 @@ CSV_URL = "https://fred.stlouisfed.org/graph/fredgraph.csv"
 SERIES_URL = "https://fred.stlouisfed.org/series/{id}"
 DEFAULT_START = "2000-01-01"
 CACHE_MAX_AGE = 86_400  # 1 ngay
+_KEY_PARAM = re.compile(r"(api_key=)[^&\s'\"]+", re.IGNORECASE)
 
 
 @dataclass(frozen=True)
@@ -160,11 +162,14 @@ class FredClient:
         try:
             frame = self._fetch_api(sid) if self.api_key else self._fetch_csv(sid)
         except Exception as exc:  # noqa: BLE001
+            reason = self._safe_error(exc)
             stale = self._read_cache(sid, None)
             if stale is not None:
-                log.warning("FRED %s lỗi (%s) - dùng cache cũ", sid, exc)
+                log.warning("FRED %s lỗi (%s) - dùng cache cũ", sid, reason)
                 return FredResult(key, spec, _to_series(stale), f"{source} (cache cũ)", stale=True)
-            raise FredError(f"FRED {sid}: {exc}") from exc
+            # `from None`: exception goc (requests) chua URL co api_key - khong de no
+            # di theo traceback vao log may chu.
+            raise FredError(f"FRED {sid}: {reason}") from None
         frame = frame.astype({"date": str, "value": str})
         if _to_series(frame).empty:
             raise FredError(f"FRED {sid}: không có quan sát nào")
@@ -178,5 +183,21 @@ class FredClient:
             try:
                 results[key] = self.get(key)
             except Exception as exc:  # noqa: BLE001
-                errors[key] = str(exc)
+                errors[key] = self._redact(str(exc))
         return results, errors
+
+    # ------------------------------------------------------------ an toan key
+    def _redact(self, text: str) -> str:
+        text = _KEY_PARAM.sub(r"\1***", text)
+        if len(self.api_key) >= 8:  # key ngan bat thuong: khong thay chuoi con vo nghia
+            text = text.replace(self.api_key, "***")
+        return text
+
+    def _safe_error(self, exc: Exception) -> str:
+        """Mo ta loi KHONG chua key. HTTPError cua requests (va ConnectionError)
+        in ca URL gom query `api_key=...` -> chi giu ma HTTP / ten loai loi."""
+        if isinstance(exc, requests.HTTPError) and exc.response is not None:
+            return f"HTTP {exc.response.status_code}"
+        if isinstance(exc, FredError):
+            return self._redact(str(exc))
+        return self._redact(f"{type(exc).__name__}: {exc}")

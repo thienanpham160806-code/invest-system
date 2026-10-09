@@ -5,6 +5,7 @@ import time
 
 import pandas as pd
 import pytest
+import requests
 
 from invest_system.config import Paths
 from invest_system.data import cache, fred
@@ -147,3 +148,64 @@ def test_cache_write_failure_does_not_break(monkeypatch):
     monkeypatch.setattr(cache, "write_frame", broken)
     result = fred.FredClient(api_key="k", session=FakeSession(FakeResponse(API_PAYLOAD))).get("ust_10y")
     assert list(result.values) == [5.20, 5.28]
+
+
+# ---------------------------------------------------------------- khong lo API key (BLOCKER review Codex)
+SECRET = "abcd1234efgh5678ijkl9012mnop3456"   # dang key FRED: 32 ky tu
+
+
+def _http_error(status):
+    response = requests.Response()
+    response.status_code = status
+    response.url = f"{fred.API_URL}?series_id=DGS10&api_key={SECRET}&file_type=json"
+    response.reason = "Bad Request"
+    return requests.HTTPError(f"{status} Client Error: Bad Request for url: {response.url}", response=response)
+
+
+class ErrorResponse(FakeResponse):
+    def __init__(self, status):
+        super().__init__({}, status=status)
+        self.status = status
+
+    def raise_for_status(self):
+        raise _http_error(self.status)
+
+
+def _assert_no_secret(*texts):
+    for text in texts:
+        assert SECRET not in text, text
+
+
+@pytest.mark.parametrize("status", [400, 403, 500])
+def test_http_error_never_exposes_key(status, caplog):
+    client = fred.FredClient(api_key=SECRET, session=FakeSession(ErrorResponse(status)))
+    caplog.set_level("DEBUG")
+    with pytest.raises(fred.FredError) as info:
+        client.get("ust_10y")
+    assert f"HTTP {status}" in str(info.value)
+    assert info.value.__cause__ is None and info.value.__suppress_context__
+    results, errors = client.get_all(["ust_10y", "vix"])
+    assert results == {}
+    _assert_no_secret(str(info.value), repr(info.value), caplog.text, *errors.values())
+
+
+def test_connection_error_with_url_in_message_is_redacted(caplog):
+    message = (f"HTTPSConnectionPool(host='api.stlouisfed.org', port=443): Max retries exceeded with url: "
+               f"/fred/series/observations?series_id=DGS10&api_key={SECRET}&file_type=json")
+    client = fred.FredClient(api_key=SECRET, session=FakeSession(error=requests.ConnectionError(message)))
+    caplog.set_level("DEBUG")
+    with pytest.raises(fred.FredError) as info:
+        client.get("ust_10y")
+    assert "api_key=***" in str(info.value)
+    _assert_no_secret(str(info.value), caplog.text, *client.get_all(["brent"])[1].values())
+
+
+def test_stale_cache_warning_does_not_log_key(monkeypatch, caplog):
+    fred.FredClient(api_key=SECRET, session=FakeSession(FakeResponse(API_PAYLOAD))).get("ust_10y")
+    real_time = time.time
+    monkeypatch.setattr(cache.time, "time", lambda: real_time() + 3 * fred.CACHE_MAX_AGE)
+    caplog.set_level("DEBUG")
+    result = fred.FredClient(api_key=SECRET, session=FakeSession(ErrorResponse(500))).get("ust_10y")
+    assert result.stale
+    assert "HTTP 500" in caplog.text
+    _assert_no_secret(caplog.text)
