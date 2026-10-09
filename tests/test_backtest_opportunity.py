@@ -83,6 +83,7 @@ def test_walk_forward_and_ic_on_signal_that_works():
     assert 0 <= report["psr"] <= 1 and report["n_trials"] == 4
     fixed = opp.walk_forward(market, scores, cal[0], cal[-1], costs=NO_COST, fixed=wf.chosen)
     assert fixed.equity.round(2).equals(wf.equity.round(2))       # cung lua chon -> cung ket qua
+    assert fixed.trials.empty and 0 <= fixed.sharpe_report()["psr"] <= 1
     ic = opp.ic_table(market, scores, min_names=10)
     one_month = ic[(ic["nhóm"] == "tổng hợp") & (ic["kỳ hạn (tháng)"] == 1)].iloc[0]
     assert one_month["IC trung binh"] > 0                          # diem do du lieu tao ra -> IC duong

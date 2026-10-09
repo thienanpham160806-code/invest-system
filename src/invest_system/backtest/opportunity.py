@@ -126,8 +126,10 @@ class WalkForward:
     def sharpe_report(self, n_trials: int = len(GRID)) -> dict:
         returns = self.equity.pct_change().dropna()
         m = metrics.sharpe_moments(returns)
-        per_day = self.trials["train_sharpe"] / np.sqrt(metrics.TRADING_DAYS)
-        var = float(per_day.groupby(self.trials["train_start"]).var(ddof=1).mean()) if len(self.trials) else 0.0
+        var = 0.0
+        if "train_sharpe" in self.trials and len(self.trials):   # do nhay (fixed) khong co lan thu
+            per_day = self.trials["train_sharpe"] / np.sqrt(metrics.TRADING_DAYS)
+            var = float(per_day.groupby(self.trials["train_start"]).var(ddof=1).mean())
         return {**m, "psr": metrics.probabilistic_sharpe(m["sr"], m["n_obs"], m["skew"], m["kurtosis"]),
                 "dsr": metrics.deflated_sharpe(m["sr"], n_trials, m["n_obs"], var, m["skew"], m["kurtosis"]),
                 "n_trials": n_trials, "sr_variance": var}
