@@ -64,7 +64,19 @@ Nguồn đối chiếu: [CafeF FPT](https://cafef.vn/du-lieu/hose/fpt-cong-ty-co
 hơn TTM/giữa năm 2026. Định giá vẫn dùng FY để **nhất quán** với bội số ngành (cũng tính trên FY cho toàn bộ ~700 mã),
 P/E TTM được hiển thị riêng cho các mã có số quý.
 
-## 5. Vĩ mô (đã tra 09/10/2026)
+## 5. Kiểm tra thêm đã chạy
+
+- **Giá điều chỉnh**: gap-chart trả giá đã điều chỉnh cổ tức/chia tách (giá quá khứ có phần thập phân, vd FPT
+  21/10/2025 = 82.537,49). Quét toàn bộ kho: không mã vốn hoá lớn nào có phiên vượt biên độ sàn
+  (HOSE ±7%, HNX ±10%, UPCOM ±15%) → hiệu suất 1T/3T/YTD/1N không bị méo bởi ngày GDKHQ. Các phiên vượt biên độ
+  còn lại (637 mã, chủ yếu UPCOM) là phiên chào sàn/không giới hạn biên độ hoặc mã rất kém thanh khoản.
+- **TTM**: `scripts/build_ttm.py` lấy được 96/120 mã thanh khoản cao nhất (vnstock bản community giới hạn
+  ~20 request/phút; 24 mã bị chặn rate-limit → web hiện P/E FY và ghi "chưa có số quý").
+- **Nguồn live từ máy chủ Vercel (sin1)** – kiểm tra 09/10/2026 14:36 qua `/api/py/sources`: Vietcap gap-chart,
+  Vietcap getList, CafeF trang chủ đề, RSS VnExpress, World Bank đều trả dữ liệu; bảng toàn thị trường đọc từ
+  Vercel Blob.
+
+## 6. Vĩ mô (đã tra 09/10/2026)
 
 Xem `config/macro_vn.csv` – mỗi dòng có URL nguồn và ngày công bố. Các dòng 2024 (GDP 7,09%, CPI 3,63%, tín dụng 15,08%)
 đã kiểm tra lại. Số mới nhất: GDP Q3/2026 +9,95% (9T +9,01%), CPI bình quân 9T +4,52% (tháng 9 +5,08% yoy),
