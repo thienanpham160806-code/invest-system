@@ -627,8 +627,14 @@ def news(symbol: str) -> dict:
         wait([ft, fr], timeout=12)
         try:
             got = ft.result(timeout=0) if ft.done() else []
-            items.extend(got)
-            status["cafef_topic"] = f"{len(got)} tin" if ft.done() else "quá thời gian"
+            # trang chu de co ca tin o thanh ben -> chi giu tieu de nhac den ma / ten / thuong hieu
+            from .universe import _strip as _n
+
+            keys = {k for k in (_n(row.get("brand")), _n(str(row.get("name") or "").replace("Công ty Cổ phần", "")
+                    .replace("Tập đoàn", "").replace("Ngân hàng Thương mại Cổ phần", ""))) if k and len(k) > 3}
+            rel = [g for g in got if re.search(rf"{sym}", g["title"]) or any(k.strip() in _n(g["title"]) for k in keys)]
+            items.extend(rel)
+            status["cafef_topic"] = (f"{len(rel)}/{len(got)} tin nhắc tới {sym}" if ft.done() else "quá thời gian")
         except Exception as exc:  # noqa: BLE001
             status["cafef_topic"] = f"lỗi: {exc}"
         macro_items = []
@@ -646,6 +652,17 @@ def news(symbol: str) -> dict:
             status["rss"] = f"{len(heads)} tin vĩ mô/thị trường" if fr.done() else "quá thời gian"
         except Exception as exc:  # noqa: BLE001
             status["rss"] = f"lỗi: {exc}"
+    # khu trung: cung bai xuat hien o trang chu de CafeF va RSS (link khac nhau) -> giu ban co gio dang
+    from .universe import _strip as _norm
+
+    best: dict[str, dict] = {}
+    for i in items:
+        k = re.sub(r"\W+", " ", _norm(i["title"])).strip()
+        ts = pd.Timestamp(i["published_at"]) if i.get("published_at") is not None else None
+        has_time = ts is not None and (ts.hour or ts.minute)
+        if k not in best or (has_time and not best[k].get("_t")):
+            best[k] = {**i, "_t": bool(has_time)}
+    items = [{k: v for k, v in i.items() if k != "_t"} for i in best.values()]
     dated = [i for i in items if i.get("published_at") is not None]
     for i in dated:
         ts = pd.Timestamp(i["published_at"])
