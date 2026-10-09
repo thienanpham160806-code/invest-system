@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 // Theo template "Next.js FastAPI Starter" (vercel): /api/py/* -> FastAPI (api/index.py)
 const nextConfig = {
+  // Chromium cho route /api/pdf: khong bundle, dung nguyen goi (theo huong dan @sparticuz/chromium)
+  serverExternalPackages: ["@sparticuz/chromium", "puppeteer-core"],
+  outputFileTracingIncludes: { "/api/pdf": ["./node_modules/@sparticuz/chromium/bin/**"] },
   rewrites: async () => [
     {
       source: "/api/py/:path*",

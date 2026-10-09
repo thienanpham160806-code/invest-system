@@ -10,8 +10,10 @@
     "start": "next start"
   },
   "dependencies": {
+    "@sparticuz/chromium": "^153.0.0",
     "lightweight-charts": "^5.2.1",
     "next": "^16.4.0",
+    "puppeteer-core": "^25.11.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "recharts": "^3.10.1"
