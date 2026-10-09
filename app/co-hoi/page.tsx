@@ -67,7 +67,7 @@ export default function Opportunities() {
       <ErrorBox error={error} />{loading && <Loading what="xếp hạng cơ hội" />}
       {data && !data.ready && <p className="text-sm text-slate-600">{data.note}</p>}
       {data?.ready && rows.length === 0 && <p className="text-sm text-slate-600">Chưa có mã đáp ứng bộ lọc trong snapshot hiện tại.</p>}
-      {!!rows.length && <SortTable rows={rows} rowKey={(r) => r.symbol} initialSort="rank" onRow={(r) => `/stock/${r.symbol}`}
+      {!!rows.length && <SortTable rows={rows} rowKey={(r) => r.symbol} initialSort="rank" desc={false} onRow={(r) => `/stock/${r.symbol}`}
         cols={[
           { key: "rank", label: "Hạng", num: true },
           { key: "symbol", label: "Mã" }, { key: "name", label: "Doanh nghiệp" }, { key: "exchange", label: "Sàn" },

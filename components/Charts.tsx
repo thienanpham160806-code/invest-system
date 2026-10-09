@@ -153,16 +153,19 @@ export function MarketTreemap({ items, height = 440, periodLabel = "1 tháng", o
   };
   const Cell = (p: any) => {
     const node = p.payload || p;
-    const { x, y, width, height: h, name, value, children } = p;
+    const { x, y, width, height: h, name, children } = p;
+    // Treemap's `value` prop is the dataKey used for cell area (market cap).
+    // The node's own `value` field is the selected-period return.
+    const performance = node.value;
     if (!name) return null;
     const group = Boolean(node.children?.length || children?.length);
     const select = () => handleSelect(node);
     return <g role="button" tabIndex={0} aria-label={`${name}${group ? ", mở nhóm" : ", mở hồ sơ"}`} onClick={select}
       onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); select(); } }} style={{ cursor: "pointer" }}>
-      <rect x={x} y={y} width={width} height={h} fill={heat(value)} stroke="#fff" strokeWidth={1} />
-      <title>{`${name}${value == null ? "" : ` · ${pct(value, 1, true)}`} · ${bnLabel(node.size)}${node.count ? ` · ${num(node.count)} mã` : ""}`}</title>
+      <rect x={x} y={y} width={width} height={h} fill={heat(performance)} stroke="#fff" strokeWidth={1} />
+      <title>{`${name}${performance == null ? "" : ` · ${pct(performance, 1, true)}`} · ${bnLabel(node.size)}${node.count ? ` · ${num(node.count)} mã` : ""}`}</title>
       {width > 58 && h > 25 && <text x={x + 6} y={y + 17} fill="#fff" fontSize={12} fontWeight={600}>{String(name).slice(0, Math.floor(width / 7))}</text>}
-      {width > 58 && h > 43 && <text x={x + 6} y={y + 34} fill="#fff" fontSize={11}>{value == null ? "—" : pct(value, 1, true)}</text>}
+      {width > 58 && h > 43 && <text x={x + 6} y={y + 34} fill="#fff" fontSize={11}>{performance == null ? "—" : pct(performance, 1, true)}</text>}
     </g>;
   };
   return <div>
