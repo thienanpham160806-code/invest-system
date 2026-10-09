@@ -60,6 +60,10 @@ Nguồn đối chiếu: [CafeF FPT](https://cafef.vn/du-lieu/hose/fpt-cong-ty-co
 [CafeF HPG](https://cafef.vn/du-lieu/hose/hpg-cong-ty-co-phan-tap-doan-hoa-phat.chn),
 [CafeF – FPT giảm 10 phiên](https://cafef.vn/co-phieu-fpt-bat-ngo-giam-10-phien-lien-tiep-von-hoa-boc-hoi-gan-12000-ty-dong-chi-sau-2-tuan-188261006223053904.chn).
 
+**Sau khi thêm TTM (vnstock quý Q3/2025–Q2/2026)**: VCB P/E TTM 11,6x vs CafeF 11,4x (lệch 2% ✓);
+HPG 9,7x vs 7,45x (còn lệch – CafeF có thể đã dùng LN Q3/2026 ước tính hoặc số CP khác, chưa xác minh được);
+FPT 10,3x vs 12,5x (khác số CP: niêm yết 1,714 tỷ vs lưu hành ~1,886 tỷ).
+
 **Kết luận**: vốn hoá khớp khi dùng cùng giá và cùng số CP; P/E/P/B lệch có hệ thống vì BCTC năm (FY2025) trễ
 hơn TTM/giữa năm 2026. Định giá vẫn dùng FY để **nhất quán** với bội số ngành (cũng tính trên FY cho toàn bộ ~700 mã),
 P/E TTM được hiển thị riêng cho các mã có số quý.
