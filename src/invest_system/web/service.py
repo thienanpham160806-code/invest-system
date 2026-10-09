@@ -689,6 +689,28 @@ class _SectorView:
         self.medians, self.quantiles, self.performance, self.score = medians, quantiles, performance, score
 
 
+def _pb_roe_adjust(peers: pd.DataFrame, roe_own, quant: dict) -> tuple[dict, dict | None]:
+    """P/B muc tieu theo hoi quy P/B = a + b*ROE tren toan nhom peers du thanh khoan
+    (DN sinh loi cao xung dang P/B cao hon trung vi). Chi ap dung khi >= 8 diem, he so
+    goc duong; ket qua cat trong [P10, P90] P/B cua nganh. Dich ca bo ba kich ban."""
+    if roe_own is None or pd.isna(roe_own) or "pb" not in quant:
+        return quant, None
+    liq = sector_mod._clean_multiples(peers)[["pb", "roe"]].dropna()
+    liq = liq[(liq["roe"] > -0.2) & (liq["roe"] < 0.6)]
+    if len(liq) < 8:
+        return quant, None
+    b, a = np.polyfit(liq["roe"], liq["pb"], 1)
+    r2 = float(np.corrcoef(liq["roe"], liq["pb"])[0, 1] ** 2)
+    if b <= 0 or r2 < 0.05:
+        return quant, None
+    pred = float(np.clip(a + b * roe_own, liq["pb"].quantile(0.1), liq["pb"].quantile(0.9)))
+    delta = pred - quant["pb"][1]
+    adj = dict(quant)
+    adj["pb"] = tuple(max(x + delta, 0.1) for x in quant["pb"])
+    return adj, {"a": float(a), "b": float(b), "r2": r2, "n": int(len(liq)), "roe": float(roe_own),
+                 "pb_median": quant["pb"][1], "pb_target": pred}
+
+
 def _beta(ohlcv: pd.DataFrame, bench: pd.DataFrame) -> float | None:
     from ..data.prices import beta
 
@@ -733,7 +755,13 @@ def analysis(symbol: str, years: int = 5, with_news: bool = True) -> dict:
     rf = md.latest.get("gov_bond_10y", {}).get("value")
     rf = rf / 100 if rf else None
     beta = _beta(ohlcv, bench) if not bench.empty and not ohlcv.empty else None
-    val = value_company(fin, ctype, price_now, shares, rt, quant, beta, rf)
+    quant_val, pb_reg = _pb_roe_adjust(peers, row.get("roe"), quant)
+    val = value_company(fin, ctype, price_now, shares, rt, quant_val, beta, rf)
+    for m in val.methods:
+        if m.key == "pb_relative" and pb_reg:
+            m.inputs["Nguồn bội số"] = (f"hồi quy P/B–ROE ngành (n={pb_reg['n']}, R²={pb_reg['r2']:.2f}): "
+                                        f"ROE {pb_reg['roe']:.1%} → P/B {pb_reg['pb_target']:.2f}x "
+                                        f"(trung vị {pb_reg['pb_median']:.2f}x)")
 
     tech = None
     if len(ohlcv) >= 120:
@@ -803,7 +831,9 @@ def analysis(symbol: str, years: int = 5, with_news: bool = True) -> dict:
             "upside": val.upside, "assumptions": val.assumptions, "skipped": val.skipped,
             "per_share": val.per_share,
             "multiples_source": f"Phân vị P25/P50/P75 của toàn bộ {len(peers)} mã ICB cấp {lvl} '{node_name}' "
-                                f"(chỉ mã đủ thanh khoản, đã loại ngoại lai)",
+                                f"(chỉ mã đủ thanh khoản, đã loại ngoại lai)"
+                                + ("; P/B mục tiêu điều chỉnh theo hồi quy P/B–ROE của ngành" if pb_reg else ""),
+            "pb_roe_regression": pb_reg,
         },
         "sector": {
             "level": lvl, "name": node_name, "slug": node_key(lvl, node_name) if lvl else None,
