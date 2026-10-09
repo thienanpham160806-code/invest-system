@@ -85,7 +85,8 @@ def _generate(payload: str, instructions: str, section: str) -> str | None:
         )
         return (response.text or "").strip() or None
     except Exception as exc:  # noqa: BLE001 - optional provider must not break reports
-        log.warning("LLM %s loi (%s): %s", provider, section, exc)
+        # Provider errors can echo a rejected credential; never log their messages.
+        log.warning("LLM %s loi (%s): %s", provider, section, type(exc).__name__)
         return None
 
 

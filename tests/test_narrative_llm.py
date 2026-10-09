@@ -166,3 +166,27 @@ def test_selected_provider_requires_its_own_key(monkeypatch):
     monkeypatch.setenv("LLM_PROVIDER", "gemini")
     monkeypatch.setenv("LLM_ENABLED", "1")
     assert not llm.enabled()
+
+
+def test_provider_exception_message_never_reaches_logs(monkeypatch, caplog):
+    secret = "sk-secret-that-must-not-be-logged"
+
+    class FakeResponses:
+        def create(self, **kwargs):
+            raise RuntimeError(f"Incorrect API key provided: {secret}")
+
+    class FakeOpenAI:
+        def __init__(self, **kwargs):
+            self.responses = FakeResponses()
+
+    fake_module = ModuleType("openai")
+    fake_module.OpenAI = FakeOpenAI
+    monkeypatch.setitem(sys.modules, "openai", fake_module)
+    monkeypatch.setenv("OPENAI_API_KEY", secret)
+    monkeypatch.setenv("LLM_ENABLED", "1")
+    monkeypatch.setenv("LLM_PROVIDER", "openai")
+
+    original = ["Nhận định cơ sở."]
+    assert llm.polish("Doanh nghiệp", original) is original
+    assert secret not in caplog.text
+    assert "RuntimeError" in caplog.text
