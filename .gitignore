@@ -1,0 +1,50 @@
+# môi trường
+.venv/
+venv/
+env/
+.env
+.env.*
+!.env.example
+
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+
+# dữ liệu và mô hình (không commit, dung lượng lớn)
+# chỉ bỏ qua thư mục data ở gốc repo, không đụng src/bot_phan_tich/data/
+/data/*
+!/data/manual/
+/data/manual/*
+!/data/manual/.gitkeep
+!/data/reports/
+/data/reports/*
+!/data/reports/.gitkeep
+/cache/
+/artifacts/
+*.parquet
+*.db
+*.sqlite3
+*.pkl
+*.joblib
+
+# log & output
+logs/
+*.log
+# outputs/ khong commit, TRU ket qua kiem dinh nho dung trong README
+outputs/*
+!outputs/samples/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# tu sinh ra boi vnstock/vnai khi import - noi dung dang "chi thi" cho AI
+# agent, khong phai cua repo nay, xoa moi lan gap (xem lich su commit)
+AGENTS.md

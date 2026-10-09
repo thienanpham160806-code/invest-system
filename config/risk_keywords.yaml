@@ -1,0 +1,51 @@
+# Tu dien tu khoa rui ro dung trong analysis/fintext.py:risk_keywords().
+# Moi nhom co trong so (weight) rieng de xep hang muc do nghiem trong khi
+# tong hop nhan xet - nhom nao weight cao hon duoc neu truoc trong ket luan.
+# Bo sung tu/cum tu moi TRUC TIEP vao day, khong can sua code.
+
+groups:
+  hoat_dong_lien_tuc:
+    label: "Kha nang hoat dong lien tuc"
+    weight: 5.0
+    keywords:
+      - "khả năng hoạt động liên tục"
+      - "nghi ngờ đáng kể"
+      - "lỗ luỹ kế"
+      - "âm vốn chủ sở hữu"
+
+  no_va_thanh_khoan:
+    label: "No va thanh khoan"
+    weight: 3.0
+    keywords:
+      - "nợ xấu"
+      - "nợ quá hạn"
+      - "quá hạn thanh toán"
+      - "vi phạm cam kết vay"
+      - "khả năng thanh toán"
+
+  phap_ly:
+    label: "Phap ly"
+    weight: 2.5
+    keywords:
+      - "tranh chấp"
+      - "kiện tụng"
+      - "xử phạt"
+      - "thanh tra"
+      - "truy thu thuế"
+
+  du_phong:
+    label: "Du phong"
+    weight: 2.0
+    keywords:
+      - "trích lập dự phòng"
+      - "dự phòng giảm giá"
+      - "dự phòng phải thu khó đòi"
+      - "tổn thất tài sản"
+
+  ben_lien_quan:
+    label: "Ben lien quan"
+    weight: 1.5
+    keywords:
+      - "giao dịch với bên liên quan"
+      - "cho vay bên liên quan"
+      - "công ty mẹ"

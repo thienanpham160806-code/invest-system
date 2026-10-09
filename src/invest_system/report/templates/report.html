@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>{{ info.symbol }} – Báo cáo phân tích cổ phiếu</title>
+<style>
+@font-face { font-family: "BVP"; src: url("{{ font_dir }}/BeVietnamPro-Regular.ttf"); font-weight: 400; }
+@font-face { font-family: "BVP"; src: url("{{ font_dir }}/BeVietnamPro-Medium.ttf"); font-weight: 500; }
+@font-face { font-family: "BVP"; src: url("{{ font_dir }}/BeVietnamPro-SemiBold.ttf"); font-weight: 600; }
+@font-face { font-family: "BVP"; src: url("{{ font_dir }}/BeVietnamPro-Bold.ttf"); font-weight: 700; }
+@font-face { font-family: "BVP"; src: url("{{ font_dir }}/BeVietnamPro-Italic.ttf"); font-style: italic; }
+:root { --navy:#12355b; --teal:#1f8a70; --gold:#c8901a; --ink:#1d2533; --muted:#5b6573; --line:#d9dfe7; --soft:#f3f6f9; }
+@page {
+  size: A4; margin: 14mm 13mm 16mm 13mm;
+  @bottom-left { content: "{{ org }} · {{ info.symbol }} · {{ generated_at }}"; font: 7pt "BVP"; color: #8a94a3; }
+  @bottom-right { content: "Trang " counter(page) " / " counter(pages); font: 7pt "BVP"; color: #8a94a3; }
+}
+* { box-sizing: border-box; }
+html { font-family: "BVP", "Be Vietnam Pro", "Segoe UI", Arial, sans-serif; font-size: 8.6pt; color: var(--ink); line-height: 1.45; }
+body { margin: 0; }
+h1, h2, h3 { margin: 0; color: var(--navy); }
+h2.section { font-size: 12.5pt; font-weight: 700; border-bottom: 2px solid var(--navy); padding-bottom: 3px; margin: 0 0 8px; }
+h3 { font-size: 9.5pt; font-weight: 600; margin: 10px 0 4px; }
+p { margin: 0 0 6px; text-align: justify; }
+.page-break { break-before: page; }
+.muted { color: var(--muted); }
+.small { font-size: 7.2pt; }
+table { width: 100%; border-collapse: collapse; }
+table.data th { background: var(--navy); color: #fff; font-weight: 600; padding: 3px 5px; text-align: right; font-size: 7.4pt; }
+table.data th:first-child, table.data td:first-child { text-align: left; }
+table.data td.l, table.data th.l { text-align: left; }
+table.data td { padding: 2.6px 5px; border-bottom: 1px solid var(--line); text-align: right; font-size: 7.6pt; }
+table.data tr:nth-child(even) td { background: var(--soft); }
+table.data tr.target td { background: #fff6e0; font-weight: 600; }
+img.chart { width: 100%; display: block; margin: 2px 0 6px; }
+.header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid var(--navy); padding-bottom: 6px; margin-bottom: 8px; }
+.brand { font-weight: 700; color: var(--navy); font-size: 10pt; letter-spacing: .5px; }
+.brand small { display: block; font-weight: 400; color: var(--muted); font-size: 7pt; letter-spacing: 0; }
+.ticker { text-align: right; }
+.ticker .code { font-size: 22pt; font-weight: 700; color: var(--navy); line-height: 1; }
+.ticker .name { font-size: 8pt; color: var(--muted); }
+.layout { display: flex; gap: 12px; }
+.main { flex: 1 1 66%; }
+.side { flex: 0 0 31%; }
+.title { font-size: 15pt; font-weight: 700; color: var(--navy); line-height: 1.25; margin-bottom: 4px; }
+.subtitle { color: var(--muted); font-size: 8pt; margin-bottom: 8px; }
+.rating { color: #fff; border-radius: 4px; padding: 8px 10px; margin-bottom: 8px; }
+.rating .label { font-size: 7pt; text-transform: uppercase; letter-spacing: 1px; opacity: .85; }
+.rating .value { font-size: 18pt; font-weight: 700; line-height: 1.1; }
+.kpis { display: flex; gap: 6px; margin-bottom: 8px; }
+.kpi { flex: 1; border: 1px solid var(--line); border-radius: 4px; padding: 5px 6px; }
+.kpi .k { font-size: 6.6pt; color: var(--muted); text-transform: uppercase; }
+.kpi .v { font-size: 11pt; font-weight: 700; color: var(--navy); }
+.box { background: var(--soft); border-left: 3px solid var(--navy); padding: 6px 8px; margin-bottom: 8px; }
+.box h3 { margin-top: 0; }
+ul.points { margin: 0; padding-left: 14px; }
+ul.points li { margin-bottom: 3px; }
+table.stats td { padding: 2.4px 0; border-bottom: 1px dotted var(--line); font-size: 7.5pt; }
+table.stats td:last-child { text-align: right; font-weight: 600; }
+.scorebar { display: flex; align-items: center; margin: 2px 0; font-size: 7.2pt; }
+.scorebar .n { width: 46%; }
+.scorebar .bar { flex: 1; height: 6px; background: var(--line); border-radius: 3px; position: relative; }
+.scorebar .fill { height: 6px; border-radius: 3px; background: var(--teal); }
+.scorebar .s { width: 22px; text-align: right; font-weight: 600; }
+.badge { display: inline-block; padding: 0 5px; border-radius: 3px; font-size: 6.8pt; font-weight: 600; color: #fff; }
+.PASS { background: #1f8a70; } .WARN { background: #c8901a; } .FAIL { background: #b3261e; } .SKIP { background: #8a94a3; }
+.two { display: flex; gap: 12px; } .two > div { flex: 1; }
+.pos { color: #0f7b4a; } .neg { color: #b3261e; }
+.disclaimer { font-size: 6.8pt; color: var(--muted); border-top: 1px solid var(--line); margin-top: 10px; padding-top: 5px; }
+.demo-mark { position: fixed; top: 42%; left: 0; right: 0; text-align: center; transform: rotate(-28deg);
+  font-size: 34pt; font-weight: 700; color: rgba(179,38,30,.10); z-index: -1; }
+.demo-banner { background: #fde8e6; color: #b3261e; font-weight: 600; text-align: center; padding: 3px; margin-bottom: 6px; font-size: 7.5pt; }
+.keep { break-inside: avoid; }
+</style>
+</head>
+<body>
+{% if is_demo %}<div class="demo-mark">DỮ LIỆU MẪU – KHÔNG PHẢI SỐ LIỆU THẬT</div>{% endif %}
+
+<!-- =========================== TRANG 1 =========================== -->
+<div class="header">
+  <div class="brand">{{ org }}<small>Báo cáo phân tích cổ phiếu tự động · {{ generated_at }}</small></div>
+  <div class="ticker"><div class="code">{{ info.symbol }}</div>
+    <div class="name">{{ info.name or info.symbol }} · {{ info.exchange or "—" }} · {{ info.industry or info.type_label }}</div></div>
+</div>
+{% if checks_summary.fail %}<div class="demo-banner">THIẾU/LỖI DỮ LIỆU: {% for c in checks if c.status == "FAIL" %}{{ c.name }} ({{ c.detail }}){{ "; " if not loop.last }}{% endfor %} — xem Phụ lục B, C</div>{% endif %}
+{% if is_demo %}<div class="demo-banner">BÁO CÁO CHẠY THỬ TRÊN DỮ LIỆU GIẢ LẬP — mọi con số chỉ để minh họa hệ thống</div>{% endif %}
+
+<div class="layout">
+  <div class="main">
+    <div class="title">{{ info.symbol }}: {{ rating|title }} — giá mục tiêu {{ val.target_price|price }} đ/cp ({{ val.upside|pct(1, sign=True) }})</div>
+    <div class="subtitle">Phương pháp top-down: Vĩ mô → Ngành ({{ info.type_label }}) → Doanh nghiệp → Định giá → Khuyến nghị</div>
+
+    <div class="box keep">
+      <h3>Luận điểm đầu tư</h3>
+      <ul class="points">{% for t in res.thesis %}<li>{{ t }}</li>{% else %}<li>Chưa đủ dữ liệu để rút ra luận điểm.</li>{% endfor %}</ul>
+    </div>
+    <div class="box keep" style="border-left-color:#b3261e">
+      <h3>Rủi ro chính</h3>
+      <ul class="points">{% for r in res.risks %}<li>{{ r }}</li>{% endfor %}</ul>
+    </div>
+    {% if charts.price %}<img class="chart" src="{{ charts.price }}">{% endif %}
+    {% if scenarios and val.target %}
+    <table class="data keep"><tr><th>Kịch bản</th><th>Giá mục tiêu (đ/cp)</th><th>Upside</th></tr>
+      {% for sc in scenarios %}<tr><td>{{ sc.label }}</td><td>{{ sc.price|price }}</td><td>{{ sc.upside|pct(1, sign=True) }}</td></tr>{% endfor %}
+    </table>{% endif %}
+  </div>
+
+  <div class="side">
+    <div class="rating" style="background: {{ rating_color }}">
+      <div class="label">Khuyến nghị</div><div class="value">{{ rating }}</div>
+      <div class="small" style="opacity:.9">{{ res.rating_reason }}</div>
+    </div>
+    <div class="kpis">
+      <div class="kpi"><div class="k">Giá hiện tại</div><div class="v">{{ val.price|price }}</div></div>
+      <div class="kpi"><div class="k">Giá mục tiêu</div><div class="v">{{ val.target_price|price }}</div></div>
+    </div>
+    <table class="stats">{% for k, v in side_stats %}<tr><td>{{ k }}</td><td>{{ v }}</td></tr>{% endfor %}</table>
+    <h3>Điểm tổng hợp: {{ res.total|num(0) }}/100</h3>
+    {% for k, v in res.scores.items() %}
+    <div class="scorebar"><div class="n">{{ group_labels[k] }} ({{ (res.weights_used[k]*100)|num(0) }}%)</div>
+      <div class="bar"><div class="fill" style="width: {{ v|round(0) }}%"></div></div><div class="s">{{ v|num(0) }}</div></div>
+    {% endfor %}
+    {% if charts.radar %}<img class="chart" src="{{ charts.radar }}" style="width:82%;margin:4px auto">{% endif %}
+    <h3>Chất lượng dữ liệu</h3>
+    <div class="small">Kiểm tra tự động: <b>{{ checks_summary.passed }}/{{ checks_summary.total }}</b> đạt
+      {% if checks_summary.warn %}· {{ checks_summary.warn }} cảnh báo{% endif %}
+      {% if checks_summary.fail %}· <span class="neg">{{ checks_summary.fail }} lỗi</span>{% endif %}</div>
+    <div class="small muted" style="margin-top:4px">Nguồn: {{ source_summary }}</div>
+  </div>
+</div>
+
+<!-- =========================== VI MO =========================== -->
+{% if "macro" in sections %}
+<div class="page-break"></div>
+<h2 class="section">1. Tổng quan vĩ mô</h2>
+<div class="two">
+  <div>
+    {% for p in narratives.macro %}<p>{{ p }}</p>{% endfor %}
+    {% for n in ctx.macro.notes %}<p class="small muted">⚠ {{ n }}</p>{% endfor %}
+  </div>
+  <div>
+    <table class="data">
+      <tr><th>Chỉ tiêu</th><th>Giá trị</th><th>Kỳ</th></tr>
+      {% for r in macro_table %}<tr><td>{{ r.label }}<div class="small muted">{{ r.source }}</div></td>
+        <td>{{ r.value|num(0 if r.unit == "VND" else 2) }}{{ "%" if r.unit == "%" else "" }}</td><td>{{ r.period }}</td></tr>
+      {% else %}<tr><td colspan="3">Chưa có số liệu vĩ mô — điền config/macro_vn.csv</td></tr>{% endfor %}
+    </table>
+    <p class="small muted" style="margin-top:4px">Điểm vĩ mô chung: <b>{{ ctx.macro.score|num(0) }}</b>/100 · Tác động lên nhóm {{ ctx.macro.sector_label|lower }}: <b>{{ ctx.macro.sector_score|num(0) }}</b>/100 (theo ma trận độ nhạy config/sector_map.yaml).</p>
+  </div>
+</div>
+{% if charts.macro %}<img class="chart" src="{{ charts.macro }}" style="width:70%">{% endif %}
+{% if macro_news %}<h3>Tin vĩ mô & thị trường mới nhất</h3>
+<table class="data">{% for n in macro_news %}<tr><td class="l">{{ n.title }}</td><td class="small l">{{ n.source }}</td></tr>{% endfor %}</table>{% endif %}
+{% endif %}
+
+<!-- =========================== NGANH =========================== -->
+{% if "sector" in sections %}
+<div class="page-break"></div>
+<h2 class="section">2. Phân tích ngành — {{ info.industry or info.type_label }}</h2>
+{% for p in narratives.sector %}<p>{{ p }}</p>{% endfor %}
+<table class="data keep">
+  <tr><th>Mã</th><th>Giá</th><th>Vốn hóa (tỷ)</th><th>P/E</th><th>P/B</th>{% if info.company_type == "NON_FINANCIAL" %}<th>EV/EBITDA</th>{% endif %}<th>ROE</th><th>CAGR LNST</th><th>+/- 1 năm</th></tr>
+  {% for r in peer_rows %}<tr class="{{ 'target' if r.is_target else '' }}"><td>{{ r.symbol }}</td><td>{{ r.price }}</td><td>{{ r.mcap }}</td><td>{{ r.pe }}</td><td>{{ r.pb }}</td>{% if info.company_type == "NON_FINANCIAL" %}<td>{{ r.ev_ebitda }}</td>{% endif %}<td>{{ r.roe }}</td><td>{{ r.ni_cagr }}</td><td>{{ r.ret_1y }}</td></tr>{% endfor %}
+  <tr><td><b>Trung vị</b></td><td></td><td></td><td><b>{{ medians.pe|times(1) }}</b></td><td><b>{{ medians.pb|times(2) }}</b></td>{% if info.company_type == "NON_FINANCIAL" %}<td><b>{{ medians.ev_ebitda|times(1) }}</b></td>{% endif %}<td><b>{{ medians.roe|pct }}</b></td><td><b>{{ medians.ni_cagr|pct }}</b></td><td></td></tr>
+</table>
+<div class="two" style="margin-top:6px">
+  <div>{% if charts.sector %}<img class="chart" src="{{ charts.sector }}">{% endif %}</div>
+  <div>{% if charts.peers %}<img class="chart" src="{{ charts.peers }}">{% endif %}</div>
+</div>
+{% endif %}
+
+<!-- =========================== DOANH NGHIEP =========================== -->
+{% if "company" in sections %}
+<div class="page-break"></div>
+<h2 class="section">3. Phân tích doanh nghiệp</h2>
+{% if info.description %}<p class="small muted">{{ info.description[:600] }}{% if info.description|length > 600 %}…{% endif %}</p>{% endif %}
+{% for p in narratives.company %}<p>{{ p }}</p>{% endfor %}
+<div class="two">
+  <div>{% if charts.fin %}<img class="chart" src="{{ charts.fin }}">{% endif %}</div>
+  <div>{% if charts.ratios %}<img class="chart" src="{{ charts.ratios }}">{% endif %}</div>
+</div>
+<h3>Chỉ số tài chính</h3>
+<table class="data keep"><tr><th>Chỉ số</th>{% for y in ratio_table.years %}<th>{{ y }}</th>{% endfor %}</tr>
+  {% for r in ratio_table.rows %}<tr><td>{{ r.label }}</td>{% for v in r.cells %}<td>{{ v }}</td>{% endfor %}</tr>{% endfor %}
+</table>
+{% endif %}
+
+<!-- =========================== DINH GIA =========================== -->
+{% if "valuation" in sections %}
+<div class="page-break"></div>
+<h2 class="section">4. Định giá & khuyến nghị</h2>
+{% for p in narratives.valuation %}<p>{{ p }}</p>{% endfor %}
+{% if method_rows %}
+<table class="data keep">
+  <tr><th>Phương pháp</th><th>Tỷ trọng</th><th>Bi quan</th><th>Cơ sở</th><th>Lạc quan</th></tr>
+  {% for m in method_rows %}<tr><td>{{ m.label }}<div class="small muted">{{ m.inputs }}</div></td><td>{{ (m.weight*100)|num(0) }}%</td><td>{{ m.bear|price }}</td><td>{{ m.base|price }}</td><td>{{ m.bull|price }}</td></tr>{% endfor %}
+  <tr><td><b>Giá mục tiêu (bình quân gia quyền)</b></td><td>100%</td><td><b>{{ val.target.bear|price }}</b></td><td><b>{{ val.target.base|price }}</b></td><td><b>{{ val.target.bull|price }}</b></td></tr>
+</table>{% endif %}
+{% if charts.football %}<img class="chart" src="{{ charts.football }}" style="width:86%;margin:4px auto">{% endif %}
+<div class="box keep"><h3>Khuyến nghị: {{ rating }}</h3><p>{{ res.rating_reason }} Khung xếp hạng theo upside: MUA ≥ 20%, KHẢ QUAN 10–20%, NẮM GIỮ −5–10%, KÉM KHẢ QUAN −15– −5%, BÁN &lt; −15% (config/settings.yaml).</p></div>
+{% endif %}
+
+<!-- =========================== KY THUAT =========================== -->
+{% if "technical" in sections and tech %}
+<div class="page-break"></div>
+<h2 class="section">5. Phân tích kỹ thuật</h2>
+<div class="two">
+  <div style="flex: 1.3">{% if charts.technical %}<img class="chart" src="{{ charts.technical }}">{% endif %}</div>
+  <div>{% for p in narratives.technical %}<p>{{ p }}</p>{% endfor %}
+    <table class="stats">
+      <tr><td>Điểm MACD</td><td>{{ tech.component_scores.macd|num(0) }}</td></tr>
+      <tr><td>Điểm RSI (ngưỡng thích ứng)</td><td>{{ tech.component_scores.rsi|num(0) }}</td></tr>
+      <tr><td>Điểm Ichimoku</td><td>{{ tech.component_scores.ichimoku|num(0) }}</td></tr>
+      <tr><td>Tỷ lệ lợi nhuận/rủi ro</td><td>{{ tech.risk_reward|num(2) }}</td></tr>
+    </table>
+    <p class="small muted" style="margin-top:6px">Mô-đun kỹ thuật kế thừa từ hệ thống bot-phan-tich (backtest walk-forward cho thấy tín hiệu kỹ thuật đơn lẻ không tạo lợi thế ổn định — vì vậy chỉ chiếm 10% điểm tổng hợp).</p>
+  </div>
+</div>
+{% endif %}
+
+<!-- =========================== TIN TUC =========================== -->
+{% if "news" in sections %}
+<h2 class="section" style="margin-top:12px">6. Tin tức & cảm xúc thị trường</h2>
+<p>Điểm cảm xúc tin tức (từ điển tài chính tiếng Việt, trọng số giảm dần theo thời gian, bán kỳ 30 ngày): <b>{{ ctx.sentiment.score|num(2) }}</b> (−1 tiêu cực … +1 tích cực).</p>
+<table class="data"><tr><th>Ngày</th><th class="l">Tiêu đề</th><th class="l">Nguồn</th><th>Cảm xúc</th></tr>
+  {% for n in news %}<tr><td>{{ n.published_at.strftime("%d/%m/%Y") }}</td><td class="l">{{ n.title }}{% if n.pos or n.neg %}<div class="small muted">từ khóa: {{ (n.pos + n.neg)|join(", ") }}</div>{% endif %}</td><td class="small l">{{ n.source }}</td>
+    <td class="{{ 'pos' if n.sentiment > 0 else 'neg' if n.sentiment < 0 else '' }}">{{ n.sentiment|num(2) }}</td></tr>
+  {% else %}<tr><td colspan="4">Không tìm thấy tin trong 180 ngày.</td></tr>{% endfor %}
+</table>
+{% endif %}
+
+<!-- =========================== PHU LUC =========================== -->
+{% if "appendix" in sections %}
+<div class="page-break"></div>
+<h2 class="section">Phụ lục A. Báo cáo tài chính tóm tắt (tỷ đồng)</h2>
+<table class="data"><tr><th>Chỉ tiêu</th>{% for y in fin_table.years %}<th>{{ y }}</th>{% endfor %}</tr>
+  {% for r in fin_table.rows %}<tr><td>{{ r.label }}</td>{% for v in r.cells %}<td>{{ v }}</td>{% endfor %}</tr>{% endfor %}
+</table>
+<h3>Ánh xạ chỉ tiêu ↔ dòng dữ liệu gốc</h3>
+<table class="data small">{% for k, v in mapping.items() %}<tr><td>{{ k }}</td><td style="text-align:left">{{ v }}</td></tr>{% endfor %}</table>
+
+<h2 class="section" style="margin-top:12px">Phụ lục B. Kiểm tra chất lượng dữ liệu</h2>
+<table class="data"><tr><th>Kiểm tra</th><th>Kết quả</th><th style="text-align:left">Chi tiết</th></tr>
+  {% for c in checks %}<tr><td>{{ c.name }}</td><td><span class="badge {{ c.status }}">{{ c.status }}</span></td><td style="text-align:left">{{ c.detail }}</td></tr>{% endfor %}
+</table>
+
+<h2 class="section" style="margin-top:12px">Phụ lục C. Nguồn dữ liệu & giả định</h2>
+<table class="data"><tr><th>Dữ liệu</th><th style="text-align:left">Nguồn</th><th>Số liệu đến</th><th>Lấy lúc</th><th style="text-align:left">Ghi chú</th></tr>
+  {% for s in sources %}<tr><td>{{ s.item }}</td><td style="text-align:left">{{ s.source }}</td><td>{{ s.as_of or "" }}</td><td>{{ s.fetched_at }}</td><td style="text-align:left" class="{{ '' if s.ok else 'neg' }}">{{ s.note }}</td></tr>{% endfor %}
+</table>
+<p class="small" style="margin-top:6px">Giả định định giá: lãi suất phi rủi ro {{ val.assumptions.rf|pct }}, phần bù rủi ro thị trường {{ val.assumptions.erp|pct }}, beta {{ val.assumptions.beta|num(2) }} (gốc {{ val.assumptions.beta_raw|num(2) }}, giới hạn 0,6–1,8), Ke {{ val.assumptions.ke|pct }}{% if val.assumptions.wacc %}, WACC {{ val.assumptions.wacc|pct }}{% endif %}, tăng trưởng dài hạn {{ val.assumptions.terminal_growth|pct }}. EPS/BVPS dựa trên BCTC năm gần nhất (FY), không phải 4 quý gần nhất.</p>
+<p class="small">Dữ liệu tham khảo: Ngo, P. T. (2025). Vietnam Listed Companies Annual Reports PDF Dataset, 2000–2025. Zenodo. doi:10.5281/zenodo.20949551; vnfinancialdata (thanhnp-uel); công cụ tham khảo vn-annual-report-miner (Tumiqa).</p>
+{% endif %}
+
+<div class="disclaimer">Báo cáo được tạo tự động bởi hệ thống phân tích phục vụ mục đích học thuật (đồ án môn học, {{ author }}). Thông tin chỉ mang tính tham khảo, không phải khuyến nghị đầu tư cá nhân. Số liệu lấy từ các nguồn công khai liệt kê tại Phụ lục C; nhóm đã kiểm tra tự động nhưng không bảo đảm tuyệt đối tính chính xác.</div>
+</body>
+</html>
