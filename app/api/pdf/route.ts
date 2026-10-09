@@ -29,9 +29,21 @@ export async function GET(req: NextRequest) {
     }
     browser = await puppeteer.launch({ args, executablePath, headless: "shell", defaultViewport: { width: 1200, height: 1600 } });
     const page = await browser.newPage();
-    // chuyen tiep cookie bao ve deployment (neu co) de goi duoc /api/py tu trang
+    // chuyen tiep thong tin bao ve deployment de Chromium goi duoc /api/py trong Preview
     const bypass = req.headers.get("x-vercel-protection-bypass");
-    if (bypass) await page.setExtraHTTPHeaders({ "x-vercel-protection-bypass": bypass });
+    const trustedOidc = req.headers.get("x-vercel-trusted-oidc-idp-token");
+    const protectionHeaders: Record<string, string> = {};
+    if (bypass) protectionHeaders["x-vercel-protection-bypass"] = bypass;
+    if (trustedOidc) protectionHeaders["x-vercel-trusted-oidc-idp-token"] = trustedOidc;
+    if (Object.keys(protectionHeaders).length) {
+      const origin = new URL(target).origin;
+      await page.setRequestInterception(true);
+      page.on("request", (request) => {
+        const headers = request.headers();
+        if (new URL(request.url()).origin === origin) Object.assign(headers, protectionHeaders);
+        void request.continue({ headers }).catch(() => {});
+      });
+    }
     await page.goto(target, { waitUntil: "networkidle0", timeout: 45000 });
     await page.waitForFunction("window.__REPORT_READY__ === true", { timeout: 45000 });
     const pdf = await page.pdf({ format: "A4", printBackground: true, margin: { top: "10mm", bottom: "12mm", left: "10mm", right: "10mm" },
