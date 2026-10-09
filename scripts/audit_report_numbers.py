@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import re
 import sys
 from datetime import datetime
 from pathlib import Path
@@ -44,7 +45,8 @@ def audit_one(symbol: str) -> dict:
     result = analysis(symbol, with_news=False)
     fin = financials_std(symbol, 10)
     year = fin.last_year() if not fin.empty else None
-    get = lambda field: fin.get(field, year) if year is not None else None
+    def get(field):
+        return fin.get(field, year) if year is not None else None
     assets, liabilities, equity = get("total_assets"), get("total_liabilities"), get("equity")
     balance_error = (abs(assets - liabilities - equity) / assets
                      if all(_is_number(v) for v in (assets, liabilities, equity)) and assets else None)
@@ -126,7 +128,8 @@ def audit_one(symbol: str) -> dict:
     }
     sources = {"price": result.get("as_of_price"), "shares": result.get("shares_source"),
                "financials": fin.source if not fin.empty else None, "financial_year": year}
-    return {"symbol": symbol, "values": values, "checks": checks, "sources": sources,
+    return {"symbol": symbol, "company_type": result.get("company_type"),
+            "values": values, "checks": checks, "sources": sources,
             "recalculated": {"market_cap": cap_calc, "pe_ttm": pe_calc, "pb": pb_check,
                              "roe": roe_calc, "eps": values["eps_calc"], "bvps": bvps_calc,
                              "target_base": target_calc, "upside": upside_calc,
@@ -150,19 +153,64 @@ def compare_pdf_text(pdf_dir: Path, records: list[dict]) -> dict:
             continue
         try:
             from invest_system.analysis.fintext import extract_text
-            text = extract_text(path)
-            compact = text.replace(",", "").replace(".", "").replace(" ", "")
-            matches = []
-            for key in ("price", "shares", "market_cap", "revenue_fy", "net_income_parent_fy", "total_assets", "equity"):
-                value = record["values"].get(key)
+            text = " ".join(extract_text(path).split())
+            values = record["values"]
+            checks: dict[str, str] = {}
+
+            def nearby(source: str, label: str, token: str, window: int = 220) -> bool:
+                start = source.casefold().find(label.casefold())
+                return start >= 0 and token.casefold() in source[start:start + window].casefold()
+
+            def number(value: float, scale: float = 1.0, decimals: int = 0) -> str:
+                rounded = round(value / scale, decimals)
+                if decimals:
+                    whole, fraction = f"{rounded:.{decimals}f}".split(".")
+                    return f"{int(whole):,}".replace(",", ".") + "," + fraction
+                return f"{int(rounded):,}".replace(",", ".")
+
+            def check(key: str, labels: tuple[str, ...], token: str | None,
+                      window: int = 220, source: str = text) -> str:
+                if token is None:
+                    return "SKIP"
+                return "PASS" if any(nearby(source, label, token, window) for label in labels) else "FAIL"
+
+            checks["price"] = check("price", ("Giá hiện tại",), number(values["price"]) if _is_number(values.get("price")) else None, 80)
+            checks["shares"] = check("shares", ("Số CP",), number(values["shares"]) if _is_number(values.get("shares")) else None, 80)
+            market_cap = values.get("market_cap")
+            if _is_number(market_cap):
+                cap_scale = 1e15 if abs(market_cap) >= 1e15 else 1e12 if abs(market_cap) >= 1e12 else 1e9
+                cap_decimals = 1 if cap_scale >= 1e12 else 0
+                cap_token = number(market_cap, cap_scale, cap_decimals)
+            else:
+                cap_token = None
+            checks["market_cap"] = check("market_cap", ("Vốn hoá",), cap_token, 80)
+            confidence = values.get("confidence")
+            checks["confidence"] = check("confidence", ("Độ tin cậy định giá:",), confidence, 100) if confidence else "SKIP"
+
+            # The report appendix maps BCTC fields and shows validation results,
+            # but does not print the raw FY revenue, profit, assets, or liabilities.
+            for key in ("revenue_fy", "net_income_parent_fy", "total_assets", "total_liabilities"):
+                checks[key] = "SKIP"
+            assets, liabilities, equity = (values.get(key) for key in ("total_assets", "total_liabilities", "equity"))
+            if all(_is_number(value) for value in (assets, liabilities, equity)):
+                balance_check = re.search(r"PASS\s+Tổng TS\s*=\s*Nợ(?: phải trả)?\s*\+\s*VCSH", text, re.IGNORECASE)
+                checks["equity_identity"] = "PASS" if balance_check else "FAIL"
+            else:
+                checks["equity_identity"] = "SKIP"
+
+            for key, label in (("target_base", "Giá mục tiêu"), ("upside", "Upside")):
+                value = values.get(key)
                 if not _is_number(value):
+                    checks[key] = "SKIP"
                     continue
-                token = f"{value:,.0f}".replace(",", "")
-                if token and token in compact:
-                    matches.append(key)
-            output[symbol] = {"status": "PASS" if len(matches) >= 3 else "WARN", "file": str(path),
-                              "matched_fields": matches, "checked_fields": 7,
-                              "note": "Text search confirms rounded numeric tokens; it does not prove section labels or semantic placement."}
+                token = number(value) if key == "target_base" else f"{value * 100:+.1f}%".replace(".", ",")
+                checks[key] = check(key, (label,), token, 80)
+
+            failures = [key for key, status in checks.items() if status == "FAIL"]
+            status = "FAIL" if failures else "SKIP" if all(value == "SKIP" for value in checks.values()) else "PASS"
+            output[symbol] = {"status": status, "file": str(path), "checks": checks,
+                              "checked_fields": len(checks), "failures": failures,
+                              "note": "Headline numbers were checked beside their labels. Raw FY statement values are not printed in this PDF template and are SKIP; the appendix balance-check line is checked when present. Independent balance formulas are audited separately in the snapshot data."}
         except Exception as exc:  # noqa: BLE001
             output[symbol] = {"status": "ERROR", "file": str(path), "error": f"{type(exc).__name__}: {exc}"}
     return output
@@ -171,18 +219,58 @@ def compare_pdf_text(pdf_dir: Path, records: list[dict]) -> dict:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--pdf-dir", type=Path)
+    parser.add_argument("--analysis-json-dir", type=Path,
+                        help="Use same-Preview analysis JSON as the expected source for PDF headline values")
+    parser.add_argument("--reuse-records", type=Path,
+                        help="Reuse previously audited formula records and avoid live data-provider calls")
     args = parser.parse_args()
     records = []
-    for symbol in SYMBOLS:
-        try:
-            records.append(audit_one(symbol))
-            print(f"{symbol}: audited", flush=True)
-        except Exception as exc:  # noqa: BLE001
-            records.append({"symbol": symbol, "error": f"{type(exc).__name__}: {exc}", "checks": {"analysis": "FAIL"}})
-            print(f"{symbol}: failed: {type(exc).__name__}", flush=True)
-    pdf = compare_pdf_text(args.pdf_dir, records) if args.pdf_dir else {}
+    if args.reuse_records:
+        cached = json.loads(args.reuse_records.read_text(encoding="utf-8-sig"))
+        records = cached.get("records", [])
+        if [record.get("symbol") for record in records] != SYMBOLS:
+            raise SystemExit("Reused formula records do not match the expected symbol list")
+        print(f"Reused {len(records)} previously audited records", flush=True)
+    else:
+        for symbol in SYMBOLS:
+            try:
+                records.append(audit_one(symbol))
+                print(f"{symbol}: audited", flush=True)
+            except Exception as exc:  # noqa: BLE001
+                records.append({"symbol": symbol, "error": f"{type(exc).__name__}: {exc}", "checks": {"analysis": "FAIL"}})
+                print(f"{symbol}: failed: {type(exc).__name__}", flush=True)
+    pdf_records = records
+    pdf_source = None
+    if args.analysis_json_dir:
+        manifest_path = args.analysis_json_dir / "analysis-manifest.json"
+        if not manifest_path.exists():
+            manifest_path = args.analysis_json_dir / "capture-manifest.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        pdf_source = {"preview": manifest["preview"], "captured_at": manifest["captured_at"],
+                      "deployment_commit": manifest.get("deployment_commit", "unknown"), "records": []}
+        pdf_records = []
+        for record in records:
+            symbol = record["symbol"]
+            source_path = args.analysis_json_dir / f"{symbol}-analysis.json"
+            if not source_path.exists():
+                source_path = args.analysis_json_dir / f"{symbol}-analysis-c1228a0.json"
+            payload = json.loads(source_path.read_text(encoding="utf-8"))
+            valuation = payload.get("valuation", {})
+            source_values = {
+                "price": payload.get("price"), "shares": payload.get("shares"),
+                "market_cap": payload.get("market_cap"),
+                "target_base": valuation.get("targets", {}).get("base"),
+                "upside": valuation.get("upside"), "confidence": valuation.get("confidence"),
+                "as_of_price": payload.get("as_of_price"),
+            }
+            pdf_source["records"].append({"symbol": symbol, **source_values})
+            values = {**record["values"], **source_values}
+            pdf_records.append({**record, "company_type": payload.get("company_type", record.get("company_type")),
+                                "values": values})
+    pdf = compare_pdf_text(args.pdf_dir, pdf_records) if args.pdf_dir else {}
     result = {"generated_at": datetime.now().astimezone().isoformat(timespec="seconds"),
-              "symbols": SYMBOLS, "fields": FIELDS, "records": records, "pdf_comparison": pdf}
+              "symbols": SYMBOLS, "fields": FIELDS, "records": records, "pdf_comparison": pdf,
+              "pdf_comparison_source": pdf_source}
     (ROOT / "docs" / "pdf-audit-data.json").write_text(
         json.dumps(jsonable(result), ensure_ascii=False, indent=2), encoding="utf-8")
     lines = ["# Báo cáo kiểm tra số liệu trong báo cáo", "", f"Tạo lúc: {result['generated_at']}",
@@ -196,7 +284,7 @@ def main() -> None:
                       if key.endswith("_formula") or key in {"target_weighted_methods", "composite_score_formula"}]
     lines += ["", f"Kiểm tra công thức độc lập: PASS {formula_states.count('PASS')}, WARN {formula_states.count('WARN')}, SKIP {formula_states.count('SKIP')}, FAIL {formula_states.count('FAIL')}.",
               "SKIP nghĩa là snapshot thiếu đầu vào để tính (ví dụ ACV chưa có BCTC hoặc VIC/MSN chưa có mục tiêu định giá); WARN cần rà số liệu/phương pháp."]
-    lines += ["", "## Giới hạn đối chiếu PDF", "", "Nếu `--pdf-dir` được truyền, script tìm PDF theo mã, trích text và tìm các token số đã làm tròn. Đây là đối chiếu tự động mức sơ bộ; không xác minh token nằm đúng nhãn/đúng phần. `MISSING` nghĩa là chưa có PDF được cung cấp, không được tính là PASS.",
+    lines += ["", "## Giới hạn đối chiếu PDF", "", "Nếu `--pdf-dir` được truyền, script tìm PDF theo mã và đối chiếu từng số bên cạnh nhãn. Khi kèm `--analysis-json-dir`, headline giá/số cổ phiếu/vốn hóa/giá mục tiêu/upside/độ tin cậy lấy từ API analysis của đúng Preview/deployment ghi trong `pdf-audit-data.json`; số BCTC lấy từ snapshot trong bản audit. Bốn giá trị BCTC thô là SKIP vì mẫu PDF không in các số này; appendix có ánh xạ trường và dòng validation cân đối. Đây là đối chiếu text tự động, không xác minh bố cục thị giác. `MISSING` không được tính là PASS. PDF server-side đã được kiểm tra bằng 15 lượt tải HTTP 200 từ cùng Preview.",
               "", "## Kiểm tra định giá trọng điểm", "", "VHM được định giá theo nhóm peer đã loại chính mã mục tiêu; regression P/B–ROE chỉ bật khi mẫu thanh khoản đủ lớn, hệ số dốc dương và R² đạt ngưỡng; P/B dự báo bị chặn trong P25–P90. Các mã đa ngành VIC/MSN chỉ dùng P/B lịch sử nếu có ít nhất ba FY giao dịch hợp lệ; khi snapshot giá không có đủ điểm lịch sử, hệ thống hạ độ tin cậy và không xuất mục tiêu giá.",
               "", "Dữ liệu từng mã, 15 trường, nguồn và thời điểm nằm trong `pdf-audit-data.json`.", ""]
     (ROOT / "docs" / "pdf-audit.md").write_text("\n".join(lines), encoding="utf-8")

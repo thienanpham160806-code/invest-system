@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-09T18:40:01+07:00",
+  "generated_at": "2026-10-09T23:33:56+07:00",
   "symbols": [
     "FPT",
     "VCB",
@@ -37,6 +37,7 @@
   "records": [
     {
       "symbol": "FPT",
+      "company_type": "NON_FINANCIAL",
       "values": {
         "price": 57900.0,
         "shares": 1714326422.0,
@@ -125,6 +126,7 @@
     },
     {
       "symbol": "VCB",
+      "company_type": "BANK",
       "values": {
         "price": 56700.0,
         "shares": 8355675094.0,
@@ -221,6 +223,7 @@
     },
     {
       "symbol": "VIC",
+      "company_type": "REAL_ESTATE",
       "values": {
         "price": 227000.0,
         "shares": 7762186429.0,
@@ -314,6 +317,7 @@
     },
     {
       "symbol": "VHM",
+      "company_type": "REAL_ESTATE",
       "values": {
         "price": 65600.0,
         "shares": 8214824008.0,
@@ -403,6 +407,7 @@
     },
     {
       "symbol": "HPG",
+      "company_type": "NON_FINANCIAL",
       "values": {
         "price": 20150.0,
         "shares": 8442964520.0,
@@ -493,6 +498,7 @@
     },
     {
       "symbol": "MWG",
+      "company_type": "NON_FINANCIAL",
       "values": {
         "price": 75600.0,
         "shares": 1477035294.0,
@@ -582,6 +588,7 @@
     },
     {
       "symbol": "SSI",
+      "company_type": "SECURITIES",
       "values": {
         "price": 19200.0,
         "shares": 3003293801.0,
@@ -686,6 +693,7 @@
     },
     {
       "symbol": "MSN",
+      "company_type": "NON_FINANCIAL",
       "values": {
         "price": 74200.0,
         "shares": 1460374611.0,
@@ -778,6 +786,7 @@
     },
     {
       "symbol": "GAS",
+      "company_type": "NON_FINANCIAL",
       "values": {
         "price": 81200.0,
         "shares": 2412949756.0,
@@ -868,6 +877,7 @@
     },
     {
       "symbol": "VNM",
+      "company_type": "NON_FINANCIAL",
       "values": {
         "price": 57800.0,
         "shares": 2089955445.0,
@@ -960,6 +970,7 @@
     },
     {
       "symbol": "TCB",
+      "company_type": "BANK",
       "values": {
         "price": 32150.0,
         "shares": 7086240414.0,
@@ -1056,6 +1067,7 @@
     },
     {
       "symbol": "ACB",
+      "company_type": "BANK",
       "values": {
         "price": 20300.0,
         "shares": 5804421957.0,
@@ -1152,6 +1164,7 @@
     },
     {
       "symbol": "VRE",
+      "company_type": "REAL_ESTATE",
       "values": {
         "price": 23200.0,
         "shares": 2328818410.0,
@@ -1248,6 +1261,7 @@
     },
     {
       "symbol": "BSR",
+      "company_type": "NON_FINANCIAL",
       "values": {
         "price": 31250.0,
         "shares": 5007299686.0,
@@ -1337,6 +1351,7 @@
     },
     {
       "symbol": "ACV",
+      "company_type": "NON_FINANCIAL",
       "values": {
         "price": 40900.0,
         "shares": 3582324023.0,
@@ -1424,5 +1439,463 @@
       "pb_roe_regression": null
     }
   ],
-  "pdf_comparison": {}
+  "pdf_comparison": {
+    "FPT": {
+      "status": "PASS",
+      "file": ".tmp\\pdf-audit-7ad\\FPT.pdf",
+      "checks": {
+        "price": "PASS",
+        "shares": "PASS",
+        "market_cap": "PASS",
+        "confidence": "PASS",
+        "revenue_fy": "SKIP",
+        "net_income_parent_fy": "SKIP",
+        "total_assets": "SKIP",
+        "total_liabilities": "SKIP",
+        "equity_identity": "PASS",
+        "target_base": "PASS",
+        "upside": "PASS"
+      },
+      "checked_fields": 11,
+      "failures": [],
+      "note": "Headline numbers were checked beside their labels. Raw FY statement values are not printed in this PDF template and are SKIP; the appendix balance-check line is checked when present. Independent balance formulas are audited separately in the snapshot data."
+    },
+    "VCB": {
+      "status": "PASS",
+      "file": ".tmp\\pdf-audit-7ad\\VCB.pdf",
+      "checks": {
+        "price": "PASS",
+        "shares": "PASS",
+        "market_cap": "PASS",
+        "confidence": "PASS",
+        "revenue_fy": "SKIP",
+        "net_income_parent_fy": "SKIP",
+        "total_assets": "SKIP",
+        "total_liabilities": "SKIP",
+        "equity_identity": "PASS",
+        "target_base": "PASS",
+        "upside": "PASS"
+      },
+      "checked_fields": 11,
+      "failures": [],
+      "note": "Headline numbers were checked beside their labels. Raw FY statement values are not printed in this PDF template and are SKIP; the appendix balance-check line is checked when present. Independent balance formulas are audited separately in the snapshot data."
+    },
+    "VIC": {
+      "status": "PASS",
+      "file": ".tmp\\pdf-audit-7ad\\VIC.pdf",
+      "checks": {
+        "price": "PASS",
+        "shares": "PASS",
+        "market_cap": "PASS",
+        "confidence": "PASS",
+        "revenue_fy": "SKIP",
+        "net_income_parent_fy": "SKIP",
+        "total_assets": "SKIP",
+        "total_liabilities": "SKIP",
+        "equity_identity": "PASS",
+        "target_base": "PASS",
+        "upside": "PASS"
+      },
+      "checked_fields": 11,
+      "failures": [],
+      "note": "Headline numbers were checked beside their labels. Raw FY statement values are not printed in this PDF template and are SKIP; the appendix balance-check line is checked when present. Independent balance formulas are audited separately in the snapshot data."
+    },
+    "VHM": {
+      "status": "PASS",
+      "file": ".tmp\\pdf-audit-7ad\\VHM.pdf",
+      "checks": {
+        "price": "PASS",
+        "shares": "PASS",
+        "market_cap": "PASS",
+        "confidence": "PASS",
+        "revenue_fy": "SKIP",
+        "net_income_parent_fy": "SKIP",
+        "total_assets": "SKIP",
+        "total_liabilities": "SKIP",
+        "equity_identity": "PASS",
+        "target_base": "PASS",
+        "upside": "PASS"
+      },
+      "checked_fields": 11,
+      "failures": [],
+      "note": "Headline numbers were checked beside their labels. Raw FY statement values are not printed in this PDF template and are SKIP; the appendix balance-check line is checked when present. Independent balance formulas are audited separately in the snapshot data."
+    },
+    "HPG": {
+      "status": "PASS",
+      "file": ".tmp\\pdf-audit-7ad\\HPG.pdf",
+      "checks": {
+        "price": "PASS",
+        "shares": "PASS",
+        "market_cap": "PASS",
+        "confidence": "PASS",
+        "revenue_fy": "SKIP",
+        "net_income_parent_fy": "SKIP",
+        "total_assets": "SKIP",
+        "total_liabilities": "SKIP",
+        "equity_identity": "PASS",
+        "target_base": "PASS",
+        "upside": "PASS"
+      },
+      "checked_fields": 11,
+      "failures": [],
+      "note": "Headline numbers were checked beside their labels. Raw FY statement values are not printed in this PDF template and are SKIP; the appendix balance-check line is checked when present. Independent balance formulas are audited separately in the snapshot data."
+    },
+    "MWG": {
+      "status": "PASS",
+      "file": ".tmp\\pdf-audit-7ad\\MWG.pdf",
+      "checks": {
+        "price": "PASS",
+        "shares": "PASS",
+        "market_cap": "PASS",
+        "confidence": "PASS",
+        "revenue_fy": "SKIP",
+        "net_income_parent_fy": "SKIP",
+        "total_assets": "SKIP",
+        "total_liabilities": "SKIP",
+        "equity_identity": "PASS",
+        "target_base": "PASS",
+        "upside": "PASS"
+      },
+      "checked_fields": 11,
+      "failures": [],
+      "note": "Headline numbers were checked beside their labels. Raw FY statement values are not printed in this PDF template and are SKIP; the appendix balance-check line is checked when present. Independent balance formulas are audited separately in the snapshot data."
+    },
+    "SSI": {
+      "status": "PASS",
+      "file": ".tmp\\pdf-audit-7ad\\SSI.pdf",
+      "checks": {
+        "price": "PASS",
+        "shares": "PASS",
+        "market_cap": "PASS",
+        "confidence": "PASS",
+        "revenue_fy": "SKIP",
+        "net_income_parent_fy": "SKIP",
+        "total_assets": "SKIP",
+        "total_liabilities": "SKIP",
+        "equity_identity": "PASS",
+        "target_base": "PASS",
+        "upside": "PASS"
+      },
+      "checked_fields": 11,
+      "failures": [],
+      "note": "Headline numbers were checked beside their labels. Raw FY statement values are not printed in this PDF template and are SKIP; the appendix balance-check line is checked when present. Independent balance formulas are audited separately in the snapshot data."
+    },
+    "MSN": {
+      "status": "PASS",
+      "file": ".tmp\\pdf-audit-7ad\\MSN.pdf",
+      "checks": {
+        "price": "PASS",
+        "shares": "PASS",
+        "market_cap": "PASS",
+        "confidence": "PASS",
+        "revenue_fy": "SKIP",
+        "net_income_parent_fy": "SKIP",
+        "total_assets": "SKIP",
+        "total_liabilities": "SKIP",
+        "equity_identity": "PASS",
+        "target_base": "PASS",
+        "upside": "PASS"
+      },
+      "checked_fields": 11,
+      "failures": [],
+      "note": "Headline numbers were checked beside their labels. Raw FY statement values are not printed in this PDF template and are SKIP; the appendix balance-check line is checked when present. Independent balance formulas are audited separately in the snapshot data."
+    },
+    "GAS": {
+      "status": "PASS",
+      "file": ".tmp\\pdf-audit-7ad\\GAS.pdf",
+      "checks": {
+        "price": "PASS",
+        "shares": "PASS",
+        "market_cap": "PASS",
+        "confidence": "PASS",
+        "revenue_fy": "SKIP",
+        "net_income_parent_fy": "SKIP",
+        "total_assets": "SKIP",
+        "total_liabilities": "SKIP",
+        "equity_identity": "PASS",
+        "target_base": "PASS",
+        "upside": "PASS"
+      },
+      "checked_fields": 11,
+      "failures": [],
+      "note": "Headline numbers were checked beside their labels. Raw FY statement values are not printed in this PDF template and are SKIP; the appendix balance-check line is checked when present. Independent balance formulas are audited separately in the snapshot data."
+    },
+    "VNM": {
+      "status": "PASS",
+      "file": ".tmp\\pdf-audit-7ad\\VNM.pdf",
+      "checks": {
+        "price": "PASS",
+        "shares": "PASS",
+        "market_cap": "PASS",
+        "confidence": "PASS",
+        "revenue_fy": "SKIP",
+        "net_income_parent_fy": "SKIP",
+        "total_assets": "SKIP",
+        "total_liabilities": "SKIP",
+        "equity_identity": "PASS",
+        "target_base": "PASS",
+        "upside": "PASS"
+      },
+      "checked_fields": 11,
+      "failures": [],
+      "note": "Headline numbers were checked beside their labels. Raw FY statement values are not printed in this PDF template and are SKIP; the appendix balance-check line is checked when present. Independent balance formulas are audited separately in the snapshot data."
+    },
+    "TCB": {
+      "status": "PASS",
+      "file": ".tmp\\pdf-audit-7ad\\TCB.pdf",
+      "checks": {
+        "price": "PASS",
+        "shares": "PASS",
+        "market_cap": "PASS",
+        "confidence": "PASS",
+        "revenue_fy": "SKIP",
+        "net_income_parent_fy": "SKIP",
+        "total_assets": "SKIP",
+        "total_liabilities": "SKIP",
+        "equity_identity": "PASS",
+        "target_base": "PASS",
+        "upside": "PASS"
+      },
+      "checked_fields": 11,
+      "failures": [],
+      "note": "Headline numbers were checked beside their labels. Raw FY statement values are not printed in this PDF template and are SKIP; the appendix balance-check line is checked when present. Independent balance formulas are audited separately in the snapshot data."
+    },
+    "ACB": {
+      "status": "PASS",
+      "file": ".tmp\\pdf-audit-7ad\\ACB.pdf",
+      "checks": {
+        "price": "PASS",
+        "shares": "PASS",
+        "market_cap": "PASS",
+        "confidence": "PASS",
+        "revenue_fy": "SKIP",
+        "net_income_parent_fy": "SKIP",
+        "total_assets": "SKIP",
+        "total_liabilities": "SKIP",
+        "equity_identity": "PASS",
+        "target_base": "PASS",
+        "upside": "PASS"
+      },
+      "checked_fields": 11,
+      "failures": [],
+      "note": "Headline numbers were checked beside their labels. Raw FY statement values are not printed in this PDF template and are SKIP; the appendix balance-check line is checked when present. Independent balance formulas are audited separately in the snapshot data."
+    },
+    "VRE": {
+      "status": "PASS",
+      "file": ".tmp\\pdf-audit-7ad\\VRE.pdf",
+      "checks": {
+        "price": "PASS",
+        "shares": "PASS",
+        "market_cap": "PASS",
+        "confidence": "PASS",
+        "revenue_fy": "SKIP",
+        "net_income_parent_fy": "SKIP",
+        "total_assets": "SKIP",
+        "total_liabilities": "SKIP",
+        "equity_identity": "PASS",
+        "target_base": "PASS",
+        "upside": "PASS"
+      },
+      "checked_fields": 11,
+      "failures": [],
+      "note": "Headline numbers were checked beside their labels. Raw FY statement values are not printed in this PDF template and are SKIP; the appendix balance-check line is checked when present. Independent balance formulas are audited separately in the snapshot data."
+    },
+    "BSR": {
+      "status": "PASS",
+      "file": ".tmp\\pdf-audit-7ad\\BSR.pdf",
+      "checks": {
+        "price": "PASS",
+        "shares": "PASS",
+        "market_cap": "PASS",
+        "confidence": "PASS",
+        "revenue_fy": "SKIP",
+        "net_income_parent_fy": "SKIP",
+        "total_assets": "SKIP",
+        "total_liabilities": "SKIP",
+        "equity_identity": "PASS",
+        "target_base": "PASS",
+        "upside": "PASS"
+      },
+      "checked_fields": 11,
+      "failures": [],
+      "note": "Headline numbers were checked beside their labels. Raw FY statement values are not printed in this PDF template and are SKIP; the appendix balance-check line is checked when present. Independent balance formulas are audited separately in the snapshot data."
+    },
+    "ACV": {
+      "status": "PASS",
+      "file": ".tmp\\pdf-audit-7ad\\ACV.pdf",
+      "checks": {
+        "price": "PASS",
+        "shares": "PASS",
+        "market_cap": "PASS",
+        "confidence": "PASS",
+        "revenue_fy": "SKIP",
+        "net_income_parent_fy": "SKIP",
+        "total_assets": "SKIP",
+        "total_liabilities": "SKIP",
+        "equity_identity": "SKIP",
+        "target_base": "SKIP",
+        "upside": "SKIP"
+      },
+      "checked_fields": 11,
+      "failures": [],
+      "note": "Headline numbers were checked beside their labels. Raw FY statement values are not printed in this PDF template and are SKIP; the appendix balance-check line is checked when present. Independent balance formulas are audited separately in the snapshot data."
+    }
+  },
+  "pdf_comparison_source": {
+    "preview": "https://invest-system-o93d5htnw-thienanpham160806-codes-projects.vercel.app",
+    "captured_at": "2026-10-09T23:31:22+07:00",
+    "deployment_commit": "7ad639f",
+    "records": [
+      {
+        "symbol": "FPT",
+        "price": 57900.0,
+        "shares": 1714326422.0,
+        "market_cap": 99259499833800.0,
+        "target_base": 80600.0,
+        "upside": 0.3920552677029361,
+        "confidence": "TRUNG BÌNH",
+        "as_of_price": "2026-10-09"
+      },
+      {
+        "symbol": "VCB",
+        "price": 56700.0,
+        "shares": 8355675094.0,
+        "market_cap": 473766777829800.0,
+        "target_base": 49300.0,
+        "upside": -0.13051146384479717,
+        "confidence": "CAO",
+        "as_of_price": "2026-10-09"
+      },
+      {
+        "symbol": "VIC",
+        "price": 225500.0,
+        "shares": 7762186429.0,
+        "market_cap": 1750373039739500.0,
+        "target_base": 36100.0,
+        "upside": -0.8399113082039911,
+        "confidence": "THẤP",
+        "as_of_price": "2026-10-09"
+      },
+      {
+        "symbol": "VHM",
+        "price": 66000.0,
+        "shares": 8214824008.0,
+        "market_cap": 542178384528000.0,
+        "target_base": 92600.0,
+        "upside": 0.40303030303030307,
+        "confidence": "TRUNG BÌNH",
+        "as_of_price": "2026-10-09"
+      },
+      {
+        "symbol": "HPG",
+        "price": 20100.0,
+        "shares": 8442964520.0,
+        "market_cap": 169703586852000.0,
+        "target_base": 35900.0,
+        "upside": 0.7860696517412935,
+        "confidence": "THẤP",
+        "as_of_price": "2026-10-09"
+      },
+      {
+        "symbol": "MWG",
+        "price": 75900.0,
+        "shares": 1477035294.0,
+        "market_cap": 112106978814600.0,
+        "target_base": 115400.0,
+        "upside": 0.5204216073781291,
+        "confidence": "CAO",
+        "as_of_price": "2026-10-09"
+      },
+      {
+        "symbol": "SSI",
+        "price": 19000.0,
+        "shares": 3003293801.0,
+        "market_cap": 57062582219000.0,
+        "target_base": 15100.0,
+        "upside": -0.20526315789473681,
+        "confidence": "TRUNG BÌNH",
+        "as_of_price": "2026-10-09"
+      },
+      {
+        "symbol": "MSN",
+        "price": 74200.0,
+        "shares": 1460374611.0,
+        "market_cap": 108359796136200.0,
+        "target_base": 89200.0,
+        "upside": 0.202156334231806,
+        "confidence": "THẤP",
+        "as_of_price": "2026-10-09"
+      },
+      {
+        "symbol": "GAS",
+        "price": 80700.0,
+        "shares": 2412949756.0,
+        "market_cap": 194725045309200.0,
+        "target_base": 95300.0,
+        "upside": 0.1809169764560099,
+        "confidence": "THẤP",
+        "as_of_price": "2026-10-09"
+      },
+      {
+        "symbol": "VNM",
+        "price": 57700.0,
+        "shares": 2089955445.0,
+        "market_cap": 120590429176500.0,
+        "target_base": 40500.0,
+        "upside": -0.2980935875216638,
+        "confidence": "TRUNG BÌNH",
+        "as_of_price": "2026-10-09"
+      },
+      {
+        "symbol": "TCB",
+        "price": 32350.0,
+        "shares": 7086240414.0,
+        "market_cap": 229239877392900.0,
+        "target_base": 34000.0,
+        "upside": 0.051004636785162205,
+        "confidence": "CAO",
+        "as_of_price": "2026-10-09"
+      },
+      {
+        "symbol": "ACB",
+        "price": 20150.0,
+        "shares": 5804421957.0,
+        "market_cap": 116959102433550.0,
+        "target_base": 32800.0,
+        "upside": 0.6277915632754343,
+        "confidence": "CAO",
+        "as_of_price": "2026-10-09"
+      },
+      {
+        "symbol": "VRE",
+        "price": 23150.0,
+        "shares": 2328818410.0,
+        "market_cap": 53912146191500.0,
+        "target_base": 40700.0,
+        "upside": 0.7580993520518358,
+        "confidence": "TRUNG BÌNH",
+        "as_of_price": "2026-10-09"
+      },
+      {
+        "symbol": "BSR",
+        "price": 31050.0,
+        "shares": 5007299686.0,
+        "market_cap": 155476655250300.0,
+        "target_base": 23200.0,
+        "upside": -0.2528180354267311,
+        "confidence": "CAO",
+        "as_of_price": "2026-10-09"
+      },
+      {
+        "symbol": "ACV",
+        "price": 40900.0,
+        "shares": 3582324023.0,
+        "market_cap": 146517052540700.0,
+        "target_base": null,
+        "upside": null,
+        "confidence": "THẤP",
+        "as_of_price": "2026-10-09"
+      }
+    ]
+  }
 }
