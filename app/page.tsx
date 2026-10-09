@@ -8,6 +8,7 @@ import { useApi } from "@/lib/api";
 import { bnLabel, cls, dmy, num, pct, times } from "@/lib/fmt";
 
 const urlOf = (s: string) => (s.match(/https?:[^)\s]+/) || [])[0];
+const industryView = (items: any[] = []) => [...items].filter((r) => r.score != null).sort((a, b) => b.score - a.score);
 
 export default function Home() {
   const m = useApi<any>("/api/py/market");
@@ -71,7 +72,26 @@ export default function Home() {
             ))}
           </div>
         )}
-        {mac.data && <p className="text-sm text-slate-600 mt-3">Điểm vĩ mô chung: <b>{num(mac.data.score, 0)}/100</b>. {mac.data.commentary?.slice(0, 4).join(" ")}</p>}
+        {mac.data && <div className="mt-3 rounded-md border border-slate-200 bg-slate-50 p-3">
+          <p className="text-sm"><b>{mac.data.score >= 60 ? "THUẬN LỢI" : mac.data.score < 40 ? "BẤT LỢI" : "TRUNG TÍNH"}</b> · Điểm vĩ mô {num(mac.data.score, 0)}/100</p>
+          <details className="mt-1 text-sm text-slate-600"><summary className="cursor-pointer font-medium">Vì sao?</summary><ul className="mt-1 list-disc space-y-1 pl-5">{mac.data.commentary?.slice(0, 3).map((x: string, i: number) => <li key={i}>{x}</li>)}</ul></details>
+        </div>}
+      </Card>
+
+      {sec.data && <Card title="Ngành: ưu tiên và thận trọng theo điểm có sẵn">
+        {(() => {
+          const ranked = industryView(sec.data.items);
+          const priority = ranked.slice(0, 5), cautious = ranked.slice(-3).reverse();
+          const row = (r: any, label: string) => <div key={r.slug} className="flex items-start justify-between gap-3 border-b py-2 last:border-0">
+            <div><Link className="link font-semibold" href={`/nganh/${r.slug}`}>{r.name}</Link><details className="text-xs text-slate-500"><summary className="cursor-pointer">Vì sao?</summary><span>{Object.entries(r.score_components || {}).map(([k, v]) => `${k}: ${num(v, 0)}/100`).join(" · ") || "Thiếu thành phần điểm để giải thích."}</span></details></div>
+            <span className="text-right text-xs"><b>{label}</b><br />{num(r.score, 0)}/100</span>
+          </div>;
+          return <div className="grid gap-4 md:grid-cols-2"><div><h3 className="font-semibold text-emerald-700">Top 5 ưu tiên</h3>{priority.map((r: any) => row(r, "ƯU TIÊN"))}</div><div><h3 className="font-semibold text-amber-700">3 ngành cần thận trọng</h3>{cautious.map((r: any) => row(r, "THẬN TRỌNG"))}</div></div>;
+        })()}
+      </Card>}
+      <Card title="Cơ hội đầu tư">
+        <p className="text-sm text-slate-600">Bảng universe hiện chưa có upside tính sẵn nên không xếp hạng 10 mã tại trang chủ. Mở hồ sơ từng mã để xem định giá, kịch bản và upside đã tính.</p>
+        <Link className="link mt-2 inline-block" href="/thi-truong">Mở toàn bộ mã cổ phiếu →</Link>
       </Card>
 
       <Card title="Bản đồ thị trường theo ngành cấp 2 (ô = vốn hoá, màu = hiệu suất 1 tháng)" right={<AsOf p={sec2.data?.provenance} />}>
@@ -86,6 +106,7 @@ export default function Home() {
           <SortTable rows={sec.data.items} rowKey={(r) => r.slug} initialSort="market_cap" onRow={(r) => `/nganh/${r.slug}`}
             cols={[
               { key: "name", label: "Ngành" },
+              { key: "rank_score", label: "Đánh giá", sortValue: (r) => r.rank_score, render: (r) => r.rank_score <= 5 ? "ƯU TIÊN" : r.rank_score > sec.data.items.length - 3 ? "THẬN TRỌNG" : "TRUNG LẬP" },
               { key: "n_symbols", label: "Số mã", num: true },
               { key: "market_cap", label: "Vốn hoá", num: true, render: (r) => bnLabel(r.market_cap) },
               { key: "market_weight", label: "Tỷ trọng", num: true, render: (r) => pct(r.market_weight) },
