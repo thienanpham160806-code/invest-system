@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis, ZAxis,
   BarChart, Bar, Cell, ReferenceLine, Treemap,
@@ -144,31 +144,35 @@ function heat(v: number | null | undefined) {
   return `rgb(${from.map((channel, i) => Math.round(channel + (to[i] - channel) * amount)).join(",")})`;
 }
 
+function treemapLevel(items: any[]) {
+  // Recharts replaces `value` with cell area; keep returns separately and render one level for drill-down.
+  return items.map((item) => ({
+    ...item,
+    performance: item.performance !== undefined ? item.performance : item.value,
+    drillChildren: item.children,
+    hasChildren: Boolean(item.children?.length),
+    children: undefined,
+  }));
+}
+
 export function MarketTreemap({ items, height = 440, periodLabel = "1 tháng", onClick }: { items: any[]; height?: number; periodLabel?: string; onClick?: (slug: string) => void }) {
   const [path, setPath] = useState<any[]>([]);
-  const current = path.length ? path[path.length - 1].children || [] : items;
-  const withPerformance = (nodes: any[]): any[] => nodes.map((item) => ({
-    ...item,
-    performance: item.performance ?? item.value,
-    ...(item.children?.length ? { children: withPerformance(item.children) } : {}),
-  }));
+  const current = path.length ? path[path.length - 1].drillChildren || [] : items;
+  const data = useMemo(() => treemapLevel(current), [current]);
+  useEffect(() => setPath([]), [items, periodLabel]);
   const handleSelect = (node: any) => {
-    if (node.children?.length) setPath((prev) => [...prev, node]);
+    if (node.hasChildren) setPath((prev) => [...prev, node]);
     else if (node.slug) onClick?.(node.slug);
   };
   const Cell = (p: any) => {
-    const node = p.payload || p;
-    const { x, y, width, height: h, name, children } = p;
-    // Treemap's `value` prop is the dataKey used for cell area (market cap).
-    // The node's own `value` field is the selected-period return.
-    const performance = p.performance ?? node.performance;
+    const { x, y, width, height: h, name, performance } = p;
     if (!name) return null;
-    const group = Boolean(node.children?.length || children?.length);
-    const select = () => handleSelect(node);
+    const group = Boolean(p.hasChildren);
+    const select = () => handleSelect(p);
     return <g className="market-treemap-cell" role="button" tabIndex={0} aria-label={`${name}${group ? ", mở nhóm" : ", mở hồ sơ"}`} onClick={select}
       onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); select(); } }} style={{ cursor: "pointer" }}>
       <rect x={x} y={y} width={width} height={h} fill={heat(performance)} stroke="#fff" strokeWidth={1} />
-      <title>{`${name}${performance == null ? "" : ` · ${pct(performance, 1, true)}`} · ${bnLabel(node.size)}${node.count ? ` · ${num(node.count)} mã` : ""}`}</title>
+      <title>{`${name}${performance == null ? "" : ` · ${pct(performance, 1, true)}`} · ${bnLabel(p.size)}${p.count ? ` · ${num(p.count)} mã` : ""}`}</title>
       {width > 58 && h > 25 && <text x={x + width / 2} y={y + (h > 43 ? h / 2 - 7 : h / 2)} textAnchor="middle" dominantBaseline="central" fill="#fff" fontSize={12} fontWeight={600}>{String(name).slice(0, Math.floor(width / 7))}</text>}
       {width > 58 && h > 43 && <text x={x + width / 2} y={y + h / 2 + 10} textAnchor="middle" dominantBaseline="central" fill="#fff" fontSize={11}>{performance == null ? "—" : pct(performance, 1, true)}</text>}
     </g>;
@@ -186,7 +190,7 @@ export function MarketTreemap({ items, height = 440, periodLabel = "1 tháng", o
       <span>−10%</span><span>0%</span><span>+10% trở lên</span>
     </div>
     <ResponsiveContainer width="100%" height={height}>
-      <Treemap data={withPerformance(current)} dataKey="size" isAnimationActive={false} content={<Cell />} />
+      <Treemap data={data} dataKey="size" isAnimationActive={false} content={<Cell />} />
     </ResponsiveContainer>
   </div>;
 }
