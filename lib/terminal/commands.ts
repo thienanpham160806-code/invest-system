@@ -58,6 +58,7 @@ export const GLOBAL_ROUTES: Record<GlobalKeyword, { href: string; label: string 
 };
 
 export const MAX_COMPARE = 8;
+export const MAX_INPUT_LENGTH = 200;
 const SYMBOL_RE = /^[A-Z][A-Z0-9]{2}$/;
 const HELP_WORDS = new Set(["HELP", "?"]);
 
@@ -98,6 +99,7 @@ export function editDistance(a: string, b: string): number {
 function closest(word: string, candidates: readonly string[], limit = 3): string[] {
   const maxDist = word.length <= 3 ? 1 : 2;
   return candidates
+    .filter((c) => Math.abs(c.length - word.length) <= maxDist) // bỏ sớm, tránh O(n·m) vô ích
     .map((c) => ({ c, dist: editDistance(word, c) }))
     .filter((x) => x.dist <= maxDist && x.c !== word)
     .sort((x, y) => x.dist - y.dist || x.c.localeCompare(y.c))
@@ -146,6 +148,7 @@ function ok(command: Command, note?: string): ParseResult {
 export function parseCommand(input: string, opts: ParseOptions = {}): ParseResult {
   const raw = input.trim().replace(/^[/>:]+\s*/, "");
   if (!raw) return fail("Nhập lệnh, ví dụ: FPT, FPT FA, CMP FPT CMG, TOP. Gõ ? để xem bảng lệnh.");
+  if (raw.length > MAX_INPUT_LENGTH) return fail(`Lệnh quá dài (tối đa ${MAX_INPUT_LENGTH} ký tự).`);
   const original = raw.split(/\s+/);
   const tokens = original.map((t) => t.toUpperCase());
   const [head, ...rest] = tokens;
@@ -171,7 +174,10 @@ export function parseCommand(input: string, opts: ParseOptions = {}): ParseResul
       const near = bad.flatMap((s) => closest(s, opts.symbols ?? []));
       return fail(`Không nhận ra mã: ${bad.join(", ")}.`, near.map((n) => `CMP ${symbols.map((s) => (bad.includes(s) ? n : s)).join(" ")}`));
     }
-    if (symbols.length < 2) return fail("CMP cần ít nhất 2 mã, ví dụ: CMP FPT CMG ELC.", [`CMP ${symbols[0]} FPT`]);
+    if (symbols.length < 2) {
+      const other = (opts.symbols ?? []).find((s) => s !== symbols[0]);
+      return fail("CMP cần ít nhất 2 mã khác nhau, ví dụ: CMP FPT CMG ELC.", other ? [`CMP ${symbols[0]} ${other}`] : []);
+    }
     if (symbols.length > MAX_COMPARE) return fail(`CMP so sánh tối đa ${MAX_COMPARE} mã.`, [`CMP ${symbols.slice(0, MAX_COMPARE).join(" ")}`]);
     return ok({ kind: "compare", symbols });
   }
@@ -202,6 +208,7 @@ export function parseCommand(input: string, opts: ParseOptions = {}): ParseResul
 
 /** Gợi ý hoàn thành cho nội dung đang gõ (tối đa `limit` dòng, đã viết hoa). */
 export function completeCommand(input: string, opts: ParseOptions = {}, limit = 8): string[] {
+  if (input.length > MAX_INPUT_LENGTH) return [];
   const text = input.replace(/^[/>:]+\s*/, "").toUpperCase();
   const tokens = text.split(/\s+/).filter(Boolean);
   const trailingSpace = /\s$/.test(input);

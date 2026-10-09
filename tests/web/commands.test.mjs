@@ -67,6 +67,11 @@ test("CMP so sánh nhiều mã, nhận cả dấu phẩy, bỏ trùng", () => {
 
 test("CMP lỗi: thiếu mã, mã sai, quá nhiều mã", () => {
   assert.match(failed("CMP FPT").error, /ít nhất 2 mã/);
+  // trùng mã: không gợi ý lại chính lệnh lỗi (review Codex 6b98ca4)
+  const dup = failed("CMP FPT FPT");
+  assert.ok(!dup.suggestions.includes("CMP FPT FPT"));
+  assert.equal(parseCommand(dup.suggestions[0], opts).ok, true);
+  assert.deepEqual(failed("CMP FPT", { symbols: ["FPT"], isSymbol: (s) => s === "FPT" }).suggestions, []);
   const bad = failed("CMP FPT HPQ");
   assert.match(bad.error, /HPQ/);
   assert.ok(bad.suggestions.includes("CMP FPT HPG"));
@@ -149,4 +154,14 @@ test("editDistance", () => {
   assert.equal(editDistance("FTP", "FPT"), 1);
   assert.equal(editDistance("MACOR", "MACRO"), 1);
   assert.equal(editDistance("", "ABC"), 3);
+});
+
+test("đầu vào rất dài bị chặn trước khi so gần đúng (review Codex 6b98ca4)", () => {
+  const universe = Array.from({ length: 1500 }, (_, i) => `A${String(i).padStart(2, "0")}`.slice(0, 3) + i);
+  const big = { symbols: universe, isSymbol: () => false };
+  const t0 = performance.now();
+  assert.match(parseCommand("X".repeat(1_000_000), big).error, /quá dài/);
+  assert.deepEqual(completeCommand("X".repeat(1_000_000), big), []);
+  assert.ok(failed("Q".repeat(150), big).suggestions.length === 0);
+  assert.ok(performance.now() - t0 < 500, "phải trả lời gần như tức thì");
 });
