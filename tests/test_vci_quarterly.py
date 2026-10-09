@@ -116,5 +116,6 @@ def test_latest_quarters():
                           for s in ("A", "B") for i in range(10)])
     last = vq.latest_quarters(frame, 8)
     assert last.groupby("symbol").size().to_dict() == {"A": 8, "B": 8}
-    assert last[last["symbol"] == "A"][["year", "quarter"]].min().tolist() == [2024, 1] or \
-        (last[last["symbol"] == "A"]["year"] * 4 + last[last["symbol"] == "A"]["quarter"]).min() == 2024 * 4 + 3
+    a = last[last["symbol"] == "A"].sort_values(["year", "quarter"])
+    assert (a.iloc[0]["year"], a.iloc[0]["quarter"]) == (2024, 3)     # 2024-Q1..2026-Q2 -> bo 2 quy dau
+    assert (a.iloc[-1]["year"], a.iloc[-1]["quarter"]) == (2026, 2)
