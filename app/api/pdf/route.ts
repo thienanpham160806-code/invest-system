@@ -32,7 +32,8 @@ export async function GET(req: NextRequest) {
     const page = await browser.newPage();
     // chuyen tiep thong tin bao ve deployment de Chromium goi duoc /api/py trong Preview
     const bypass = req.headers.get("x-vercel-protection-bypass");
-    const trustedOidc = req.headers.get("x-vercel-trusted-oidc-idp-token");
+    const trustedOidc = req.headers.get("x-vercel-trusted-oidc-idp-token")
+      || req.headers.get("x-vercel-oidc-token");
     console.info("PDF internal auth present", { bypass: Boolean(bypass), trustedOidc: Boolean(trustedOidc) });
     const protectionHeaders: Record<string, string> = {};
     if (bypass) protectionHeaders["x-vercel-protection-bypass"] = bypass;
