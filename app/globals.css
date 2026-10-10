@@ -140,3 +140,22 @@ html[data-theme="dark"] .market-treemap-cell:focus-visible .market-treemap-focus
   .rp-head, .rp-tbl th, .rp-rating { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .rp-side, [class*="bg-"] { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
+
+/* DataTable (components/DataTable.tsx): header + cột đầu dính, tay kéo đổi độ rộng */
+.dt-table { table-layout: fixed; border-collapse: separate; border-spacing: 0; }
+.dt-table td, .dt-table th { overflow: hidden; text-overflow: ellipsis; }
+.dt-head th { position: sticky; top: 0; z-index: 2; background: #f1f5f9; }
+.dt-filters th { top: 2.1rem; background: #f8fafc; }
+.dt-table .dt-first { position: sticky; left: 0; z-index: 1; background: #fff; box-shadow: 1px 0 0 #e2e8f0; }
+.dt-head .dt-first { z-index: 3; background: #f1f5f9; }
+.dt-table tr.bg-amber-50 .dt-first { background: #fffbeb; }
+.dt-resizer { position: absolute; top: 0; right: 0; width: 6px; height: 100%; cursor: col-resize; user-select: none; touch-action: none; }
+.dt-resizer:hover, .dt-resizer.is-resizing { background: #38bdf8; }
+.dt-table th[draggable="true"] { cursor: grab; }
+.dt[data-density="compact"] .dt-table td, .dt[data-density="compact"] .dt-table th { padding-top: 2px; padding-bottom: 2px; font-size: 0.78rem; }
+html[data-theme="dark"] .dt-head th, html[data-theme="dark"] .dt-head .dt-first { background: #26354a; }
+html[data-theme="dark"] .dt-filters th { background: #1b2b40; }
+html[data-theme="dark"] .dt-table .dt-first { background: var(--surface); box-shadow: 1px 0 0 var(--line); }
+html[data-theme="dark"] .dt-table tr.bg-amber-50 .dt-first { background: #382d1d; }
+html[data-theme="dark"] .dt-menu { background: var(--surface-raised); border-color: var(--line); }
+

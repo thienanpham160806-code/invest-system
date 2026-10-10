@@ -1,7 +1,6 @@
 "use client";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useMemo, useState, type ReactNode } from "react";
+import DataTable, { type DataTableProps } from "@/components/DataTable";
+import type { ReactNode } from "react";
 import type { Prov } from "@/lib/api";
 import { dmy } from "@/lib/fmt";
 
@@ -41,61 +40,19 @@ export function Stat({ label, value, sub, className = "" }: { label: string; val
   );
 }
 
-export type Col<T> = { key: string; label: string; render?: (r: T) => ReactNode; num?: boolean; sortValue?: (r: T) => any; title?: string };
+export type { Col } from "@/components/DataTable";
 
-export function SortTable<T extends Record<string, any>>({ rows, cols, initialSort, desc = true, rowKey, highlight, maxRows, onRow }: {
-  rows: T[]; cols: Col<T>[]; initialSort?: string; desc?: boolean; rowKey: (r: T) => string; highlight?: (r: T) => boolean; maxRows?: number; onRow?: (r: T) => string | undefined;
-}) {
-  const router = useRouter();
-  const [sort, setSort] = useState<{ key?: string; desc: boolean }>({ key: initialSort, desc });
-  const sorted = useMemo(() => {
-    if (!sort.key) return rows;
-    const col = cols.find((c) => c.key === sort.key);
-    const val = (r: T) => (col?.sortValue ? col.sortValue(r) : r[sort.key!]);
-    return [...rows].sort((a, b) => {
-      const va = val(a), vb = val(b);
-      if (va === null || va === undefined) return 1;
-      if (vb === null || vb === undefined) return -1;
-      const c = typeof va === "number" ? va - vb : String(va).localeCompare(String(vb), "vi");
-      return sort.desc ? -c : c;
-    });
-  }, [rows, sort, cols]);
-  const shown = maxRows ? sorted.slice(0, maxRows) : sorted;
-  return (
-    <div className="overflow-x-auto">
-      <table className="tbl">
-        <thead>
-          <tr>{cols.map((c) => (
-            <th key={c.key} title={c.title} aria-sort={sort.key === c.key ? (sort.desc ? "descending" : "ascending") : undefined} className={c.num ? "text-right" : ""}>
-              <button type="button" className={`w-full text-inherit ${c.num ? "text-right" : "text-left"}`} onClick={() => setSort((s) => ({ key: c.key, desc: s.key === c.key ? !s.desc : true }))} aria-label={`Sắp xếp theo ${c.label}`}>
-                {c.label}{sort.key === c.key ? (sort.desc ? " ▼" : " ▲") : ""}
-              </button>
-            </th>))}
-          </tr>
-        </thead>
-        <tbody>
-          {shown.map((r) => {
-            const href = onRow?.(r);
-            return (
-              <tr key={rowKey(r)} className={`${highlight?.(r) ? "bg-amber-50 font-semibold" : ""}${href ? " cursor-pointer" : ""}`} onClick={href ? () => router.push(href) : undefined}>
-                {cols.map((c, i) => (
-                  <td key={c.key} className={c.num ? "text-right tabular-nums" : ""}>
-                    {i === 0 && href ? <Link className="link" href={href} onClick={(e) => e.stopPropagation()}>{c.render ? c.render(r) : r[c.key]}</Link> : c.render ? c.render(r) : r[c.key]}
-                  </td>))}
-              </tr>);
-          })}
-        </tbody>
-      </table>
-      {maxRows && sorted.length > maxRows && <div className="text-xs text-slate-500 mt-1">Hiển thị {maxRows}/{sorted.length} dòng</div>}
-    </div>
-  );
+/** Bảng sắp xếp được - giữ nguyên API cũ, chạy trên DataTable (TanStack) để mọi bảng có cùng tính năng. */
+export function SortTable<T extends Record<string, any>>(props: DataTableProps<T>) {
+  return <DataTable {...props} />;
 }
 
 export function Tabs({ tabs, active, onChange }: { tabs: { key: string; label: string }[]; active: string; onChange: (k: string) => void }) {
   return (
-    <div className="flex gap-1 overflow-x-auto border-b border-slate-200 no-print">
-      {tabs.map((t) => (
-        <button key={t.key} onClick={() => onChange(t.key)} className={`tab ${active === t.key ? "tab-active" : ""}`}>{t.label}</button>
+    <div className="flex gap-1 overflow-x-auto border-b border-slate-200 no-print" role="tablist">
+      {tabs.map((t, i) => (
+        <button key={t.key} role="tab" aria-selected={active === t.key} data-tab={t.key} onClick={() => onChange(t.key)}
+          className={`tab ${active === t.key ? "tab-active" : ""}`} title={i < 9 ? `Phím ${i + 1}` : undefined}>{t.label}</button>
       ))}
     </div>
   );
