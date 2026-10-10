@@ -105,6 +105,7 @@ export default function Home() {
         {opportunities.data?.generated_at && <p className="mt-2 text-xs text-slate-500">Snapshot: {opportunities.data.generated_at} · chỉ gồm mã có BCTC, độ tin cậy trung bình/cao và upside dương.</p>}
       </Card>
 
+      <div id="ban-do" className="scroll-mt-28" aria-hidden />
       <Card title="Bản đồ toàn thị trường · ngành đến từng mã" right={<AsOf p={currentMapData?.provenance} />}>
         <div className="mb-2 flex flex-wrap items-center gap-2 text-sm">
           <label htmlFor="map-period">Màu theo hiệu suất</label>

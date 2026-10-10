@@ -5,6 +5,7 @@ import Link from "next/link";
 import Search from "@/components/Search";
 import LiveRibbon from "@/components/LiveRibbon";
 import ThemeToggle from "@/components/ThemeToggle";
+import Shortcuts from "@/components/Shortcuts";
 import "./globals.css";
 
 const beVietnam = localFont({
@@ -48,6 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <LiveRibbon />
         </header>
         <main className="mx-auto max-w-7xl px-4 py-5">{children}</main>
+        <Shortcuts />
         <footer className="no-print mx-auto max-w-7xl px-4 py-6 text-xs text-slate-500">
           Dữ liệu: Vietcap public API (giá, bảng giá, số CP), vnstock (ICB), BCTC năm từ vn-annual-report-miner (MIT),
           GSO/NSO – NHNN – HNX (vĩ mô), CafeF/VnExpress (tin). Công cụ phân tích, không phải lời khuyên đầu tư.

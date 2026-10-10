@@ -1,8 +1,9 @@
 "use client";
 import Link from "next/link";
 import MacroPanel from "@/components/MacroPanel";
+import { isTyping } from "@/components/Shortcuts";
 import { useParams } from "next/navigation";
-import { Fragment, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 import { Candles, CompareLine, Histogram, PbRoeScatter, ScoreBars } from "@/components/Charts";
 import { AsOf, Card, ErrorBox, Loading, SortTable, Stat, Tabs } from "@/components/ui";
 import Sensitivity from "@/components/Sensitivity";
@@ -25,7 +26,25 @@ const TABS = [
 export default function StockPage() {
   const { ticker } = useParams<{ ticker: string }>();
   const t = String(ticker).toUpperCase();
-  const [tab, setTab] = useState("overview");
+  const [tab, setTabState] = useState("overview");
+  const setTab = useCallback((key: string) => {
+    setTabState(key);
+    try { const u = new URL(window.location.href); u.searchParams.set("tab", key); window.history.replaceState(null, "", u); } catch { /* bỏ qua */ }
+  }, []);
+  useEffect(() => {                         // ?tab=bctc (lệnh "FPT FA") mở đúng tab
+    const want = new URLSearchParams(window.location.search).get("tab");
+    if (want && TABS.some((x) => x.key === want)) setTabState(want);
+  }, [t]);
+  useEffect(() => {                         // phím 1–9 đổi tab; không bắt khi đang gõ hoặc có hộp thoại
+    const onKey = (e: KeyboardEvent) => {
+      if (e.ctrlKey || e.metaKey || e.altKey || isTyping(e.target)) return;
+      if (document.querySelector('[role="dialog"][aria-modal="true"]')) return;
+      const n = Number(e.key);
+      if (Number.isInteger(n) && n >= 1 && n <= 9 && TABS[n - 1]) { e.preventDefault(); setTab(TABS[n - 1].key); }
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [setTab]);
   const a = useApi<any>(`/api/py/stock/${t}/analysis?news=false`);
   const live = useLive<any>(`/api/py/stock/${t}/live`);
   const d = a.data;
