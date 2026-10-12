@@ -1,6 +1,6 @@
 # Kiểm toán ranking cơ hội
 
-Snapshot: 2026-10-09 18:39
+Snapshot: 2026-10-12 08:52
 Universe: 1,522/1,522 mã; lỗi phân tích: 0.
 
 ## Phân phối upside
@@ -11,11 +11,11 @@ Universe: 1,522/1,522 mã; lỗi phân tích: 0.
 | -50% đến 0% | 124 |
 | 0% đến 25% | 96 |
 | 25% đến 50% | 86 |
-| 50% đến 100% | 136 |
-| Trên 100% | 198 |
+| 50% đến 100% | 137 |
+| Trên 100% | 197 |
 | Không có mục tiêu | 848 |
 
-Mã upside ngoài [-60%, +150%]: 147. Các mã này không đủ điều kiện vào bảng cơ hội. Điều kiện gồm MUA, có BCTC, không có kiểm tra FAIL, độ tin cậy trung bình/cao, GTGD TB20 từ 5 tỷ và upside dương không quá 150%.
+Mã upside ngoài [-60%, +150%]: 146. Các mã này không đủ điều kiện vào bảng cơ hội. Điều kiện gồm MUA, có BCTC, không có kiểm tra FAIL, độ tin cậy trung bình/cao, GTGD TB20 từ 5 tỷ và upside dương không quá 150%.
 
 ## Top 20 đủ điều kiện
 
@@ -38,6 +38,6 @@ Mã upside ngoài [-60%, +150%]: 147. Các mã này không đủ điều kiện 
 | 15 | PHR | Công ty Cổ phần Cao su Phước Hòa | HOSE | 75.0 | 42.1% | CAO |
 | 16 | PLX | Tập đoàn Xăng dầu Việt Nam | HOSE | 74.9 | 18.6% | CAO |
 | 17 | DPR | Công ty Cổ phần Cao su Đồng Phú | HOSE | 74.8 | 28.8% | CAO |
-| 18 | CTG | Ngân hàng Thương mại Cổ phần Công thương Việt Nam | HOSE | 74.4 | 45.4% | CAO |
+| 18 | CTG | Ngân hàng Thương mại Cổ phần Công thương Việt Nam | HOSE | 74.4 | 43.0% | CAO |
 | 19 | ACB | Ngân hàng Thương mại Cổ phần Á Châu | HOSE | 74.0 | 61.6% | CAO |
 | 20 | KBC | Tổng Công ty Phát triển Đô thị Kinh Bắc - CTCP | HOSE | 73.8 | 68.1% | TRUNG BÌNH |
