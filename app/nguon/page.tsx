@@ -14,16 +14,23 @@ export default function Sources() {
         <ErrorBox error={live.error} />
         {live.loading && <Loading what="kiểm tra nguồn" />}
         <SortTable rows={rows} rowKey={(r) => r.name}
-          cols={[{ key: "status", label: "KQ", render: (r) => <span className={r.ok ? "text-up font-semibold" : "text-down font-semibold"}>{r.status}</span> },
+          cols={[{ key: "status", label: "KQ", render: (r) => <span className={r.ok ? "text-up font-semibold" : r.expected_unavailable ? "text-ref font-semibold" : "text-down font-semibold"}>{r.status}</span> },
             { key: "name", label: "Nguồn" }, { key: "ms", label: "Độ trễ (ms)", num: true, render: (r) => r.ms == null ? "—" : r.ms },
             { key: "detail", label: "Chi tiết", render: (r) => <span className="whitespace-normal text-xs">{String(r.detail)}</span> }]} />
         <p className="text-xs text-slate-500 mt-2">Nguồn nào lỗi trên máy chủ (vd Vietcap chặn IP ngoài VN) thì hệ thống tự dùng bản chụp đóng gói và ghi rõ trên từng số.</p>
         <p className="text-xs text-slate-500">Độ trễ là thời gian máy chủ gọi tới nguồn và nhận phản hồi.</p>
-        {live.data?.results?.["DNSE OHLC VNINDEX"] && <div className="mt-3 rounded-md border border-slate-200 bg-slate-50 p-3 text-sm">
-          <b>Trạng thái máy chủ: {live.data.results["DNSE OHLC VNINDEX"].status}</b>
-          <p className="mt-1 text-slate-600">`.env` trên máy cá nhân không tự đồng bộ lên Vercel. Nếu máy chủ báo chưa cấu hình, thêm `DNSE_API_KEY` và `DNSE_API_SECRET` trong Project Settings → Environment Variables rồi redeploy. Nếu báo lỗi xác thực, kiểm tra đúng cặp key/secret và quyền API. Nếu không kết nối được từ region Vercel, dùng luồng chạy local có DNSE; router sẽ bỏ qua DNSE và dùng nguồn kế tiếp.</p>
-          <p className="mt-1 text-xs text-slate-500">Không dán key vào chat, mã nguồn hoặc trang này.</p>
-        </div>}
+        {live.data?.results?.["DNSE OHLC VNINDEX"] && (() => {
+          const d = live.data.results["DNSE OHLC VNINDEX"];
+          return <div className="mt-3 rounded-md border border-slate-200 bg-slate-50 p-3 text-sm">
+            <b>DNSE trên máy chủ: {d.status}</b>
+            {d.expected_unavailable ? <>
+              <p className="mt-1 text-slate-600">Đây là giới hạn đã biết, không phải sự cố của trang. DNSE không nhận kết nối từ dải IP đám mây (AWS) mà Vercel dùng: đo ngày 12/10/2026 từ 4 region (Singapore, Hong Kong, Tokyo, Mỹ) đều hết thời gian chờ, trong khi cùng cặp key gọi từ máy ở Việt Nam trả về dữ liệu bình thường. Key trên Vercel đã được cấu hình.</p>
+              <p className="mt-1 text-slate-600">Ảnh hưởng: không có. Giá và VN-Index trên web lấy trực tiếp từ Vietcap (dòng LIVE phía trên). DNSE vẫn được dùng khi chạy trên máy cá nhân (CLI, Streamlit, dựng bảng toàn thị trường).</p>
+            </> : d.ok ? <p className="mt-1 text-slate-600">Máy chủ gọi được DNSE bằng key đã cấu hình.</p>
+              : <p className="mt-1 text-slate-600">`.env` trên máy cá nhân không tự đồng bộ lên Vercel. Nếu báo chưa cấu hình, thêm `DNSE_API_KEY` và `DNSE_API_SECRET` trong Project Settings → Environment Variables rồi redeploy. Nếu báo lỗi xác thực, kiểm tra đúng cặp key/secret và quyền API.</p>}
+            <p className="mt-1 text-xs text-slate-500">Không dán key vào chat, mã nguồn hoặc trang này.</p>
+          </div>;
+        })()}
       </Card>
       <Card title="Nguồn tin đang dùng">
         <p className="mb-2 text-sm">Audit {live.data?.news_quality?.audit_as_of || "—"}: {live.data?.news_quality?.sample_symbols ?? 0} mã mẫu; precision thủ công {live.data?.news_quality?.manual_precision == null ? "chưa đo" : `${(live.data.news_quality.manual_precision * 100).toFixed(0)}%`} ({live.data?.news_quality?.reviewed_titles ?? 0} tiêu đề đã đọc), mục tiêu ≥{((live.data?.news_quality?.precision_target ?? 0.9) * 100).toFixed(0)}%. {live.data?.news_quality?.coverage_note}</p>

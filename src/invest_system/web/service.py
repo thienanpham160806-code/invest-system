@@ -8,6 +8,7 @@ from __future__ import annotations
 import dataclasses
 import json
 import math
+import os
 import re
 import time
 from concurrent.futures import ThreadPoolExecutor, wait
@@ -1237,6 +1238,18 @@ def sources_live() -> dict:
                 elif any(token in detail for token in ("connection", "timeout", "dns", "k???t n???i",
                                                        "khong ket noi", "không kết nối", "could not connect")):
                     status = "KH\u00d4NG K\u1ebeT N\u1ed0I \u0110\u01af\u1ee2C T\u1eea M\u00c1Y CH\u1ee6"
+            if name == "DNSE OHLC VNINDEX" and status.startswith("KH") and os.getenv("VERCEL"):
+                # Gioi han da biet, khong phai su co: DNSE khong nhan ket noi tu dai IP AWS ma
+                # Vercel dung (da do 12/10/2026, xem docs/data-sources.md muc DNSE).
+                tests[name] = {
+                    "ok": False, "expected_unavailable": True, "status": "CHỈ DÙNG KHI CHẠY LOCAL",
+                    "ms": int((time.time() - t0) * 1000),
+                    "detail": ("DNSE không nhận kết nối từ dải IP đám mây (AWS) mà Vercel dùng: đo "
+                               "12/10/2026 từ 4 region sin1, hkg1, hnd1, iad1 đều hết thời gian chờ TCP, "
+                               "trong khi cùng key gọi từ máy ở Việt Nam trả HTTP 200. Web lấy giá từ "
+                               f"Vietcap (live); DNSE vẫn dùng khi chạy local. Lần thử này: {exc}"),
+                }
+                return
             tests[name] = {"ok": False, "status": status, "ms": int((time.time() - t0) * 1000),
                            "detail": f"{type(exc).__name__}: {exc}"}
 

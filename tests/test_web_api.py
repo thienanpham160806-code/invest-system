@@ -239,3 +239,53 @@ def test_financials_and_404(client):
     j = client.get("/api/py/stock/FPT/financials?statement=bs&years=3").json()
     assert len(j["years"]) == 3 and j["rows"]
     assert client.get("/api/py/stock/ZZZZ/profile").status_code == 404
+
+
+def _sources_offline(monkeypatch, probe_result):
+    """Chay sources_live() khong can mang: moi nguon khac bi chan, DNSE tra `probe_result`."""
+    import requests
+
+    import invest_system.data.dnse as dnse_mod
+    import invest_system.data.vietcap as vietcap_mod
+
+    def _no_network(*args, **kwargs):
+        raise requests.ConnectionError("offline (test)")
+
+    monkeypatch.setattr(requests, "get", _no_network)
+    monkeypatch.setattr(service, "_gap_chart", lambda *a, **k: None)
+    monkeypatch.setattr(service, "_cafef_topic", lambda *a, **k: [])
+    monkeypatch.setattr(vietcap_mod, "probe_endpoint", lambda *a, **k: (None, None, "offline (test)"))
+    monkeypatch.setattr(dnse_mod.DnseProvider, "probe_ohlc", lambda self, symbol, days=30: probe_result)
+    return service.sources_live()["results"]["DNSE OHLC VNINDEX"]
+
+
+_DNSE_CONNECT_FAIL = (None, 0, "không kết nối được máy chủ DNSE: ConnectTimeout (chờ kết nối tối đa 5s)")
+
+
+def test_dnse_blocked_on_cloud_is_reported_as_known_limit_not_error(monkeypatch):
+    monkeypatch.setenv("VERCEL", "1")
+    row = _sources_offline(monkeypatch, _DNSE_CONNECT_FAIL)
+    assert row["ok"] is False                      # khong gia vo la dang chay
+    assert row["expected_unavailable"] is True     # nhung la gioi han da biet, khong phai su co
+    assert row["status"] == "CHỈ DÙNG KHI CHẠY LOCAL"
+    assert "ConnectTimeout" in row["detail"]       # van kem loi that cua lan thu nay
+
+
+def test_dnse_connect_failure_off_cloud_stays_an_error(monkeypatch):
+    monkeypatch.delenv("VERCEL", raising=False)
+    row = _sources_offline(monkeypatch, _DNSE_CONNECT_FAIL)
+    assert row["ok"] is False and not row.get("expected_unavailable")
+    assert row["status"].startswith("KHÔNG KẾT NỐI")
+
+
+def test_dnse_auth_error_on_cloud_is_still_an_error(monkeypatch):
+    monkeypatch.setenv("VERCEL", "1")
+    row = _sources_offline(monkeypatch, (None, 0, "DnseRequestError: DNSE get_ohlc(VNINDEX) tra ve HTTP 401: OA-401"))
+    assert row["ok"] is False and not row.get("expected_unavailable")
+    assert row["status"] == "LỖI XÁC THỰC"
+
+
+def test_dnse_ok_is_live(monkeypatch):
+    monkeypatch.setenv("VERCEL", "1")
+    row = _sources_offline(monkeypatch, (200, 10, None))
+    assert row["ok"] is True and row["status"] in ("LIVE", "TRỄ")

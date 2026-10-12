@@ -86,3 +86,29 @@ Xem `config/macro_vn.csv` – mỗi dòng có URL nguồn và ngày công bố. 
 đã kiểm tra lại. Số mới nhất: GDP Q3/2026 +9,95% (9T +9,01%), CPI bình quân 9T +4,52% (tháng 9 +5,08% yoy),
 tín dụng +11,59% từ đầu năm (+16,69% yoy), tỷ giá trung tâm 25.638 (07/10), TPCP 10 năm 4,43% (phiên cuối 9/2026),
 lãi suất tái cấp vốn 4,50% (NHNN giữ nguyên từ đầu năm).
+
+## DNSE trên máy chủ web (đo 12/10/2026)
+
+DNSE OpenAPI **không dùng được từ Vercel**; đây là giới hạn phía DNSE, không phải lỗi key hay cấu hình.
+
+| Nơi gọi | IP đi ra | Kết quả tới `openapi.dnse.com.vn:443` |
+|---|---|---|
+| Máy cá nhân ở Việt Nam (có key) | nhà mạng VN | HTTP 200, 10 phiên VNINDEX và FPT |
+| Máy chủ nước ngoài không thuộc AWS (không key) | – | HTTP 401 `X-API-Key header required` (tức là nối được) |
+| Vercel `sin1` Singapore | 54.169.47.146 (AWS) | hết thời gian chờ TCP sau 8 s |
+| Vercel `hkg1` Hong Kong | 43.198.246.67 (AWS) | hết thời gian chờ TCP sau 8 s |
+| Vercel `hnd1` Tokyo | 13.231.22.211 (AWS) | hết thời gian chờ TCP sau 8 s |
+| Vercel `iad1` Mỹ | 98.83.136.187 (AWS) | hết thời gian chờ TCP sau 8 s |
+
+Đối chứng: cùng function ở `sin1` nối `trading.vietcap.com.vn` trong 21–45 ms. Kết luận: DNSE rớt gói từ dải IP
+AWS mà Vercel dùng, nên đổi region không giải quyết được. Ghi chú cũ "DNSE chặn IP ngoài Việt Nam" là không chính xác.
+
+Hệ quả và cách xử lý:
+- Web không phụ thuộc DNSE: giá và VN-Index lấy trực tiếp từ Vietcap (live). Trang `/nguon` hiện DNSE là
+  "CHỈ DÙNG KHI CHẠY LOCAL" (màu trung tính) kèm lỗi thật của lần thử, thay vì "LỖI".
+- DNSE vẫn là nguồn giá ưu tiên khi chạy local (`config/settings.yaml: price_sources: [dnse, vietcap]`).
+- Muốn có DNSE trên web thì cần một điểm trung chuyển có IP không thuộc AWS (hoặc đặt tại Việt Nam), hoặc xin DNSE
+  mở IP. Chưa làm.
+- Lưu ý đơn vị (chưa xử lý): `DnseProvider.ohlcv("FPT")` trả giá đóng cửa 57,9 (nghìn đồng), còn Vietcap trả
+  57.900 (đồng). Trong lần kiểm tra này `prices.get_ohlcv` khi chạy local lấy từ Vietcap gap-chart nên không bị
+  ảnh hưởng; chưa kiểm tra router có quy đổi đơn vị khi thật sự dùng DNSE hay không.
