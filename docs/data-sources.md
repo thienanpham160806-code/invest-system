@@ -15,7 +15,7 @@ Cập nhật: 09/10/2026. Mọi số trên web/PDF kèm `{source, as_of, fetched
 | LNST 4 quý gần nhất (TTM) | vnstock `Fundamental().equity(sym).income_statement(period="quarter")` | Snapshot (`ttm.parquet`, top mã thanh khoản) | `scripts/build_ttm.py`; P/E TTM chỉ để hiển thị/đối chiếu |
 | Vĩ mô | `config/macro_vn.csv` – GSO/NSO, NHNN, HNX, mỗi dòng có URL + ngày công bố | Đóng gói | World Bank API (live) chỉ để vẽ chuỗi lịch sử |
 | Tin tức | Trang chủ đề mã CafeF `cafef.vn/{ma}.html` (theo `CafeFScraper` của repo thầy) + RSS CafeF/VnExpress | **Live** | Chấm cảm xúc bằng `analysis/sentiment.py` |
-| BCTN gốc (PDF) | `zenodo_master_index.parquet` – Ngô Phú Thạnh (2025), DOI 10.5281/zenodo.20949551 (13.982 file) | Đóng gói (chỉ mục) | Chỉ hiện link Zenodo + link dự phòng CDN CafeF theo mẫu tên file trong `zenodo_downloader.py` |
+| BCTN gốc (PDF) | `zenodo_master_index.parquet` – Ngô Phú Thanh (2025), DOI 10.5281/zenodo.20949551 (13.982 file) | Đóng gói (chỉ mục) | Chỉ hiện link Zenodo + link dự phòng CDN CafeF theo mẫu tên file trong `zenodo_downloader.py` |
 
 ## 2. Ánh xạ item_code arminer → chỉ tiêu chuẩn
 

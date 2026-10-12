@@ -364,7 +364,7 @@ def from_vnfinancialdata(symbol: str, exchange: str | None = None) -> StandardFi
     if not frames:
         return None
     std = standardize_long_vi(symbol, pd.concat(frames, ignore_index=True),
-                              "vnfinancialdata (HuggingFace, Ngô Phú Thạnh – UEL)")
+                              "vnfinancialdata (HuggingFace, Ngô Phú Thanh – UEL)")
     return None if std.empty else std
 
 

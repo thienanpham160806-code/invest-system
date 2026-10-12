@@ -997,7 +997,7 @@ def documents(symbol: str) -> dict:
                       "size_mb": r.file_size_mb, "status": r.status,
                       "zenodo": ZENODO_RECORD, "cafef_cdn": CAFEF_CDN.format(name=r.file_name)})
     return jsonable({"symbol": symbol.upper(), "items": items,
-                     "provenance": prov("Zenodo master index – Ngô Phú Thạnh (2025), DOI 10.5281/zenodo.20949551; "
+                     "provenance": prov("Zenodo master index – Ngô Phú Thanh (2025), DOI 10.5281/zenodo.20949551; "
                                         "link dự phòng CDN CafeF theo mẫu tên file của zenodo_downloader.py",
                                         None, note="Chỉ hiện link, không xử lý PDF trên máy chủ")})
 

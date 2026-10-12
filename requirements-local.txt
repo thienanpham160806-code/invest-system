@@ -17,7 +17,7 @@ urllib3>=2.0
 certifi
 websockets>=12.0
 msgpack>=1.0
-# BCTC dạng bảng 2014-2024 (HSX/HNX) của TS. Ngô Phú Thạnh - UEL (cần `hf auth login`)
+# BCTC dạng bảng 2014-2024 (HSX/HNX) của TS. Ngô Phú Thanh - UEL (cần `hf auth login`)
 vnfinancialdata>=0.1
 huggingface_hub>=0.23
 # vnstock (BCTC/ngành/tin công bố qua Vietcap) là TUỲ CHỌN: gói đang bị PyPI cách ly

@@ -376,7 +376,7 @@ function DocsTab({ t }: { t: string }) {
           { key: "year", label: "Năm" }, { key: "file_name", label: "File" }, { key: "size_mb", label: "MB", num: true, render: (r) => num(r.size_mb, 1) },
           { key: "zenodo", label: "Tải", render: (r) => <span className="space-x-2"><a className="link" href={r.zenodo} target="_blank" rel="noreferrer">Zenodo (bộ dữ liệu)</a><a className="link" href={r.cafef_cdn} target="_blank" rel="noreferrer">CDN CafeF</a></span> },
         ]} />
-      <p className="text-xs text-slate-500 mt-2">Ngô Phú Thạnh (2025), Vietnam Listed Companies Annual Reports PDF Dataset, DOI 10.5281/zenodo.20949551. Link CafeF theo mẫu tên file của zenodo_downloader.py (có thể không còn tồn tại).</p>
+      <p className="text-xs text-slate-500 mt-2">Ngô Phú Thanh (2025), Vietnam Listed Companies Annual Reports PDF Dataset, DOI 10.5281/zenodo.20949551. Link CafeF theo mẫu tên file của zenodo_downloader.py (có thể không còn tồn tại).</p>
     </Card>
   );
 }
