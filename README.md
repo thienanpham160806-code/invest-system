@@ -36,24 +36,24 @@ Production URL: <https://invest-system-silk.vercel.app>
 
 ```mermaid
 flowchart LR
-  U[Investor / browser] --> N[Next.js 16 App Router\nDashboard · search · tables · charts]
-  N -->|/api/py/* rewrite| F[FastAPI on Python\napi/index.py]
-  N -->|/api/pdf| P[Node PDF function\nPuppeteer + Chromium]
-  P -->|opens /report/[ticker]| N
+  U["Investor / browser"] --> N["Next.js 16 App Router<br/>Dashboard · search · tables · charts"]
+  N -->|"/api/py/* rewrite"| F["FastAPI on Python<br/>api/index.py"]
+  N -->|"/api/pdf"| P["Node PDF function<br/>Puppeteer + Chromium"]
+  P -->|"opens /report/[ticker]"| N
 
-  F --> S[web/service.py\nAPI orchestration]
-  S --> A[Deterministic analysis\nMacro · industry · ratios · valuation\ntechnical · sentiment · composite]
-  S --> V[Validation and provenance\nsource · as-of · fetched-at · N/A reasons]
-  S -. opt-in narrative only .-> L[OpenAI Responses API\nor Gemini]
+  F --> S["web/service.py<br/>API orchestration"]
+  S --> A["Deterministic analysis<br/>Macro · industry · ratios · valuation<br/>technical · sentiment · composite"]
+  S --> V["Validation and provenance<br/>source · as-of · fetched-at · N/A reasons"]
+  S -.->|"opt-in narrative only"| L["OpenAI Responses API<br/>or Gemini"]
 
-  F --> D[Snapshot reader\nBlob with packaged fallback]
-  B[Offline / local data pipeline\nprices · BCTC · TTM · market universe\nopportunities · backtest] --> W[Parquet / JSON snapshots]
+  F --> D["Snapshot reader<br/>Blob with packaged fallback"]
+  B["Offline / local data pipeline<br/>prices · BCTC · TTM · market universe<br/>opportunities · backtest"] --> W["Parquet / JSON snapshots"]
   W --> D
-  W -->|authorized refresh| VB[Vercel Blob\nuniverse/latest.parquet]
+  W -->|"authorized refresh"| VB["Vercel Blob<br/>universe/latest.parquet"]
 
-  S -->|live requests| X[External sources\nVietcap/VCI · CafeF/RSS\nWorld Bank · FRED]
+  S -->|"live requests"| X["External sources<br/>Vietcap/VCI · CafeF/RSS<br/>World Bank · FRED"]
   X --> S
-  A --> R[Research report builder\nHTML/PDF]
+  A --> R["Research report builder<br/>HTML/PDF"]
   R --> P
 ```
 
