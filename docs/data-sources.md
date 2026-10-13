@@ -12,7 +12,7 @@ Cập nhật: 09/10/2026. Mọi số trên web/PDF kèm `{source, as_of, fetched
 | Số CP niêm yết | Vietcap `POST /price/symbols/getList` → `listingInfo.listedShare` | Snapshot | Fallback ≈ vốn góp / 10.000đ, nhãn "xấp xỉ" (hiện 0 mã phải dùng) |
 | Ngành ICB cấp 1–4 | vnstock `Reference().equity.list_by_industry()` (pivot đủ `icb1..icb4`, có `com_type_code` NH/CK/BH) | Snapshot | Bù bằng `fiinpro_icb_companies.csv` (vn-annual-report-miner); không có ở cả hai → "Chưa phân loại". Lần dựng 09/10/2026: 1.522/1.522 mã có ngành từ vnstock |
 | BCTC năm (CĐKT, KQKD, LCTT) | `src/arminer/data/bctc_data/*/{HSX,HNX}.parquet` của [vn-annual-report-miner](https://github.com/Tumiqa/vn-annual-report-miner) (MIT, bản sao + LICENSE ở `data/reference/arminer/`) | Đóng gói (`webdata/bctc_long.parquet`, gộp lại theo mã để đọc theo row group) | HSX 409 + HNX 307 mã, FY2009–FY2025, không có UPCOM, không có quý |
-| LNST 4 quý gần nhất (TTM) | vnstock `Fundamental().equity(sym).income_statement(period="quarter")` | Snapshot (`ttm.parquet`, top mã thanh khoản) | `scripts/build_ttm.py`; P/E TTM chỉ để hiển thị/đối chiếu |
+| LNST 4 quý gần nhất (TTM) | Vietcap/VCI raw BCTC quý; lấy LNST thuộc cổ đông công ty mẹ theo `yearReport`/`lengthReport` | Snapshot (`webdata/snapshot/ttm.parquet`; 1.119 mã, 982 dòng LNST dương qua validator) | `scripts/build_ttm_quarterly.py`; chỉ nhận 4 quý liên tiếp, lưu kỳ, nhãn TTM, nguồn và ngày công bố; P/E TTM dùng để hiển thị/đối chiếu |
 | Vĩ mô | `config/macro_vn.csv` – GSO/NSO, NHNN, HNX, mỗi dòng có URL + ngày công bố | Đóng gói | World Bank API (live) chỉ để vẽ chuỗi lịch sử |
 | Tin tức | Trang chủ đề mã CafeF `cafef.vn/{ma}.html` (theo `CafeFScraper` của repo thầy) + RSS CafeF/VnExpress | **Live** | Chấm cảm xúc bằng `analysis/sentiment.py` |
 | BCTN gốc (PDF) | `zenodo_master_index.parquet` – Ngô Phú Thanh (2025), DOI 10.5281/zenodo.20949551 (13.982 file) | Đóng gói (chỉ mục) | Chỉ hiện link Zenodo + link dự phòng CDN CafeF theo mẫu tên file trong `zenodo_downloader.py` |
@@ -49,10 +49,10 @@ cho từng mã đều in ở tab **Dữ liệu & nguồn** và Phụ lục A c�
 | FPT | P/E | 10,7x (FY2025) | 12,5x (TTM) | ~9% (cùng giá) | TTM vs FY + khác số CP |
 | FPT | P/B | 2,74x | ~3,1x | ~6% (cùng giá) | VCSH giữa năm 2026 vs cuối 2025 |
 | VCB | Vốn hoá | 473,8 nghìn tỷ @56.700 | 472,1 nghìn tỷ @56.500 | < 0,1% (cùng giá) | ✓ |
-| VCB | P/E | 13,4x (FY2025) | 11,4x (TTM) | **18%** | LN 4 quý gần nhất (Q3/25–Q2/26) cao hơn FY2025; hệ thống hiện thêm P/E TTM từ vnstock quý |
+| VCB | P/E | 13,4x (FY2025) | 11,4x (TTM) | **18%** | LN 4 quý gần nhất (Q3/25–Q2/26) cao hơn FY2025; hệ thống hiện thêm P/E TTM từ VCI raw BCTC quý |
 | VCB | P/B | 2,11x | 1,9x | 11% | VCSH tại Q2/2026 lớn hơn cuối 2025 (BCTC năm) |
 | HPG | Vốn hoá | 170,5 nghìn tỷ @20.200 | 173,1 nghìn tỷ (06/10) | ~1,5% | khác ngày giá |
-| HPG | P/E | 11,0x (FY2025) | 7,45x (TTM) | **48%** | LNST Q1/2026 tăng 170% → TTM cao hơn hẳn FY2025. Đây là giới hạn chính của BCTC năm; P/E TTM (vnstock quý) được hiển thị cạnh P/E FY |
+| HPG | P/E | 11,0x (FY2025) | 7,45x (TTM) | **48%** | LNST Q1/2026 tăng 170% → TTM cao hơn hẳn FY2025. Đây là giới hạn chính của BCTC năm; P/E TTM (VCI raw BCTC quý) được hiển thị cạnh P/E FY |
 | HPG | P/B | 1,32x | 1,23x | 7% | VCSH giữa năm 2026 |
 
 Nguồn đối chiếu: [CafeF FPT](https://cafef.vn/du-lieu/hose/fpt-cong-ty-co-phan-fpt.chn),
@@ -60,7 +60,7 @@ Nguồn đối chiếu: [CafeF FPT](https://cafef.vn/du-lieu/hose/fpt-cong-ty-co
 [CafeF HPG](https://cafef.vn/du-lieu/hose/hpg-cong-ty-co-phan-tap-doan-hoa-phat.chn),
 [CafeF – FPT giảm 10 phiên](https://cafef.vn/co-phieu-fpt-bat-ngo-giam-10-phien-lien-tiep-von-hoa-boc-hoi-gan-12000-ty-dong-chi-sau-2-tuan-188261006223053904.chn).
 
-**Sau khi thêm TTM (vnstock quý Q3/2025–Q2/2026)**: VCB P/E TTM 11,6x vs CafeF 11,4x (lệch 2% ✓);
+**Sau khi thêm TTM (VCI raw BCTC quý Q3/2025–Q2/2026)**: VCB P/E TTM 11,6x vs CafeF 11,4x (lệch 2% ✓);
 HPG 9,7x vs 7,45x (còn lệch – CafeF có thể đã dùng LN Q3/2026 ước tính hoặc số CP khác, chưa xác minh được);
 FPT 10,3x vs 12,5x (khác số CP: niêm yết 1,714 tỷ vs lưu hành ~1,886 tỷ).
 
@@ -74,8 +74,7 @@ P/E TTM được hiển thị riêng cho các mã có số quý.
   21/10/2025 = 82.537,49). Quét toàn bộ kho: không mã vốn hoá lớn nào có phiên vượt biên độ sàn
   (HOSE ±7%, HNX ±10%, UPCOM ±15%) → hiệu suất 1T/3T/YTD/1N không bị méo bởi ngày GDKHQ. Các phiên vượt biên độ
   còn lại (637 mã, chủ yếu UPCOM) là phiên chào sàn/không giới hạn biên độ hoặc mã rất kém thanh khoản.
-- **TTM**: `scripts/build_ttm.py` lấy được 96/120 mã thanh khoản cao nhất (vnstock bản community giới hạn
-  ~20 request/phút; 24 mã bị chặn rate-limit → web hiện P/E FY và ghi "chưa có số quý").
+- **TTM**: `scripts/build_ttm_quarterly.py` dựng lại snapshot từ BCTC quý VCI raw cho 1.119 mã. Validator xác nhận 982 dòng LNST dương có đủ bốn quý liên tiếp và metadata kỳ/nguồn; dòng LNST âm được lưu trong snapshot nhưng không dùng để hiển thị P/E dương. Mã thiếu dữ liệu hợp lệ tiếp tục dùng P/E năm hoặc ghi rõ chưa có TTM.
 - **Nguồn live từ máy chủ Vercel (sin1)** – kiểm tra 09/10/2026 14:36 qua `/api/py/sources`: Vietcap gap-chart,
   Vietcap getList, CafeF trang chủ đề, RSS VnExpress, World Bank đều trả dữ liệu; bảng toàn thị trường đọc từ
   Vercel Blob.
@@ -87,30 +86,28 @@ Xem `config/macro_vn.csv` – mỗi dòng có URL nguồn và ngày công bố. 
 tín dụng +11,59% từ đầu năm (+16,69% yoy), tỷ giá trung tâm 25.638 (07/10), TPCP 10 năm 4,43% (phiên cuối 9/2026),
 lãi suất tái cấp vốn 4,50% (NHNN giữ nguyên từ đầu năm).
 
-## 7. Kiểm tra kết nối môi trường Codex (09/10/2026)
+## DNSE trên máy chủ web (đo 12/10/2026)
 
-| Kiểm tra | Kết quả | Ghi chú |
+DNSE OpenAPI **không dùng được từ Vercel**; đây là giới hạn phía DNSE, không phải lỗi key hay cấu hình.
+
+| Nơi gọi | IP đi ra | Kết quả tới `openapi.dnse.com.vn:443` |
 |---|---|---|
-| `git ls-remote origin` | Thành công | Nhánh `main` ở `b7cdcad`; `upgrade/post-submission-20261009` ở `16d2196`. |
-| `gh auth status` | Không chạy được | GitHub CLI `gh` chưa cài trong môi trường này; Git qua HTTPS và Vercel CLI vẫn dùng được. |
-| `vercel whoami` | Thành công | Đăng nhập đúng team/project. |
-| Vietcap public API | Thành công từ Vercel `sin1` | Trang `/nguon` kiểm tra được `getList` và `gap-chart` với HTTP 200. Gọi root host riêng lẻ không phải health check hợp lệ. |
-| CafeF | Thành công | Trang chủ và RSS phản hồi; kiểm tra nguồn trên preview ghi 20 tin FPT và 50 tin RSS. |
-| World Bank API | Thành công | HTTP 200. |
-| DNSE | Host phản hồi, nguồn giao dịch chưa dùng được từ Vercel | Root host trả 404; probe OHLC thực tế hết hạn sau 5 giây. Trang `/nguon` nêu rõ máy chủ không kết nối được tới DNSE từ vùng triển khai. Đây không phải dấu hiệu thiếu `DNSE_API_KEY`; không đánh dấu nguồn LIVE. |
-| vnstock/VCI | Có giới hạn guest | Không có `VNSTOCK_API_KEY` trong môi trường tiến trình. VCI báo giới hạn 20 request/phút; một số UPCOM không có đủ 5 kỳ năm để đạt chuẩn nhập. Thu thập chạy với khoảng cách 4,5 giây/request và có resume. |
+| Máy cá nhân ở Việt Nam (có key) | nhà mạng VN | HTTP 200, 10 phiên VNINDEX và FPT |
+| Máy chủ nước ngoài không thuộc AWS (không key) | – | HTTP 401 `X-API-Key header required` (tức là nối được) |
+| Vercel `sin1` Singapore | 54.169.47.146 (AWS) | hết thời gian chờ TCP sau 8 s |
+| Vercel `hkg1` Hong Kong | 43.198.246.67 (AWS) | hết thời gian chờ TCP sau 8 s |
+| Vercel `hnd1` Tokyo | 13.231.22.211 (AWS) | hết thời gian chờ TCP sau 8 s |
+| Vercel `iad1` Mỹ | 98.83.136.187 (AWS) | hết thời gian chờ TCP sau 8 s |
 
-Preview dùng trong kiểm tra: `invest-system-5bycqy57f-thienanpham160806-codes-projects.vercel.app` (commit `16d2196`, READY). API kiểm tra trực tiếp đã xác nhận giá FPT, top cơ hội và trang nguồn; DNSE hiện lỗi kết nối cụ thể như trên.
+Đối chứng: cùng function ở `sin1` nối `trading.vietcap.com.vn` trong 21–45 ms. Kết luận: DNSE rớt gói từ dải IP
+AWS mà Vercel dùng, nên đổi region không giải quyết được. Ghi chú cũ "DNSE chặn IP ngoài Việt Nam" là không chính xác.
 
-## 8. Kiểm tra lại từ môi trường Codex (11/10/2026)
-
-Đây là lần kiểm tra chỉ đọc; môi trường hiện tại bị giới hạn mạng và không thể tái sử dụng kết quả kết nối ngày 09/10 như trạng thái hiện thời.
-
-| Kiểm tra | Kết quả hiện tại | Ghi chú |
-|---|---|---|
-| GitHub (`git ls-remote origin HEAD`) | Bị chặn | Không kết nối được `github.com:443`; chưa xác nhận được remote/commit mới nhất. |
-| GitHub CLI (`gh auth status`) | Không chạy | `gh` chưa được cài. |
-| Vercel CLI (`vercel whoami`) | Không xác nhận được | Lệnh trước bị worker timeout/EPIPE; không dùng làm bằng chứng đã đăng nhập hay đã deploy. |
-| Browser UI | Không khả dụng | CUA không thấy browser/app; các nhận xét UI trong `docs/ui-critique.md` dựa trên source, chưa phải visual QA. |
-
-Không có lệnh fetch dữ liệu nguồn nào được chạy trong lần kiểm tra này. Để xác nhận remote thủ công khi có mạng: `git ls-remote origin HEAD`; để xác nhận Vercel CLI: `vercel whoami`.
+Hệ quả và cách xử lý:
+- Web không phụ thuộc DNSE: giá và VN-Index lấy trực tiếp từ Vietcap (live). Trang `/nguon` hiện DNSE là
+  "CHỈ DÙNG KHI CHẠY LOCAL" (màu trung tính) kèm lỗi thật của lần thử, thay vì "LỖI".
+- DNSE vẫn là nguồn giá ưu tiên khi chạy local (`config/settings.yaml: price_sources: [dnse, vietcap]`).
+- Muốn có DNSE trên web thì cần một điểm trung chuyển có IP không thuộc AWS (hoặc đặt tại Việt Nam), hoặc xin DNSE
+  mở IP. Chưa làm.
+- Lưu ý đơn vị (chưa xử lý): `DnseProvider.ohlcv("FPT")` trả giá đóng cửa 57,9 (nghìn đồng), còn Vietcap trả
+  57.900 (đồng). Trong lần kiểm tra này `prices.get_ohlcv` khi chạy local lấy từ Vietcap gap-chart nên không bị
+  ảnh hưởng; chưa kiểm tra router có quy đổi đơn vị khi thật sự dùng DNSE hay không.

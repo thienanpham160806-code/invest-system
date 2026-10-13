@@ -241,9 +241,12 @@ class DnseProvider(PriceProvider):
         except Exception as exc:  # noqa: BLE001 - chan doan: bao loi, khong nem
             if _is_connection_error(exc):
                 _mark_down(exc)
+                # Bao dung loai loi that. Da do 12/10/2026: DNSE rot ket noi TCP tu IP AWS
+                # (Vercel sin1/hkg1/hnd1/iad1), con may o VN va may chu ngoai AWS thi noi duoc
+                # -> khong phai "chan IP ngoai Viet Nam" nhu ghi chu cu.
                 return None, 0, (
-                    f"không kết nối được máy chủ DNSE sau {_CONNECT_TIMEOUT:.0f}s "
-                    "(thường do DNSE chặn IP ngoài Việt Nam, vd Render ở Singapore)"
+                    f"không kết nối được máy chủ DNSE: {type(exc).__name__} "
+                    f"(chờ kết nối tối đa {_CONNECT_TIMEOUT:.0f}s)"
                 )
             return None, 0, f"{type(exc).__name__}: {exc}"
         return status, len(_normalise_ohlc(payload)), None
