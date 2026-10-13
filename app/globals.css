@@ -1,9 +1,13 @@
 @import "tailwindcss";
 
 :root { --navy: #0b3b6f; }
+/* Mau chuoi cho bieu do nhieu duong (thu tu co dinh): 3 mau tach duoc nhau o moi cap, ke ca nguoi mu mau, tren nen the
+   sang va toi; --series-ref (xam) danh cho duong tham chieu, ve net dut */
+:root { --series-1: #2a78d6; --series-2: #eb6834; --series-3: #1baf7a; --series-ref: #64748b; }
 body { background: #f5f7fa; color: #0f172a; }
 html { color-scheme: light; }
 html[data-theme="dark"] { color-scheme: dark; --page-bg: #0b1220; --surface: #111c2e; --surface-raised: #172438; --line: #334155; --ink: #e2e8f0; --muted: #a8b6c8; }
+html[data-theme="dark"] { --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70; --series-ref: #94a3b8; }
 html[data-theme="dark"] body { background: var(--page-bg); color: var(--ink); }
 html[data-theme="dark"] .bg-white { background-color: var(--surface) !important; }
 html[data-theme="dark"] .bg-slate-50 { background-color: var(--surface-raised) !important; }
