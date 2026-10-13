@@ -6,7 +6,9 @@ small smoke run; the default processes every current universe symbol.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
+import os
 import sys
 import warnings
 from pathlib import Path
@@ -14,9 +16,16 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-import pandas as pd  # noqa: E402
+# Ranking snapshots do not need generated prose; keep bulk jobs non-billable.
+os.environ["LLM_ENABLED"] = "0"
+
 from invest_system.web import service  # noqa: E402
-from invest_system.web.universe import SNAPSHOT_DIR, load_ohlcv_snapshot, load_universe, load_vnindex_snapshot  # noqa: E402
+from invest_system.web.universe import (  # noqa: E402
+    SNAPSHOT_DIR,
+    load_ohlcv_snapshot,
+    load_universe,
+    load_vnindex_snapshot,
+)
 
 WORK = SNAPSHOT_DIR / "opportunities-work.json"
 OUTPUT = SNAPSHOT_DIR / "opportunities.json"
@@ -43,8 +52,25 @@ def _record(symbol: str) -> dict:
         "quality_warnings": [check.get("name") for check in result.get("checks", [])
                               if check.get("status") == "WARN"],
         "as_of_price": result.get("as_of_price"), "generated_at": result.get("generated_at"),
+        "ttm_label": result.get("metrics", {}).get("ttm_label"),
+        "pe_ttm": result.get("metrics", {}).get("pe_ttm"),
+        "ni_ttm": result.get("metrics", {}).get("ni_ttm"),
         "has_bctc": result.get("bctc_available"),
     }
+
+
+def _input_signature(universe, meta: dict) -> str:
+    ttm_columns = [c for c in ("symbol", "ni_ttm", "ttm_label", "ttm_periods", "ttm_source")
+                   if c in universe.columns]
+    ttm = universe[ttm_columns].sort_values("symbol").to_json(orient="records")
+    payload = json.dumps({
+        "builder_version": 2,
+        "universe_built_at": meta.get("built_at"),
+        "universe_origin": meta.get("origin"),
+        "universe_sources": meta.get("sources", {}),
+        "ttm_rows": ttm,
+    }, sort_keys=True, default=str)
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
 def build(top: int | None, resume: bool, work_path: Path = WORK, output_path: Path = OUTPUT) -> None:
@@ -60,24 +86,32 @@ def build(top: int | None, resume: bool, work_path: Path = WORK, output_path: Pa
     symbols = universe["symbol"].astype(str).tolist()
     if top:
         symbols = symbols[:top]
+    signature = _input_signature(universe, meta)
     records = {}
     if resume and work_path.exists():
-        records = json.loads(work_path.read_text(encoding="utf-8"))
+        previous = json.loads(work_path.read_text(encoding="utf-8"))
+        if previous.get("_meta", {}).get("input_signature") == signature:
+            records = {key: value for key, value in previous.items() if key != "_meta"}
     for index, symbol in enumerate(symbols, 1):
         if (symbol in records and "error" not in records[symbol]
                 and "quality_failures" in records[symbol]
-                and "score_groups" in records[symbol]):
+                and "score_groups" in records[symbol]
+                and "ttm_label" in records[symbol]
+                and "pe_ttm" in records[symbol]
+                and "ni_ttm" in records[symbol]):
             continue
         try:
             records[symbol] = _record(symbol)
         except Exception as exc:  # noqa: BLE001
             records[symbol] = {"symbol": symbol, "error": f"{type(exc).__name__}: {exc}"}
         work_path.parent.mkdir(parents=True, exist_ok=True)
-        work_path.write_text(json.dumps(records, ensure_ascii=False), encoding="utf-8")
+        work_path.write_text(json.dumps({"_meta": {"input_signature": signature}, **records},
+                                        ensure_ascii=False), encoding="utf-8")
         if index % 25 == 0 or index == len(symbols):
             print(f"{index}/{len(symbols)} analyzed; records={len(records)}", flush=True)
 
-    rows = [r for s, r in records.items() if s in set(symbols) and "error" not in r]
+    symbol_set = set(symbols)
+    rows = [r for s, r in records.items() if s in symbol_set and "error" not in r]
     for row in rows:
         upside = row.get("upside")
         score = row.get("score")
@@ -132,7 +166,9 @@ def build(top: int | None, resume: bool, work_path: Path = WORK, output_path: Pa
     result = {
         "generated_at": service.now_str(), "universe_built_at": meta.get("built_at"),
         "universe_count": len(universe), "analyzed_count": len(rows),
-        "errors": len(records) - len(rows), "upside_distribution": bins,
+        "universe_origin": meta.get("origin"), "universe_sources": meta.get("sources", {}),
+        "errors": sum(1 for symbol, row in records.items()
+                       if symbol in symbol_set and "error" in row), "upside_distribution": bins,
         "positive_upside_count": sum(value > 0 for value in up),
         "outlier_upside_count": sum(value < -0.6 or value > 1.5 for value in up),
         "eligible_count": sum(bool(row["eligible"]) for row in rows),

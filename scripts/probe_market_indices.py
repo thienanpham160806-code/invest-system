@@ -7,7 +7,6 @@ from concurrent.futures import ThreadPoolExecutor
 
 from invest_system.data.vietcap import probe_endpoint
 
-
 SYMBOLS = ("VNINDEX", "HNXIndex", "HNXUpcomIndex")
 
 

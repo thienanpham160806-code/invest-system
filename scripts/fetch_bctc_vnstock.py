@@ -28,7 +28,7 @@ from invest_system.data.arminer_bctc import (  # noqa: E402
     coverage,
 )
 from invest_system.data.fundamentals import FIELD_LABELS_VI, standardize_vnstock  # noqa: E402
-from invest_system.data.vietcap import VietcapProvider, _parent_profit_column  # noqa: E402
+from invest_system.data.vietcap import VietcapProvider  # noqa: E402
 from invest_system.web.universe import SNAPSHOT_DIR, classify_company_type  # noqa: E402
 
 REFERENCE = ROOT / "data" / "reference"
@@ -36,7 +36,6 @@ CACHE = REFERENCE / "bctc_vnstock" / "by_symbol"
 STATE = REFERENCE / "bctc_vnstock" / "state.json"
 FAILURES = REFERENCE / "bctc_vnstock" / "failures.csv"
 ANNUAL_PATH = VNSTOCK_PACKED
-TTM_PATH = SNAPSHOT_DIR / "ttm.parquet"
 SOURCE = "vnstock VCI"
 FIELD_STATEMENT = {
     **{k: "income_statement" for k in (
@@ -53,22 +52,12 @@ FIELD_STATEMENT = {
 }
 
 
-def _period_key(value) -> tuple[int, int] | None:
-    match = re.fullmatch(r"\s*(20\d{2})-Q([1-4])\s*", str(value))
-    return (int(match.group(1)), int(match.group(2))) if match else None
-
-
 def _tickers_for_exchange(frame: pd.DataFrame, exchange: str) -> set[str]:
     """Return cached supplement symbols, including the empty/missing-schema case."""
     if frame.empty or not {"ticker", "exchange"}.issubset(frame.columns):
         return set()
     rows = frame.loc[frame["exchange"].astype(str).str.upper() == exchange.upper(), "ticker"]
     return set(rows.astype(str).str.upper())
-
-
-def _has_four_consecutive(keys: list[tuple[int, int]]) -> bool:
-    indices = [year * 4 + quarter for year, quarter in keys]
-    return len(indices) == 4 and indices == list(range(indices[0], indices[0] + 4))
 
 
 def _validate(symbol: str, company_type: str, standard) -> None:
@@ -114,7 +103,7 @@ def _long_rows(symbol: str, exchange: str, standard, fetched_at: str) -> pd.Data
 
 
 def _fetch_one(symbol: str, exchange: str, company_type: str, provider: VietcapProvider,
-               delay: float, years: int) -> tuple[pd.DataFrame, dict]:
+               delay: float, years: int) -> pd.DataFrame:
     bundle = {}
     for key, method, period in (
         ("income", provider.income_statement, "year"),
@@ -130,24 +119,7 @@ def _fetch_one(symbol: str, exchange: str, company_type: str, provider: VietcapP
     now = datetime.now().astimezone().isoformat(timespec="seconds")
     annual = _long_rows(symbol, exchange, standard, now)
 
-    quarterly = provider.income_statement(symbol, period="quarter")
-    time.sleep(delay)
-    parent_col = _parent_profit_column(quarterly)
-    if parent_col is None or quarterly.empty or "period" not in quarterly:
-        raise ValueError("quarterly statement has no parent-company profit series")
-    quarter = quarterly[["period", parent_col]].copy()
-    quarter["key"] = quarter["period"].map(_period_key)
-    quarter = quarter.dropna(subset=["key"]).sort_values("key").tail(4)
-    keys = list(quarter["key"])
-    values = pd.to_numeric(quarter[parent_col], errors="coerce")
-    if not _has_four_consecutive(keys) or values.isna().any():
-        raise ValueError(f"need four consecutive quarters for TTM; received {list(quarter['period'])}")
-    year, q = keys[-1]
-    ttm = {"symbol": symbol, "ni_ttm": float(values.sum()), "ttm_label": f"TTM Q{q}/{year}",
-           "ttm_periods": ",".join(quarter["period"].astype(str)),
-           "ttm_column": f"vnstock income_statement(quarter).{parent_col}",
-           "ttm_source": SOURCE, "ttm_fetched_at": now}
-    return annual, ttm
+    return annual
 
 
 def _upload(path: Path, pathname: str) -> None:
@@ -217,11 +189,8 @@ def run(exchange: str, top: int | None, resume: bool, delay: float, years: int, 
             continue
         ctype = classify_company_type(row.com_type_code, row.icb1, row.icb2, row.icb3, row.icb4)
         try:
-            annual, ttm = _fetch_one(symbol, exchange, ctype, provider, delay, years)
+            annual = _fetch_one(symbol, exchange, ctype, provider, delay, years)
             annual.to_parquet(CACHE / f"{symbol}.parquet", index=False)
-            prior = pd.read_parquet(CACHE / "ttm.parquet") if (CACHE / "ttm.parquet").exists() else pd.DataFrame()
-            ttm_frame = pd.concat([prior, pd.DataFrame([ttm])], ignore_index=True).drop_duplicates("symbol", keep="last")
-            ttm_frame.to_parquet(CACHE / "ttm.parquet", index=False)
             state["success"] = sorted(set(state.get("success", [])) | {symbol})
             state["failed"] = [item for item in state.get("failed", []) if item.get("symbol") != symbol]
             done.add(symbol)
@@ -241,16 +210,10 @@ def run(exchange: str, top: int | None, resume: bool, delay: float, years: int, 
         merged = merged.drop_duplicates(["ticker", "year", "statement", "item_code"], keep="last")
         ANNUAL_PATH.parent.mkdir(parents=True, exist_ok=True)
         merged.to_parquet(ANNUAL_PATH, index=False, compression="zstd")
-    ttm_path = CACHE / "ttm.parquet"
-    if ttm_path.exists():
-        old = pd.read_parquet(TTM_PATH) if TTM_PATH.exists() else pd.DataFrame()
-        ttm = pd.concat([old, pd.read_parquet(ttm_path)], ignore_index=True).drop_duplicates("symbol", keep="last")
-        ttm.to_parquet(TTM_PATH, index=False)
     if failed:
         pd.DataFrame(failed).to_csv(FAILURES, index=False, encoding="utf-8-sig")
     if upload:
         _upload(ANNUAL_PATH, "universe/bctc_vnstock.parquet")
-        _upload(TTM_PATH, "universe/ttm.parquet")
     print(f"Annual rows={len(pd.read_parquet(ANNUAL_PATH)) if ANNUAL_PATH.exists() else 0}; new failures={len(failed)}")
 
 

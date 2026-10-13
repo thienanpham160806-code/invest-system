@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import io
 import json
+import math
 import os
 import re
 import time
@@ -116,9 +117,12 @@ def load_universe() -> tuple[pd.DataFrame, dict]:
 
 
 def _merge_ttm(frame: pd.DataFrame, meta: dict) -> pd.DataFrame:
-    """Ghep LNST 4 quy gan nhat (scripts/build_ttm.py) -> P/E TTM cho cac ma co du lieu quy."""
-    if "ni_ttm" in frame.columns:
-        return frame
+    """Merge TTM only when its four raw-source quarter labels are verifiable."""
+    ttm_columns = ["ni_ttm", "ttm_label", "ttm_periods", "ttm_source", "ttm_fetched_at",
+                   "ttm_column", "pe_ttm", "eps_ttm"]
+    embedded = frame[[column for column in ttm_columns if column in frame.columns or column == "symbol"]].copy()
+    base = frame.drop(columns=[column for column in ttm_columns if column in frame.columns])
+
     raw = _blob_get("ttm.parquet") if meta.get("origin", "").startswith("Vercel Blob") else None
     path = SNAPSHOT_DIR / "ttm.parquet"
     if raw is not None:
@@ -126,14 +130,47 @@ def _merge_ttm(frame: pd.DataFrame, meta: dict) -> pd.DataFrame:
     elif path.exists():
         ttm = pd.read_parquet(path)
     else:
-        return frame
-    frame = frame.merge(ttm, on="symbol", how="left")
+        ttm = embedded
+
+    required = {"symbol", "ni_ttm", "ttm_source", "ttm_periods", "ttm_label"}
+    if not ttm.empty and required.issubset(ttm.columns):
+        ttm = ttm.loc[ttm.apply(_valid_ttm_row, axis=1)].copy()
+    else:
+        ttm = pd.DataFrame(columns=["symbol", "ni_ttm"])
+
+    if ttm.empty:
+        meta.setdefault("sources", {})["ttm"] = "TTM hidden: source/period labels are not verified"
+        return base
+
+    frame = base.merge(ttm, on="symbol", how="left")
     ok = frame["ni_ttm"] > 0
     frame["pe_ttm"] = (frame["market_cap"] / frame["ni_ttm"]).where(ok)
     frame["eps_ttm"] = (frame["ni_ttm"] / frame["shares"]).where(ok)
-    meta.setdefault("sources", {})["ttm"] = (f"vnstock BCTC quý (Vietcap) – {int(frame['ni_ttm'].notna().sum())} mã "
-                                             "thanh khoản cao, LNST CĐ mẹ 4 quý gần nhất")
+    meta.setdefault("sources", {})["ttm"] = (f"VCI raw quarterly statements - {int(frame['ni_ttm'].notna().sum())} symbols, "
+                                             "verified parent net income over four consecutive quarters")
     return frame
+
+
+def _valid_ttm_row(row) -> bool:
+    source = str(row.get("ttm_source", "")).strip().casefold()
+    if not source.startswith("vci raw"):
+        return False
+    try:
+        value = float(row.get("ni_ttm"))
+    except (TypeError, ValueError):
+        return False
+    if not math.isfinite(value) or value <= 0:
+        return False
+
+    periods = str(row.get("ttm_periods", "")).split(",")
+    if len(periods) != 4 or any(not re.fullmatch(r"20\d{2}-Q[1-4]", period.strip()) for period in periods):
+        return False
+    keys = [(int(period[:4]), int(period[-1])) for period in periods]
+    indices = [year * 4 + quarter for year, quarter in keys]
+    if indices != list(range(indices[0], indices[0] + 4)):
+        return False
+    year, quarter = keys[-1]
+    return str(row.get("ttm_label", "")).strip() == f"TTM Q{quarter}/{year}"
 
 
 def load_sector_index() -> pd.DataFrame:

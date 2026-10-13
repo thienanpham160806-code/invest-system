@@ -15,7 +15,7 @@ Cập nhật: 09/10/2026. Mọi số trên web/PDF kèm `{source, as_of, fetched
 | LNST 4 quý gần nhất (TTM) | vnstock `Fundamental().equity(sym).income_statement(period="quarter")` | Snapshot (`ttm.parquet`, top mã thanh khoản) | `scripts/build_ttm.py`; P/E TTM chỉ để hiển thị/đối chiếu |
 | Vĩ mô | `config/macro_vn.csv` – GSO/NSO, NHNN, HNX, mỗi dòng có URL + ngày công bố | Đóng gói | World Bank API (live) chỉ để vẽ chuỗi lịch sử |
 | Tin tức | Trang chủ đề mã CafeF `cafef.vn/{ma}.html` (theo `CafeFScraper` của repo thầy) + RSS CafeF/VnExpress | **Live** | Chấm cảm xúc bằng `analysis/sentiment.py` |
-| BCTN gốc (PDF) | `zenodo_master_index.parquet` – Ngô Phú Thạnh (2025), DOI 10.5281/zenodo.20949551 (13.982 file) | Đóng gói (chỉ mục) | Chỉ hiện link Zenodo + link dự phòng CDN CafeF theo mẫu tên file trong `zenodo_downloader.py` |
+| BCTN gốc (PDF) | `zenodo_master_index.parquet` – Ngô Phú Thanh (2025), DOI 10.5281/zenodo.20949551 (13.982 file) | Đóng gói (chỉ mục) | Chỉ hiện link Zenodo + link dự phòng CDN CafeF theo mẫu tên file trong `zenodo_downloader.py` |
 
 ## 2. Ánh xạ item_code arminer → chỉ tiêu chuẩn
 
@@ -86,3 +86,31 @@ Xem `config/macro_vn.csv` – mỗi dòng có URL nguồn và ngày công bố. 
 đã kiểm tra lại. Số mới nhất: GDP Q3/2026 +9,95% (9T +9,01%), CPI bình quân 9T +4,52% (tháng 9 +5,08% yoy),
 tín dụng +11,59% từ đầu năm (+16,69% yoy), tỷ giá trung tâm 25.638 (07/10), TPCP 10 năm 4,43% (phiên cuối 9/2026),
 lãi suất tái cấp vốn 4,50% (NHNN giữ nguyên từ đầu năm).
+
+## 7. Kiểm tra kết nối môi trường Codex (09/10/2026)
+
+| Kiểm tra | Kết quả | Ghi chú |
+|---|---|---|
+| `git ls-remote origin` | Thành công | Nhánh `main` ở `b7cdcad`; `upgrade/post-submission-20261009` ở `16d2196`. |
+| `gh auth status` | Không chạy được | GitHub CLI `gh` chưa cài trong môi trường này; Git qua HTTPS và Vercel CLI vẫn dùng được. |
+| `vercel whoami` | Thành công | Đăng nhập đúng team/project. |
+| Vietcap public API | Thành công từ Vercel `sin1` | Trang `/nguon` kiểm tra được `getList` và `gap-chart` với HTTP 200. Gọi root host riêng lẻ không phải health check hợp lệ. |
+| CafeF | Thành công | Trang chủ và RSS phản hồi; kiểm tra nguồn trên preview ghi 20 tin FPT và 50 tin RSS. |
+| World Bank API | Thành công | HTTP 200. |
+| DNSE | Host phản hồi, nguồn giao dịch chưa dùng được từ Vercel | Root host trả 404; probe OHLC thực tế hết hạn sau 5 giây. Trang `/nguon` nêu rõ máy chủ không kết nối được tới DNSE từ vùng triển khai. Đây không phải dấu hiệu thiếu `DNSE_API_KEY`; không đánh dấu nguồn LIVE. |
+| vnstock/VCI | Có giới hạn guest | Không có `VNSTOCK_API_KEY` trong môi trường tiến trình. VCI báo giới hạn 20 request/phút; một số UPCOM không có đủ 5 kỳ năm để đạt chuẩn nhập. Thu thập chạy với khoảng cách 4,5 giây/request và có resume. |
+
+Preview dùng trong kiểm tra: `invest-system-5bycqy57f-thienanpham160806-codes-projects.vercel.app` (commit `16d2196`, READY). API kiểm tra trực tiếp đã xác nhận giá FPT, top cơ hội và trang nguồn; DNSE hiện lỗi kết nối cụ thể như trên.
+
+## 8. Kiểm tra lại từ môi trường Codex (11/10/2026)
+
+Đây là lần kiểm tra chỉ đọc; môi trường hiện tại bị giới hạn mạng và không thể tái sử dụng kết quả kết nối ngày 09/10 như trạng thái hiện thời.
+
+| Kiểm tra | Kết quả hiện tại | Ghi chú |
+|---|---|---|
+| GitHub (`git ls-remote origin HEAD`) | Bị chặn | Không kết nối được `github.com:443`; chưa xác nhận được remote/commit mới nhất. |
+| GitHub CLI (`gh auth status`) | Không chạy | `gh` chưa được cài. |
+| Vercel CLI (`vercel whoami`) | Không xác nhận được | Lệnh trước bị worker timeout/EPIPE; không dùng làm bằng chứng đã đăng nhập hay đã deploy. |
+| Browser UI | Không khả dụng | CUA không thấy browser/app; các nhận xét UI trong `docs/ui-critique.md` dựa trên source, chưa phải visual QA. |
+
+Không có lệnh fetch dữ liệu nguồn nào được chạy trong lần kiểm tra này. Để xác nhận remote thủ công khi có mạng: `git ls-remote origin HEAD`; để xác nhận Vercel CLI: `vercel whoami`.

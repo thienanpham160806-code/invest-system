@@ -35,7 +35,7 @@ export default function Opportunities() {
   return <div className="space-y-4">
     <header className="flex flex-wrap items-end justify-between gap-3">
       <div><h1 className="text-2xl font-bold">Cơ hội đầu tư</h1>
-        <p className="mt-1 max-w-3xl text-sm text-slate-600">Điểm cơ hội dùng điểm tổng hợp; hòa điểm xét upside rồi thanh khoản. Mã đủ điều kiện có BCTC, không có kiểm tra dữ liệu FAIL, độ tin cậy từ trung bình, GTGD TB20 từ 5 tỷ và upside dương dưới 150%. Đây là tham khảo, không phải khuyến nghị mua.</p>
+        <p className="mt-1 max-w-3xl text-sm text-slate-600">Điểm cơ hội dùng điểm tổng hợp; hòa điểm xét upside rồi thanh khoản. Độ tin cậy dựa trên số phương pháp định giá hợp lệ và mức phân tán giữa các giá trị cơ sở, không phải xác suất sinh lời. Mã đủ điều kiện có BCTC, không có kiểm tra dữ liệu FAIL, độ tin cậy từ trung bình, GTGD TB20 từ 5 tỷ và upside dương dưới 150%. Đây là tham khảo, không phải khuyến nghị mua.</p>
       </div><AsOf p={data?.provenance} label="Snapshot" />
     </header>
     <Card>
@@ -74,7 +74,7 @@ export default function Opportunities() {
           { key: "industry", label: "Ngành" }, { key: "price", label: "Giá", num: true, render: (r) => price(r.price) },
           { key: "target_price", label: "Giá trị cơ sở", num: true, render: (r) => price(r.target_price) },
           { key: "upside", label: "Upside", num: true, sortValue: (r) => r.upside, render: (r) => pct(r.upside, 1, true) },
-          { key: "confidence", label: "Độ tin cậy" }, { key: "rating", label: "Đánh giá" },
+          { key: "confidence", label: "Độ tin cậy", render: (r) => <span title={r.confidence_reason || "Độ tin cậy được tính từ các phương pháp định giá hợp lệ."}>{r.confidence}</span> }, { key: "rating", label: "Đánh giá" },
           { key: "score", label: "Điểm", num: true, render: (r) => num(r.score, 0) },
           { key: "avg_value_20d", label: "GTGD TB20", num: true, render: (r) => bnLabel(r.avg_value_20d) },
           { key: "market_cap", label: "Vốn hoá", num: true, render: (r) => bnLabel(r.market_cap) },

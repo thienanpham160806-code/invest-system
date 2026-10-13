@@ -39,11 +39,17 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from invest_system.data import arminer_bctc, market_store  # noqa: E402
 from invest_system.data.vietcap import (  # noqa: E402
-    fetch_all_symbols, fetch_daily_bars, fetch_price_board, pivot_industry_levels,
+    fetch_all_symbols,
+    fetch_daily_bars,
+    fetch_price_board,
+    pivot_industry_levels,
 )
 from invest_system.logging_conf import get_logger, setup_logging  # noqa: E402
 from invest_system.web.universe import (  # noqa: E402
-    SNAPSHOT_DIR, UNCLASSIFIED, classify_company_type, node_key,
+    SNAPSHOT_DIR,
+    UNCLASSIFIED,
+    classify_company_type,
+    node_key,
 )
 
 log = get_logger("build_universe")
@@ -94,7 +100,7 @@ def price_metrics(ohlcv: pd.DataFrame) -> pd.DataFrame:
             continue
         last = close[-1]
 
-        def ret(n):
+        def ret(n, last=last, close=close):
             return float(last / close[-1 - n] - 1) if len(close) > n and close[-1 - n] > 0 else None
 
         prev_year = g.loc[g["time"] < year_start, "close"]

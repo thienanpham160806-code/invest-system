@@ -38,6 +38,7 @@ def _consecutive(keys: list[tuple[int, int]]) -> bool:
 
 
 def main() -> None:
+    raise SystemExit("Disabled: vnstock final-mode quarter labels are unreliable. Use VCI raw quarterly data with verified period labels.")
     ap = argparse.ArgumentParser()
     ap.add_argument("--top", type=int, default=120)
     ap.add_argument("--sleep", type=float, default=3.5)

@@ -29,7 +29,9 @@ export function Loading({ what = "dữ liệu" }: { what?: string }) {
 }
 export function ErrorBox({ error }: { error: string | null }) {
   if (!error) return null;
-  return <div className="rounded border border-red-200 bg-red-50 text-red-700 text-sm p-3">Lỗi: {error}</div>;
+  return <div role="alert" className="rounded border border-red-200 bg-red-50 text-red-700 text-sm p-3">
+    <span>Lỗi: {error}</span> <Link className="underline underline-offset-2" href="/nguon">Kiểm tra trạng thái nguồn</Link>
+  </div>;
 }
 export function Stat({ label, value, sub, className = "" }: { label: string; value: ReactNode; sub?: ReactNode; className?: string }) {
   return (

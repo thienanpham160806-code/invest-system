@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 760" role="img" aria-labelledby="title desc">
+  <title id="title">Invest System architecture</title>
+  <desc id="desc">Next.js web app calls a FastAPI service. The service combines deterministic analysis, validation, data snapshots, live sources, and optional OpenAI or Gemini narrative. Offline jobs build snapshots, and a Chromium function renders PDF reports.</desc>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L9,3 z" fill="#64748b"/></marker>
+    <style>
+      .box { fill: #f8fafc; stroke: #94a3b8; stroke-width: 2; rx: 14; }
+      .blue { fill: #eaf3ff; stroke: #2563eb; }
+      .green { fill: #ecfdf5; stroke: #059669; }
+      .purple { fill: #f5f3ff; stroke: #7c3aed; }
+      .amber { fill: #fffbeb; stroke: #d97706; }
+      .title { font: 700 20px 'Segoe UI', Arial, sans-serif; fill: #0f172a; }
+      .text { font: 15px 'Segoe UI', Arial, sans-serif; fill: #334155; }
+      .small { font: 13px 'Segoe UI', Arial, sans-serif; fill: #475569; }
+      .edge { fill: none; stroke: #64748b; stroke-width: 2.2; marker-end: url(#arrow); }
+      .optional { stroke-dasharray: 7 6; }
+    </style>
+  </defs>
+  <rect width="1400" height="760" fill="#ffffff"/>
+  <text x="40" y="42" class="title" font-size="28">Invest System — application and data flow</text>
+
+  <!-- request path -->
+  <rect x="40" y="100" width="185" height="95" class="box"/>
+  <text x="64" y="139" class="title">Investor</text><text x="64" y="166" class="text">Browser</text>
+
+  <rect x="300" y="90" width="300" height="125" class="box blue"/>
+  <text x="325" y="127" class="title">Next.js 16</text><text x="325" y="155" class="text">App Router · UI · charts</text><text x="325" y="181" class="small">search · company · macro · backtest</text>
+
+  <rect x="700" y="90" width="270" height="125" class="box blue"/>
+  <text x="727" y="127" class="title">FastAPI</text><text x="727" y="155" class="text">api/index.py</text><text x="727" y="181" class="small">web/service.py · /api/py/*</text>
+
+  <rect x="1060" y="75" width="285" height="155" class="box green"/>
+  <text x="1084" y="111" class="title">Analysis and controls</text>
+  <text x="1084" y="139" class="text">Macro · industry · valuation</text>
+  <text x="1084" y="164" class="text">technical · sentiment · composite</text>
+  <text x="1084" y="192" class="small">validation · provenance · N/A reasons</text>
+
+  <path d="M225 147 H300" class="edge"/><text x="236" y="135" class="small">HTTPS</text>
+  <path d="M600 147 H700" class="edge"/><text x="610" y="135" class="small">API rewrite</text>
+  <path d="M970 147 H1060" class="edge"/>
+
+  <!-- data inputs -->
+  <rect x="700" y="310" width="270" height="125" class="box amber"/>
+  <text x="727" y="347" class="title">Snapshot reader</text><text x="727" y="375" class="text">Vercel Blob</text><text x="727" y="400" class="small">packaged webdata fallback</text>
+
+  <rect x="1060" y="310" width="285" height="125" class="box"/>
+  <text x="1084" y="347" class="title">Live sources</text><text x="1084" y="375" class="text">Vietcap/VCI · CafeF/RSS</text><text x="1084" y="400" class="small">World Bank · FRED</text>
+
+  <rect x="1060" y="245" width="285" height="58" class="box purple"/>
+  <text x="1084" y="281" class="title">Optional AI narrative · OpenAI / Gemini</text>
+
+  <path d="M835 215 V310" class="edge"/><text x="845" y="268" class="small">snapshots</text>
+  <path d="M1195 230 V245" class="edge optional"/>
+  <path d="M970 175 C1010 175 1025 350 1060 350" class="edge"/><text x="1011" y="286" class="small">live data</text>
+
+  <!-- offline data pipeline -->
+  <rect x="40" y="510" width="290" height="125" class="box purple"/>
+  <text x="64" y="547" class="title">Offline data jobs</text><text x="64" y="575" class="text">prices · BCTC · TTM</text><text x="64" y="600" class="small">market · opportunities · backtest</text>
+
+  <rect x="420" y="510" width="260" height="125" class="box"/>
+  <text x="447" y="547" class="title">Artifacts</text><text x="447" y="575" class="text">Parquet / JSON</text><text x="447" y="600" class="small">with source and as-of metadata</text>
+
+  <rect x="760" y="510" width="260" height="125" class="box amber"/>
+  <text x="787" y="547" class="title">Vercel Blob</text><text x="787" y="575" class="text">universe/latest.parquet</text><text x="787" y="600" class="small">updated by an authorized job</text>
+
+  <rect x="1100" y="510" width="245" height="125" class="box blue"/>
+  <text x="1123" y="547" class="title">PDF function</text><text x="1123" y="575" class="text">Puppeteer + Chromium</text><text x="1123" y="600" class="small">prints /report/[ticker]</text>
+
+  <path d="M330 570 H420" class="edge"/><path d="M680 570 H760" class="edge"/>
+  <path d="M890 510 V435" class="edge"/><text x="900" y="474" class="small">read</text>
+  <path d="M1200 303 V310" class="edge optional"/>
+  <path d="M450 215 C450 340 960 390 1100 550" class="edge"/><text x="750" y="382" class="small">/api/pdf</text>
+
+  <rect x="40" y="680" width="1305" height="42" fill="#f1f5f9" rx="8"/>
+  <text x="58" y="707" class="small">AI narrative is optional and disabled by default. It can rewrite supplied evidence; deterministic calculations remain authoritative.</text>
+</svg>

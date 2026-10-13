@@ -1,11 +1,10 @@
 """Capture a reproducible company-news sample for manual precision review."""
 from __future__ import annotations
 
-import json
 import argparse
+import json
 import subprocess
 import sys
-from datetime import datetime, timedelta
 from pathlib import Path
 
 import pandas as pd

@@ -1,9 +1,9 @@
 import pandas as pd
 import pytest
 
+from invest_system.analysis.composite import combine
 from invest_system.analysis.ratios import compute_ratios
 from invest_system.analysis.valuation import value_company
-from invest_system.analysis.composite import combine
 from invest_system.data import demo
 from invest_system.data.fundamentals import StandardFinancials
 

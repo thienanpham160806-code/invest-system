@@ -32,7 +32,7 @@ Ngày tạo: 2026-10-09T18:39:59.718189+07:00
 
 ## Đối chiếu CafeF
 
-CafeF công bố trang tải BCTC và hồ sơ tài chính hiện hành cho ACV; trang tải tài liệu có báo cáo hợp nhất năm 2025 đã kiểm toán và các báo cáo quý. CafeF cũng có báo cáo thường niên 2025 của BSR, VEA và MCH. Các tài liệu công khai này chưa được đối chiếu từng chỉ tiêu với snapshot trong repo ở lần chạy này; cần tải đúng báo cáo hợp nhất, cùng kỳ, rồi so khớp đơn vị và phạm vi hợp nhất trước khi đánh dấu PASS. [ACV – tải BCTC](https://cafef.vn/du-lieu/upcom/acv-tai-lieu.chn) · [ACV – hồ sơ](https://cafef.vn/du-lieu/acv/thong-tin-chung.chn) · [BSR – báo cáo thường niên 2025](https://cafef1.mediacdn.vn/download/160426/bsr-bao-cao-thuong-nien-nam-2025-0.pdf) · [VEA – báo cáo thường niên 2025](https://cafef1.mediacdn.vn/download/210426/vea-bao-cao-thuong-nien-2025-0-610380.pdf) · [MCH – báo cáo thường niên 2025](https://cafef1.mediacdn.vn/download/150426/mch-bao-cao-thuong-nien-nam-2025-0.pdf).
+Kết quả rà soát từng mã, trường dữ liệu CafeF quan sát được, các điểm lệch ngày/share base và trạng thái ROE/LNST FY nằm trong [cafef-comparison.md](cafef-comparison.md). Trạng thái chung là PARTIAL / không đồng kỳ; không dùng giá trị CafeF mâu thuẫn để ghi đè snapshot nội bộ.
 
 ## PDF
 

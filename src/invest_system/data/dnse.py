@@ -7,10 +7,10 @@ stalling analysis; normal provider routing may then use its configured source.
 """
 from __future__ import annotations
 
-import json
 import base64
 import hashlib
 import hmac
+import json
 import threading
 import time
 from datetime import date, datetime, timezone

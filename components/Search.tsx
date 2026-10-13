@@ -44,14 +44,21 @@ export default function Search({ big = false, globalHotkeys = false, current = "
   const router = useRouter();
   const [open, setOpen] = useState(false), [q, setQ] = useState(""), [exchange, setExchange] = useState("ALL");
   const [items, setItems] = useState<SymbolRow[]>([]), [counts, setCounts] = useState<Record<string, number>>({});
+  const [symbolsLoading, setSymbolsLoading] = useState(false), [symbolsError, setSymbolsError] = useState(false);
   const [scrollTop, setScrollTop] = useState(0), [idx, setIdx] = useState(0);
   const input = useRef<HTMLInputElement>(null), viewport = useRef<HTMLDivElement>(null);
+  const trigger = useRef<HTMLButtonElement>(null), dialog = useRef<HTMLElement>(null), wasOpen = useRef(false);
+  const loadSymbols = useCallback(() => {
+    setSymbolsLoading(true); setSymbolsError(false);
+    void getJSON("/api/py/symbols?exchange=ALL").then((d) => { setItems(d.items); setCounts(d.counts || {}); })
+      .catch(() => { setItems([]); setSymbolsError(true); })
+      .finally(() => setSymbolsLoading(false));
+  }, []);
   const openPicker = useCallback(() => {
     try { setExchange(localStorage.getItem("ticker-picker-exchange") || "ALL"); } catch { setExchange("ALL"); }
     setOpen(true);
-    void getJSON("/api/py/symbols?exchange=ALL").then((d) => { setItems(d.items); setCounts(d.counts || {}); }).catch(() => setItems([]));
-    setTimeout(() => input.current?.focus(), 0);
-  }, []);
+    loadSymbols();
+  }, [loadSymbols]);
   useEffect(() => {
     if (!globalHotkeys) return;
     const handler = (e: KeyboardEvent) => {
@@ -73,6 +80,15 @@ export default function Search({ big = false, globalHotkeys = false, current = "
   }, [items, exchange, q]);
   const countsBy = useMemo(() => ({ ALL: Object.values(counts).reduce((a, b) => a + b, 0), ...counts }), [counts]);
   const choose = (s: string) => { setOpen(false); setQ(""); router.push(`/stock/${s}`); };
+  useEffect(() => {
+    if (open) {
+      wasOpen.current = true;
+      input.current?.focus();
+    } else if (wasOpen.current) {
+      wasOpen.current = false;
+      trigger.current?.focus();
+    }
+  }, [open]);
   const rowHeight = 58, viewportHeight = 390, start = Math.max(0, Math.floor(scrollTop / rowHeight) - 3), end = Math.min(rows.length, start + Math.ceil(viewportHeight / rowHeight) + 6);
   useEffect(() => {
     if (!open || !viewport.current || idx < 0 || idx >= rows.length) return;
@@ -81,11 +97,18 @@ export default function Search({ big = false, globalHotkeys = false, current = "
     else if (bottom > view.scrollTop + view.clientHeight) view.scrollTop = bottom - view.clientHeight;
   }, [idx, open, rows.length]);
   return <>
-    <button className={`flex w-full min-w-0 items-center justify-between gap-2 whitespace-nowrap truncate rounded-md border border-slate-300 bg-white text-left text-slate-700 px-3 ${big ? "py-3 text-lg" : "py-1.5 text-sm"}`} onClick={openPicker} aria-haspopup="dialog">
+    <button ref={trigger} type="button" className={`flex w-full min-w-0 items-center justify-between gap-2 whitespace-nowrap truncate rounded-md border border-slate-300 bg-white text-left text-slate-700 px-3 ${big ? "py-3 text-lg" : "py-1.5 text-sm"}`} onClick={openPicker} aria-haspopup="dialog" aria-expanded={open}>
       <span className="truncate">Tìm mã hoặc tên công ty</span><span className="shrink-0 rounded border border-slate-300 bg-slate-50 px-1.5 py-0.5 text-xs font-mono">/</span>
     </button>
     {open && <div className="fixed inset-0 z-50 bg-slate-950/50 p-0 sm:p-8" role="presentation" onMouseDown={(e) => e.target === e.currentTarget && setOpen(false)}>
-      <section className="mx-auto flex h-full w-full max-w-2xl flex-col overflow-hidden bg-white text-slate-900 shadow-2xl sm:mt-10 sm:h-[min(620px,85vh)] sm:rounded-xl" role="dialog" aria-modal="true" aria-label="Chọn mã cổ phiếu">
+      <section ref={dialog} className="mx-auto flex h-full w-full max-w-2xl flex-col overflow-hidden bg-white text-slate-900 shadow-2xl sm:mt-10 sm:h-[min(620px,85vh)] sm:rounded-xl" role="dialog" aria-modal="true" aria-label="Chọn mã cổ phiếu" onKeyDown={(e) => {
+        if (e.key !== "Tab") return;
+        const focusable = dialog.current?.querySelectorAll<HTMLElement>('button:not([disabled]), input:not([disabled]), [href], [tabindex]:not([tabindex="-1"])');
+        if (!focusable?.length) return;
+        const first = focusable[0], last = focusable[focusable.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }}>
         <div className="border-b p-4">
           <div className="flex gap-2"><input ref={input} value={q} onChange={(e) => { setQ(e.target.value); setIdx(0); }} onKeyDown={(e) => {
             if (e.key === "Escape") setOpen(false);
@@ -99,15 +122,17 @@ export default function Search({ big = false, globalHotkeys = false, current = "
           }}>{labels[ex]} <span className="text-slate-500">{countsBy[ex] || 0}</span></button>)}</div>
           <p className="mt-2 text-xs text-slate-500">{rows.length.toLocaleString("vi-VN")} mã · ↑ ↓ di chuyển · Enter chọn · Esc đóng</p>
         </div>
-        <div ref={viewport} className="flex-1 overflow-auto" style={{ maxHeight: viewportHeight }} onScroll={(e) => setScrollTop(e.currentTarget.scrollTop)}>
-          {rows.length ? <div style={{ height: rows.length * rowHeight, position: "relative" }}>{rows.slice(start, end).map((r, off) => {
+        <div ref={viewport} className="flex-1 overflow-auto" style={{ maxHeight: viewportHeight }} onScroll={(e) => setScrollTop(e.currentTarget.scrollTop)} aria-live="polite">
+          {symbolsLoading ? <p className="p-5 text-sm text-slate-500">Đang tải danh sách mã…</p>
+            : symbolsError ? <div className="p-5 text-sm text-red-700"><p>Không tải được danh sách mã.</p><button type="button" className="btn-ghost mt-2" onClick={loadSymbols}>Thử lại</button></div>
+            : rows.length ? <div style={{ height: rows.length * rowHeight, position: "relative" }}>{rows.slice(start, end).map((r, off) => {
             const i = start + off;
             return <button key={r.symbol} onClick={() => choose(r.symbol)} className={`absolute left-0 flex w-full items-center gap-3 border-b border-slate-100 px-4 text-left text-slate-900 hover:bg-sky-50 ${i === idx ? "bg-sky-50" : ""}`} style={{ height: rowHeight, top: i * rowHeight }}>
               <b className={`w-14 shrink-0 ${r.symbol === current.toUpperCase() ? "text-sky-800" : "text-slate-900"}`}><Highlight text={r.symbol} query={q} /></b>
               <span className="min-w-0 flex-1 truncate text-sm text-slate-700" title={r.name}><Highlight text={r.name} query={q} /></span><span className="rounded bg-slate-100 px-1.5 py-0.5 text-[10px] font-medium text-slate-600">{r.exchange}</span>
               <span className="hidden max-w-40 truncate text-xs text-slate-500 md:block" title={r.icb1}>{r.icb1}</span>{!r.has_bctc && <span title="Chưa có BCTC" className="text-amber-700">○</span>}
             </button>;
-          })}</div> : <p className="p-5 text-sm text-slate-500">Không tìm thấy mã phù hợp.</p>}
+          })}</div> : <p className="p-5 text-sm text-slate-500">{q.trim() ? "Không tìm thấy mã phù hợp. Thử tên khác hoặc đổi sàn đang lọc." : "Nhập mã cổ phiếu hoặc tên doanh nghiệp để bắt đầu tìm."}</p>}
         </div>
       </section>
     </div>}
