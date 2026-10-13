@@ -23,9 +23,11 @@ Mọi chi phí đọc từ `config/settings.yaml: costs` (đã có `fee_rate: 0.
 
 ## 2. Nguồn giá
 
-- **Cổ phiếu**: `webdata/snapshot/ohlcv.parquet` (Vietcap gap-chart), 1.521 mã, từ 02/10/2017. Giá **đã điều chỉnh**
-  cổ tức tiền/cổ phiếu và chia tách (xem `docs/data-sources.md` §5), nên lợi suất giữa hai phiên đã gồm cổ tức.
-  Backfill trong Đợt 2 ghi vào `DATA_DIR=./data-phase2`, không ghi đè snapshot web.
+- **Cổ phiếu**: `$DATA_DIR/market/ohlcv.parquet` (Vietcap gap-chart, 2.300 phiên/mã, từ 27/07/2017), backfill bằng
+  `MARKET_COUNT_BACK=2300 DATA_DIR=./data-phase2 python scripts/backfill_data.py --full`, không ghi đè snapshot web.
+  `webdata/snapshot/ohlcv.parquet` chỉ giữ 500 phiên gần nhất mỗi mã nên không dùng cho backtest (xem mục 10). Giá
+  **đã điều chỉnh** cổ tức tiền/cổ phiếu và chia tách (xem `docs/data-sources.md` §5), nên lợi suất giữa hai phiên đã
+  gồm cổ tức.
 - **VN-Index**: snapshot hiện chỉ có 1 năm → backfill ≥ 6 năm (Vietcap gap-chart `VNINDEX`). VN-Index là chỉ số giá,
   **không gồm cổ tức** → benchmark này thấp hơn tổng lợi suất thực khoảng 1–2%/năm; ghi rõ trong báo cáo và dùng thêm
   benchmark danh mục cân bằng (mục 6) vốn được tính trên giá điều chỉnh.
@@ -188,14 +190,30 @@ Không chỉnh tham số sau khi xem kết quả OOS; nếu buộc phải sửa 
   phí, thuế) để lát sau bắt đầu sạch với tham số mới — bảo thủ hơn giữ nguyên danh mục.
 - **10/10/2026 — benchmark** "cân bằng toàn universe" và "top N vốn hoá" tái cân bằng **tháng**, cùng phí/thuế/T+2;
   top N vốn hoá dùng N của cấu hình được chọn ở từng lát.
+- **13/10/2026 — nguồn giá.** Lần chấm điểm đầu sau khi tải xong BCTC quý cho 0–1 mã đủ điều kiện ở mọi tháng
+  09/2018–02/2025: snapshot web chỉ có 500 phiên gần nhất mỗi mã (từ 10/2024), không phải "từ 02/10/2017" như mục 2
+  ghi trước đó. Đã dừng, xoá các file điểm rỗng, backfill 2.300 phiên/mã vào `data-phase2/market/` và cho runner đọc
+  kho này. Không có kết quả OOS nào được tính hay xem; không tham số nào của mục 4–9 thay đổi.
+- **13/10/2026 — làm sạch giá.** Kho backfill có 1.651 nến giá = 0 (215 mã, hầu hết UPCOM, 2015–10/2018; riêng
+  23/07/2018 có 69 mã đóng cửa = 0 dù có khối lượng). Runner bỏ các nến này, coi như phiên không giao dịch. Sau khi bỏ
+  còn 545 phiên biến động > 40%/ngày từ 10/2017, chỉ 1 phiên ở mã có GTGD TB20 ≥ 5 tỷ (CTR 16/02/2022, +54%); giữ
+  nguyên, ghi là giới hạn dữ liệu.
 
 ### Sau khi chạy
 
-(trống — chưa chạy)
+- **13/10/2026 — lần chạy chính thức (duy nhất).** 98 ngày tín hiệu 28/09/2018–09/10/2026, 392 mã từng đủ điều
+  kiện, OOS 29/09/2020–28/09/2026. Kết quả ở `docs/backtest-opportunity.md`: **không có bằng chứng lợi thế** — đạt
+  1/4 tiêu chí mục 9 (IC tổng hợp 3 tháng 0,04, t Newey–West 2,33); không đạt DSR (0,75), Sharpe OOS (0,57 so với
+  VN-Index 0,68 và top 20 vốn hoá 0,70), và phí × 2 (CAGR 10,9% so với VN-Index 12,1%). Không chỉnh tham số.
+- **13/10/2026 — sinh lại báo cáo, không đổi số.** Lần chạy trên dùng runner chưa commit (sha ghi `aeeb5c7`). Sau
+  khi commit, chạy lại `--run` trên **cùng các file điểm** để báo cáo mang đúng sha, thêm cảnh báo restatement
+  (review Codex `aeeb5c7`, BLOCKER) và gói dữ liệu cho web; các CSV kết quả trùng từng byte với lần chạy đầu.
 
 ## 11. Đầu ra
 
 - `outputs/backtest_opportunity/`: `equity_oos.csv`, `slices.csv`, `trials.csv`, `benchmarks.csv`, `ic.csv`,
   `sensitivity.csv`, `summary.json` (kèm commit sha, ngày dữ liệu, tham số).
 - `docs/backtest-opportunity.md`: kết quả + kết luận theo mục 9.
-- Trang `/backtest`: đọc `summary.json` + CSV, hiển thị đường vốn so benchmark, bảng chỉ số, IC theo nhóm.
+- `webdata/backtest/opportunity.json`: gói `summary` + các bảng + đường vốn cuối tuần (gốc = 100) cho web, vì
+  `outputs/` không được commit.
+- Trang `/backtest`: đọc gói trên, hiển thị đường vốn so benchmark, bảng chỉ số, IC theo nhóm.

@@ -4,8 +4,10 @@
     DATA_DIR=./data-phase2 python scripts/run_backtest_opportunity.py --run      # walk-forward, benchmark, IC, do nhay
     ... --score --start 2019-01-01 --end 2019-07-01 --out-dir <tam>               # chay thu ngan de go loi
 
-Dau vao: webdata/snapshot (universe tinh, OHLCV da dieu chinh), $DATA_DIR/backtest/vnindex.parquet
-(scripts/backfill_vnindex.py), data/reference/bctc_quarterly.parquet (TTM point-in-time).
+Dau vao: webdata/snapshot (universe tinh), $DATA_DIR/market/ohlcv.parquet (OHLCV da dieu chinh,
+MARKET_COUNT_BACK=2300 scripts/backfill_data.py --full; snapshot web chi giu 500 phien gan nhat),
+$DATA_DIR/backtest/vnindex.parquet (scripts/backfill_vnindex.py),
+data/reference/bctc_quarterly.parquet (TTM point-in-time).
 Diem moi ngay luu $DATA_DIR/backtest/scores/<ngay>.parquet. Ket qua: outputs/backtest_opportunity/
 va docs/backtest-opportunity.md.
 """
@@ -26,16 +28,22 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from invest_system.backtest import opportunity as opp  # noqa: E402
-from invest_system.backtest.history import History  # noqa: E402
+from invest_system.backtest.history import History, ttm_history  # noqa: E402
 from invest_system.backtest.portfolio import Costs, Market, run  # noqa: E402
 from invest_system.config import get_paths  # noqa: E402
+from invest_system.data import market_store  # noqa: E402
 from invest_system.data.arminer_bctc import REF_DIR  # noqa: E402
 from invest_system.web.universe import SNAPSHOT_DIR  # noqa: E402
 
 warnings.filterwarnings("ignore", category=FutureWarning)
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 CAPITAL = 1_000_000_000
+# review-codex-on-claude-aeeb5c7 (BLOCKER): khong co cac phien ban BCTC theo ngay cong bo
+PIT_CAVEAT = ("Kết quả thăm dò, chưa đạt chuẩn point-in-time nghiêm ngặt: BCTC năm và quý là bản mới nhất của nguồn "
+              "(có thể đã điều chỉnh hồi tố). Bộ lọc ngày công bố chỉ chặn việc dùng kỳ chưa công bố, không khôi phục "
+              "được con số nhà đầu tư thấy tại thời điểm đó. Không dùng làm kết quả đầu tư đã kiểm chứng.")
 FIRST_SIGNAL = "2018-09-28"     # >= 12 thang gia (tu 10/2017) cho diem ky thuat / tang truong
+MIN_SYMBOLS_AT_START = 100      # kho gia 500 phien (snapshot web) khong qua duoc nguong nay
 
 
 def _paths(out_dir: Path | None):
@@ -45,7 +53,10 @@ def _paths(out_dir: Path | None):
 
 def _load():
     universe = pd.read_parquet(SNAPSHOT_DIR / "market_universe.parquet")
-    ohlcv = pd.read_parquet(SNAPSHOT_DIR / "ohlcv.parquet")
+    store = get_paths().data_dir / "market" / market_store.OHLCV_FILENAME
+    ohlcv = pd.read_parquet(store if store.exists() else SNAPSHOT_DIR / "ohlcv.parquet")
+    # nen loi cua nguon (gia = 0, vd 69 ma UPCOM ngay 23/07/2018) -> coi nhu phien khong giao dich
+    ohlcv = ohlcv[(ohlcv[["open", "high", "low", "close"]] > 0).all(axis=1)]
     vni_path = get_paths().data_dir / "backtest" / "vnindex.parquet"
     if not vni_path.exists():
         raise SystemExit(f"Thiếu {vni_path} - chạy scripts/backfill_vnindex.py trước")
@@ -53,6 +64,18 @@ def _load():
     qpath = REF_DIR / "bctc_quarterly.parquet"
     quarterly = pd.read_parquet(qpath) if qpath.exists() else None
     return universe, ohlcv, vnindex, quarterly
+
+
+def _ttm(base: Path, quarterly: pd.DataFrame | None) -> pd.DataFrame:
+    """ttm_history mat ~35 phut voi 1.222 ma -> luu $DATA_DIR/backtest/ttm_history.parquet,
+    tinh lai khi bctc_quarterly.parquet moi hon ban luu."""
+    cache, src = base / "ttm_history.parquet", REF_DIR / "bctc_quarterly.parquet"
+    if quarterly is not None and cache.exists() and cache.stat().st_mtime >= src.stat().st_mtime:
+        return pd.read_parquet(cache)
+    ttm = ttm_history(quarterly).sort_values("available_from")
+    if quarterly is not None:
+        ttm.to_parquet(cache, index=False)
+    return ttm
 
 
 def month_ends(calendar: pd.DatetimeIndex, start, end) -> list[pd.Timestamp]:
@@ -64,11 +87,16 @@ def score(args) -> None:
     base, score_dir, _ = _paths(args.out_dir)
     score_dir.mkdir(parents=True, exist_ok=True)
     universe, ohlcv, vnindex, quarterly = _load()
+    dates = month_ends(pd.DatetimeIndex(sorted(vnindex["time"].unique())), args.start, args.end)
+    n_start = int((ohlcv.groupby("symbol")["time"].min() <= dates[0]).sum()) if dates else 0
+    if dates and n_start < MIN_SYMBOLS_AT_START:
+        raise SystemExit(f"Chỉ {n_start} mã có giá trước {dates[0]:%Y-%m-%d} - backfill giá trước: "
+                         "MARKET_COUNT_BACK=2300 python scripts/backfill_data.py --full")
     t0 = time.time()
-    hist = History(universe, ohlcv, vnindex, quarterly=quarterly)
+    hist = History(universe, ohlcv, vnindex)
+    hist.ttm = _ttm(base, quarterly)
     print(f"Chuẩn bị dữ liệu {time.time() - t0:.0f}s; BCTC năm {hist.fin['symbol'].nunique()} mã; "
           f"TTM {hist.ttm['symbol'].nunique()} mã", flush=True)
-    dates = month_ends(hist.calendar, args.start, args.end)
     for d in dates:
         path = score_dir / f"{d:%Y-%m-%d}.parquet"
         if path.exists() and not args.rescore:
@@ -92,9 +120,11 @@ def _scores(score_dir: Path) -> pd.DataFrame:
 
 
 def _git_sha() -> str:
+    def git(*args: str) -> str:
+        return subprocess.run(["git", *args], cwd=ROOT, capture_output=True, text=True, check=True).stdout.strip()
     try:
-        return subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=ROOT, capture_output=True,
-                              text=True, check=True).stdout.strip()
+        dirty = git("status", "--porcelain", "--untracked-files=no", "--", "src", "scripts", "config")
+        return git("rev-parse", "--short", "HEAD") + ("+dirty" if dirty else "")
     except Exception:  # noqa: BLE001
         return "?"
 
@@ -173,13 +203,14 @@ def run_all(args) -> None:
         "signals": int(scores["as_of"].nunique()), "symbols_scored": int(scores["symbol"].nunique()),
         "capital_vnd": CAPITAL, "fee_rate_round_trip": costs.fee_rate, "sell_tax": costs.sell_tax,
         "settlement_days": costs.settle_days, "participation": costs.participation,
-        "grid": [c.label() for c in opp.GRID], "sharpe_report": report, "verdict": verdict,
+        "grid": [c.label() for c in opp.GRID], "sharpe_report": report, "verdict": verdict, "caveat": PIT_CAVEAT,
         "chosen": [{"test_start": f"{a:%Y-%m-%d}", "test_end": f"{b:%Y-%m-%d}", "config": c.label()}
                    for a, b, c in wf.chosen],
     }
     (out / "summary.json").write_text(json.dumps(summary, ensure_ascii=False, indent=2, default=float), encoding="utf-8")
     if not args.no_doc:
         write_doc(summary, benchmarks, pd.DataFrame(full).T, sensitivity, ic, wf.slices)
+        write_web(summary, benchmarks, pd.DataFrame(full).T, sensitivity, ic, wf.slices, equity)
     print(json.dumps(verdict, ensure_ascii=False, indent=1))
 
 
@@ -231,6 +262,7 @@ def write_doc(summary: dict, benchmarks, full, sensitivity, ic, slices) -> None:
         "Thiết kế và các quyết định chốt trước: [`docs/phase2/backtest-design.md`](phase2/backtest-design.md).", "",
         "## Kết luận", "", f"**{v['text']}**", "",
         *[f"- {'✅' if ok else '❌'} {name}" for name, ok in v["checks"].items()], "",
+        f"> **{PIT_CAVEAT}**", "",
         f"Out-of-sample {summary['oos_start']} → {summary['oos_end']}; {summary['signals']} ngày tín hiệu cuối tháng; "
         f"{summary['symbols_scored']} mã từng đủ điều kiện; vốn {summary['capital_vnd'] / 1e9:.0f} tỷ đồng; phí hai chiều "
         f"{summary['fee_rate_round_trip']:.2%}, thuế bán {summary['sell_tax']:.1%}, T+{summary['settlement_days']}, "
@@ -259,8 +291,28 @@ def write_doc(summary: dict, benchmarks, full, sensitivity, ic, slices) -> None:
               "- Điểm backtest dùng 5/7 nhóm: vĩ mô và tin tức không có lịch sử theo ngày công bố.",
               "- Số CP, ngành ICB, sàn và lãi suất phi rủi ro lấy giá trị hiện tại; BCTC năm dùng quy tắc 01/04 năm sau, "
               "BCTC quý dùng ngày công bố thật của VCI; số liệu có thể đã điều chỉnh hồi tố.",
-              "- UPCOM gần như không có BCTC năm trong nguồn arminer nên ít khi đủ điều kiện."]
+              "- UPCOM gần như không có BCTC năm trong nguồn arminer nên ít khi đủ điều kiện.",
+              "- Kho giá Vietcap có nến giá = 0 (chủ yếu UPCOM, 2015–2018) đã bị bỏ, coi như phiên không giao dịch; "
+              "các biến động bất thường khác của giá điều chỉnh được giữ nguyên."]
     (ROOT / "docs" / "backtest-opportunity.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def _records(frame: pd.DataFrame, name: str | None = None) -> list[dict]:
+    frame = frame.reset_index(names=name) if name else frame
+    return json.loads(frame.to_json(orient="records", date_format="iso", force_ascii=False))   # NaN -> null
+
+
+def write_web(summary: dict, benchmarks, full, sensitivity, ic, slices, equity) -> None:
+    """Goi du lieu cho trang /backtest: outputs/ khong duoc commit nen web doc file nay.
+    Duong von lay cuoi tuan, quy ve 100 tai ngay dau OOS."""
+    weekly = (equity / equity.iloc[0] * 100).resample("W-FRI").last().dropna(how="all").round(2)
+    weekly.index = weekly.index.strftime("%Y-%m-%d")
+    bundle = {"summary": summary, "benchmarks": _records(benchmarks, "name"), "configs": _records(full, "name"),
+              "sensitivity": _records(sensitivity, "name"), "ic": _records(ic), "slices": _records(slices),
+              "equity": _records(weekly, "time"), "equity_series": list(equity.columns)}
+    path = ROOT / "webdata" / "backtest" / "opportunity.json"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(bundle, ensure_ascii=False, indent=1, default=float) + "\n", encoding="utf-8")
 
 
 def main() -> None:
