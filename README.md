@@ -2,7 +2,7 @@
 
 A Vietnamese equity research system that combines macroeconomic context, industry analysis, company fundamentals, valuation, and risk-aware recommendations. It provides a web dashboard, company reports, market-wide opportunity screens, and an optional AI narrative layer.
 
-> **Integration status (13 October 2026):** Phase 2 implementation is complete on `feature/phase2` at `7b6d9ae`; it has not yet been merged into `upgrade/post-submission-20261009` or deployed. The production URL below may not include the Phase 2 routes or refreshed data. The new BCTC and TTM snapshots are local; the Blob refresh, opportunity rebuild, and production deployment are still pending.
+> **Integration status (13 October 2026):** Phase 2 is integrated into `upgrade/post-submission-20261009` at `7945480`. Its Vercel preview is READY and includes the refreshed 1,522-symbol opportunity snapshot. Production has not been updated yet; uploading the refreshed TTM parquet to Vercel Blob and the production release are pending.
 
 ## Product overview
 
@@ -71,7 +71,7 @@ The API returns provenance where available: source, observation or report date (
 
 ### Current local data status
 
-- Quarterly statements were fetched for **1,222 of 1,522 symbols**, covering 37,015 quarters from 2018–2026. The 300 unavailable cases are UPCOM: 253 have no quarterly records from the source and 47 lack cash-flow statements. This snapshot is local to the Phase 2 worktree and has not yet been uploaded to production.
+- Quarterly statements were fetched for **1,222 of 1,522 symbols**, covering 37,015 quarters from 2018-2026. The 300 unavailable cases are UPCOM: 253 have no quarterly records from the source and 47 lack cash-flow statements. The raw archive remains local; the generated TTM parquet is included in this branch and awaits its Vercel Blob refresh.
 - The Phase 2 TTM build uses raw VCI quarterly data and validates four consecutive quarter labels. Negative or otherwise invalid TTM rows are excluded from the comparison display rather than silently presented as valid P/E.
 - The current annual and quarterly sources retain their latest statement values, not every historical restatement vintage. The backtest filters by publication availability but cannot reconstruct values investors saw before later corrections. This limitation affects historical results; see the backtest warning below.
 
@@ -81,7 +81,7 @@ The Phase 2 report covers an out-of-sample period from 29 September 2020 through
 
 > **Exploratory result only — not a strictly point-in-time validated backtest.** Historical statement values may include later restatements because the source has no full vintage archive. Other documented limitations include survivorship from using currently listed symbols and present-day company classifications. Do not present these results as a validated investment track record.
 
-Details and methodology: [`docs/backtest-opportunity.md`](https://github.com/thienanpham160806-code/invest-system/blob/feature/phase2/docs/backtest-opportunity.md) and [`docs/phase2/backtest-design.md`](https://github.com/thienanpham160806-code/invest-system/blob/feature/phase2/docs/phase2/backtest-design.md) on the Phase 2 branch.
+Details and methodology: [`docs/backtest-opportunity.md`](https://github.com/thienanpham160806-code/invest-system/blob/upgrade/post-submission-20261009/docs/backtest-opportunity.md) and [`docs/phase2/backtest-design.md`](https://github.com/thienanpham160806-code/invest-system/blob/upgrade/post-submission-20261009/docs/phase2/backtest-design.md) on the integration branch.
 
 ## Optional AI analysis
 
@@ -121,7 +121,7 @@ Open <http://localhost:3000>. Local API docs are at <http://localhost:8000/api/p
 
 ## Data pipeline
 
-The scripts are intended for controlled local or scheduled jobs, not for execution inside a user page request. The quarterly BCTC, TTM, and backtest scripts below are Phase 2 additions and remain on `feature/phase2` until merge. Typical jobs include:
+The scripts are intended for controlled local or scheduled jobs, not for execution inside a user page request. The quarterly BCTC, TTM, and backtest scripts were integrated into `upgrade/post-submission-20261009` at `7945480`. Typical jobs include:
 
 ```bash
 python scripts/backfill_data.py
@@ -179,7 +179,7 @@ The project also contains focused tests for point-in-time availability, quarterl
 
 The web application targets Vercel: Next.js serves the UI and PDF route, and the Python function exposes `/api/py/*` in the `sin1` region. Production secrets belong in Vercel Environment Variables. Data refreshes use the Blob pipeline and require a refresh lock; code releases require a reviewed preview and the production-deploy lock.
 
-As of this README revision, Phase 2 code and its generated snapshots are not yet merged or published. Do not assume that production contains `/so-sanh`, `/vi-mo`, `/backtest`, or the latest TTM/opportunity data until the merge, Blob refresh, and deployment are complete.
+The Phase 2 code and rebuilt opportunity snapshot are integrated in `upgrade/post-submission-20261009` at `7945480`; the preview is READY. Production still needs the refreshed TTM parquet uploaded to Vercel Blob and the release merged/deployed. Until then, the production URL may not contain `/so-sanh`, `/vi-mo`, `/backtest`, or the latest TTM/opportunity data.
 
 ## Repository layout
 
