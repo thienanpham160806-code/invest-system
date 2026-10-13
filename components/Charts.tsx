@@ -164,17 +164,27 @@ function treemapLevel(items: any[]) {
   }));
 }
 
+function flattenTickers(items: any[]): any[] {
+  return items.flatMap((item) => {
+    if (String(item.slug || "").startsWith("ticker-")) return [item];
+    return flattenTickers(item.children || []);
+  });
+}
+
 function MarketTreemapCell(p: any) {
   const { x, y, width, height: h, name, performance } = p;
   if (!name || width <= 0 || h <= 0) return null;
   const group = Boolean(p.hasChildren);
+  const ticker = Boolean(p.symbol || String(p.slug || "").startsWith("ticker-"));
   const interactive = width >= 12 && h >= 12;
   const select = (keyboard = false) => p.onTreemapSelect?.(p, keyboard);
-  const maxChars = Math.floor((width - 16) / 7);
+  const maxChars = Math.floor((width - (ticker ? 8 : 16)) / (ticker ? 6 : 7));
   const label = maxChars > 2 && name.length > maxChars ? `${name.slice(0, maxChars - 1)}…` : name;
   const labelColor = heatText(performance);
+  const showLabel = ticker ? width >= 27 && h >= 16 : width > 68 && h > 28;
+  const labelFontSize = ticker ? 9 : 12;
   return <g className="market-treemap-cell" role="button" tabIndex={interactive ? 0 : -1}
-    aria-label={`${name}${group ? ", mở nhóm" : ", mở hồ sơ"}`}
+    aria-label={`${name}${ticker ? ", mở hồ sơ mã cổ phiếu" : group ? ", mở danh sách mã cổ phiếu" : ", mở hồ sơ"}`}
     onClick={() => select()} onKeyDown={(event) => {
       if (event.key === "Enter" || event.key === " ") { event.preventDefault(); select(true); }
     }} style={{ cursor: "pointer" }}>
@@ -182,7 +192,7 @@ function MarketTreemapCell(p: any) {
     <rect className="market-treemap-focus-outer" x={x + 1} y={y + 1} width={Math.max(0, width - 2)} height={Math.max(0, h - 2)} fill="none" stroke="#fff" strokeWidth={5} pointerEvents="none" />
     <rect className="market-treemap-focus-inner" x={x + 1} y={y + 1} width={Math.max(0, width - 2)} height={Math.max(0, h - 2)} fill="none" stroke="#0b3b6f" strokeWidth={2} pointerEvents="none" />
     <title>{`${name} · ${performance == null ? "chưa có hiệu suất" : pct(performance, 1, true)} · ${bnLabel(p.size)}${p.count ? ` · ${num(p.count)} mã` : ""}`}</title>
-    {width > 68 && h > 28 && <text x={x + width / 2} y={y + (h > 45 ? h / 2 - 7 : h / 2)} textAnchor="middle" dominantBaseline="central" fill={labelColor} fontSize={12} fontWeight={650}>{label}</text>}
+    {showLabel && <text x={x + width / 2} y={y + (h > 45 ? h / 2 - 7 : h / 2)} textAnchor="middle" dominantBaseline="central" fill={labelColor} fontSize={labelFontSize} fontWeight={650}>{ticker ? p.symbol || label : label}</text>}
     {width > 68 && h > 45 && <text x={x + width / 2} y={y + h / 2 + 10} textAnchor="middle" dominantBaseline="central" fill={labelColor} fontSize={11}>{performance == null ? "—" : pct(performance, 1, true)}</text>}
   </g>;
 }
@@ -210,7 +220,8 @@ export function MarketTreemap({ items, height = 440, periodLabel = "1 tháng", o
   const handleSelect = (node: any, keyboard = false) => {
     if (node.hasChildren) {
       if (keyboard) setFocusBreadcrumbAfterNav(true);
-      updatePath([...path, node]);
+      const tickerNodes = path.length === 0 ? flattenTickers(node.drillChildren || []) : [];
+      updatePath([...path, tickerNodes.length ? { ...node, drillChildren: tickerNodes } : node]);
     }
     else if (node.slug) onClick?.(node.slug);
   };
@@ -220,7 +231,7 @@ export function MarketTreemap({ items, height = 440, periodLabel = "1 tháng", o
       {path.map((node, i) => <span key={`${node.slug}-${i}`} className="flex items-center gap-2"><span aria-hidden="true">/</span>
         <button className="link" onClick={() => updatePath(path.slice(0, i + 1))}>{node.name}</button></span>)}
       {path.length > 0 && <button className="btn-ghost ml-auto" onClick={() => updatePath(path.slice(0, -1))}>Quay lại</button>}
-      <span className={path.length ? "ml-auto" : ""}>Diện tích theo vốn hóa · màu theo hiệu suất trung vị {periodLabel}</span>
+      <span className={path.length ? "ml-auto" : ""}>Diện tích theo vốn hóa · màu theo hiệu suất trung vị {periodLabel} · {path.length ? "bấm mã để mở hồ sơ" : "bấm ngành để xem mã"}</span>
     </div>
     <div className="mb-3 flex flex-wrap items-center gap-2 text-xs text-slate-600" aria-label={`Chú giải hiệu suất ${periodLabel}`}>
       <span className="font-medium text-slate-700">Hiệu suất</span><span>−10% trở xuống</span>
@@ -228,14 +239,14 @@ export function MarketTreemap({ items, height = 440, periodLabel = "1 tháng", o
       <span>0%</span><span>+10% trở lên</span>
     </div>
     <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_17rem]">
-      <div className="min-w-0">
+      <div className={`min-w-0 ${path.length ? "order-2 lg:order-1" : "order-1"}`}>
         <ResponsiveContainer width="100%" height={height}>
           <Treemap data={data} dataKey="size" isAnimationActive={false} content={<MarketTreemapCell onTreemapSelect={handleSelect} />} />
         </ResponsiveContainer>
       </div>
-      <aside className="min-w-0 border-t border-slate-200 pt-3 lg:border-l lg:border-t-0 lg:pl-4 lg:pt-0" aria-label="Xếp hạng theo hiệu suất">
-        <h3 className="text-sm font-semibold text-slate-800">{path.length ? "Trong nhóm này" : "Hiệu suất ngành"}</h3>
-        <p className="mb-2 mt-0.5 text-xs text-slate-500">Bấm tên để xem nhóm hoặc mã</p>
+      <aside className={`min-w-0 border-t border-slate-200 pt-3 lg:border-l lg:border-t-0 lg:pl-4 lg:pt-0 ${path.length ? "order-1 lg:order-2" : "order-2"}`} aria-label="Xếp hạng theo hiệu suất">
+        <h3 className="text-sm font-semibold text-slate-800">{path.length ? `Mã cổ phiếu · ${path[0].name}` : "Hiệu suất ngành"}</h3>
+        <p className="mb-2 mt-0.5 text-xs text-slate-500">{path.length ? `${num(ranked.length)} mã · bấm mã để mở hồ sơ` : "Bấm một ngành để xem trực tiếp các mã"}</p>
         <div className="max-h-[26rem] overflow-y-auto pr-1">
           {ranked.map((node: any) => (
             <button key={node.slug} type="button" onClick={(event) => handleSelect(node, event.detail === 0)}
