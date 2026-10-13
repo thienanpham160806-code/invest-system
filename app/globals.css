@@ -1,9 +1,13 @@
 @import "tailwindcss";
 
 :root { --navy: #0b3b6f; }
+/* Mau chuoi cho bieu do nhieu duong (thu tu co dinh): 3 mau tach duoc nhau o moi cap, ke ca nguoi mu mau, tren nen the
+   sang va toi; --series-ref (xam) danh cho duong tham chieu, ve net dut */
+:root { --series-1: #2a78d6; --series-2: #eb6834; --series-3: #1baf7a; --series-ref: #64748b; }
 body { background: #f5f7fa; color: #0f172a; }
 html { color-scheme: light; }
 html[data-theme="dark"] { color-scheme: dark; --page-bg: #0b1220; --surface: #111c2e; --surface-raised: #172438; --line: #334155; --ink: #e2e8f0; --muted: #a8b6c8; }
+html[data-theme="dark"] { --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70; --series-ref: #94a3b8; }
 html[data-theme="dark"] body { background: var(--page-bg); color: var(--ink); }
 html[data-theme="dark"] .bg-white { background-color: var(--surface) !important; }
 html[data-theme="dark"] .bg-slate-50 { background-color: var(--surface-raised) !important; }
@@ -25,6 +29,8 @@ html[data-theme="dark"] .border-sky-200 { border-color: #155e75 !important; }
 html[data-theme="dark"] .border-red-200 { border-color: #7f303b !important; }
 html[data-theme="dark"] .border-amber-200, html[data-theme="dark"] .border-amber-300 { border-color: #76542a !important; }
 html[data-theme="dark"] .card { background-color: var(--surface); border-color: var(--line); }
+html[data-theme="dark"] .card-title { color: #f1f5f9; }
+html[data-theme="dark"] .stat { background-color: var(--surface-raised); border-color: var(--line); }
 html[data-theme="dark"] .asof { color: #bae6fd; background: #102b40; border-color: #155e75; }
 html[data-theme="dark"] .tbl th { color: #d8e2ee; background: #26354a; border-color: var(--line); }
 html[data-theme="dark"] .tbl td { border-color: #29384d; }
@@ -138,3 +144,21 @@ html[data-theme="dark"] .market-treemap-cell:focus-visible .market-treemap-focus
   .rp-head, .rp-tbl th, .rp-rating { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   .rp-side, [class*="bg-"] { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 }
+
+/* DataTable (components/DataTable.tsx): header + cột đầu dính, tay kéo đổi độ rộng */
+.dt-table { table-layout: fixed; border-collapse: separate; border-spacing: 0; }
+.dt-table td, .dt-table th { overflow: hidden; text-overflow: ellipsis; }
+.dt-head th { position: sticky; top: 0; z-index: 2; background: #f1f5f9; }
+.dt-filters th { top: 2.1rem; background: #f8fafc; }
+.dt-table .dt-first { position: sticky; left: 0; z-index: 1; background: #fff; box-shadow: 1px 0 0 #e2e8f0; }
+.dt-head .dt-first { z-index: 3; background: #f1f5f9; }
+.dt-table tr.bg-amber-50 .dt-first { background: #fffbeb; }
+.dt-resizer { position: absolute; top: 0; right: 0; width: 6px; height: 100%; cursor: col-resize; user-select: none; touch-action: none; }
+.dt-resizer:hover, .dt-resizer.is-resizing { background: #38bdf8; }
+.dt-table th[draggable="true"] { cursor: grab; }
+.dt[data-density="compact"] .dt-table td, .dt[data-density="compact"] .dt-table th { padding-top: 2px; padding-bottom: 2px; font-size: 0.78rem; }
+html[data-theme="dark"] .dt-head th, html[data-theme="dark"] .dt-head .dt-first { background: #26354a; }
+html[data-theme="dark"] .dt-filters th { background: #1b2b40; }
+html[data-theme="dark"] .dt-table .dt-first { background: var(--surface); box-shadow: 1px 0 0 var(--line); }
+html[data-theme="dark"] .dt-table tr.bg-amber-50 .dt-first { background: #382d1d; }
+html[data-theme="dark"] .dt-menu { background: var(--surface-raised); border-color: var(--line); }

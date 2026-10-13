@@ -53,6 +53,10 @@ def _record(symbol: str) -> dict:
                               if check.get("status") == "WARN"],
         "as_of_price": result.get("as_of_price"), "generated_at": result.get("generated_at"),
         "ttm_label": result.get("metrics", {}).get("ttm_label"),
+        "ttm_periods": result.get("metrics", {}).get("ttm_periods"),
+        "ttm_source": result.get("metrics", {}).get("ttm_source"),
+        "ttm_published_at": result.get("metrics", {}).get("ttm_published_at"),
+        "ttm_fetched_at": result.get("metrics", {}).get("ttm_fetched_at"),
         "pe_ttm": result.get("metrics", {}).get("pe_ttm"),
         "ni_ttm": result.get("metrics", {}).get("ni_ttm"),
         "has_bctc": result.get("bctc_available"),
@@ -60,7 +64,8 @@ def _record(symbol: str) -> dict:
 
 
 def _input_signature(universe, meta: dict) -> str:
-    ttm_columns = [c for c in ("symbol", "ni_ttm", "ttm_label", "ttm_periods", "ttm_source")
+    ttm_columns = [c for c in ("symbol", "ni_ttm", "ttm_label", "ttm_periods", "ttm_source",
+                               "ttm_published_at", "ttm_fetched_at")
                    if c in universe.columns]
     ttm = universe[ttm_columns].sort_values("symbol").to_json(orient="records")
     payload = json.dumps({
@@ -104,10 +109,10 @@ def build(top: int | None, resume: bool, work_path: Path = WORK, output_path: Pa
             records[symbol] = _record(symbol)
         except Exception as exc:  # noqa: BLE001
             records[symbol] = {"symbol": symbol, "error": f"{type(exc).__name__}: {exc}"}
-        work_path.parent.mkdir(parents=True, exist_ok=True)
-        work_path.write_text(json.dumps({"_meta": {"input_signature": signature}, **records},
-                                        ensure_ascii=False), encoding="utf-8")
         if index % 25 == 0 or index == len(symbols):
+            work_path.parent.mkdir(parents=True, exist_ok=True)
+            work_path.write_text(json.dumps({"_meta": {"input_signature": signature}, **records},
+                                            ensure_ascii=False), encoding="utf-8")
             print(f"{index}/{len(symbols)} analyzed; records={len(records)}", flush=True)
 
     symbol_set = set(symbols)

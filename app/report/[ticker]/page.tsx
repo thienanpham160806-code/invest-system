@@ -184,6 +184,25 @@ function ReportBody({ d, sections, template, years }: { d: any; sections: string
             <tbody>{d.mac.table.filter((x: any) => full || String(x.period).startsWith("2026")).map((x: any) => (
               <tr key={x.key + x.period}><td>{x.label}</td><td>{x.period}</td><td>{x.unit === "VND" ? num(x.value) : num(x.value, 2) + x.unit}</td><td className="rp-small">{String(x.source).replace(/\(https?:[^)]+\)/, "")} ({dmy(x.as_of)})</td></tr>))}</tbody></table>
           <ul className="rp-ul">{a.macro.commentary.map((c: string, i: number) => <li key={i}>{c}</li>)}</ul>
+          {a.macro.parts && (
+            <p className="rp-p"><b>Điểm vĩ mô</b> tác động lên nhóm {a.macro.label?.toLowerCase()}: <b>{num(a.macro.sector_score, 0)}/100</b> =
+              {" "}{pct(a.macro.parts.domestic?.weight, 0)} trong nước ({num(a.macro.parts.domestic?.sector_score, 0)})
+              {" "}+ {pct(a.macro.parts.international?.weight, 0)} quốc tế ({num(a.macro.parts.international?.sector_score, 0)}).
+              {" "}Điểm chung: {num(a.macro.score, 0)} (trong nước {num(a.macro.parts.domestic?.score, 0)}, quốc tế {num(a.macro.parts.international?.score, 0)}).</p>
+          )}
+          {a.macro.international?.rows?.length > 0 && (
+            <div className="rp-avoid">
+              <h3 className="rp-h3">Bối cảnh quốc tế (FRED)</h3>
+              <table className="rp-tbl"><thead><tr><th>Chỉ tiêu</th><th>Giá trị</th><th>1T</th><th>3T</th><th>1N</th><th>Nguồn</th></tr></thead>
+                <tbody>{a.macro.international.rows.map((x: any) => {
+                  const ch = (v: any) => (v === null || v === undefined ? "–" : x.change_unit === "%" ? pct(v, 1, true) : `${v > 0 ? "+" : ""}${num(v, 2)} đ.%`);
+                  return <tr key={x.key}><td>{x.label}</td><td>{num(x.value, 2)} {x.unit}</td><td>{ch(x.chg_1m)}</td><td>{ch(x.chg_3m)}</td><td>{ch(x.chg_1y)}</td>
+                    <td className="rp-small">FRED {x.series_id} ({dmy(x.date)})</td></tr>;
+                })}</tbody></table>
+              <ul className="rp-ul">{a.macro.international.commentary.map((c: string, i: number) => <li key={i}>{c}</li>)}</ul>
+              <p className="rp-src">FRED không có DXY; dùng DTWEXBGS (chỉ số USD rộng của Fed). Độ nhạy theo ngành là giả định định tính (config/sector_map.yaml).</p>
+            </div>
+          )}
         </section>
       )}
 

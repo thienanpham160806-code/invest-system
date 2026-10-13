@@ -1,0 +1,2867 @@
+{
+ "summary": {
+  "generated_at": "2026-10-13T07:20:43+07:00",
+  "commit": "ca2873f",
+  "oos_start": "2020-09-29",
+  "oos_end": "2026-09-28",
+  "signals": 98,
+  "symbols_scored": 392,
+  "capital_vnd": 1000000000,
+  "fee_rate_round_trip": 0.0025,
+  "sell_tax": 0.001,
+  "settlement_days": 2,
+  "participation": 0.1,
+  "grid": [
+   "Top 10, tháng",
+   "Top 10, quý",
+   "Top 20, tháng",
+   "Top 20, quý"
+  ],
+  "sharpe_report": {
+   "sr": 0.03577015447348182,
+   "n_obs": 1494,
+   "skew": -0.7842585308204881,
+   "kurtosis": 6.331632180782312,
+   "psr": 0.9134039855886331,
+   "dsr": 0.749360975034922,
+   "n_trials": 4,
+   "sr_variance": 0.0002962508293012799
+  },
+  "verdict": {
+   "checks": {
+    "DSR ≥ 0,95": false,
+    "IC tổng hợp 3 tháng > 0 và t Newey–West ≥ 2": true,
+    "Sharpe OOS vượt cả ba benchmark": false,
+    "Phí × 2 vẫn vượt VN-Index (CAGR)": false
+   },
+   "edge": false,
+   "text": "Không có bằng chứng lợi thế có ý nghĩa thống kê (không đạt: DSR ≥ 0,95; Sharpe OOS vượt cả ba benchmark; Phí × 2 vẫn vượt VN-Index (CAGR))."
+  },
+  "caveat": "Kết quả thăm dò, chưa đạt chuẩn point-in-time nghiêm ngặt: BCTC năm và quý là bản mới nhất của nguồn (có thể đã điều chỉnh hồi tố). Bộ lọc ngày công bố chỉ chặn việc dùng kỳ chưa công bố, không khôi phục được con số nhà đầu tư thấy tại thời điểm đó. Không dùng làm kết quả đầu tư đã kiểm chứng.",
+  "chosen": [
+   {
+    "test_start": "2020-09-29",
+    "test_end": "2021-03-29",
+    "config": "Top 20, quý"
+   },
+   {
+    "test_start": "2021-03-29",
+    "test_end": "2021-09-29",
+    "config": "Top 20, quý"
+   },
+   {
+    "test_start": "2021-09-29",
+    "test_end": "2022-03-29",
+    "config": "Top 20, quý"
+   },
+   {
+    "test_start": "2022-03-29",
+    "test_end": "2022-09-29",
+    "config": "Top 20, quý"
+   },
+   {
+    "test_start": "2022-09-29",
+    "test_end": "2023-03-29",
+    "config": "Top 20, quý"
+   },
+   {
+    "test_start": "2023-03-29",
+    "test_end": "2023-09-29",
+    "config": "Top 20, quý"
+   },
+   {
+    "test_start": "2023-09-29",
+    "test_end": "2024-03-29",
+    "config": "Top 20, quý"
+   },
+   {
+    "test_start": "2024-03-29",
+    "test_end": "2024-09-29",
+    "config": "Top 20, quý"
+   },
+   {
+    "test_start": "2024-09-29",
+    "test_end": "2025-03-29",
+    "config": "Top 20, quý"
+   },
+   {
+    "test_start": "2025-03-29",
+    "test_end": "2025-09-29",
+    "config": "Top 10, quý"
+   },
+   {
+    "test_start": "2025-09-29",
+    "test_end": "2026-03-29",
+    "config": "Top 10, quý"
+   },
+   {
+    "test_start": "2026-03-29",
+    "test_end": "2026-09-29",
+    "config": "Top 10, quý"
+   }
+  ]
+ },
+ "benchmarks": [
+  {
+   "name": "Chiến lược (walk-forward OOS)",
+   "Lợi suất tích luỹ": 0.9383816427,
+   "CAGR": 0.1180244592,
+   "Sharpe": 0.568023732,
+   "Sụt giảm tối đa": -0.5783341072,
+   "Tỷ lệ tháng dương": 0.5479452055,
+   "PSR(0)": 0.9134039856,
+   "Số phiên": 1495.0,
+   "Tỷ lệ tháng thắng VN-Index": 0.5205479452,
+   "Vòng quay (lần/năm)": 3.3448471842,
+   "DSR": 0.749360975
+  },
+  {
+   "name": "VN-Index (chỉ số giá)",
+   "Lợi suất tích luỹ": 0.9698223412,
+   "CAGR": 0.1210608247,
+   "Sharpe": 0.6795910602,
+   "Sụt giảm tối đa": -0.403429349,
+   "Tỷ lệ tháng dương": 0.6575342466,
+   "PSR(0)": 0.9476159586,
+   "Số phiên": 1495.0,
+   "Tỷ lệ tháng thắng VN-Index": null,
+   "Vòng quay (lần/năm)": null,
+   "DSR": null
+  },
+  {
+   "name": "Cân bằng toàn universe đủ điều kiện",
+   "Lợi suất tích luỹ": 0.5938959201,
+   "CAGR": 0.0817503138,
+   "Sharpe": 0.4708968695,
+   "Sụt giảm tối đa": -0.5702526397,
+   "Tỷ lệ tháng dương": 0.5205479452,
+   "PSR(0)": 0.8706830423,
+   "Số phiên": 1495.0,
+   "Tỷ lệ tháng thắng VN-Index": 0.4383561644,
+   "Vòng quay (lần/năm)": 1.5308407689,
+   "DSR": null
+  },
+  {
+   "name": "Top 20 vốn hoá",
+   "Lợi suất tích luỹ": 0.9741657981,
+   "CAGR": 0.1214771178,
+   "Sharpe": 0.6983234645,
+   "Sụt giảm tối đa": -0.3617274227,
+   "Tỷ lệ tháng dương": 0.5616438356,
+   "PSR(0)": 0.9521212579,
+   "Số phiên": 1495.0,
+   "Tỷ lệ tháng thắng VN-Index": 0.5616438356,
+   "Vòng quay (lần/năm)": 0.8840213678,
+   "DSR": null
+  }
+ ],
+ "configs": [
+  {
+   "name": "Top 10, tháng",
+   "Lợi suất tích luỹ": 0.0929032062,
+   "CAGR": 0.0150873219,
+   "Sharpe": 0.1852953383,
+   "Sụt giảm tối đa": -0.6104217649,
+   "Tỷ lệ tháng dương": 0.5616438356,
+   "PSR(0)": 0.673174989,
+   "Số phiên": 1495.0,
+   "Tỷ lệ tháng thắng VN-Index": 0.4109589041,
+   "Vòng quay (lần/năm)": 6.5568883064
+  },
+  {
+   "name": "Top 10, quý",
+   "Lợi suất tích luỹ": 0.5992576525,
+   "CAGR": 0.0823628406,
+   "Sharpe": 0.4421211339,
+   "Sụt giảm tối đa": -0.5982102314,
+   "Tỷ lệ tháng dương": 0.5890410959,
+   "PSR(0)": 0.8562428813,
+   "Số phiên": 1495.0,
+   "Tỷ lệ tháng thắng VN-Index": 0.4657534247,
+   "Vòng quay (lần/năm)": 2.8030981598
+  },
+  {
+   "name": "Top 20, tháng",
+   "Lợi suất tích luỹ": 0.5985534884,
+   "CAGR": 0.082282494,
+   "Sharpe": 0.4480347939,
+   "Sụt giảm tối đa": -0.5975865367,
+   "Tỷ lệ tháng dương": 0.5753424658,
+   "PSR(0)": 0.85906461,
+   "Số phiên": 1495.0,
+   "Tỷ lệ tháng thắng VN-Index": 0.4794520548,
+   "Vòng quay (lần/năm)": 5.0790682305
+  },
+  {
+   "name": "Top 20, quý",
+   "Lợi suất tích luỹ": 1.1931339288,
+   "CAGR": 0.1415385468,
+   "Sharpe": 0.6567551906,
+   "Sụt giảm tối đa": -0.5907991528,
+   "Tỷ lệ tháng dương": 0.5479452055,
+   "PSR(0)": 0.9417945617,
+   "Số phiên": 1495.0,
+   "Tỷ lệ tháng thắng VN-Index": 0.5342465753,
+   "Vòng quay (lần/năm)": 2.1830476142
+  }
+ ],
+ "sensitivity": [
+  {
+   "name": "Gốc",
+   "Lợi suất tích luỹ": 0.9383816427,
+   "CAGR": 0.1180244592,
+   "Sharpe": 0.568023732,
+   "Sụt giảm tối đa": -0.5783341072,
+   "Tỷ lệ tháng dương": 0.5479452055,
+   "PSR(0)": 0.9134039856,
+   "Số phiên": 1495.0,
+   "Tỷ lệ tháng thắng VN-Index": 0.5205479452,
+   "Vòng quay (lần/năm)": 3.3448471842
+  },
+  {
+   "name": "Phí × 2",
+   "Lợi suất tích luỹ": 0.8451996474,
+   "CAGR": 0.1087784271,
+   "Sharpe": 0.534858916,
+   "Sụt giảm tối đa": -0.5827715464,
+   "Tỷ lệ tháng dương": 0.5479452055,
+   "PSR(0)": 0.9003780707,
+   "Số phiên": 1495.0,
+   "Tỷ lệ tháng thắng VN-Index": 0.5205479452,
+   "Vòng quay (lần/năm)": 3.3478271567
+  },
+  {
+   "name": "Trễ thêm 1 phiên",
+   "Lợi suất tích luỹ": 1.1405466736,
+   "CAGR": 0.1368780009,
+   "Sharpe": 0.6371590602,
+   "Sụt giảm tối đa": -0.5558035986,
+   "Tỷ lệ tháng dương": 0.5479452055,
+   "PSR(0)": 0.9364061481,
+   "Số phiên": 1495.0,
+   "Tỷ lệ tháng thắng VN-Index": 0.5342465753,
+   "Vòng quay (lần/năm)": 3.3415072625
+  },
+  {
+   "name": "Bỏ 40 mã lợi suất cao nhất (10%)",
+   "Lợi suất tích luỹ": 0.5776541972,
+   "CAGR": 0.0798843387,
+   "Sharpe": 0.4323699525,
+   "Sụt giảm tối đa": -0.5975954489,
+   "Tỷ lệ tháng dương": 0.5479452055,
+   "PSR(0)": 0.8508311348,
+   "Số phiên": 1495.0,
+   "Tỷ lệ tháng thắng VN-Index": 0.4657534247,
+   "Vòng quay (lần/năm)": 3.2273381175
+  }
+ ],
+ "ic": [
+  {
+   "nhóm": "tổng hợp",
+   "kỳ hạn (tháng)": 1,
+   "IC trung binh": 0.0248864026,
+   "Do lech chuan IC": 0.1285461885,
+   "ICIR": 0.1935989147,
+   "t-stat": 1.8968742228,
+   "t-stat Newey-West": 1.9068316363,
+   "Ti le thang IC>0": 0.625,
+   "So phien": 96,
+   "So thang": 96
+  },
+  {
+   "nhóm": "tổng hợp",
+   "kỳ hạn (tháng)": 3,
+   "IC trung binh": 0.0430515738,
+   "Do lech chuan IC": 0.1291054661,
+   "ICIR": 0.3334605039,
+   "t-stat": 3.2330195362,
+   "t-stat Newey-West": 2.331875296,
+   "Ti le thang IC>0": 0.6489361702,
+   "So phien": 94,
+   "So thang": 94
+  },
+  {
+   "nhóm": "tổng hợp",
+   "kỳ hạn (tháng)": 6,
+   "IC trung binh": 0.0740256834,
+   "Do lech chuan IC": 0.1401186656,
+   "ICIR": 0.5283070824,
+   "t-stat": 5.0397283629,
+   "t-stat Newey-West": 2.6146163013,
+   "Ti le thang IC>0": 0.6703296703,
+   "So phien": 91,
+   "So thang": 91
+  },
+  {
+   "nhóm": "valuation",
+   "kỳ hạn (tháng)": 1,
+   "IC trung binh": 0.0203535824,
+   "Do lech chuan IC": 0.1376089108,
+   "ICIR": 0.1479088984,
+   "t-stat": 1.4492053179,
+   "t-stat Newey-West": 1.4568127471,
+   "Ti le thang IC>0": 0.5520833333,
+   "So phien": 96,
+   "So thang": 96
+  },
+  {
+   "nhóm": "valuation",
+   "kỳ hạn (tháng)": 3,
+   "IC trung binh": 0.0340355762,
+   "Do lech chuan IC": 0.1406811793,
+   "ICIR": 0.2419341121,
+   "t-stat": 2.3456382437,
+   "t-stat Newey-West": 1.737068702,
+   "Ti le thang IC>0": 0.5319148936,
+   "So phien": 94,
+   "So thang": 94
+  },
+  {
+   "nhóm": "valuation",
+   "kỳ hạn (tháng)": 6,
+   "IC trung binh": 0.0616549694,
+   "Do lech chuan IC": 0.1493282857,
+   "ICIR": 0.4128820541,
+   "t-stat": 3.9386437699,
+   "t-stat Newey-West": 2.4267491235,
+   "Ti le thang IC>0": 0.6373626374,
+   "So phien": 91,
+   "So thang": 91
+  },
+  {
+   "nhóm": "quality",
+   "kỳ hạn (tháng)": 1,
+   "IC trung binh": 0.0149114777,
+   "Do lech chuan IC": 0.1482351941,
+   "ICIR": 0.1005933697,
+   "t-stat": 0.9856097094,
+   "t-stat Newey-West": 0.9907835492,
+   "Ti le thang IC>0": 0.5,
+   "So phien": 96,
+   "So thang": 96
+  },
+  {
+   "nhóm": "quality",
+   "kỳ hạn (tháng)": 3,
+   "IC trung binh": 0.031093947,
+   "Do lech chuan IC": 0.1692251823,
+   "ICIR": 0.1837430256,
+   "t-stat": 1.7814547281,
+   "t-stat Newey-West": 1.2169267445,
+   "Ti le thang IC>0": 0.5319148936,
+   "So phien": 94,
+   "So thang": 94
+  },
+  {
+   "nhóm": "quality",
+   "kỳ hạn (tháng)": 6,
+   "IC trung binh": 0.0433674138,
+   "Do lech chuan IC": 0.1896519108,
+   "ICIR": 0.2286684779,
+   "t-stat": 2.1813582518,
+   "t-stat Newey-West": 1.0934609442,
+   "Ti le thang IC>0": 0.5604395604,
+   "So phien": 91,
+   "So thang": 91
+  },
+  {
+   "nhóm": "sector",
+   "kỳ hạn (tháng)": 1,
+   "IC trung binh": -0.0069110125,
+   "Do lech chuan IC": 0.1425906487,
+   "ICIR": -0.0484675013,
+   "t-stat": -0.4748825891,
+   "t-stat Newey-West": -0.4773754282,
+   "Ti le thang IC>0": 0.4895833333,
+   "So phien": 96,
+   "So thang": 96
+  },
+  {
+   "nhóm": "sector",
+   "kỳ hạn (tháng)": 3,
+   "IC trung binh": -0.012368418,
+   "Do lech chuan IC": 0.1589617741,
+   "ICIR": -0.0778074987,
+   "t-stat": -0.7543716883,
+   "t-stat Newey-West": -0.5355872169,
+   "Ti le thang IC>0": 0.4574468085,
+   "So phien": 94,
+   "So thang": 94
+  },
+  {
+   "nhóm": "sector",
+   "kỳ hạn (tháng)": 6,
+   "IC trung binh": 0.0039988373,
+   "Do lech chuan IC": 0.1644909075,
+   "ICIR": 0.0243103851,
+   "t-stat": 0.2319062937,
+   "t-stat Newey-West": 0.1232747149,
+   "Ti le thang IC>0": 0.5384615385,
+   "So phien": 91,
+   "So thang": 91
+  },
+  {
+   "nhóm": "growth",
+   "kỳ hạn (tháng)": 1,
+   "IC trung binh": 0.0047416274,
+   "Do lech chuan IC": 0.1300274468,
+   "ICIR": 0.0364663574,
+   "t-stat": 0.3572958738,
+   "t-stat Newey-West": 0.3591714556,
+   "Ti le thang IC>0": 0.5416666667,
+   "So phien": 96,
+   "So thang": 96
+  },
+  {
+   "nhóm": "growth",
+   "kỳ hạn (tháng)": 3,
+   "IC trung binh": 0.0228213307,
+   "Do lech chuan IC": 0.1288516958,
+   "ICIR": 0.1771131578,
+   "t-stat": 1.7171757751,
+   "t-stat Newey-West": 1.2422783414,
+   "Ti le thang IC>0": 0.6382978723,
+   "So phien": 94,
+   "So thang": 94
+  },
+  {
+   "nhóm": "growth",
+   "kỳ hạn (tháng)": 6,
+   "IC trung binh": 0.0400314139,
+   "Do lech chuan IC": 0.1223692875,
+   "ICIR": 0.3271361197,
+   "t-stat": 3.1206796876,
+   "t-stat Newey-West": 1.695374812,
+   "Ti le thang IC>0": 0.6373626374,
+   "So phien": 91,
+   "So thang": 91
+  },
+  {
+   "nhóm": "technical",
+   "kỳ hạn (tháng)": 1,
+   "IC trung binh": 0.0142898709,
+   "Do lech chuan IC": 0.1467515429,
+   "ICIR": 0.0973745871,
+   "t-stat": 0.9540722094,
+   "t-stat Newey-West": 0.9590804969,
+   "Ti le thang IC>0": 0.53125,
+   "So phien": 96,
+   "So thang": 96
+  },
+  {
+   "nhóm": "technical",
+   "kỳ hạn (tháng)": 3,
+   "IC trung binh": 0.0134131139,
+   "Do lech chuan IC": 0.1509678214,
+   "ICIR": 0.0888475026,
+   "t-stat": 0.8614084979,
+   "t-stat Newey-West": 0.848836496,
+   "Ti le thang IC>0": 0.585106383,
+   "So phien": 94,
+   "So thang": 94
+  },
+  {
+   "nhóm": "technical",
+   "kỳ hạn (tháng)": 6,
+   "IC trung binh": 0.0146553875,
+   "Do lech chuan IC": 0.148361979,
+   "ICIR": 0.0987812891,
+   "t-stat": 0.9423134404,
+   "t-stat Newey-West": 0.911861276,
+   "Ti le thang IC>0": 0.5494505495,
+   "So phien": 91,
+   "So thang": 91
+  }
+ ],
+ "slices": [
+  {
+   "train_start": "2018-09-29T00:00:00.000",
+   "test_start": "2020-09-29T00:00:00.000",
+   "test_end": "2021-03-29T00:00:00.000",
+   "cấu hình": "Top 20, quý",
+   "top_n": 20,
+   "freq": "Q",
+   "Sharpe train": 0.3075022886,
+   "Lợi suất tích luỹ": 0.5338098887,
+   "CAGR": 1.4021774889,
+   "Sharpe": 3.682321556,
+   "Sụt giảm tối đa": -0.1722074694,
+   "Tỷ lệ tháng dương": 0.7142857143,
+   "PSR(0)": 0.9837028007,
+   "Số phiên": 123,
+   "Vòng quay (lần/năm)": 3.2224542114
+  },
+  {
+   "train_start": "2019-03-29T00:00:00.000",
+   "test_start": "2021-03-29T00:00:00.000",
+   "test_end": "2021-09-29T00:00:00.000",
+   "cấu hình": "Top 20, quý",
+   "top_n": 20,
+   "freq": "Q",
+   "Sharpe train": 1.9392768361,
+   "Lợi suất tích luỹ": 0.3234678716,
+   "CAGR": 0.7438537485,
+   "Sharpe": 2.1923521372,
+   "Sụt giảm tối đa": -0.1571725452,
+   "Tỷ lệ tháng dương": 0.5714285714,
+   "PSR(0)": 0.925416408,
+   "Số phiên": 127,
+   "Vòng quay (lần/năm)": 3.6775817942
+  },
+  {
+   "train_start": "2019-09-29T00:00:00.000",
+   "test_start": "2021-09-29T00:00:00.000",
+   "test_end": "2022-03-29T00:00:00.000",
+   "cấu hình": "Top 20, quý",
+   "top_n": 20,
+   "freq": "Q",
+   "Sharpe train": 2.3244957973,
+   "Lợi suất tích luỹ": 0.2040430222,
+   "CAGR": 0.4629105323,
+   "Sharpe": 1.6985308289,
+   "Sụt giảm tối đa": -0.1684036317,
+   "Tỷ lệ tháng dương": 0.5714285714,
+   "PSR(0)": 0.863425881,
+   "Số phiên": 123,
+   "Vòng quay (lần/năm)": 3.2994512825
+  },
+  {
+   "train_start": "2020-03-29T00:00:00.000",
+   "test_start": "2022-03-29T00:00:00.000",
+   "test_end": "2022-09-29T00:00:00.000",
+   "cấu hình": "Top 20, quý",
+   "top_n": 20,
+   "freq": "Q",
+   "Sharpe train": 2.679198639,
+   "Lợi suất tích luỹ": -0.2793863518,
+   "CAGR": -0.478029604,
+   "Sharpe": -1.9144167396,
+   "Sụt giảm tối đa": -0.3060275418,
+   "Tỷ lệ tháng dương": 0.2857142857,
+   "PSR(0)": 0.0826690683,
+   "Số phiên": 127,
+   "Vòng quay (lần/năm)": 3.4784368297
+  },
+  {
+   "train_start": "2020-09-29T00:00:00.000",
+   "test_start": "2022-09-29T00:00:00.000",
+   "test_end": "2023-03-29T00:00:00.000",
+   "cấu hình": "Top 20, quý",
+   "top_n": 20,
+   "freq": "Q",
+   "Sharpe train": 1.2096520419,
+   "Lợi suất tích luỹ": -0.1621291401,
+   "CAGR": -0.304004048,
+   "Sharpe": -0.6614877819,
+   "Sụt giảm tối đa": -0.3700488749,
+   "Tỷ lệ tháng dương": 0.4285714286,
+   "PSR(0)": 0.3235753106,
+   "Số phiên": 123,
+   "Vòng quay (lần/năm)": 3.2074882379
+  },
+  {
+   "train_start": "2021-03-29T00:00:00.000",
+   "test_start": "2023-03-29T00:00:00.000",
+   "test_end": "2023-09-29T00:00:00.000",
+   "cấu hình": "Top 20, quý",
+   "top_n": 20,
+   "freq": "Q",
+   "Sharpe train": 0.0816606161,
+   "Lợi suất tích luỹ": 0.1937238041,
+   "CAGR": 0.4210083312,
+   "Sharpe": 1.8944193255,
+   "Sụt giảm tối đa": -0.0854996232,
+   "Tỷ lệ tháng dương": 0.7142857143,
+   "PSR(0)": 0.8845932799,
+   "Số phiên": 127,
+   "Vòng quay (lần/năm)": 3.2163567948
+  },
+  {
+   "train_start": "2021-09-29T00:00:00.000",
+   "test_start": "2023-09-29T00:00:00.000",
+   "test_end": "2024-03-29T00:00:00.000",
+   "cấu hình": "Top 20, quý",
+   "top_n": 20,
+   "freq": "Q",
+   "Sharpe train": -0.0868086753,
+   "Lợi suất tích luỹ": 0.2111051366,
+   "CAGR": 0.4758661687,
+   "Sharpe": 1.9820244255,
+   "Sụt giảm tối đa": -0.152623359,
+   "Tỷ lệ tháng dương": 0.8333333333,
+   "PSR(0)": 0.9060923884,
+   "Số phiên": 124,
+   "Vòng quay (lần/năm)": 3.0887331992
+  },
+  {
+   "train_start": "2022-03-29T00:00:00.000",
+   "test_start": "2024-03-29T00:00:00.000",
+   "test_end": "2024-09-29T00:00:00.000",
+   "cấu hình": "Top 20, quý",
+   "top_n": 20,
+   "freq": "Q",
+   "Sharpe train": -0.0164250975,
+   "Lợi suất tích luỹ": -0.0256312297,
+   "CAGR": -0.0509998407,
+   "Sharpe": -0.1660503137,
+   "Sụt giảm tối đa": -0.12626405,
+   "Tỷ lệ tháng dương": 0.3333333333,
+   "PSR(0)": 0.4536477381,
+   "Số phiên": 125,
+   "Vòng quay (lần/năm)": 3.4127047954
+  },
+  {
+   "train_start": "2022-09-29T00:00:00.000",
+   "test_start": "2024-09-29T00:00:00.000",
+   "test_end": "2025-03-29T00:00:00.000",
+   "cấu hình": "Top 20, quý",
+   "top_n": 20,
+   "freq": "Q",
+   "Sharpe train": 0.5303494114,
+   "Lợi suất tích luỹ": -0.0234684741,
+   "CAGR": -0.0471164363,
+   "Sharpe": -0.3254465979,
+   "Sụt giảm tối đa": -0.0906538073,
+   "Tỷ lệ tháng dương": 0.3333333333,
+   "PSR(0)": 0.4109944886,
+   "Số phiên": 124,
+   "Vòng quay (lần/năm)": 3.1889583234
+  },
+  {
+   "train_start": "2023-03-29T00:00:00.000",
+   "test_start": "2025-03-29T00:00:00.000",
+   "test_end": "2025-09-29T00:00:00.000",
+   "cấu hình": "Top 10, quý",
+   "top_n": 10,
+   "freq": "Q",
+   "Sharpe train": 1.0548641551,
+   "Lợi suất tích luỹ": 0.2355058215,
+   "CAGR": 0.5369237702,
+   "Sharpe": 1.7285199831,
+   "Sụt giảm tối đa": -0.1906272516,
+   "Tỷ lệ tháng dương": 0.6666666667,
+   "PSR(0)": 0.8716099211,
+   "Số phiên": 124,
+   "Vòng quay (lần/năm)": 3.0959419284
+  },
+  {
+   "train_start": "2023-09-29T00:00:00.000",
+   "test_start": "2025-09-29T00:00:00.000",
+   "test_end": "2026-03-29T00:00:00.000",
+   "cấu hình": "Top 10, quý",
+   "top_n": 10,
+   "freq": "Q",
+   "Sharpe train": 0.9824384437,
+   "Lợi suất tích luỹ": -0.0543225974,
+   "CAGR": -0.1081275366,
+   "Sharpe": -0.3453294752,
+   "Sụt giảm tối đa": -0.1626663257,
+   "Tỷ lệ tháng dương": 0.4285714286,
+   "PSR(0)": 0.4050475254,
+   "Số phiên": 123,
+   "Vòng quay (lần/năm)": 3.4807056416
+  },
+  {
+   "train_start": "2024-03-29T00:00:00.000",
+   "test_start": "2026-03-29T00:00:00.000",
+   "test_end": "2026-09-29T00:00:00.000",
+   "cấu hình": "Top 10, quý",
+   "top_n": 10,
+   "freq": "Q",
+   "Sharpe train": 0.4850901933,
+   "Lợi suất tích luỹ": -0.1827599438,
+   "CAGR": -0.3342719068,
+   "Sharpe": -2.4170024219,
+   "Sụt giảm tối đa": -0.2268185994,
+   "Tỷ lệ tháng dương": 0.1428571429,
+   "PSR(0)": 0.0503134083,
+   "Số phiên": 125,
+   "Vòng quay (lần/năm)": 3.6638472924
+  }
+ ],
+ "equity": [
+  {
+   "time": "2020-10-02",
+   "Chiến lược": 100.94,
+   "VN-Index": 100.66,
+   "Cân bằng toàn universe đủ điều kiện": 100.39,
+   "Top 20 vốn hoá": 99.52
+  },
+  {
+   "time": "2020-10-09",
+   "Chiến lược": 102.94,
+   "VN-Index": 102.21,
+   "Cân bằng toàn universe đủ điều kiện": 102.46,
+   "Top 20 vốn hoá": 102.05
+  },
+  {
+   "time": "2020-10-16",
+   "Chiến lược": 103.55,
+   "VN-Index": 104.35,
+   "Cân bằng toàn universe đủ điều kiện": 101.44,
+   "Top 20 vốn hoá": 105.05
+  },
+  {
+   "time": "2020-10-23",
+   "Chiến lược": 106.03,
+   "VN-Index": 106.34,
+   "Cân bằng toàn universe đủ điều kiện": 102.1,
+   "Top 20 vốn hoá": 107.68
+  },
+  {
+   "time": "2020-10-30",
+   "Chiến lược": 101.63,
+   "VN-Index": 102.38,
+   "Cân bằng toàn universe đủ điều kiện": 97.84,
+   "Top 20 vốn hoá": 103.12
+  },
+  {
+   "time": "2020-11-06",
+   "Chiến lược": 104.35,
+   "VN-Index": 103.8,
+   "Cân bằng toàn universe đủ điều kiện": 100.38,
+   "Top 20 vốn hoá": 104.54
+  },
+  {
+   "time": "2020-11-13",
+   "Chiến lược": 109.37,
+   "VN-Index": 106.89,
+   "Cân bằng toàn universe đủ điều kiện": 104.02,
+   "Top 20 vốn hoá": 108.68
+  },
+  {
+   "time": "2020-11-20",
+   "Chiến lược": 115.65,
+   "VN-Index": 109.52,
+   "Cân bằng toàn universe đủ điều kiện": 107.51,
+   "Top 20 vốn hoá": 111.97
+  },
+  {
+   "time": "2020-11-27",
+   "Chiến lược": 123.77,
+   "VN-Index": 111.75,
+   "Cân bằng toàn universe đủ điều kiện": 109.38,
+   "Top 20 vốn hoá": 113.62
+  },
+  {
+   "time": "2020-12-04",
+   "Chiến lược": 126.58,
+   "VN-Index": 113.0,
+   "Cân bằng toàn universe đủ điều kiện": 111.67,
+   "Top 20 vốn hoá": 114.75
+  },
+  {
+   "time": "2020-12-11",
+   "Chiến lược": 128.3,
+   "VN-Index": 115.71,
+   "Cân bằng toàn universe đủ điều kiện": 113.9,
+   "Top 20 vốn hoá": 118.1
+  },
+  {
+   "time": "2020-12-18",
+   "Chiến lược": 134.81,
+   "VN-Index": 118.08,
+   "Cân bằng toàn universe đủ điều kiện": 119.48,
+   "Top 20 vốn hoá": 121.91
+  },
+  {
+   "time": "2020-12-25",
+   "Chiến lược": 138.82,
+   "VN-Index": 119.96,
+   "Cân bằng toàn universe đủ điều kiện": 123.45,
+   "Top 20 vốn hoá": 123.63
+  },
+  {
+   "time": "2021-01-01",
+   "Chiến lược": 142.08,
+   "VN-Index": 122.11,
+   "Cân bằng toàn universe đủ điều kiện": 127.02,
+   "Top 20 vốn hoá": 125.81
+  },
+  {
+   "time": "2021-01-08",
+   "Chiến lược": 147.54,
+   "VN-Index": 129.17,
+   "Cân bằng toàn universe đủ điều kiện": 133.53,
+   "Top 20 vốn hoá": 132.79
+  },
+  {
+   "time": "2021-01-15",
+   "Chiến lược": 151.46,
+   "VN-Index": 132.1,
+   "Cân bằng toàn universe đủ điều kiện": 139.2,
+   "Top 20 vốn hoá": 135.62
+  },
+  {
+   "time": "2021-01-22",
+   "Chiến lược": 147.34,
+   "VN-Index": 129.07,
+   "Cân bằng toàn universe đủ điều kiện": 136.26,
+   "Top 20 vốn hoá": 133.02
+  },
+  {
+   "time": "2021-01-29",
+   "Chiến lược": 129.71,
+   "VN-Index": 116.88,
+   "Cân bằng toàn universe đủ điều kiện": 121.61,
+   "Top 20 vốn hoá": 120.19
+  },
+  {
+   "time": "2021-02-05",
+   "Chiến lược": 137.17,
+   "VN-Index": 124.66,
+   "Cân bằng toàn universe đủ điều kiện": 126.32,
+   "Top 20 vốn hoá": 128.22
+  },
+  {
+   "time": "2021-02-12",
+   "Chiến lược": 136.56,
+   "VN-Index": 123.34,
+   "Cân bằng toàn universe đủ điều kiện": 125.73,
+   "Top 20 vốn hoá": 126.65
+  },
+  {
+   "time": "2021-02-19",
+   "Chiến lược": 145.1,
+   "VN-Index": 129.81,
+   "Cân bằng toàn universe đủ điều kiện": 132.1,
+   "Top 20 vốn hoá": 133.93
+  },
+  {
+   "time": "2021-02-26",
+   "Chiến lược": 145.8,
+   "VN-Index": 129.26,
+   "Cân bằng toàn universe đủ điều kiện": 133.05,
+   "Top 20 vốn hoá": 134.05
+  },
+  {
+   "time": "2021-03-05",
+   "Chiến lược": 149.87,
+   "VN-Index": 129.28,
+   "Cân bằng toàn universe đủ điều kiện": 137.28,
+   "Top 20 vốn hoá": 133.85
+  },
+  {
+   "time": "2021-03-12",
+   "Chiến lược": 155.56,
+   "VN-Index": 130.71,
+   "Cân bằng toàn universe đủ điều kiện": 140.95,
+   "Top 20 vốn hoá": 134.99
+  },
+  {
+   "time": "2021-03-19",
+   "Chiến lược": 161.22,
+   "VN-Index": 132.09,
+   "Cân bằng toàn universe đủ điều kiện": 142.79,
+   "Top 20 vốn hoá": 135.83
+  },
+  {
+   "time": "2021-03-26",
+   "Chiến lược": 153.38,
+   "VN-Index": 128.57,
+   "Cân bằng toàn universe đủ điều kiện": 137.49,
+   "Top 20 vốn hoá": 131.92
+  },
+  {
+   "time": "2021-04-02",
+   "Chiến lược": 157.38,
+   "VN-Index": 135.45,
+   "Cân bằng toàn universe đủ điều kiện": 145.13,
+   "Top 20 vốn hoá": 137.9
+  },
+  {
+   "time": "2021-04-09",
+   "Chiến lược": 159.55,
+   "VN-Index": 136.25,
+   "Cân bằng toàn universe đủ điều kiện": 148.18,
+   "Top 20 vốn hoá": 138.71
+  },
+  {
+   "time": "2021-04-16",
+   "Chiến lược": 153.26,
+   "VN-Index": 137.03,
+   "Cân bằng toàn universe đủ điều kiện": 144.43,
+   "Top 20 vốn hoá": 139.73
+  },
+  {
+   "time": "2021-04-23",
+   "Chiến lược": 151.01,
+   "VN-Index": 138.11,
+   "Cân bằng toàn universe đủ điều kiện": 141.9,
+   "Top 20 vốn hoá": 139.82
+  },
+  {
+   "time": "2021-04-30",
+   "Chiến lược": 151.58,
+   "VN-Index": 137.1,
+   "Cân bằng toàn universe đủ điều kiện": 140.77,
+   "Top 20 vốn hoá": 141.24
+  },
+  {
+   "time": "2021-05-07",
+   "Chiến lược": 152.43,
+   "VN-Index": 137.37,
+   "Cân bằng toàn universe đủ điều kiện": 140.07,
+   "Top 20 vốn hoá": 141.39
+  },
+  {
+   "time": "2021-05-14",
+   "Chiến lược": 156.68,
+   "VN-Index": 140.09,
+   "Cân bằng toàn universe đủ điều kiện": 142.83,
+   "Top 20 vốn hoá": 145.04
+  },
+  {
+   "time": "2021-05-21",
+   "Chiến lược": 159.47,
+   "VN-Index": 142.03,
+   "Cân bằng toàn universe đủ điều kiện": 143.12,
+   "Top 20 vốn hoá": 147.17
+  },
+  {
+   "time": "2021-05-28",
+   "Chiến lược": 165.18,
+   "VN-Index": 146.07,
+   "Cân bằng toàn universe đủ điều kiện": 147.51,
+   "Top 20 vốn hoá": 151.39
+  },
+  {
+   "time": "2021-06-04",
+   "Chiến lược": 181.47,
+   "VN-Index": 152.0,
+   "Cân bằng toàn universe đủ điều kiện": 156.64,
+   "Top 20 vốn hoá": 156.59
+  },
+  {
+   "time": "2021-06-11",
+   "Chiến lược": 176.71,
+   "VN-Index": 149.53,
+   "Cân bằng toàn universe đủ điều kiện": 154.46,
+   "Top 20 vốn hoá": 154.61
+  },
+  {
+   "time": "2021-06-18",
+   "Chiến lược": 183.13,
+   "VN-Index": 152.41,
+   "Cân bằng toàn universe đủ điều kiện": 160.02,
+   "Top 20 vốn hoá": 157.34
+  },
+  {
+   "time": "2021-06-25",
+   "Chiến lược": 184.09,
+   "VN-Index": 153.78,
+   "Cân bằng toàn universe đủ điều kiện": 158.88,
+   "Top 20 vốn hoá": 160.1
+  },
+  {
+   "time": "2021-07-02",
+   "Chiến lược": 185.28,
+   "VN-Index": 157.11,
+   "Cân bằng toàn universe đủ điều kiện": 160.75,
+   "Top 20 vốn hoá": 163.77
+  },
+  {
+   "time": "2021-07-09",
+   "Chiến lược": 170.29,
+   "VN-Index": 149.02,
+   "Cân bằng toàn universe đủ điều kiện": 149.95,
+   "Top 20 vốn hoá": 157.02
+  },
+  {
+   "time": "2021-07-16",
+   "Chiến lược": 164.91,
+   "VN-Index": 143.73,
+   "Cân bằng toàn universe đủ điều kiện": 147.7,
+   "Top 20 vốn hoá": 152.07
+  },
+  {
+   "time": "2021-07-23",
+   "Chiến lược": 165.99,
+   "VN-Index": 140.36,
+   "Cân bằng toàn universe đủ điều kiện": 146.43,
+   "Top 20 vốn hoá": 147.9
+  },
+  {
+   "time": "2021-07-30",
+   "Chiến lược": 174.81,
+   "VN-Index": 144.92,
+   "Cân bằng toàn universe đủ điều kiện": 151.36,
+   "Top 20 vốn hoá": 152.83
+  },
+  {
+   "time": "2021-08-06",
+   "Chiến lược": 181.17,
+   "VN-Index": 148.39,
+   "Cân bằng toàn universe đủ điều kiện": 157.02,
+   "Top 20 vốn hoá": 155.31
+  },
+  {
+   "time": "2021-08-13",
+   "Chiến lược": 189.87,
+   "VN-Index": 150.12,
+   "Cân bằng toàn universe đủ điều kiện": 163.52,
+   "Top 20 vốn hoá": 155.94
+  },
+  {
+   "time": "2021-08-20",
+   "Chiến lược": 193.8,
+   "VN-Index": 147.06,
+   "Cân bằng toàn universe đủ điều kiện": 164.76,
+   "Top 20 vốn hoá": 152.87
+  },
+  {
+   "time": "2021-08-27",
+   "Chiến lược": 195.73,
+   "VN-Index": 145.27,
+   "Cân bằng toàn universe đủ điều kiện": 165.98,
+   "Top 20 vốn hoá": 151.02
+  },
+  {
+   "time": "2021-09-03",
+   "Chiến lược": 203.63,
+   "VN-Index": 147.64,
+   "Cân bằng toàn universe đủ điều kiện": 171.48,
+   "Top 20 vốn hoá": 152.5
+  },
+  {
+   "time": "2021-09-10",
+   "Chiến lược": 204.27,
+   "VN-Index": 148.82,
+   "Cân bằng toàn universe đủ điều kiện": 172.92,
+   "Top 20 vốn hoá": 154.17
+  },
+  {
+   "time": "2021-09-17",
+   "Chiến lược": 209.08,
+   "VN-Index": 149.63,
+   "Cân bằng toàn universe đủ điều kiện": 176.89,
+   "Top 20 vốn hoá": 155.44
+  },
+  {
+   "time": "2021-09-24",
+   "Chiến lược": 204.44,
+   "VN-Index": 149.47,
+   "Cân bằng toàn universe đủ điều kiện": 176.19,
+   "Top 20 vốn hoá": 155.75
+  },
+  {
+   "time": "2021-10-01",
+   "Chiến lược": 204.48,
+   "VN-Index": 147.67,
+   "Cân bằng toàn universe đủ điều kiện": 174.93,
+   "Top 20 vốn hoá": 154.19
+  },
+  {
+   "time": "2021-10-08",
+   "Chiến lược": 210.4,
+   "VN-Index": 151.85,
+   "Cân bằng toàn universe đủ điều kiện": 181.08,
+   "Top 20 vốn hoá": 158.0
+  },
+  {
+   "time": "2021-10-15",
+   "Chiến lược": 222.3,
+   "VN-Index": 154.06,
+   "Cân bằng toàn universe đủ điều kiện": 185.14,
+   "Top 20 vốn hoá": 159.97
+  },
+  {
+   "time": "2021-10-22",
+   "Chiến lược": 229.22,
+   "VN-Index": 153.68,
+   "Cân bằng toàn universe đủ điều kiện": 190.75,
+   "Top 20 vốn hoá": 158.18
+  },
+  {
+   "time": "2021-10-29",
+   "Chiến lược": 239.1,
+   "VN-Index": 159.77,
+   "Cân bằng toàn universe đủ điều kiện": 200.14,
+   "Top 20 vốn hoá": 163.99
+  },
+  {
+   "time": "2021-11-05",
+   "Chiến lược": 247.48,
+   "VN-Index": 161.12,
+   "Cân bằng toàn universe đủ điều kiện": 204.27,
+   "Top 20 vốn hoá": 164.45
+  },
+  {
+   "time": "2021-11-12",
+   "Chiến lược": 251.45,
+   "VN-Index": 162.99,
+   "Cân bằng toàn universe đủ điều kiện": 214.99,
+   "Top 20 vốn hoá": 164.01
+  },
+  {
+   "time": "2021-11-19",
+   "Chiến lược": 255.67,
+   "VN-Index": 160.66,
+   "Cân bằng toàn universe đủ điều kiện": 217.61,
+   "Top 20 vốn hoá": 160.5
+  },
+  {
+   "time": "2021-11-26",
+   "Chiến lược": 260.17,
+   "VN-Index": 165.16,
+   "Cân bằng toàn universe đủ điều kiện": 216.55,
+   "Top 20 vốn hoá": 165.59
+  },
+  {
+   "time": "2021-12-03",
+   "Chiến lược": 247.96,
+   "VN-Index": 159.66,
+   "Cân bằng toàn universe đủ điều kiện": 212.78,
+   "Top 20 vốn hoá": 158.77
+  },
+  {
+   "time": "2021-12-10",
+   "Chiến lược": 252.13,
+   "VN-Index": 161.9,
+   "Cân bằng toàn universe đủ điều kiện": 212.87,
+   "Top 20 vốn hoá": 160.7
+  },
+  {
+   "time": "2021-12-17",
+   "Chiến lược": 253.85,
+   "VN-Index": 163.7,
+   "Cân bằng toàn universe đủ điều kiện": 219.71,
+   "Top 20 vốn hoá": 160.51
+  },
+  {
+   "time": "2021-12-24",
+   "Chiến lược": 247.06,
+   "VN-Index": 163.39,
+   "Cân bằng toàn universe đủ điều kiện": 221.4,
+   "Top 20 vốn hoá": 160.07
+  },
+  {
+   "time": "2021-12-31",
+   "Chiến lược": 252.14,
+   "VN-Index": 165.74,
+   "Cân bằng toàn universe đủ điều kiện": 224.14,
+   "Top 20 vốn hoá": 163.16
+  },
+  {
+   "time": "2022-01-07",
+   "Chiến lược": 259.1,
+   "VN-Index": 169.08,
+   "Cân bằng toàn universe đủ điều kiện": 231.79,
+   "Top 20 vốn hoá": 164.36
+  },
+  {
+   "time": "2022-01-14",
+   "Chiến lược": 242.58,
+   "VN-Index": 165.49,
+   "Cân bằng toàn universe đủ điều kiện": 216.2,
+   "Top 20 vốn hoá": 163.88
+  },
+  {
+   "time": "2022-01-21",
+   "Chiến lược": 228.93,
+   "VN-Index": 162.93,
+   "Cân bằng toàn universe đủ điều kiện": 207.86,
+   "Top 20 vốn hoá": 161.23
+  },
+  {
+   "time": "2022-01-28",
+   "Chiến lược": 221.67,
+   "VN-Index": 163.61,
+   "Cân bằng toàn universe đủ điều kiện": 200.22,
+   "Top 20 vốn hoá": 163.12
+  },
+  {
+   "time": "2022-02-11",
+   "Chiến lược": 232.54,
+   "VN-Index": 166.12,
+   "Cân bằng toàn universe đủ điều kiện": 210.63,
+   "Top 20 vốn hoá": 164.6
+  },
+  {
+   "time": "2022-02-18",
+   "Chiến lược": 238.39,
+   "VN-Index": 166.47,
+   "Cân bằng toàn universe đủ điều kiện": 216.36,
+   "Top 20 vốn hoá": 164.05
+  },
+  {
+   "time": "2022-02-25",
+   "Chiến lược": 238.41,
+   "VN-Index": 165.81,
+   "Cân bằng toàn universe đủ điều kiện": 217.67,
+   "Top 20 vốn hoá": 163.43
+  },
+  {
+   "time": "2022-03-04",
+   "Chiến lược": 245.58,
+   "VN-Index": 166.52,
+   "Cân bằng toàn universe đủ điều kiện": 224.4,
+   "Top 20 vốn hoá": 162.39
+  },
+  {
+   "time": "2022-03-11",
+   "Chiến lược": 239.0,
+   "VN-Index": 162.23,
+   "Cân bằng toàn universe đủ điều kiện": 221.75,
+   "Top 20 vốn hoá": 157.26
+  },
+  {
+   "time": "2022-03-18",
+   "Chiến lược": 241.21,
+   "VN-Index": 162.51,
+   "Cân bằng toàn universe đủ điều kiện": 223.71,
+   "Top 20 vốn hoá": 157.2
+  },
+  {
+   "time": "2022-03-25",
+   "Chiến lược": 246.29,
+   "VN-Index": 165.77,
+   "Cân bằng toàn universe đủ điều kiện": 230.5,
+   "Top 20 vốn hoá": 158.81
+  },
+  {
+   "time": "2022-04-01",
+   "Chiến lược": 247.67,
+   "VN-Index": 167.75,
+   "Cân bằng toàn universe đủ điều kiện": 227.32,
+   "Top 20 vốn hoá": 161.79
+  },
+  {
+   "time": "2022-04-08",
+   "Chiến lược": 234.19,
+   "VN-Index": 163.94,
+   "Cân bằng toàn universe đủ điều kiện": 217.64,
+   "Top 20 vốn hoá": 160.5
+  },
+  {
+   "time": "2022-04-15",
+   "Chiến lược": 235.38,
+   "VN-Index": 161.35,
+   "Cân bằng toàn universe đủ điều kiện": 212.59,
+   "Top 20 vốn hoá": 158.98
+  },
+  {
+   "time": "2022-04-22",
+   "Chiến lược": 210.92,
+   "VN-Index": 152.57,
+   "Cân bằng toàn universe đủ điều kiện": 187.8,
+   "Top 20 vốn hoá": 153.78
+  },
+  {
+   "time": "2022-04-29",
+   "Chiến lược": 210.41,
+   "VN-Index": 151.2,
+   "Cân bằng toàn universe đủ điều kiện": 191.32,
+   "Top 20 vốn hoá": 150.74
+  },
+  {
+   "time": "2022-05-06",
+   "Chiến lược": 201.17,
+   "VN-Index": 147.05,
+   "Cân bằng toàn universe đủ điều kiện": 181.99,
+   "Top 20 vốn hoá": 147.3
+  },
+  {
+   "time": "2022-05-13",
+   "Chiến lược": 173.46,
+   "VN-Index": 130.84,
+   "Cân bằng toàn universe đủ điều kiện": 159.23,
+   "Top 20 vốn hoá": 133.08
+  },
+  {
+   "time": "2022-05-20",
+   "Chiến lược": 187.56,
+   "VN-Index": 137.25,
+   "Cân bằng toàn universe đủ điều kiện": 169.59,
+   "Top 20 vốn hoá": 137.53
+  },
+  {
+   "time": "2022-05-27",
+   "Chiến lược": 198.17,
+   "VN-Index": 142.2,
+   "Cân bằng toàn universe đủ điều kiện": 177.1,
+   "Top 20 vốn hoá": 141.31
+  },
+  {
+   "time": "2022-06-03",
+   "Chiến lược": 203.09,
+   "VN-Index": 142.48,
+   "Cân bằng toàn universe đủ điều kiện": 177.48,
+   "Top 20 vốn hoá": 142.24
+  },
+  {
+   "time": "2022-06-10",
+   "Chiến lược": 203.44,
+   "VN-Index": 142.05,
+   "Cân bằng toàn universe đủ điều kiện": 175.59,
+   "Top 20 vốn hoá": 142.81
+  },
+  {
+   "time": "2022-06-17",
+   "Chiến lược": 192.82,
+   "VN-Index": 134.66,
+   "Cân bằng toàn universe đủ điều kiện": 158.21,
+   "Top 20 vốn hoá": 137.59
+  },
+  {
+   "time": "2022-06-24",
+   "Chiến lược": 185.72,
+   "VN-Index": 131.14,
+   "Cân bằng toàn universe đủ điều kiện": 154.29,
+   "Top 20 vốn hoá": 134.14
+  },
+  {
+   "time": "2022-07-01",
+   "Chiến lược": 186.17,
+   "VN-Index": 132.62,
+   "Cân bằng toàn universe đủ điều kiện": 156.88,
+   "Top 20 vốn hoá": 135.62
+  },
+  {
+   "time": "2022-07-08",
+   "Chiến lược": 183.74,
+   "VN-Index": 129.57,
+   "Cân bằng toàn universe đủ điều kiện": 154.19,
+   "Top 20 vốn hoá": 132.13
+  },
+  {
+   "time": "2022-07-15",
+   "Chiến lược": 186.19,
+   "VN-Index": 130.45,
+   "Cân bằng toàn universe đủ điều kiện": 159.87,
+   "Top 20 vốn hoá": 131.88
+  },
+  {
+   "time": "2022-07-22",
+   "Chiến lược": 189.2,
+   "VN-Index": 132.17,
+   "Cân bằng toàn universe đủ điều kiện": 162.1,
+   "Top 20 vốn hoá": 134.01
+  },
+  {
+   "time": "2022-07-29",
+   "Chiến lược": 188.49,
+   "VN-Index": 133.45,
+   "Cân bằng toàn universe đủ điều kiện": 163.43,
+   "Top 20 vốn hoá": 134.68
+  },
+  {
+   "time": "2022-08-05",
+   "Chiến lược": 199.61,
+   "VN-Index": 138.58,
+   "Cân bằng toàn universe đủ điều kiện": 171.51,
+   "Top 20 vốn hoá": 138.86
+  },
+  {
+   "time": "2022-08-12",
+   "Chiến lược": 204.07,
+   "VN-Index": 139.64,
+   "Cân bằng toàn universe đủ điều kiện": 173.51,
+   "Top 20 vốn hoá": 139.64
+  },
+  {
+   "time": "2022-08-19",
+   "Chiến lược": 203.43,
+   "VN-Index": 140.4,
+   "Cân bằng toàn universe đủ điều kiện": 172.66,
+   "Top 20 vốn hoá": 141.03
+  },
+  {
+   "time": "2022-08-26",
+   "Chiến lược": 207.07,
+   "VN-Index": 141.88,
+   "Cân bằng toàn universe đủ điều kiện": 174.98,
+   "Top 20 vốn hoá": 142.6
+  },
+  {
+   "time": "2022-09-02",
+   "Chiến lược": 206.39,
+   "VN-Index": 141.65,
+   "Cân bằng toàn universe đủ điều kiện": 173.62,
+   "Top 20 vốn hoá": 142.8
+  },
+  {
+   "time": "2022-09-09",
+   "Chiến lược": 201.07,
+   "VN-Index": 138.14,
+   "Cân bằng toàn universe đủ điều kiện": 167.62,
+   "Top 20 vốn hoá": 140.28
+  },
+  {
+   "time": "2022-09-16",
+   "Chiến lược": 198.14,
+   "VN-Index": 136.51,
+   "Cân bằng toàn universe đủ điều kiện": 165.64,
+   "Top 20 vốn hoá": 138.37
+  },
+  {
+   "time": "2022-09-23",
+   "Chiến lược": 191.73,
+   "VN-Index": 133.11,
+   "Cân bằng toàn universe đủ điều kiện": 162.7,
+   "Top 20 vốn hoá": 135.05
+  },
+  {
+   "time": "2022-09-30",
+   "Chiến lược": 176.13,
+   "VN-Index": 125.24,
+   "Cân bằng toàn universe đủ điều kiện": 151.34,
+   "Top 20 vốn hoá": 127.7
+  },
+  {
+   "time": "2022-10-07",
+   "Chiến lược": 151.53,
+   "VN-Index": 114.59,
+   "Cân bằng toàn universe đủ điều kiện": 134.89,
+   "Top 20 vốn hoá": 117.1
+  },
+  {
+   "time": "2022-10-14",
+   "Chiến lược": 156.62,
+   "VN-Index": 117.46,
+   "Cân bằng toàn universe đủ điều kiện": 137.54,
+   "Top 20 vốn hoá": 119.61
+  },
+  {
+   "time": "2022-10-21",
+   "Chiến lược": 145.34,
+   "VN-Index": 112.81,
+   "Cân bằng toàn universe đủ điều kiện": 130.16,
+   "Top 20 vốn hoá": 115.13
+  },
+  {
+   "time": "2022-10-28",
+   "Chiến lược": 143.42,
+   "VN-Index": 113.65,
+   "Cân bằng toàn universe đủ điều kiện": 127.03,
+   "Top 20 vốn hoá": 116.84
+  },
+  {
+   "time": "2022-11-04",
+   "Chiến lược": 135.6,
+   "VN-Index": 110.31,
+   "Cân bằng toàn universe đủ điều kiện": 121.54,
+   "Top 20 vốn hoá": 113.68
+  },
+  {
+   "time": "2022-11-11",
+   "Chiến lược": 121.58,
+   "VN-Index": 105.59,
+   "Cân bằng toàn universe đủ điều kiện": 108.3,
+   "Top 20 vốn hoá": 110.41
+  },
+  {
+   "time": "2022-11-18",
+   "Chiến lược": 125.39,
+   "VN-Index": 107.23,
+   "Cân bằng toàn universe đủ điều kiện": 108.53,
+   "Top 20 vốn hoá": 112.38
+  },
+  {
+   "time": "2022-11-25",
+   "Chiến lược": 134.8,
+   "VN-Index": 107.46,
+   "Cân bằng toàn universe đủ điều kiện": 113.33,
+   "Top 20 vốn hoá": 111.9
+  },
+  {
+   "time": "2022-12-02",
+   "Chiến lược": 159.02,
+   "VN-Index": 119.47,
+   "Cân bằng toàn universe đủ điều kiện": 129.1,
+   "Top 20 vốn hoá": 123.18
+  },
+  {
+   "time": "2022-12-09",
+   "Chiến lược": 157.4,
+   "VN-Index": 116.35,
+   "Cân bằng toàn universe đủ điều kiện": 127.84,
+   "Top 20 vốn hoá": 119.8
+  },
+  {
+   "time": "2022-12-16",
+   "Chiến lược": 159.14,
+   "VN-Index": 116.43,
+   "Cân bằng toàn universe đủ điều kiện": 130.16,
+   "Top 20 vốn hoá": 119.53
+  },
+  {
+   "time": "2022-12-23",
+   "Chiến lược": 151.14,
+   "VN-Index": 112.87,
+   "Cân bằng toàn universe đủ điều kiện": 122.66,
+   "Top 20 vốn hoá": 117.29
+  },
+  {
+   "time": "2022-12-30",
+   "Chiến lược": 148.62,
+   "VN-Index": 111.41,
+   "Cân bằng toàn universe đủ điều kiện": 121.35,
+   "Top 20 vốn hoá": 115.42
+  },
+  {
+   "time": "2023-01-06",
+   "Chiến lược": 148.66,
+   "VN-Index": 116.31,
+   "Cân bằng toàn universe đủ điều kiện": 126.08,
+   "Top 20 vốn hoá": 120.18
+  },
+  {
+   "time": "2023-01-13",
+   "Chiến lược": 149.91,
+   "VN-Index": 117.28,
+   "Cân bằng toàn universe đủ điều kiện": 127.11,
+   "Top 20 vốn hoá": 120.76
+  },
+  {
+   "time": "2023-01-20",
+   "Chiến lược": 159.09,
+   "VN-Index": 122.58,
+   "Cân bằng toàn universe đủ điều kiện": 133.92,
+   "Top 20 vốn hoá": 125.63
+  },
+  {
+   "time": "2023-01-27",
+   "Chiến lược": 160.03,
+   "VN-Index": 123.58,
+   "Cân bằng toàn universe đủ điều kiện": 134.88,
+   "Top 20 vốn hoá": 126.54
+  },
+  {
+   "time": "2023-02-03",
+   "Chiến lược": 154.73,
+   "VN-Index": 119.16,
+   "Cân bằng toàn universe đủ điều kiện": 130.57,
+   "Top 20 vốn hoá": 121.48
+  },
+  {
+   "time": "2023-02-10",
+   "Chiến lược": 147.65,
+   "VN-Index": 116.74,
+   "Cân bằng toàn universe đủ điều kiện": 127.84,
+   "Top 20 vốn hoá": 118.79
+  },
+  {
+   "time": "2023-02-17",
+   "Chiến lược": 148.3,
+   "VN-Index": 117.18,
+   "Cân bằng toàn universe đủ điều kiện": 129.47,
+   "Top 20 vốn hoá": 119.53
+  },
+  {
+   "time": "2023-02-24",
+   "Chiến lược": 146.22,
+   "VN-Index": 115.0,
+   "Cân bằng toàn universe đủ điều kiện": 128.2,
+   "Top 20 vốn hoá": 116.93
+  },
+  {
+   "time": "2023-03-03",
+   "Chiến lược": 142.06,
+   "VN-Index": 113.36,
+   "Cân bằng toàn universe đủ điều kiện": 125.66,
+   "Top 20 vốn hoá": 115.33
+  },
+  {
+   "time": "2023-03-10",
+   "Chiến lược": 146.26,
+   "VN-Index": 116.48,
+   "Cân bằng toàn universe đủ điều kiện": 129.32,
+   "Top 20 vốn hoá": 118.56
+  },
+  {
+   "time": "2023-03-17",
+   "Chiến lược": 144.89,
+   "VN-Index": 115.62,
+   "Cân bằng toàn universe đủ điều kiện": 127.97,
+   "Top 20 vốn hoá": 118.55
+  },
+  {
+   "time": "2023-03-24",
+   "Chiến lược": 146.47,
+   "VN-Index": 115.8,
+   "Cân bằng toàn universe đủ điều kiện": 128.54,
+   "Top 20 vốn hoá": 118.64
+  },
+  {
+   "time": "2023-03-31",
+   "Chiến lược": 147.57,
+   "VN-Index": 117.77,
+   "Cân bằng toàn universe đủ điều kiện": 130.51,
+   "Top 20 vốn hoá": 120.28
+  },
+  {
+   "time": "2023-04-07",
+   "Chiến lược": 151.73,
+   "VN-Index": 118.33,
+   "Cân bằng toàn universe đủ điều kiện": 135.42,
+   "Top 20 vốn hoá": 120.02
+  },
+  {
+   "time": "2023-04-14",
+   "Chiến lược": 148.37,
+   "VN-Index": 116.47,
+   "Cân bằng toàn universe đủ điều kiện": 132.5,
+   "Top 20 vốn hoá": 117.65
+  },
+  {
+   "time": "2023-04-21",
+   "Chiến lược": 148.71,
+   "VN-Index": 115.37,
+   "Cân bằng toàn universe đủ điều kiện": 132.68,
+   "Top 20 vốn hoá": 116.27
+  },
+  {
+   "time": "2023-04-28",
+   "Chiến lược": 151.93,
+   "VN-Index": 116.06,
+   "Cân bằng toàn universe đủ điều kiện": 134.76,
+   "Top 20 vốn hoá": 116.66
+  },
+  {
+   "time": "2023-05-05",
+   "Chiến lược": 151.49,
+   "VN-Index": 115.08,
+   "Cân bằng toàn universe đủ điều kiện": 134.54,
+   "Top 20 vốn hoá": 115.21
+  },
+  {
+   "time": "2023-05-12",
+   "Chiến lược": 157.19,
+   "VN-Index": 118.02,
+   "Cân bằng toàn universe đủ điều kiện": 140.03,
+   "Top 20 vốn hoá": 117.94
+  },
+  {
+   "time": "2023-05-19",
+   "Chiến lược": 155.28,
+   "VN-Index": 118.04,
+   "Cân bằng toàn universe đủ điều kiện": 138.76,
+   "Top 20 vốn hoá": 117.59
+  },
+  {
+   "time": "2023-05-26",
+   "Chiến lược": 158.59,
+   "VN-Index": 117.68,
+   "Cân bằng toàn universe đủ điều kiện": 142.14,
+   "Top 20 vốn hoá": 117.0
+  },
+  {
+   "time": "2023-06-02",
+   "Chiến lược": 166.59,
+   "VN-Index": 120.67,
+   "Cân bằng toàn universe đủ điều kiện": 147.56,
+   "Top 20 vốn hoá": 119.75
+  },
+  {
+   "time": "2023-06-09",
+   "Chiến lược": 165.88,
+   "VN-Index": 122.52,
+   "Cân bằng toàn universe đủ điều kiện": 149.66,
+   "Top 20 vốn hoá": 120.76
+  },
+  {
+   "time": "2023-06-16",
+   "Chiến lược": 166.1,
+   "VN-Index": 123.37,
+   "Cân bằng toàn universe đủ điều kiện": 148.69,
+   "Top 20 vốn hoá": 121.42
+  },
+  {
+   "time": "2023-06-23",
+   "Chiến lược": 170.93,
+   "VN-Index": 124.93,
+   "Cân bằng toàn universe đủ điều kiện": 153.06,
+   "Top 20 vốn hoá": 123.4
+  },
+  {
+   "time": "2023-06-30",
+   "Chiến lược": 164.47,
+   "VN-Index": 123.92,
+   "Cân bằng toàn universe đủ điều kiện": 148.73,
+   "Top 20 vốn hoá": 123.1
+  },
+  {
+   "time": "2023-07-07",
+   "Chiến lược": 165.25,
+   "VN-Index": 125.9,
+   "Cân bằng toàn universe đủ điều kiện": 151.55,
+   "Top 20 vốn hoá": 124.88
+  },
+  {
+   "time": "2023-07-14",
+   "Chiến lược": 169.86,
+   "VN-Index": 129.25,
+   "Cân bằng toàn universe đủ điều kiện": 155.97,
+   "Top 20 vốn hoá": 128.44
+  },
+  {
+   "time": "2023-07-21",
+   "Chiến lược": 172.66,
+   "VN-Index": 131.19,
+   "Cân bằng toàn universe đủ điều kiện": 158.3,
+   "Top 20 vốn hoá": 130.46
+  },
+  {
+   "time": "2023-07-28",
+   "Chiến lược": 175.22,
+   "VN-Index": 133.59,
+   "Cân bằng toàn universe đủ điều kiện": 162.19,
+   "Top 20 vốn hoá": 132.55
+  },
+  {
+   "time": "2023-08-04",
+   "Chiến lược": 177.72,
+   "VN-Index": 135.62,
+   "Cân bằng toàn universe đủ điều kiện": 164.01,
+   "Top 20 vốn hoá": 134.54
+  },
+  {
+   "time": "2023-08-11",
+   "Chiến lược": 176.64,
+   "VN-Index": 136.31,
+   "Cân bằng toàn universe đủ điều kiện": 164.65,
+   "Top 20 vốn hoá": 135.25
+  },
+  {
+   "time": "2023-08-18",
+   "Chiến lược": 166.01,
+   "VN-Index": 130.31,
+   "Cân bằng toàn universe đủ điều kiện": 156.38,
+   "Top 20 vốn hoá": 129.14
+  },
+  {
+   "time": "2023-08-25",
+   "Chiến lược": 169.71,
+   "VN-Index": 130.91,
+   "Cân bằng toàn universe đủ điều kiện": 158.57,
+   "Top 20 vốn hoá": 129.42
+  },
+  {
+   "time": "2023-09-01",
+   "Chiến lược": 177.58,
+   "VN-Index": 135.41,
+   "Cân bằng toàn universe đủ điều kiện": 164.69,
+   "Top 20 vốn hoá": 133.97
+  },
+  {
+   "time": "2023-09-08",
+   "Chiến lược": 185.67,
+   "VN-Index": 137.33,
+   "Cân bằng toàn universe đủ điều kiện": 169.92,
+   "Top 20 vốn hoá": 135.31
+  },
+  {
+   "time": "2023-09-15",
+   "Chiến lược": 184.13,
+   "VN-Index": 135.77,
+   "Cân bằng toàn universe đủ điều kiện": 165.41,
+   "Top 20 vốn hoá": 134.16
+  },
+  {
+   "time": "2023-09-22",
+   "Chiến lược": 182.15,
+   "VN-Index": 131.98,
+   "Cân bằng toàn universe đủ điều kiện": 161.52,
+   "Top 20 vốn hoá": 129.95
+  },
+  {
+   "time": "2023-09-29",
+   "Chiến lược": 176.16,
+   "VN-Index": 127.67,
+   "Cân bằng toàn universe đủ điều kiện": 154.1,
+   "Top 20 vốn hoá": 126.28
+  },
+  {
+   "time": "2023-10-06",
+   "Chiến lược": 172.1,
+   "VN-Index": 124.84,
+   "Cân bằng toàn universe đủ điều kiện": 151.14,
+   "Top 20 vốn hoá": 122.86
+  },
+  {
+   "time": "2023-10-13",
+   "Chiến lược": 178.36,
+   "VN-Index": 127.74,
+   "Cân bằng toàn universe đủ điều kiện": 156.18,
+   "Top 20 vốn hoá": 125.33
+  },
+  {
+   "time": "2023-10-20",
+   "Chiến lược": 167.37,
+   "VN-Index": 122.57,
+   "Cân bằng toàn universe đủ điều kiện": 147.03,
+   "Top 20 vốn hoá": 121.01
+  },
+  {
+   "time": "2023-10-27",
+   "Chiến lược": 159.57,
+   "VN-Index": 117.33,
+   "Cân bằng toàn universe đủ điều kiện": 140.85,
+   "Top 20 vốn hoá": 114.76
+  },
+  {
+   "time": "2023-11-03",
+   "Chiến lược": 162.43,
+   "VN-Index": 119.12,
+   "Cân bằng toàn universe đủ điều kiện": 141.59,
+   "Top 20 vốn hoá": 115.56
+  },
+  {
+   "time": "2023-11-10",
+   "Chiến lược": 167.25,
+   "VN-Index": 121.87,
+   "Cân bằng toàn universe đủ điều kiện": 148.43,
+   "Top 20 vốn hoá": 117.76
+  },
+  {
+   "time": "2023-11-17",
+   "Chiến lược": 170.3,
+   "VN-Index": 121.82,
+   "Cân bằng toàn universe đủ điều kiện": 150.13,
+   "Top 20 vốn hoá": 117.66
+  },
+  {
+   "time": "2023-11-24",
+   "Chiến lược": 169.91,
+   "VN-Index": 121.2,
+   "Cân bằng toàn universe đủ điều kiện": 150.15,
+   "Top 20 vốn hoá": 116.06
+  },
+  {
+   "time": "2023-12-01",
+   "Chiến lược": 171.28,
+   "VN-Index": 121.92,
+   "Cân bằng toàn universe đủ điều kiện": 150.57,
+   "Top 20 vốn hoá": 116.81
+  },
+  {
+   "time": "2023-12-08",
+   "Chiến lược": 174.92,
+   "VN-Index": 124.39,
+   "Cân bằng toàn universe đủ điều kiện": 154.87,
+   "Top 20 vốn hoá": 119.09
+  },
+  {
+   "time": "2023-12-15",
+   "Chiến lược": 171.81,
+   "VN-Index": 121.94,
+   "Cân bằng toàn universe đủ điều kiện": 151.7,
+   "Top 20 vốn hoá": 117.29
+  },
+  {
+   "time": "2023-12-22",
+   "Chiến lược": 172.99,
+   "VN-Index": 122.02,
+   "Cân bằng toàn universe đủ điều kiện": 152.76,
+   "Top 20 vốn hoá": 117.2
+  },
+  {
+   "time": "2023-12-29",
+   "Chiến lược": 177.21,
+   "VN-Index": 125.0,
+   "Cân bằng toàn universe đủ điều kiện": 155.53,
+   "Top 20 vốn hoá": 120.64
+  },
+  {
+   "time": "2024-01-05",
+   "Chiến lược": 180.71,
+   "VN-Index": 127.73,
+   "Cân bằng toàn universe đủ điều kiện": 156.85,
+   "Top 20 vốn hoá": 123.07
+  },
+  {
+   "time": "2024-01-12",
+   "Chiến lược": 181.4,
+   "VN-Index": 127.74,
+   "Cân bằng toàn universe đủ điều kiện": 154.35,
+   "Top 20 vốn hoá": 122.61
+  },
+  {
+   "time": "2024-01-19",
+   "Chiến lược": 183.67,
+   "VN-Index": 130.7,
+   "Cân bằng toàn universe đủ điều kiện": 155.91,
+   "Top 20 vốn hoá": 125.76
+  },
+  {
+   "time": "2024-01-26",
+   "Chiến lược": 184.73,
+   "VN-Index": 130.05,
+   "Cân bằng toàn universe đủ điều kiện": 156.63,
+   "Top 20 vốn hoá": 124.77
+  },
+  {
+   "time": "2024-02-02",
+   "Chiến lược": 187.28,
+   "VN-Index": 129.71,
+   "Cân bằng toàn universe đủ điều kiện": 157.48,
+   "Top 20 vốn hoá": 124.94
+  },
+  {
+   "time": "2024-02-09",
+   "Chiến lược": 192.85,
+   "VN-Index": 132.58,
+   "Cân bằng toàn universe đủ điều kiện": 159.06,
+   "Top 20 vốn hoá": 128.25
+  },
+  {
+   "time": "2024-02-16",
+   "Chiến lược": 195.64,
+   "VN-Index": 133.82,
+   "Cân bằng toàn universe đủ điều kiện": 160.71,
+   "Top 20 vốn hoá": 129.6
+  },
+  {
+   "time": "2024-02-23",
+   "Chiến lược": 193.64,
+   "VN-Index": 134.07,
+   "Cân bằng toàn universe đủ điều kiện": 159.76,
+   "Top 20 vốn hoá": 129.94
+  },
+  {
+   "time": "2024-03-01",
+   "Chiến lược": 201.94,
+   "VN-Index": 139.19,
+   "Cân bằng toàn universe đủ điều kiện": 165.1,
+   "Top 20 vốn hoá": 133.99
+  },
+  {
+   "time": "2024-03-08",
+   "Chiến lược": 202.17,
+   "VN-Index": 137.98,
+   "Cân bằng toàn universe đủ điều kiện": 164.98,
+   "Top 20 vốn hoá": 133.25
+  },
+  {
+   "time": "2024-03-15",
+   "Chiến lược": 207.48,
+   "VN-Index": 139.8,
+   "Cân bằng toàn universe đủ điều kiện": 168.78,
+   "Top 20 vốn hoá": 135.1
+  },
+  {
+   "time": "2024-03-22",
+   "Chiến lược": 209.35,
+   "VN-Index": 141.8,
+   "Cân bằng toàn universe đủ điều kiện": 169.71,
+   "Top 20 vốn hoá": 136.96
+  },
+  {
+   "time": "2024-03-29",
+   "Chiến lược": 213.35,
+   "VN-Index": 142.05,
+   "Cân bằng toàn universe đủ điều kiện": 171.07,
+   "Top 20 vốn hoá": 137.4
+  },
+  {
+   "time": "2024-04-05",
+   "Chiến lược": 204.73,
+   "VN-Index": 138.84,
+   "Cân bằng toàn universe đủ điều kiện": 167.43,
+   "Top 20 vốn hoá": 134.03
+  },
+  {
+   "time": "2024-04-12",
+   "Chiến lược": 207.85,
+   "VN-Index": 141.22,
+   "Cân bằng toàn universe đủ điều kiện": 168.11,
+   "Top 20 vốn hoá": 136.53
+  },
+  {
+   "time": "2024-04-19",
+   "Chiến lược": 188.66,
+   "VN-Index": 129.96,
+   "Cân bằng toàn universe đủ điều kiện": 152.88,
+   "Top 20 vốn hoá": 126.87
+  },
+  {
+   "time": "2024-04-26",
+   "Chiến lược": 192.67,
+   "VN-Index": 133.8,
+   "Cân bằng toàn universe đủ điều kiện": 157.1,
+   "Top 20 vốn hoá": 130.56
+  },
+  {
+   "time": "2024-05-03",
+   "Chiến lược": 194.02,
+   "VN-Index": 135.07,
+   "Cân bằng toàn universe đủ điều kiện": 158.27,
+   "Top 20 vốn hoá": 131.64
+  },
+  {
+   "time": "2024-05-10",
+   "Chiến lược": 200.26,
+   "VN-Index": 137.69,
+   "Cân bằng toàn universe đủ điều kiện": 164.51,
+   "Top 20 vốn hoá": 134.16
+  },
+  {
+   "time": "2024-05-17",
+   "Chiến lược": 206.89,
+   "VN-Index": 140.83,
+   "Cân bằng toàn universe đủ điều kiện": 169.82,
+   "Top 20 vốn hoá": 137.21
+  },
+  {
+   "time": "2024-05-24",
+   "Chiến lược": 204.8,
+   "VN-Index": 139.6,
+   "Cân bằng toàn universe đủ điều kiện": 170.71,
+   "Top 20 vốn hoá": 135.6
+  },
+  {
+   "time": "2024-05-31",
+   "Chiến lược": 208.7,
+   "VN-Index": 139.57,
+   "Cân bằng toàn universe đủ điều kiện": 174.07,
+   "Top 20 vốn hoá": 134.97
+  },
+  {
+   "time": "2024-06-07",
+   "Chiến lược": 214.62,
+   "VN-Index": 142.43,
+   "Cân bằng toàn universe đủ điều kiện": 176.49,
+   "Top 20 vốn hoá": 137.11
+  },
+  {
+   "time": "2024-06-14",
+   "Chiến lược": 212.71,
+   "VN-Index": 141.59,
+   "Cân bằng toàn universe đủ điều kiện": 173.74,
+   "Top 20 vốn hoá": 136.85
+  },
+  {
+   "time": "2024-06-21",
+   "Chiến lược": 215.53,
+   "VN-Index": 141.82,
+   "Cân bằng toàn universe đủ điều kiện": 175.02,
+   "Top 20 vốn hoá": 138.29
+  },
+  {
+   "time": "2024-06-28",
+   "Chiến lược": 208.07,
+   "VN-Index": 137.76,
+   "Cân bằng toàn universe đủ điều kiện": 169.08,
+   "Top 20 vốn hoá": 134.37
+  },
+  {
+   "time": "2024-07-05",
+   "Chiến lược": 210.79,
+   "VN-Index": 141.93,
+   "Cân bằng toàn universe đủ điều kiện": 173.14,
+   "Top 20 vốn hoá": 138.57
+  },
+  {
+   "time": "2024-07-12",
+   "Chiến lược": 213.8,
+   "VN-Index": 141.68,
+   "Cân bằng toàn universe đủ điều kiện": 175.79,
+   "Top 20 vốn hoá": 137.34
+  },
+  {
+   "time": "2024-07-19",
+   "Chiến lược": 210.71,
+   "VN-Index": 139.91,
+   "Cân bằng toàn universe đủ điều kiện": 170.45,
+   "Top 20 vốn hoá": 135.6
+  },
+  {
+   "time": "2024-07-26",
+   "Chiến lược": 205.7,
+   "VN-Index": 137.4,
+   "Cân bằng toàn universe đủ điều kiện": 166.71,
+   "Top 20 vốn hoá": 133.1
+  },
+  {
+   "time": "2024-08-02",
+   "Chiến lược": 202.73,
+   "VN-Index": 136.8,
+   "Cân bằng toàn universe đủ điều kiện": 162.93,
+   "Top 20 vốn hoá": 133.15
+  },
+  {
+   "time": "2024-08-09",
+   "Chiến lược": 196.33,
+   "VN-Index": 135.36,
+   "Cân bằng toàn universe đủ điều kiện": 160.26,
+   "Top 20 vốn hoá": 133.37
+  },
+  {
+   "time": "2024-08-16",
+   "Chiến lược": 202.64,
+   "VN-Index": 138.52,
+   "Cân bằng toàn universe đủ điều kiện": 164.62,
+   "Top 20 vốn hoá": 136.43
+  },
+  {
+   "time": "2024-08-23",
+   "Chiến lược": 205.89,
+   "VN-Index": 142.18,
+   "Cân bằng toàn universe đủ điều kiện": 167.77,
+   "Top 20 vốn hoá": 139.49
+  },
+  {
+   "time": "2024-08-30",
+   "Chiến lược": 203.98,
+   "VN-Index": 142.02,
+   "Cân bằng toàn universe đủ điều kiện": 165.96,
+   "Top 20 vốn hoá": 140.03
+  },
+  {
+   "time": "2024-09-06",
+   "Chiến lược": 199.6,
+   "VN-Index": 140.93,
+   "Cân bằng toàn universe đủ điều kiện": 164.09,
+   "Top 20 vốn hoá": 139.22
+  },
+  {
+   "time": "2024-09-13",
+   "Chiến lược": 199.18,
+   "VN-Index": 138.47,
+   "Cân bằng toàn universe đủ điều kiện": 162.0,
+   "Top 20 vốn hoá": 137.16
+  },
+  {
+   "time": "2024-09-20",
+   "Chiến lược": 203.18,
+   "VN-Index": 140.72,
+   "Cân bằng toàn universe đủ điều kiện": 164.52,
+   "Top 20 vốn hoá": 139.78
+  },
+  {
+   "time": "2024-09-27",
+   "Chiến lược": 207.88,
+   "VN-Index": 142.8,
+   "Cân bằng toàn universe đủ điều kiện": 166.66,
+   "Top 20 vốn hoá": 141.96
+  },
+  {
+   "time": "2024-10-04",
+   "Chiến lược": 204.14,
+   "VN-Index": 140.56,
+   "Cân bằng toàn universe đủ điều kiện": 163.55,
+   "Top 20 vốn hoá": 139.54
+  },
+  {
+   "time": "2024-10-11",
+   "Chiến lược": 206.35,
+   "VN-Index": 142.52,
+   "Cân bằng toàn universe đủ điều kiện": 165.45,
+   "Top 20 vốn hoá": 142.11
+  },
+  {
+   "time": "2024-10-18",
+   "Chiến lược": 204.44,
+   "VN-Index": 142.2,
+   "Cân bằng toàn universe đủ điều kiện": 164.1,
+   "Top 20 vốn hoá": 142.05
+  },
+  {
+   "time": "2024-10-25",
+   "Chiến lược": 196.95,
+   "VN-Index": 138.58,
+   "Cân bằng toàn universe đủ điều kiện": 160.93,
+   "Top 20 vốn hoá": 138.16
+  },
+  {
+   "time": "2024-11-01",
+   "Chiến lược": 197.3,
+   "VN-Index": 138.82,
+   "Cân bằng toàn universe đủ điều kiện": 161.25,
+   "Top 20 vốn hoá": 137.8
+  },
+  {
+   "time": "2024-11-08",
+   "Chiến lược": 198.83,
+   "VN-Index": 138.56,
+   "Cân bằng toàn universe đủ điều kiện": 162.58,
+   "Top 20 vốn hoá": 137.03
+  },
+  {
+   "time": "2024-11-15",
+   "Chiến lược": 192.38,
+   "VN-Index": 134.8,
+   "Cân bằng toàn universe đủ điều kiện": 158.02,
+   "Top 20 vốn hoá": 132.47
+  },
+  {
+   "time": "2024-11-22",
+   "Chiến lược": 193.17,
+   "VN-Index": 135.85,
+   "Cân bằng toàn universe đủ điều kiện": 158.53,
+   "Top 20 vốn hoá": 133.81
+  },
+  {
+   "time": "2024-11-29",
+   "Chiến lược": 196.47,
+   "VN-Index": 138.33,
+   "Cân bằng toàn universe đủ điều kiện": 161.18,
+   "Top 20 vốn hoá": 135.93
+  },
+  {
+   "time": "2024-12-06",
+   "Chiến lược": 200.45,
+   "VN-Index": 140.51,
+   "Cân bằng toàn universe đủ điều kiện": 164.23,
+   "Top 20 vốn hoá": 137.56
+  },
+  {
+   "time": "2024-12-13",
+   "Chiến lược": 200.78,
+   "VN-Index": 139.67,
+   "Cân bằng toàn universe đủ điều kiện": 163.53,
+   "Top 20 vốn hoá": 136.4
+  },
+  {
+   "time": "2024-12-20",
+   "Chiến lược": 199.7,
+   "VN-Index": 139.11,
+   "Cân bằng toàn universe đủ điều kiện": 164.35,
+   "Top 20 vốn hoá": 136.26
+  },
+  {
+   "time": "2024-12-27",
+   "Chiến lược": 201.7,
+   "VN-Index": 141.06,
+   "Cân bằng toàn universe đủ điều kiện": 165.27,
+   "Top 20 vốn hoá": 139.16
+  },
+  {
+   "time": "2025-01-03",
+   "Chiến lược": 198.81,
+   "VN-Index": 138.79,
+   "Cân bằng toàn universe đủ điều kiện": 162.47,
+   "Top 20 vốn hoá": 136.99
+  },
+  {
+   "time": "2025-01-10",
+   "Chiến lược": 190.03,
+   "VN-Index": 136.12,
+   "Cân bằng toàn universe đủ điều kiện": 157.08,
+   "Top 20 vốn hoá": 134.12
+  },
+  {
+   "time": "2025-01-17",
+   "Chiến lược": 193.78,
+   "VN-Index": 138.18,
+   "Cân bằng toàn universe đủ điều kiện": 160.91,
+   "Top 20 vốn hoá": 135.68
+  },
+  {
+   "time": "2025-01-24",
+   "Chiến lược": 197.18,
+   "VN-Index": 139.94,
+   "Cân bằng toàn universe đủ điều kiện": 160.73,
+   "Top 20 vốn hoá": 137.93
+  },
+  {
+   "time": "2025-02-07",
+   "Chiến lược": 201.58,
+   "VN-Index": 141.07,
+   "Cân bằng toàn universe đủ điều kiện": 163.15,
+   "Top 20 vốn hoá": 138.7
+  },
+  {
+   "time": "2025-02-14",
+   "Chiến lược": 202.28,
+   "VN-Index": 141.16,
+   "Cân bằng toàn universe đủ điều kiện": 163.73,
+   "Top 20 vốn hoá": 138.48
+  },
+  {
+   "time": "2025-02-21",
+   "Chiến lược": 206.2,
+   "VN-Index": 143.45,
+   "Cân bằng toàn universe đủ điều kiện": 166.98,
+   "Top 20 vốn hoá": 140.86
+  },
+  {
+   "time": "2025-02-28",
+   "Chiến lược": 208.63,
+   "VN-Index": 144.4,
+   "Cân bằng toàn universe đủ điều kiện": 168.59,
+   "Top 20 vốn hoá": 141.41
+  },
+  {
+   "time": "2025-03-07",
+   "Chiến lược": 210.54,
+   "VN-Index": 146.69,
+   "Cân bằng toàn universe đủ điều kiện": 168.0,
+   "Top 20 vốn hoá": 144.82
+  },
+  {
+   "time": "2025-03-14",
+   "Chiến lược": 206.17,
+   "VN-Index": 146.7,
+   "Cân bằng toàn universe đủ điều kiện": 166.09,
+   "Top 20 vốn hoá": 145.81
+  },
+  {
+   "time": "2025-03-21",
+   "Chiến lược": 203.92,
+   "VN-Index": 146.23,
+   "Cân bằng toàn universe đủ điều kiện": 165.93,
+   "Top 20 vốn hoá": 144.86
+  },
+  {
+   "time": "2025-03-28",
+   "Chiến lược": 203.0,
+   "VN-Index": 145.74,
+   "Cân bằng toàn universe đủ điều kiện": 164.81,
+   "Top 20 vốn hoá": 145.19
+  },
+  {
+   "time": "2025-04-04",
+   "Chiến lược": 183.64,
+   "VN-Index": 133.93,
+   "Cân bằng toàn universe đủ điều kiện": 150.85,
+   "Top 20 vốn hoá": 133.69
+  },
+  {
+   "time": "2025-04-11",
+   "Chiến lược": 183.18,
+   "VN-Index": 135.23,
+   "Cân bằng toàn universe đủ điều kiện": 148.81,
+   "Top 20 vốn hoá": 135.25
+  },
+  {
+   "time": "2025-04-18",
+   "Chiến lược": 186.36,
+   "VN-Index": 134.86,
+   "Cân bằng toàn universe đủ điều kiện": 150.3,
+   "Top 20 vốn hoá": 133.68
+  },
+  {
+   "time": "2025-04-25",
+   "Chiến lược": 189.42,
+   "VN-Index": 135.98,
+   "Cân bằng toàn universe đủ điều kiện": 150.92,
+   "Top 20 vốn hoá": 135.22
+  },
+  {
+   "time": "2025-05-02",
+   "Chiến lược": 187.94,
+   "VN-Index": 135.66,
+   "Cân bằng toàn universe đủ điều kiện": 151.51,
+   "Top 20 vốn hoá": 134.66
+  },
+  {
+   "time": "2025-05-09",
+   "Chiến lược": 195.0,
+   "VN-Index": 140.19,
+   "Cân bằng toàn universe đủ điều kiện": 156.66,
+   "Top 20 vốn hoá": 138.85
+  },
+  {
+   "time": "2025-05-16",
+   "Chiến lược": 197.92,
+   "VN-Index": 143.96,
+   "Cân bằng toàn universe đủ điều kiện": 159.78,
+   "Top 20 vốn hoá": 143.03
+  },
+  {
+   "time": "2025-05-23",
+   "Chiến lược": 202.73,
+   "VN-Index": 145.41,
+   "Cân bằng toàn universe đủ điều kiện": 159.94,
+   "Top 20 vốn hoá": 145.83
+  },
+  {
+   "time": "2025-05-30",
+   "Chiến lược": 207.7,
+   "VN-Index": 147.41,
+   "Cân bằng toàn universe đủ điều kiện": 163.8,
+   "Top 20 vốn hoá": 146.91
+  },
+  {
+   "time": "2025-06-06",
+   "Chiến lược": 209.01,
+   "VN-Index": 147.11,
+   "Cân bằng toàn universe đủ điều kiện": 165.23,
+   "Top 20 vốn hoá": 146.36
+  },
+  {
+   "time": "2025-06-13",
+   "Chiến lược": 205.99,
+   "VN-Index": 145.52,
+   "Cân bằng toàn universe đủ điều kiện": 163.87,
+   "Top 20 vốn hoá": 146.77
+  },
+  {
+   "time": "2025-06-20",
+   "Chiến lược": 210.59,
+   "VN-Index": 149.27,
+   "Cân bằng toàn universe đủ điều kiện": 166.72,
+   "Top 20 vốn hoá": 150.58
+  },
+  {
+   "time": "2025-06-27",
+   "Chiến lược": 213.87,
+   "VN-Index": 151.71,
+   "Cân bằng toàn universe đủ điều kiện": 167.17,
+   "Top 20 vốn hoá": 153.67
+  },
+  {
+   "time": "2025-07-04",
+   "Chiến lược": 218.55,
+   "VN-Index": 153.43,
+   "Cân bằng toàn universe đủ điều kiện": 169.83,
+   "Top 20 vốn hoá": 154.71
+  },
+  {
+   "time": "2025-07-11",
+   "Chiến lược": 225.45,
+   "VN-Index": 161.26,
+   "Cân bằng toàn universe đủ điều kiện": 174.0,
+   "Top 20 vốn hoá": 161.19
+  },
+  {
+   "time": "2025-07-18",
+   "Chiến lược": 227.83,
+   "VN-Index": 165.63,
+   "Cân bằng toàn universe đủ điều kiện": 180.41,
+   "Top 20 vốn hoá": 165.2
+  },
+  {
+   "time": "2025-07-25",
+   "Chiến lược": 235.25,
+   "VN-Index": 169.38,
+   "Cân bằng toàn universe đủ điều kiện": 185.91,
+   "Top 20 vốn hoá": 167.71
+  },
+  {
+   "time": "2025-08-01",
+   "Chiến lược": 229.25,
+   "VN-Index": 165.4,
+   "Cân bằng toàn universe đủ điều kiện": 185.78,
+   "Top 20 vốn hoá": 162.29
+  },
+  {
+   "time": "2025-08-08",
+   "Chiến lược": 246.97,
+   "VN-Index": 175.33,
+   "Cân bằng toàn universe đủ điều kiện": 192.86,
+   "Top 20 vốn hoá": 172.69
+  },
+  {
+   "time": "2025-08-15",
+   "Chiến lược": 255.15,
+   "VN-Index": 180.31,
+   "Cân bằng toàn universe đủ điều kiện": 196.12,
+   "Top 20 vốn hoá": 177.7
+  },
+  {
+   "time": "2025-08-22",
+   "Chiến lược": 251.69,
+   "VN-Index": 182.03,
+   "Cân bằng toàn universe đủ điều kiện": 190.98,
+   "Top 20 vốn hoá": 181.62
+  },
+  {
+   "time": "2025-08-29",
+   "Chiến lược": 257.91,
+   "VN-Index": 186.09,
+   "Cân bằng toàn universe đủ điều kiện": 195.08,
+   "Top 20 vốn hoá": 185.46
+  },
+  {
+   "time": "2025-09-05",
+   "Chiến lược": 258.48,
+   "VN-Index": 184.4,
+   "Cân bằng toàn universe đủ điều kiện": 196.09,
+   "Top 20 vốn hoá": 183.7
+  },
+  {
+   "time": "2025-09-12",
+   "Chiến lược": 254.07,
+   "VN-Index": 184.44,
+   "Cân bằng toàn universe đủ điều kiện": 193.66,
+   "Top 20 vốn hoá": 183.99
+  },
+  {
+   "time": "2025-09-19",
+   "Chiến lược": 252.39,
+   "VN-Index": 183.48,
+   "Cân bằng toàn universe đủ điều kiện": 193.03,
+   "Top 20 vốn hoá": 182.95
+  },
+  {
+   "time": "2025-09-26",
+   "Chiến lược": 250.81,
+   "VN-Index": 183.71,
+   "Cân bằng toàn universe đủ điều kiện": 193.01,
+   "Top 20 vốn hoá": 182.82
+  },
+  {
+   "time": "2025-10-03",
+   "Chiến lược": 243.53,
+   "VN-Index": 182.06,
+   "Cân bằng toàn universe đủ điều kiện": 186.5,
+   "Top 20 vốn hoá": 182.59
+  },
+  {
+   "time": "2025-10-10",
+   "Chiến lược": 249.26,
+   "VN-Index": 193.32,
+   "Cân bằng toàn universe đủ điều kiện": 191.86,
+   "Top 20 vốn hoá": 193.14
+  },
+  {
+   "time": "2025-10-17",
+   "Chiến lược": 245.92,
+   "VN-Index": 191.51,
+   "Cân bằng toàn universe đủ điều kiện": 189.77,
+   "Top 20 vốn hoá": 189.53
+  },
+  {
+   "time": "2025-10-24",
+   "Chiến lược": 239.69,
+   "VN-Index": 186.2,
+   "Cân bằng toàn universe đủ điều kiện": 182.88,
+   "Top 20 vốn hoá": 184.53
+  },
+  {
+   "time": "2025-10-31",
+   "Chiến lược": 243.18,
+   "VN-Index": 181.38,
+   "Cân bằng toàn universe đủ điều kiện": 184.9,
+   "Top 20 vốn hoá": 183.15
+  },
+  {
+   "time": "2025-11-07",
+   "Chiến lược": 236.34,
+   "VN-Index": 176.9,
+   "Cân bằng toàn universe đủ điều kiện": 179.82,
+   "Top 20 vốn hoá": 181.03
+  },
+  {
+   "time": "2025-11-14",
+   "Chiến lược": 240.09,
+   "VN-Index": 180.92,
+   "Cân bằng toàn universe đủ điều kiện": 182.91,
+   "Top 20 vốn hoá": 186.01
+  },
+  {
+   "time": "2025-11-21",
+   "Chiến lược": 238.01,
+   "VN-Index": 183.07,
+   "Cân bằng toàn universe đủ điều kiện": 182.25,
+   "Top 20 vốn hoá": 186.66
+  },
+  {
+   "time": "2025-11-28",
+   "Chiến lược": 237.84,
+   "VN-Index": 187.06,
+   "Cân bằng toàn universe đủ điều kiện": 181.5,
+   "Top 20 vốn hoá": 191.02
+  },
+  {
+   "time": "2025-12-05",
+   "Chiến lược": 239.67,
+   "VN-Index": 192.63,
+   "Cân bằng toàn universe đủ điều kiện": 183.48,
+   "Top 20 vốn hoá": 196.22
+  },
+  {
+   "time": "2025-12-12",
+   "Chiến lược": 231.57,
+   "VN-Index": 182.18,
+   "Cân bằng toàn universe đủ điều kiện": 175.01,
+   "Top 20 vốn hoá": 184.52
+  },
+  {
+   "time": "2025-12-19",
+   "Chiến lược": 238.84,
+   "VN-Index": 188.53,
+   "Cân bằng toàn universe đủ điều kiện": 178.55,
+   "Top 20 vốn hoá": 191.11
+  },
+  {
+   "time": "2025-12-26",
+   "Chiến lược": 240.67,
+   "VN-Index": 191.35,
+   "Cân bằng toàn universe đủ điều kiện": 177.38,
+   "Top 20 vốn hoá": 193.57
+  },
+  {
+   "time": "2026-01-02",
+   "Chiến lược": 244.2,
+   "VN-Index": 197.4,
+   "Cân bằng toàn universe đủ điều kiện": 178.12,
+   "Top 20 vốn hoá": 198.1
+  },
+  {
+   "time": "2026-01-09",
+   "Chiến lược": 246.24,
+   "VN-Index": 206.63,
+   "Cân bằng toàn universe đủ điều kiện": 178.21,
+   "Top 20 vốn hoá": 207.25
+  },
+  {
+   "time": "2026-01-16",
+   "Chiến lược": 252.86,
+   "VN-Index": 207.87,
+   "Cân bằng toàn universe đủ điều kiện": 184.63,
+   "Top 20 vốn hoá": 209.51
+  },
+  {
+   "time": "2026-01-23",
+   "Chiến lược": 254.79,
+   "VN-Index": 206.95,
+   "Cân bằng toàn universe đủ điều kiện": 183.34,
+   "Top 20 vốn hoá": 208.37
+  },
+  {
+   "time": "2026-01-30",
+   "Chiến lược": 254.65,
+   "VN-Index": 202.33,
+   "Cân bằng toàn universe đủ điều kiện": 183.7,
+   "Top 20 vốn hoá": 208.77
+  },
+  {
+   "time": "2026-02-06",
+   "Chiến lược": 256.0,
+   "VN-Index": 194.2,
+   "Cân bằng toàn universe đủ điều kiện": 180.33,
+   "Top 20 vốn hoá": 200.31
+  },
+  {
+   "time": "2026-02-13",
+   "Chiến lược": 258.49,
+   "VN-Index": 201.78,
+   "Cân bằng toàn universe đủ điều kiện": 182.96,
+   "Top 20 vốn hoá": 203.22
+  },
+  {
+   "time": "2026-02-27",
+   "Chiến lược": 267.24,
+   "VN-Index": 208.01,
+   "Cân bằng toàn universe đủ điều kiện": 186.93,
+   "Top 20 vốn hoá": 206.85
+  },
+  {
+   "time": "2026-03-06",
+   "Chiến lược": 248.75,
+   "VN-Index": 195.56,
+   "Cân bằng toàn universe đủ điều kiện": 181.26,
+   "Top 20 vốn hoá": 194.46
+  },
+  {
+   "time": "2026-03-13",
+   "Chiến lược": 244.27,
+   "VN-Index": 187.64,
+   "Cân bằng toàn universe đủ điều kiện": 177.22,
+   "Top 20 vốn hoá": 187.9
+  },
+  {
+   "time": "2026-03-20",
+   "Chiến lược": 234.4,
+   "VN-Index": 182.28,
+   "Cân bằng toàn universe đủ điều kiện": 173.98,
+   "Top 20 vốn hoá": 181.95
+  },
+  {
+   "time": "2026-03-27",
+   "Chiến lược": 237.19,
+   "VN-Index": 185.05,
+   "Cân bằng toàn universe đủ điều kiện": 178.66,
+   "Top 20 vốn hoá": 184.12
+  },
+  {
+   "time": "2026-04-03",
+   "Chiến lược": 227.18,
+   "VN-Index": 186.29,
+   "Cân bằng toàn universe đủ điều kiện": 177.13,
+   "Top 20 vốn hoá": 183.88
+  },
+  {
+   "time": "2026-04-10",
+   "Chiến lược": 232.43,
+   "VN-Index": 193.59,
+   "Cân bằng toàn universe đủ điều kiện": 180.28,
+   "Top 20 vốn hoá": 191.43
+  },
+  {
+   "time": "2026-04-17",
+   "Chiến lược": 230.75,
+   "VN-Index": 201.02,
+   "Cân bằng toàn universe đủ điều kiện": 180.1,
+   "Top 20 vốn hoá": 193.95
+  },
+  {
+   "time": "2026-04-24",
+   "Chiến lược": 222.36,
+   "VN-Index": 205.01,
+   "Cân bằng toàn universe đủ điều kiện": 178.1,
+   "Top 20 vốn hoá": 194.67
+  },
+  {
+   "time": "2026-05-01",
+   "Chiến lược": 221.28,
+   "VN-Index": 205.1,
+   "Cân bằng toàn universe đủ điều kiện": 177.51,
+   "Top 20 vốn hoá": 194.86
+  },
+  {
+   "time": "2026-05-08",
+   "Chiến lược": 219.29,
+   "VN-Index": 211.88,
+   "Cân bằng toàn universe đủ điều kiện": 178.21,
+   "Top 20 vốn hoá": 200.65
+  },
+  {
+   "time": "2026-05-15",
+   "Chiến lược": 222.35,
+   "VN-Index": 212.57,
+   "Cân bằng toàn universe đủ điều kiện": 178.58,
+   "Top 20 vốn hoá": 204.8
+  },
+  {
+   "time": "2026-05-22",
+   "Chiến lược": 216.06,
+   "VN-Index": 207.65,
+   "Cân bằng toàn universe đủ điều kiện": 176.16,
+   "Top 20 vốn hoá": 201.43
+  },
+  {
+   "time": "2026-05-29",
+   "Chiến lược": 215.25,
+   "VN-Index": 206.14,
+   "Cân bằng toàn universe đủ điều kiện": 174.39,
+   "Top 20 vốn hoá": 201.3
+  },
+  {
+   "time": "2026-06-05",
+   "Chiến lược": 213.59,
+   "VN-Index": 203.42,
+   "Cân bằng toàn universe đủ điều kiện": 172.93,
+   "Top 20 vốn hoá": 198.84
+  },
+  {
+   "time": "2026-06-12",
+   "Chiến lược": 212.4,
+   "VN-Index": 198.2,
+   "Cân bằng toàn universe đủ điều kiện": 171.48,
+   "Top 20 vốn hoá": 195.94
+  },
+  {
+   "time": "2026-06-19",
+   "Chiến lược": 210.73,
+   "VN-Index": 201.83,
+   "Cân bằng toàn universe đủ điều kiện": 174.15,
+   "Top 20 vốn hoá": 196.51
+  },
+  {
+   "time": "2026-06-26",
+   "Chiến lược": 205.94,
+   "VN-Index": 207.07,
+   "Cân bằng toàn universe đủ điều kiện": 172.51,
+   "Top 20 vốn hoá": 198.37
+  },
+  {
+   "time": "2026-07-03",
+   "Chiến lược": 207.87,
+   "VN-Index": 205.99,
+   "Cân bằng toàn universe đủ điều kiện": 174.23,
+   "Top 20 vốn hoá": 198.9
+  },
+  {
+   "time": "2026-07-10",
+   "Chiến lược": 201.88,
+   "VN-Index": 202.25,
+   "Cân bằng toàn universe đủ điều kiện": 170.92,
+   "Top 20 vốn hoá": 196.17
+  },
+  {
+   "time": "2026-07-17",
+   "Chiến lược": 199.29,
+   "VN-Index": 197.73,
+   "Cân bằng toàn universe đủ điều kiện": 166.38,
+   "Top 20 vốn hoá": 193.28
+  },
+  {
+   "time": "2026-07-24",
+   "Chiến lược": 186.25,
+   "VN-Index": 186.52,
+   "Cân bằng toàn universe đủ điều kiện": 157.67,
+   "Top 20 vốn hoá": 182.34
+  },
+  {
+   "time": "2026-07-31",
+   "Chiến lược": 190.52,
+   "VN-Index": 192.02,
+   "Cân bằng toàn universe đủ điều kiện": 159.09,
+   "Top 20 vốn hoá": 188.8
+  },
+  {
+   "time": "2026-08-07",
+   "Chiến lược": 193.06,
+   "VN-Index": 195.59,
+   "Cân bằng toàn universe đủ điều kiện": 162.19,
+   "Top 20 vốn hoá": 193.85
+  },
+  {
+   "time": "2026-08-14",
+   "Chiến lược": 191.71,
+   "VN-Index": 191.27,
+   "Cân bằng toàn universe đủ điều kiện": 161.7,
+   "Top 20 vốn hoá": 191.77
+  },
+  {
+   "time": "2026-08-21",
+   "Chiến lược": 197.46,
+   "VN-Index": 195.59,
+   "Cân bằng toàn universe đủ điều kiện": 164.8,
+   "Top 20 vốn hoá": 197.3
+  },
+  {
+   "time": "2026-08-28",
+   "Chiến lược": 200.04,
+   "VN-Index": 202.67,
+   "Cân bằng toàn universe đủ điều kiện": 165.56,
+   "Top 20 vốn hoá": 200.75
+  },
+  {
+   "time": "2026-09-04",
+   "Chiến lược": 198.97,
+   "VN-Index": 204.99,
+   "Cân bằng toàn universe đủ điều kiện": 164.42,
+   "Top 20 vốn hoá": 199.92
+  },
+  {
+   "time": "2026-09-11",
+   "Chiến lược": 193.03,
+   "VN-Index": 198.59,
+   "Cân bằng toàn universe đủ điều kiện": 160.35,
+   "Top 20 vốn hoá": 196.23
+  },
+  {
+   "time": "2026-09-18",
+   "Chiến lược": 196.04,
+   "VN-Index": 200.85,
+   "Cân bằng toàn universe đủ điều kiện": 162.05,
+   "Top 20 vốn hoá": 199.38
+  },
+  {
+   "time": "2026-09-25",
+   "Chiến lược": 194.74,
+   "VN-Index": 197.47,
+   "Cân bằng toàn universe đủ điều kiện": 160.61,
+   "Top 20 vốn hoá": 197.59
+  },
+  {
+   "time": "2026-10-02",
+   "Chiến lược": 193.84,
+   "VN-Index": 196.98,
+   "Cân bằng toàn universe đủ điều kiện": 159.39,
+   "Top 20 vốn hoá": 197.42
+  }
+ ],
+ "equity_series": [
+  "Chiến lược",
+  "VN-Index",
+  "Cân bằng toàn universe đủ điều kiện",
+  "Top 20 vốn hoá"
+ ]
+}

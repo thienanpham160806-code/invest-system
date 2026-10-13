@@ -35,3 +35,20 @@ macro_sensitivity:
   INSURANCE:     {gdp_growth: 0.5, cpi: -0.2, policy_rate: 0.4, credit_growth: 0.2, usd_vnd: -0.2}
   REAL_ESTATE:   {gdp_growth: 0.7, cpi: -0.4, policy_rate: -1.0, credit_growth: 0.9, usd_vnd: -0.3}
   NON_FINANCIAL: {gdp_growth: 0.8, cpi: -0.4, policy_rate: -0.5, credit_growth: 0.4, usd_vnd: -0.2}
+
+# Do nhay voi bien QUOC TE (FRED, analysis/macro_intl.py), -1..+1, cung la GIA DINH DINH TINH:
+# lai suat USD / loi suat My / USD manh / VIX cao deu bat loi cho dong von vao VN; muc do khac nhau
+# theo nhom (chung khoan nhay nhat voi khau vi rui ro, bao hiem huong loi mot phan tu loi suat cao).
+macro_sensitivity_intl:
+  BANK:          {fed_funds: -0.3, ust_10y: -0.4, usd_broad: -0.5, brent: -0.2, vix: -0.6}
+  SECURITIES:    {fed_funds: -0.5, ust_10y: -0.6, usd_broad: -0.6, brent: -0.2, vix: -1.0}
+  INSURANCE:     {fed_funds: 0.2, ust_10y: 0.3, usd_broad: -0.3, brent: -0.1, vix: -0.4}
+  REAL_ESTATE:   {fed_funds: -0.5, ust_10y: -0.7, usd_broad: -0.4, brent: -0.3, vix: -0.5}
+  NON_FINANCIAL: {fed_funds: -0.3, ust_10y: -0.4, usd_broad: -0.5, brent: -0.3, vix: -0.5}
+
+# Ghi de theo nganh ICB cap 1 (uu tien hon dong theo loai DN cho bien trung ten):
+# gia dau la doanh thu cua nganh dau khi, la chi phi cua du lich (hang khong).
+macro_sensitivity_intl_icb1:
+  "Dầu khí":            {brent: 0.8}
+  "Du lịch và Giải trí": {brent: -0.8}
+  "Tiện ích Cộng đồng": {brent: -0.2}

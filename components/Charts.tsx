@@ -6,16 +6,16 @@ import {
 } from "recharts";
 import { bnLabel, num, pct } from "@/lib/fmt";
 
-export function CompareLine({ data, lines, height = 260 }: { data: any[]; lines: { key: string; name: string; color: string }[]; height?: number }) {
+export function CompareLine({ data, lines, height = 260, tick = (t) => t.slice(5, 10) }: { data: any[]; lines: { key: string; name: string; color: string; bold?: boolean; dash?: boolean }[]; height?: number; tick?: (t: string) => string }) {
   return (
     <ResponsiveContainer width="100%" height={height}>
       <LineChart data={data} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
         <CartesianGrid stroke="#e2e8f0" strokeDasharray="3 3" />
-        <XAxis dataKey="time" tickFormatter={(t) => String(t).slice(5, 10)} minTickGap={40} fontSize={11} />
+        <XAxis dataKey="time" tickFormatter={(t) => tick(String(t))} minTickGap={40} fontSize={11} />
         <YAxis domain={["auto", "auto"]} fontSize={11} width={45} tickFormatter={(v) => num(v, 0)} />
         <Tooltip formatter={(v: any) => num(v, 1)} labelFormatter={(l) => String(l).slice(0, 10)} />
         <Legend wrapperStyle={{ fontSize: 12 }} />
-        {lines.map((l) => <Line key={l.key} type="monotone" dataKey={l.key} name={l.name} stroke={l.color} dot={false} strokeWidth={l.key === "sector" || l.key === "stock" ? 2 : 1.5} isAnimationActive={false} />)}
+        {lines.map((l) => <Line key={l.key} type="monotone" dataKey={l.key} name={l.name} stroke={l.color} dot={false} strokeWidth={l.bold || l.key === "sector" || l.key === "stock" ? 2 : 1.5} strokeDasharray={l.dash ? "5 3" : undefined} isAnimationActive={false} />)}
       </LineChart>
     </ResponsiveContainer>
   );

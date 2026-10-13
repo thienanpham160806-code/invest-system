@@ -1,4 +1,4 @@
-"""Doc bang toan thi truong (tinh san boi scripts/build_market_universe.py).
+﻿"""Doc bang toan thi truong (tinh san boi scripts/build_market_universe.py).
 
 Thu tu: Vercel Blob (`universe/latest.parquet`, neu co BLOB_BASE_URL) -> ban dong
 goi trong repo (webdata/snapshot). Cache trong bo nho tien trinh 10 phut.
@@ -139,15 +139,15 @@ def _merge_ttm(frame: pd.DataFrame, meta: dict) -> pd.DataFrame:
         ttm = pd.DataFrame(columns=["symbol", "ni_ttm"])
 
     if ttm.empty:
-        meta.setdefault("sources", {})["ttm"] = "TTM hidden: source/period labels are not verified"
+        meta.setdefault("sources", {})["ttm"] = "Ẩn TTM: thiếu nguồn hoặc kỳ báo cáo chưa xác minh"
         return base
 
     frame = base.merge(ttm, on="symbol", how="left")
     ok = frame["ni_ttm"] > 0
     frame["pe_ttm"] = (frame["market_cap"] / frame["ni_ttm"]).where(ok)
     frame["eps_ttm"] = (frame["ni_ttm"] / frame["shares"]).where(ok)
-    meta.setdefault("sources", {})["ttm"] = (f"VCI raw quarterly statements - {int(frame['ni_ttm'].notna().sum())} symbols, "
-                                             "verified parent net income over four consecutive quarters")
+    meta.setdefault("sources", {})["ttm"] = (f"BCTC quý VCI raw - {int(frame['ni_ttm'].notna().sum())} mã, "
+                                             "LNST công ty mẹ từ 4 quý liên tiếp đã xác minh")
     return frame
 
 

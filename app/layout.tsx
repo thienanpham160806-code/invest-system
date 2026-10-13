@@ -5,6 +5,7 @@ import Link from "next/link";
 import Search from "@/components/Search";
 import LiveRibbon from "@/components/LiveRibbon";
 import ThemeToggle from "@/components/ThemeToggle";
+import Shortcuts from "@/components/Shortcuts";
 import "./globals.css";
 
 const beVietnam = localFont({
@@ -38,6 +39,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link href="/" className="hover:text-sky-200">Tổng quan</Link>
               <Link href="/nganh" className="hover:text-sky-200">Ngành</Link>
               <Link href="/co-hoi" className="hover:text-sky-200">Cơ hội</Link>
+              <Link href="/vi-mo" className="hover:text-sky-200">Vĩ mô</Link>
+              <Link href="/backtest" className="hover:text-sky-200">Backtest</Link>
               <Link href="/thi-truong" className="hover:text-sky-200">Toàn thị trường</Link>
               <Link href="/nguon" className="hover:text-sky-200">Dữ liệu & nguồn</Link>
             </nav>
@@ -47,6 +50,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <LiveRibbon />
         </header>
         <main className="mx-auto max-w-7xl px-4 py-5">{children}</main>
+        <Shortcuts />
         <footer className="no-print mx-auto max-w-7xl px-4 py-6 text-xs text-slate-500">
           Dữ liệu: Vietcap public API (giá, bảng giá, số CP), vnstock (ICB), BCTC năm từ vn-annual-report-miner (MIT),
           GSO/NSO – NHNN – HNX (vĩ mô), CafeF/VnExpress (tin). Công cụ phân tích, không phải lời khuyên đầu tư.
