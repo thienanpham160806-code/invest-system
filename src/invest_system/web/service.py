@@ -1180,11 +1180,12 @@ def analysis(symbol: str, years: int = 5, with_news: bool = True) -> dict:
         "price": price_now, "as_of_price": _iso(ohlcv["time"].iloc[-1]) if not ohlcv.empty else row.get("as_of_price"),
         "shares": shares, "shares_source": row.get("shares_source"),
         "market_cap": price_now * shares if price_now and shares else None,
-        "metrics": {k: row.get(k) for k in ("pe", "pe_ttm", "eps_ttm", "ni_ttm", "ttm_label", "pb", "ev_ebitda", "roe", "net_margin", "ni_growth",
+        "metrics": {k: row.get(k) for k in ("pe", "pe_ttm", "eps_ttm", "ni_ttm", "ttm_label", "ttm_periods", "ttm_source",
+                                            "ttm_published_at", "pb", "ev_ebitda", "roe", "net_margin", "ni_growth",
                                             "debt_to_equity", "eps", "avg_value_20d", "ret_1m", "ret_3m",
                                             "ret_ytd", "ret_1y", "fin_year")},
         "eps_basis": (f"P/E FY{int(row['fin_year'])} (BCTC năm arminer)"
-                      + (f"; {row['ttm_label']} = {row['pe_ttm']:.1f}x (vnstock quý {row['ttm_periods']})"
+                      + (f"; {row['ttm_label']} = {row['pe_ttm']:.1f}x (BCTC quý VCI raw {row['ttm_periods']})"
                          if pd.notna(row.get("pe_ttm")) else "; chưa có số quý (TTM) cho mã này"))
                      if pd.notna(row.get("fin_year")) else None,
         "recommendation": {"rating": result.rating, "base_rating": result.base_rating,

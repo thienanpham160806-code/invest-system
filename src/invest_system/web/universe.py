@@ -116,7 +116,9 @@ def load_universe() -> tuple[pd.DataFrame, dict]:
 
 
 def _merge_ttm(frame: pd.DataFrame, meta: dict) -> pd.DataFrame:
-    """Ghep LNST 4 quy gan nhat (scripts/build_ttm.py) -> P/E TTM cho cac ma co du lieu quy."""
+    """Ghep LNST 4 quy gan nhat (scripts/build_ttm_quarterly.py) -> P/E TTM cho cac ma co du lieu quy.
+    Chi nhan dong co ttm_source "VCI raw": ban cu tu vnstock che do final gan nham nhan quy
+    (.agent-coord/reviews/finding-claude-ttm-vnstock-quarter-labels.md) nen bi an, web hien P/E FY."""
     if "ni_ttm" in frame.columns:
         return frame
     raw = _blob_get("ttm.parquet") if meta.get("origin", "").startswith("Vercel Blob") else None
@@ -127,12 +129,16 @@ def _merge_ttm(frame: pd.DataFrame, meta: dict) -> pd.DataFrame:
         ttm = pd.read_parquet(path)
     else:
         return frame
+    if "ttm_source" not in ttm.columns:
+        meta.setdefault("sources", {})["ttm"] = "Ẩn TTM: bản đang lưu không có nguồn gốc VCI raw (chờ dựng lại từ BCTC quý)"
+        return frame
+    ttm = ttm[ttm["ttm_source"].astype(str).str.startswith("VCI raw")]
     frame = frame.merge(ttm, on="symbol", how="left")
     ok = frame["ni_ttm"] > 0
     frame["pe_ttm"] = (frame["market_cap"] / frame["ni_ttm"]).where(ok)
     frame["eps_ttm"] = (frame["ni_ttm"] / frame["shares"]).where(ok)
-    meta.setdefault("sources", {})["ttm"] = (f"vnstock BCTC quý (Vietcap) – {int(frame['ni_ttm'].notna().sum())} mã "
-                                             "thanh khoản cao, LNST CĐ mẹ 4 quý gần nhất")
+    meta.setdefault("sources", {})["ttm"] = (f"BCTC quý VCI raw – {int(frame['ni_ttm'].notna().sum())} mã có đủ 4 quý liên tiếp, "
+                                             "LNST CĐ mẹ 4 quý gần nhất")
     return frame
 
 

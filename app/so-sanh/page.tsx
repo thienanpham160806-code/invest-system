@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { CompareLine } from "@/components/Charts";
 import { Card, ErrorBox, Loading, SortTable } from "@/components/ui";
 import { getJSON } from "@/lib/api";
-import { bnLabel, cls, num, pct, price, RATING_COLOR, times } from "@/lib/fmt";
+import { bnLabel, cls, dmy, isNum, num, pct, price, RATING_COLOR, times } from "@/lib/fmt";
 import { MAX_COMPARE } from "@/lib/terminal/commands";
 
 const COLORS = ["#0b3b6f", "#dc2626", "#059669", "#d97706", "#7c3aed", "#0891b2", "#db2777", "#4b5563"];
@@ -43,6 +43,7 @@ export default function ComparePage() {
   const rows = symbols.filter((s) => data[s]).map((s) => {
     const d = data[s], m = d.metrics || {}, r = d.recommendation || {};
     return { symbol: s, name: d.name, exchange: d.exchange, price: d.price, market_cap: d.market_cap, pe: m.pe, pe_ttm: m.pe_ttm,
+      ttm_label: m.ttm_label, ttm_periods: m.ttm_periods, ttm_source: m.ttm_source, ttm_published_at: m.ttm_published_at,
       pb: m.pb, roe: m.roe, net_margin: m.net_margin, ni_growth: m.ni_growth, ret_1m: m.ret_1m, ret_3m: m.ret_3m, ret_1y: m.ret_1y,
       rating: r.rating, score: r.total_score, upside: r.upside, ...Object.fromEntries(Object.keys(GROUPS).map((g) => [`g_${g}`, r.scores?.[g]])) };
   });
@@ -90,7 +91,10 @@ export default function ComparePage() {
               { key: "price", label: "Giá", num: true, render: (r) => price(r.price) },
               { key: "market_cap", label: "Vốn hoá", num: true, render: (r) => bnLabel(r.market_cap) },
               { key: "pe", label: "P/E FY", num: true, render: (r) => times(r.pe) },
-              { key: "pe_ttm", label: "P/E TTM", num: true, render: (r) => times(r.pe_ttm) },
+              { key: "pe_ttm", label: "P/E TTM", num: true, render: (r) => !isNum(r.pe_ttm) ? "–" : (
+                <span title={[r.ttm_source, r.ttm_periods && `quý ${r.ttm_periods}`, r.ttm_published_at && `công bố đến ${dmy(r.ttm_published_at)}`].filter(Boolean).join(" · ")}>
+                  {times(r.pe_ttm)} <span className="text-xs text-slate-500">{String(r.ttm_label || "").replace("TTM ", "")}</span>
+                </span>) },
               { key: "pb", label: "P/B", num: true, render: (r) => times(r.pb, 2) },
               { key: "roe", label: "ROE", num: true, render: (r) => pct(r.roe) },
               { key: "net_margin", label: "Biên LN", num: true, render: (r) => pct(r.net_margin) },
@@ -103,6 +107,7 @@ export default function ComparePage() {
               { key: "upside", label: "Upside", num: true, render: (r) => <span className={cls(r.upside)}>{pct(r.upside)}</span> },
               ...Object.entries(GROUPS).map(([g, label]) => ({ key: `g_${g}`, label, num: true, render: (r: any) => num(r[`g_${g}`], 0) })),
             ]} />
+          <p className="mt-2 text-xs text-slate-500">P/E TTM: vốn hoá / LNST cổ đông công ty mẹ 4 quý liên tiếp gần nhất, từ BCTC quý VCI (bản raw, kỳ kèm theo từng bản ghi); quý cuối ghi cạnh số, rê chuột để xem 4 quý và ngày công bố. Mã thiếu quý hoặc lỗ 4 quý hiển thị “–”.</p>
         </Card>)}
       {chart.length > 0 && (
         <Card title="Giá 1 năm (gốc = 100)">
