@@ -181,8 +181,8 @@ function MarketTreemapCell(p: any) {
   const maxChars = Math.floor((width - (ticker ? 8 : 16)) / (ticker ? 6 : 7));
   const label = maxChars > 2 && name.length > maxChars ? `${name.slice(0, maxChars - 1)}…` : name;
   const labelColor = heatText(performance);
-  const showLabel = ticker ? width >= 27 && h >= 16 : width > 68 && h > 28;
-  const labelFontSize = ticker ? 9 : 12;
+  const showLabel = ticker ? width >= 27 && h >= 16 : width >= 44 && h >= 20;
+  const labelFontSize = ticker || width < 88 || h < 28 ? 9 : 12;
   return <g className="market-treemap-cell" role="button" tabIndex={interactive ? 0 : -1}
     aria-label={`${name}${ticker ? ", mở hồ sơ mã cổ phiếu" : group ? ", mở danh sách mã cổ phiếu" : ", mở hồ sơ"}`}
     onClick={() => select()} onKeyDown={(event) => {
